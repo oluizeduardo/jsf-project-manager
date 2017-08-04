@@ -1,2 +1,4 @@
 # jsf-project-manager
-A simple CRUD project to study JSF framework.
+SISTEMA DE ANÁLISE E SELEÇÃO DE CANDIDATOS PARA PROJETOS ACADÊMICOS EM UM BANCO DE DADOS ORIENTADO A GRAFOS
+
+Trabalho de conclusão de curso - UNIVÁS 2017
