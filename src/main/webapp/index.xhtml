@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>JSF Cadastro de Alunos</title>
+</h:head>
+<h:body>
+
+	<!-- Barra de Menu -->
+	<h:form>
+		<p:growl id="messages" />
+
+		<p:menubar>
+			<p:submenu label="Sistema" icon="ui-icon-document">
+				<p:submenu label="Novo" icon="ui-icon-contact">
+					<p:menuitem value="Project" url="#" />
+					<p:menuitem value="Other" url="#" />
+				</p:submenu>
+				
+				<p:separator />
+				<p:menuitem value="Sair" url="#" />
+			</p:submenu>
+
+			<p:submenu label="Cadastrar" icon="ui-icon-plus">				
+				<p:menuitem value="Aluno" actionListener="#{menuView.save}" update="messages"/>
+				<p:menuitem value="Professor" actionListener="#{menuView.update}" update="messages" />
+			</p:submenu>
+			
+			<p:submenu label="Consultar" icon="ui-icon-search">				
+				<p:menuitem value="Aluno" actionListener="#{menuView.save}" update="messages" />
+				<p:menuitem value="Professor" actionListener="#{menuView.update}" update="messages" />
+			</p:submenu>
+			
+			<p:menuitem value="Sair" icon="ui-icon-close" />
+
+			<f:facet name="options">
+				<p:inputText style="margin-right:10px" placeholder="Buscar" />
+				<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+
+	<p/>
+
+	<h:form>
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:panel header="Select a Location" style="margin-bottom:10px;">
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel for="country" value="Country: " />
+				<p:selectOneMenu id="country" value="#{dropdownView.country}"
+					style="width:250px">
+					<p:ajax listener="#{dropdownView.onCountryChange}" update="city" />
+					<f:selectItem itemLabel="Select Country" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItems value="#{dropdownView.countries}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="city" value="City: " />
+				<p:selectOneMenu id="city" value="#{dropdownView.city}"
+					style="width:250px">
+					<f:selectItem itemLabel="Select City" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItems value="#{dropdownView.cities}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+
+			<p:separator />
+
+			<p:commandButton value="Submit" update="msgs"
+				actionListener="#{dropdownView.displayLocation}"
+				icon="ui-icon-check" />
+		</p:panel>
+	</h:form>
+
+	<p/>
+	
+	<h:form>
+		<p:fieldset legend="Informações do Aluno">
+
+			<h:panelGrid columns="2">
+
+				<p:outputLabel value="Matricula: " for="matricula" />
+				<p:inputText id="matricula" value="#{alunoBean.aluno.matricula}"
+					required="true" requiredMessage="A matrícula deve ser informada!" />
+
+				<p:outputLabel value="Nome: " for="nome" />
+				<p:inputText id="nome" value="#{alunoBean.aluno.nome}"
+					required="true" requiredMessage="Um nome deve ser informado!" />
+
+				<p:outputLabel value="Curso " for="curso" />
+				<p:inputText id="curso" value="#{alunoBean.aluno.curso}"
+					required="true" requiredMessage="O curso deve ser informado!" />
+
+				<p:outputLabel value="Data de Nascimento:" for="data" />
+				<p:inputText id="data" value="#{alunoBean.aluno.dataNascimento}" />
+
+				<p:commandButton value="Add" action="#{alunoBean.add}"
+					icon="ui-icon-check" />
+			</h:panelGrid>
+
+		</p:fieldset>
+	</h:form>
+</h:body>
+</html>

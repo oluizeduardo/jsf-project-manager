@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>SASC - Login</title>
+</h:head>
+<h:body>
+
+	<div align="center">
+
+		<h:form>
+
+			<p:growl id="growl" />
+			<p:focus for="field-username" />
+
+			<p:panel header="Login"
+				footer="UNIVÁS - Sistemas de Informação - 2017" style="width:500px;">
+
+				<h:panelGrid columns="1" cellpadding="10">
+
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<p:outputLabel for="field-username" value="Login:" />
+						<p:inputText id="field-username" required="true"
+							requiredMessage="Informe um nome de usuário" />
+
+						<p:outputLabel for="user-password" value="Senha:" />
+						<p:password id="user-password" required="true"
+							requiredMessage="Informe a senha" />
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+				<p:selectBooleanCheckbox value="false"/>
+				<h:outputText value=" Lembrar minha senha " style="font-size:12;" />
+
+				<p />
+
+				<p:commandButton value="Acessar" id="commandButton-acessar"
+					style="width:300px;" update="growl" />
+
+				<p />
+
+				<p:commandButton value="Novo aqui? Registre-se" style="width:300px;" />
+
+			</p:panel>
+
+		</h:form>
+
+	</div>
+
+</h:body>
+</html>

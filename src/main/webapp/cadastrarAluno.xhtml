@@ -1,0 +1,221 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Cadastro de Alunos</title>
+</h:head>
+<h:body>
+
+	<h1 style="margin-top: 10" align="center">
+		<h:outputText value="Cadastro de Aluno" />
+	</h1>
+
+	<p />
+
+	<h:form id="form">
+
+		<h:panelGrid columns="3" cellpadding="5">
+			<p:commandButton type="button" value="Salvar" icon="ui-icon-disk" />
+			<p:commandButton type="button" value="Excluir" icon="ui-icon-trash" />
+			<p:commandButton type="button" value="Cancelar"
+				icon="ui-icon-access-add" />
+		</h:panelGrid>
+
+		<p:spacer height="10" />
+
+		<!-- Tag para exibição de mensagens. -->
+		<p:growl id="msgs" showDetail="true" />
+		<p:messages id="msg-save" showDetail="true" autoUpdate="true" />
+
+		<p:tabView>
+
+			<!-- Inicio da aba 'Pessoal' -->
+			<p:tab title="Pessoal">
+
+				<h:panelGrid columns="2">
+
+					<p:fieldset legend="Identificação"
+						style="margin-bottom:20px;
+								height:200px">
+
+						<h:panelGrid columns="6" cellspacing="10">
+
+							<p:outputLabel value="Nome Completo:" for="name-field" />
+							<p:inputText id="name-field" required="true"
+								requiredMessage="O campo Nome precisa ser preenchido." />
+
+							<p:outputLabel value="RG:" for="rg-field" />
+							<p:inputMask id="rg-field" mask="99.999.999" required="true"
+								requiredMessage="O campo RG precisa ser preenchido." />
+
+							<p:outputLabel value="Sexo:" for="gender-field" />
+							<p:selectOneMenu style="width:170px" id="gender-field"
+								required="true" requiredMessage="É necessário informar o sexo.">
+								<f:selectItem itemLabel="Selecione" itemValue="Selecione"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+								<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Estado Cívil:" for="maritalstatus-field" />
+							<p:selectOneMenu style="width:170px" id="maritalstatus-field"
+								required="true"
+								requiredMessage="É necessário informar o Estado Cívil">
+								<f:selectItem itemLabel="Selecione" itemValue="Selecione"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Solteiro(a)" itemValue="Solteiro(a)" />
+								<f:selectItem itemLabel="Casado(a)" itemValue="Casado(a)" />
+								<f:selectItem itemLabel="Divorciado(a)"
+									itemValue="Divorciado(a)" />
+								<f:selectItem itemLabel="Viúvo(a)" itemValue="Viúvo(a)" />
+								<f:selectItem itemLabel="Separado(a)" itemValue="Separado(a)" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="CPF:" for="cpf-field" />
+							<p:inputMask id="cpf-field" mask="999.999.999-99" required="true"
+								requiredMessage="O campo CPF está em branco." />
+
+							<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
+							<p:calendar id="birthday-field" required="true"
+								pattern="dd-MM-yyyy" mask="true"
+								requiredMessage="O campo Data de Nascimento está em branco." />
+
+							<p:outputLabel value="Matrícula:" for="ra-field" />
+							<p:inputMask id="ra-field" mask="99999999" required="true"
+								requiredMessage="É necessário informar o código de matrícula.">
+								<p:tooltip id="toolTip-ra" for="ra-field"
+									value="Código de registro do aluno junto à universidade." />
+							</p:inputMask>
+
+							<p:outputLabel value="Curso:" for="course-field" />
+							<p:inputText id="course-field" required="true"
+								requiredMessage="É necessário informar o curso em que está matriculado." />
+
+							<p:outputLabel value="Data de Matrícula" for="registration-field" />
+							<p:calendar id="registration-field" pattern="dd-MM-yyyy"
+								mask="true" />
+
+						</h:panelGrid>
+					</p:fieldset>
+
+					<p:fieldset legend="Foto"
+						style="margin-bottom:20px; 
+									   width:200px;
+									   height:200px">
+						<p:panel style="width:190px;
+									   height:150px" />
+					</p:fieldset>
+
+				</h:panelGrid>
+
+				<p:fieldset legend="Contato" style="margin-bottom:20px">
+					<h:panelGrid columns="8" cellspacing="10px">
+
+						<p:outputLabel value="Endereço" />
+						<p:inputText />
+						<p:outputLabel value="Bairro" />
+						<p:inputText />
+						<p:outputLabel value="Cidade" />
+						<p:inputText />
+						<p:outputLabel value="Estado" />
+						<p:inputText />
+
+						<p:outputLabel value="Email:" />
+						<p:inputText type="email" />
+						<p:outputLabel value="Skype:" />
+						<p:inputText />
+						<p:outputLabel value="Telefone:" />
+						<p:inputMask id="phone-field" mask="(99)99999-9999" />
+						<p:outputLabel value="Facebook:" />
+						<p:inputText />
+					</h:panelGrid>
+				</p:fieldset>
+
+				<h:panelGrid columns="2">
+
+					<p:fieldset legend="Acesso" style="margin-bottom:20px; width:300px">
+
+						<h:panelGrid columns="1" id="matchGrid">
+							<p:outputLabel value="Usuário:" />
+							<p:inputText />
+
+							<p:outputLabel value="Senha:" for="password1-field" />
+							<p:password id="password1-field" feedback="true"
+								match="password2-field" required="true"
+								requiredMessage="Informe uma senha!" />
+
+							<p:outputLabel value="Confirmar Senha:" />
+							<p:password id="password2-field" required="true"
+								requiredMessage="Preencha corretamente a senha de confirmação." />
+						</h:panelGrid>
+					</p:fieldset>
+
+					<p:fieldset legend="Comentários">
+						<p:inputTextarea id="inputText-motivoSaida" style="width:600px"
+							maxlength="200" counterTemplate="{0} characteres restantes"
+							counter="display-motivo" />
+						<br />
+						<h:outputText id="display-motivo" />
+					</p:fieldset>
+				</h:panelGrid>
+
+
+
+
+			</p:tab>
+			<!-- Fim da aba 'Pessoal' -->
+
+
+			<!-- Inicio da aba 'Idiomas' -->
+			<p:tab title="Idiomas">
+
+				<h:panelGrid columns="5">
+					<h:outputLabel value="Idioma:" />
+					<p:selectOneMenu style="width:150px">
+						<f:selectItem itemLabel="Inglês" itemValue="Inglês" />
+						<f:selectItem itemLabel="Russo" itemValue="Russo" />
+						<f:selectItem itemLabel="Japonês" itemValue="Japonês" />
+					</p:selectOneMenu>
+
+					<h:outputLabel value="Nível:" />
+					<p:selectOneMenu style="width:150px">
+						<f:selectItem itemLabel="Básico" itemValue="Básico" />
+						<f:selectItem itemLabel="Médio" itemValue="Médio" />
+						<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
+					</p:selectOneMenu>
+
+					<p:commandButton id="btnadd" value="+" style="width:50px;" />
+					<p:tooltip id="toolTipTrack" for="btnadd" value="Adicionar"
+						trackMouse="false" />
+				</h:panelGrid>
+			</p:tab>
+			<!-- Fim da aba 'Idiomas' -->
+
+
+			<!-- Inicio da aba 'Habilidades' -->
+			<p:tab title="Habilidades">
+
+				<h:panelGrid columns="2">
+					<p:inputText />
+					<p:commandButton id="btnaddHability" value="+" style="width:50px;" />
+					<p:tooltip id="toolTip-add-hability" for="btnaddHability"
+						value="Adicionar" trackMouse="false" />
+				</h:panelGrid>
+
+				
+				<!-- 
+					Creio que aqui caberá bem o componente DataList no modo Paginator.
+					
+					https://www.primefaces.org/showcase/ui/data/dataList.xhtml
+				 -->
+				
+
+			</p:tab>
+			<!-- Fim da aba 'Habilidades' -->
+
+		</p:tabView>
+	</h:form>
+</h:body>
+</html>
