@@ -19,12 +19,12 @@
 	<h:form id="form">
 
 
-		<p:growl id="growl" sticky="true" showDetail="true" />
+		<p:growl id="growl" sticky="false" showDetail="true" />
 
-		<p:wizard flowListener="#{userWizard.onFlowProcess}"
+		<p:wizard flowListener="#{cadastrarAlunoController.onFlowProcess}"
 			style="margin:30px">
 
-<!-- IDENTIFICAÇÃO -->
+			<!-- IDENTIFICAÇÃO -->
 			<p:tab id="identification" title="Identificação">
 				<p:panel header="Detalhes Pessoais">
 
@@ -33,9 +33,10 @@
 					<h:panelGrid columns="6" columnClasses="label, value"
 						cellspacing="10">
 
-						<h:outputLabel value="Nome Completo: *" for="name-field" />
-						<p:inputText id="name-field" value="#{userWizard.user.firstname}"
-							required="true" />
+						<h:outputLabel value="Nome Completo: *" />
+						<p:inputText value="#{cadastrarAlunoController.aluno.nome}"
+							required="true"
+							requiredMessage="O campo Nome precisa ser preenchido." />
 
 						<p:outputLabel value="RG:" for="rg-field" />
 						<p:inputMask id="rg-field" mask="99.999.999" required="true"
@@ -43,7 +44,7 @@
 
 						<p:outputLabel value="CPF:" for="cpf-field" />
 						<p:inputMask id="cpf-field" mask="999.999.999-99" required="true"
-							requiredMessage="O campo CPF está em branco." />
+							requiredMessage="O campo CPF precisa ser preenchido." />
 
 						<p:outputLabel value="Sexo:" for="gender-field" />
 						<p:selectOneMenu style="width:170px" id="gender-field"
@@ -54,11 +55,11 @@
 							<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
 						</p:selectOneMenu>
 
-						<h:outputLabel value="Estado Cívil: *" for="maritalstatus-field" />
-
-						<p:selectOneMenu id="maritalstatus-field" required="true"
+						<p:outputLabel value="Estado Cívil:" for="marital_status-field" />
+						<p:selectOneMenu id="marital_status-field" required="true"
 							style="width:170px"
 							requiredMessage="É necessário informar o Estado Cívil.">
+
 							<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 								noSelectionOption="true" />
 							<f:selectItem itemLabel="Solteiro(a)" itemValue="Solteiro(a)" />
@@ -71,21 +72,22 @@
 						<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
 						<p:calendar id="birthday-field" required="true"
 							pattern="dd-MM-yyyy" mask="true"
-							requiredMessage="O campo Data de Nascimento está em branco." />
+							requiredMessage="O campo Data de Nascimento precisa ser preenchido." />
 
 						<p:outputLabel value="Matrícula:" for="id-field" />
 						<p:inputMask id="id-field" mask="99999999" required="true"
-							requiredMessage="É necessário informar o código de matrícula.">
+							requiredMessage="O campo Matricula precisa ser preenchido.">
 							<p:tooltip id="toolTip-ra" for="id-field"
 								value="Código de registro do aluno junto à universidade." />
 						</p:inputMask>
 
 						<p:outputLabel value="Curso:" for="course-field" />
 						<p:inputText id="course-field" required="true"
-							requiredMessage="É necessário informar o curso em que está matriculado." />
+							requiredMessage="O campo Curso precisa ser preenchido." />
 
-						<p:outputLabel value="Data de Matrícula" for="registration-field" />
-						<p:calendar id="registration-field" pattern="dd-MM-yyyy"
+						<p:outputLabel value="Data de Matrícula"
+							for="registration_date-field" />
+						<p:calendar id="registration_date-field" pattern="dd-MM-yyyy"
 							mask="true" />
 
 					</h:panelGrid>
@@ -94,7 +96,7 @@
 
 
 
-<!-- LOCALIZAÇÃO E CONTATO -->
+			<!-- LOCALIZAÇÃO E CONTATO -->
 			<p:tab id="address" title="Localização e Contato">
 				<p:panel header="Deatlhes de Endereço e Contato">
 
@@ -103,29 +105,39 @@
 					<h:panelGrid columns="8" cellspacing="10"
 						columnClasses="label, value">
 
-						<p:outputLabel value="Endereço:" />
-						<p:inputText />
-						<p:outputLabel value="Bairro:" />
-						<p:inputText />
-						<p:outputLabel value="Cidade:" />
-						<p:inputText />
-						<p:outputLabel value="Estado:" />
-						<p:inputText />
+						<p:outputLabel value="Endereço:" for="address-field" />
+						<p:inputText id="address-field" required="true"
+							requiredMessage="O campo Endereço precisa ser preenchido." />
 
-						<p:outputLabel value="Email:" />
-						<p:inputText type="email" />
-						<p:outputLabel value="Skype:" />
-						<p:inputText />
-						<p:outputLabel value="Telefone:" />
+						<p:outputLabel value="Bairro:" for="neighborhood-field" />
+						<p:inputText id="neighborhood-field" />
+
+						<p:outputLabel value="Cidade:" for="city-field" />
+						<p:inputText id="city-field" required="true"
+							requiredMessage="O campo Cidade precisa ser preenchido." />
+
+						<p:outputLabel value="Estado:" for="state-field" />
+						<p:inputText id="state-field" required="true"
+							requiredMessage="Você deve selecionar um estado." />
+
+						<p:outputLabel value="Email:" for="email-field" />
+						<p:inputText type="email" id="email-field" required="true"
+							requiredMessage="O campo Email deve ser preenchido." />
+
+						<p:outputLabel value="Skype:" for="skype-field" />
+						<p:inputText id="skype-field" />
+
+						<p:outputLabel value="Telefone:" for="phone-field" />
 						<p:inputMask id="phone-field" mask="(99)99999-9999" />
-						<p:outputLabel value="Facebook:" />
-						<p:inputText />
+
+						<p:outputLabel value="Facebook:" for="facebook-field" />
+						<p:inputText id="facebook-field" />
 					</h:panelGrid>
 				</p:panel>
 			</p:tab>
 
 
-<!-- IDIOMAS -->
+			<!-- IDIOMAS -->
 			<p:tab id="languages" title="Idiomas">
 				<p:panel header="Informações de Idiomas">
 
@@ -154,7 +166,7 @@
 			</p:tab>
 
 
-<!-- HABILIDADES -->
+			<!-- HABILIDADES -->
 			<p:tab id="habilities" title="Habilidades">
 				<p:panel header="Informações de Habilidades">
 
@@ -181,19 +193,23 @@
 
 					<p:messages />
 
-					<h:panelGrid columns="1" id="matchGrid">
-						<p:outputLabel value="Usuário:" />
-						<p:inputText />
+					<div align="center">
+						<h:panelGrid columns="1" id="matchGrid">
+							<p:outputLabel value="Usuário:" />
+							<p:inputText />
 
-						<p:outputLabel value="Senha:" for="password1-field" />
-						<p:password id="password1-field" feedback="true"
-							match="password2-field" required="true"
-							requiredMessage="Informe uma senha!" />
+							<p:outputLabel value="Senha:" for="password1-field" />
+							<p:password id="password1-field" feedback="true"
+								match="password2-field" required="true"
+								requiredMessage="Informe uma senha!" weakLabel="Senha fraca"
+								goodLabel="Senha boa" strongLabel="Senha forte"
+								promptLabel="Entre com uma senha" />
 
-						<p:outputLabel value="Confirmar Senha:" />
-						<p:password id="password2-field" required="true"
-							requiredMessage="Preencha corretamente a senha de confirmação." />
-					</h:panelGrid>
+							<p:outputLabel value="Confirmar Senha:" />
+							<p:password id="password2-field" required="true"
+								requiredMessage="Preencha corretamente a senha de confirmação." />
+						</h:panelGrid>
+					</div>
 
 					<p:commandButton value="Submit" actionListener="#{userWizard.save}"
 						update="growl" process="@this" />
