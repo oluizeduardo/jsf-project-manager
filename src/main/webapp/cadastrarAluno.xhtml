@@ -8,8 +8,6 @@
 </h:head>
 <h:body>
 
-
-
 	<h1 style="margin-top: 10" align="center">
 		<h:outputText value="Cadastro de Aluno" />
 	</h1>
@@ -17,9 +15,6 @@
 	<p />
 
 	<h:form id="form">
-
-
-		<p:growl id="growl" sticky="false" showDetail="true" />
 
 		<p:wizard flowListener="#{cadastrarAlunoController.onFlowProcess}"
 			style="margin:30px">
@@ -39,16 +34,22 @@
 							requiredMessage="O campo Nome precisa ser preenchido." />
 
 						<p:outputLabel value="RG:" for="rg-field" />
-						<p:inputMask id="rg-field" mask="99.999.999" required="true"
+						<p:inputMask id="rg-field"
+							value="#{cadastrarAlunoController.aluno.documentoRG}"
+							mask="99.999.999" required="true"
 							requiredMessage="O campo RG precisa ser preenchido." />
 
 						<p:outputLabel value="CPF:" for="cpf-field" />
-						<p:inputMask id="cpf-field" mask="999.999.999-99" required="true"
+						<p:inputMask id="cpf-field"
+							value="#{cadastrarAlunoController.aluno.documentoCPF}"
+							mask="999.999.999-99" required="true"
 							requiredMessage="O campo CPF precisa ser preenchido." />
 
 						<p:outputLabel value="Sexo:" for="gender-field" />
 						<p:selectOneMenu style="width:170px" id="gender-field"
-							required="true" requiredMessage="É necessário informar o sexo.">
+							value="#{cadastrarAlunoController.aluno.sexo}" required="true"
+							requiredMessage="É necessário informar o sexo.">
+
 							<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 								noSelectionOption="true" />
 							<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
@@ -56,22 +57,20 @@
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Estado Cívil:" for="marital_status-field" />
-						<p:selectOneMenu id="marital_status-field" required="true"
-							style="width:170px"
+						<p:selectOneMenu id="marital_status-field"
+							value="#{cadastrarAlunoController.aluno.estadoCivil}"
+							required="true" style="width:170px"
 							requiredMessage="É necessário informar o Estado Cívil.">
 
 							<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 								noSelectionOption="true" />
-							<f:selectItem itemLabel="Solteiro(a)" itemValue="Solteiro(a)" />
-							<f:selectItem itemLabel="Casado(a)" itemValue="Casado(a)" />
-							<f:selectItem itemLabel="Divorciado(a)" itemValue="Divorciado(a)" />
-							<f:selectItem itemLabel="Viúvo(a)" itemValue="Viúvo(a)" />
-							<f:selectItem itemLabel="Separado(a)" itemValue="Separado(a)" />
+							<f:selectItems value="#{cadastrarAlunoController.estadoCivil}" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
-						<p:calendar id="birthday-field" required="true"
-							pattern="dd-MM-yyyy" mask="true"
+						<p:calendar id="birthday-field"
+							value="#{cadastrarAlunoController.aluno.dataNascimento}"
+							required="true" pattern="dd-MM-yyyy" mask="true"
 							requiredMessage="O campo Data de Nascimento precisa ser preenchido." />
 
 						<p:outputLabel value="Matrícula:" for="id-field" />
@@ -117,8 +116,14 @@
 							requiredMessage="O campo Cidade precisa ser preenchido." />
 
 						<p:outputLabel value="Estado:" for="state-field" />
-						<p:inputText id="state-field" required="true"
-							requiredMessage="Você deve selecionar um estado." />
+						<p:selectOneMenu id="state-field" required="true"
+							requiredMessage="Você deve selecionar um estado.">
+							<f:selectItem itemLabel="Selecione" itemValue="Selecione"
+								noSelectionOption="true" />
+							<f:selectItems
+								value="#{cadastrarAlunoController.estadosBrasileiros}" />
+						</p:selectOneMenu>
+
 
 						<p:outputLabel value="Email:" for="email-field" />
 						<p:inputText type="email" id="email-field" required="true"
@@ -146,9 +151,9 @@
 					<h:panelGrid columns="5">
 						<h:outputLabel value="Idioma:" />
 						<p:selectOneMenu style="width:150px">
-							<f:selectItem itemLabel="Inglês" itemValue="Inglês" />
-							<f:selectItem itemLabel="Russo" itemValue="Russo" />
-							<f:selectItem itemLabel="Japonês" itemValue="Japonês" />
+							<f:selectItem itemLabel="Selecione" itemValue="Selecione"
+								noSelectionOption="true" effect="fold" editable="true" />
+							<f:selectItems value="#{cadastrarAlunoController.idiomas}" />
 						</p:selectOneMenu>
 
 						<h:outputLabel value="Nível:" />

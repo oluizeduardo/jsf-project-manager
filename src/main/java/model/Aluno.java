@@ -6,8 +6,8 @@ import java.util.List;
 public class Aluno {
 
 	private String nomeCompleto;
-	private String RG;
-	private String CPF;
+	private String documentoRG;
+	private String documentoCPF;
 	private String sexo;
 	private String estadoCivil;
 	private Date dataNascimento;
@@ -34,23 +34,23 @@ public class Aluno {
 	}
 
 
-	public String getRG() {
-		return RG;
+	public String getDocumentoRG() {
+		return documentoRG;
 	}
 
 
-	public void setRG(String rG) {
-		RG = rG;
+	public void setDocumentoRG(String rg) {
+		documentoRG = rg;
 	}
 
 
-	public String getCPF() {
-		return CPF;
+	public String getDocumentoCPF() {
+		return documentoCPF;
 	}
 
 
-	public void setCPF(String cPF) {
-		CPF = cPF;
+	public void setDocumentoCPF(String cpf) {
+		documentoCPF = cpf;
 	}
 
 
