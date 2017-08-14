@@ -163,5 +163,9 @@ public class Aluno {
 		this.acesso = acesso;
 	}
 	
+	@Override
+	public String toString() {
+		return "Nome: "+getNome()+" - CPF: "+getDocumentoCPF()+" - Usuário: "+getAcesso().getUsuario();
+	}
 	
 }

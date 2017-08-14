@@ -17,20 +17,23 @@
 	<h:form id="form">
 
 		<p:wizard flowListener="#{cadastrarAlunoController.onFlowProcess}"
-			style="margin:30px">
+			style="margin:50px" backLabel="Voltar" nextLabel="Próximo">
 
 			<!-- IDENTIFICAÇÃO -->
 			<p:tab id="identification" title="Identificação">
 				<p:panel header="Detalhes Pessoais">
 
-					<p:messages />
+					<!-- Mensagem -->
+					<p:messages closable="true" />
+
+
 
 					<h:panelGrid columns="6" columnClasses="label, value"
-						cellspacing="10">
+						cellspacing="20">
 
-						<h:outputLabel value="Nome Completo: *" />
-						<p:inputText value="#{cadastrarAlunoController.aluno.nome}"
-							required="true"
+						<p:outputLabel value="Nome Completo:" for="name-field" />
+						<p:inputText id="name-field"
+							value="#{cadastrarAlunoController.aluno.nome}" required="true"
 							requiredMessage="O campo Nome precisa ser preenchido." />
 
 						<p:outputLabel value="RG:" for="rg-field" />
@@ -97,9 +100,9 @@
 
 			<!-- LOCALIZAÇÃO E CONTATO -->
 			<p:tab id="address" title="Localização e Contato">
-				<p:panel header="Deatlhes de Endereço e Contato">
+				<p:panel header="Detalhes de Endereço e Contato">
 
-					<p:messages />
+					<p:messages closable="true" />
 
 					<h:panelGrid columns="8" cellspacing="10"
 						columnClasses="label, value">
@@ -117,7 +120,9 @@
 
 						<p:outputLabel value="Estado:" for="state-field" />
 						<p:selectOneMenu id="state-field" required="true"
-							requiredMessage="Você deve selecionar um estado.">
+							requiredMessage="Você deve selecionar um estado."
+							style="width:170px;">
+
 							<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 								noSelectionOption="true" />
 							<f:selectItems
@@ -146,27 +151,29 @@
 			<p:tab id="languages" title="Idiomas">
 				<p:panel header="Informações de Idiomas">
 
-					<p:messages />
+					<p:messages closable="true" />
 
-					<h:panelGrid columns="5">
-						<h:outputLabel value="Idioma:" />
-						<p:selectOneMenu style="width:150px">
-							<f:selectItem itemLabel="Selecione" itemValue="Selecione"
-								noSelectionOption="true" effect="fold" editable="true" />
-							<f:selectItems value="#{cadastrarAlunoController.idiomas}" />
-						</p:selectOneMenu>
+					<div align="center">
+						<h:panelGrid columns="5" cellspacing="20">
+							<h:outputLabel value="Idioma:" />
+							<p:selectOneMenu style="width:150px">
+								<f:selectItem itemLabel="Selecione" itemValue="Selecione"
+									noSelectionOption="true" effect="fold" editable="true" />
+								<f:selectItems value="#{cadastrarAlunoController.idiomas}" />
+							</p:selectOneMenu>
 
-						<h:outputLabel value="Nível:" />
-						<p:selectOneMenu style="width:150px">
-							<f:selectItem itemLabel="Básico" itemValue="Básico" />
-							<f:selectItem itemLabel="Médio" itemValue="Médio" />
-							<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
-						</p:selectOneMenu>
+							<h:outputLabel value="Nível:" />
+							<p:selectOneMenu style="width:150px">
+								<f:selectItem itemLabel="Básico" itemValue="Básico" />
+								<f:selectItem itemLabel="Médio" itemValue="Médio" />
+								<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
+							</p:selectOneMenu>
 
-						<p:commandButton id="btnadd" value="+" style="width:50px;" />
-						<p:tooltip id="toolTipTrack" for="btnadd" value="Adicionar"
-							trackMouse="false" />
-					</h:panelGrid>
+							<p:commandButton id="btnadd" value="+" style="width:50px;" />
+							<p:tooltip id="toolTipTrack" for="btnadd" value="Adicionar"
+								trackMouse="false" />
+						</h:panelGrid>
+					</div>
 				</p:panel>
 			</p:tab>
 
@@ -175,14 +182,27 @@
 			<p:tab id="habilities" title="Habilidades">
 				<p:panel header="Informações de Habilidades">
 
-					<p:messages />
+					<p:messages closable="true" />
 
-					<h:panelGrid columns="2">
-						<p:inputText />
-						<p:commandButton id="btnaddHability" value="+" style="width:50px;" />
-						<p:tooltip id="toolTip-add-hability" for="btnaddHability"
-							value="Adicionar" trackMouse="false" />
-					</h:panelGrid>
+					<div align="center">
+						<h:panelGrid columns="5" cellspacing="20">
+							<h:outputLabel value="Descrição:" />
+							<p:inputText />
+
+							<h:outputLabel value="Nível:" />
+							<p:selectOneMenu style="width:150px">
+								<f:selectItem itemLabel="Básico" itemValue="Básico" />
+								<f:selectItem itemLabel="Médio" itemValue="Médio" />
+								<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
+							</p:selectOneMenu>
+
+							<p:commandButton id="btnaddHability" value="+"
+								style="width:50px;" />
+							<p:tooltip id="toolTip-add-hability" for="btnaddHability"
+								value="Adicionar" trackMouse="false" />
+
+						</h:panelGrid>
+					</div>
 
 					<!-- 
 					Creio que aqui caberá bem o componente DataList no modo Paginator.
@@ -196,33 +216,43 @@
 			<p:tab id="access" title="Acesso">
 				<p:panel header="Informações de Acesso ao Sistema">
 
-					<p:messages />
+					<p:messages closable="true" />
 
 					<div align="center">
-						<h:panelGrid columns="1" id="matchGrid">
-							<p:outputLabel value="Usuário:" />
-							<p:inputText />
+						<h:panelGrid columns="1" cellspacing="5">
+
+							<p:outputLabel value="Usuário:" for="username-field" />
+							<p:inputText id="username-field" required="true"
+								requiredMessage="É necessário informar um nome de usuário para acessar o sistema." />
 
 							<p:outputLabel value="Senha:" for="password1-field" />
-							<p:password id="password1-field" feedback="true"
-								match="password2-field" required="true"
+							<p:password id="password1-field" feedback="true" required="true"
 								requiredMessage="Informe uma senha!" weakLabel="Senha fraca"
 								goodLabel="Senha boa" strongLabel="Senha forte"
 								promptLabel="Entre com uma senha" />
 
-							<p:outputLabel value="Confirmar Senha:" />
+							<p:outputLabel value="Confirmar Senha:" for="password2-field" />
 							<p:password id="password2-field" required="true"
+								match="password1-field"
+								validatorMessage="Verifique a senha. Não confirmada!"
 								requiredMessage="Preencha corretamente a senha de confirmação." />
+
+							<p />
+							<p:commandButton value="Finalizar Cadastro" icon="ui-icon-disk"
+								style="width:205px; height:50px"
+								actionListener="#{cadastrarAlunoController.salvar}" ajax="false" />
+							<p />
 						</h:panelGrid>
 					</div>
-
-					<p:commandButton value="Submit" actionListener="#{userWizard.save}"
-						update="growl" process="@this" />
 
 				</p:panel>
 			</p:tab>
 
 		</p:wizard>
+		<p:commandButton value="Finalizar Cadastro" icon="ui-icon-disk"
+			style="width:205px; height:50px"
+			actionListener ="#{cadastrarAlunoController.salvar}" />
+		<p />
 
 	</h:form>
 </h:body>

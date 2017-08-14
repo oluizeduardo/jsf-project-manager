@@ -3,6 +3,8 @@ package controller;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.event.ActionEvent;
+
 import org.primefaces.event.FlowEvent;
 import model.Aluno;
 import model.helperView.ListaDeEstadoCivil;
@@ -29,11 +31,20 @@ public class CadastrarAlunoController {
 	
 	
 	public String onFlowProcess(FlowEvent event) {
-		
+
 		return event.getNewStep();
 	}
 
 
+	
+	public void salvar(ActionEvent actionEvent){
+		System.out.println("Aluno salvo com sucesso!");
+		System.out.println(aluno);
+	}
+	
+	
+	
+	
 	public Aluno getAluno() {
 		return aluno;
 	}
