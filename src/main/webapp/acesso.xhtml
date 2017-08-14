@@ -26,12 +26,24 @@
 				validatorMessage="Verifique a senha. Não confirmada!"
 				requiredMessage="Preencha corretamente a senha de confirmação." />
 
-			<p />
-			<p:commandButton value="Finalizar Cadastro" icon="ui-icon-disk"
+
+			<p:separator />
+
+			<p:commandButton id="studentSubmit" value="Finalizar Cadastro"
+				oncomplete="PF('statusSave').show()" icon="ui-icon-disk"
 				style="width:205px; height:50px"
-				action="#{cadastrarAlunoController.salvar}" process="@this"
-				update="form" />
-			<p />
+				actionListener="#{cadastrarAlunoController.salvar}" />
+
+			<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+				widgetVar="statusSave" resizable="false" closeOnEscape="true"
+				draggable="false">
+
+				<h:outputText
+					value="Aluno #{cadastrarAlunoController.aluno.nome} - 
+					#{cadastrarAlunoController.aluno.login.usuario} cadastrado com sucesso!"
+					style="font-weight:bold; font-size:30" />
+			</p:dialog>
+
 		</h:panelGrid>
 	</div>
 

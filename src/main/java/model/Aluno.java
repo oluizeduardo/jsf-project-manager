@@ -3,9 +3,10 @@ package model;
 import java.util.Date;
 import java.util.List;
 
+
 public class Aluno {
 
-	private String nomeCompleto;
+	private String nome;//Nome completo.
 	private String documentoRG;
 	private String documentoCPF;
 	private String sexo;
@@ -18,19 +19,19 @@ public class Aluno {
 	private Contato contato;
 	private List<Idioma> idiomas;
 	private List<Habilidade> habilidades;
-	private Acesso acesso;
+	private Login login;
 	
 	
 	public Aluno() { }
 
 
 	public String getNome() {
-		return nomeCompleto;
+		return nome;
 	}
 
 
-	public void setNome(String nomeCompleto) {
-		this.nomeCompleto = nomeCompleto;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 
@@ -154,18 +155,18 @@ public class Aluno {
 	}
 
 
-	public Acesso getAcesso() {
-		return acesso;
+	public Login getLogin() {
+		return login;
 	}
 
 
-	public void setAcesso(Acesso acesso) {
-		this.acesso = acesso;
+	public void setLogin(Login novoLogin) {
+		this.login = novoLogin;
 	}
 	
 	@Override
 	public String toString() {
-		return "Nome: "+getNome()+" - CPF: "+getDocumentoCPF()+" - Usuário: "+getAcesso().getUsuario();
+		return "Nome: "+getNome()+" - CPF: "+getDocumentoCPF()+" - Usuário: "+getLogin().getUsuario();
 	}
 	
 }

@@ -4,7 +4,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>SASC - Login</title>
+	<title>Login</title>
 </h:head>
 <h:body>
 
@@ -13,7 +13,7 @@
 		<h:form>
 
 			<p:growl id="growl" />
-			<p:focus for="field-username" />
+			<p:focus for="username" />
 
 			<p:panel header="Login"
 				footer="UNIVÁS - Sistemas de Informação - 2017" style="width:500px;">
@@ -22,28 +22,49 @@
 
 					<h:panelGrid columns="2" cellpadding="5">
 
-						<p:outputLabel for="field-username" value="Login:" />
-						<p:inputText id="field-username" required="true"
-							requiredMessage="Informe um nome de usuário" />
+						<p:outputLabel for="username" value="Login:" />
+						<p:inputText id="username" required="true"
+							requiredMessage="Informe um nome de usuário"
+							value="#{loginController.login.usuario}" />
 
-						<p:outputLabel for="user-password" value="Senha:" />
-						<p:password id="user-password" required="true"
-							requiredMessage="Informe a senha" />
+						<p:outputLabel for="password" value="Senha:" />
+						<p:password id="password" required="true"
+							requiredMessage="Informe a senha"
+							value="#{loginController.login.senha}" />
 					</h:panelGrid>
 
 				</h:panelGrid>
 
-				<p:selectBooleanCheckbox value="false"/>
+				<p:selectBooleanCheckbox value="false" />
 				<h:outputText value=" Lembrar minha senha " style="font-size:12;" />
 
 				<p />
 
-				<p:commandButton value="Acessar" id="commandButton-acessar"
-					style="width:300px;" update="growl" />
+				<p:commandButton value="Acessar" id="access" style="width:300px;"
+					update="growl" />
 
 				<p />
+				<p:commandButton value="Novo aqui? Registre-se" id="newUser"
+					style="width:300px;" onclick="PF('newUserDialog').show()" />
 
-				<p:commandButton value="Novo aqui? Registre-se" style="width:300px;" />
+
+				<p:dialog modal="true" showEffect="fade" hideEffect="fade" header="Quem é você?"
+					widgetVar="newUserDialog" resizable="false" closeOnEscape="true">
+
+					<h:panelGrid columns="1" cellpadding="10">
+						<p:commandButton id="newStudent" value="Sou Aluno"
+							style="width:300px; height:50px;"
+							actionListener="#{loginController.clickNovoAluno}"
+							icon="ui-icon-person" />
+
+						<p:commandButton id="newTeacher" value="Sou Professor"
+							style="width:300px; height:50px;"
+							actionListener="#{loginController.clickNovoProfessor}"
+							icon="ui-icon-person" />
+					</h:panelGrid>
+
+				</p:dialog>
+
 
 			</p:panel>
 
