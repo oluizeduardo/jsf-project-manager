@@ -3,7 +3,6 @@ package controller;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.FlowEvent;
 import model.Aluno;
@@ -37,9 +36,9 @@ public class CadastrarAlunoController {
 
 
 	
-	public void salvar(ActionEvent actionEvent){
+	public void salvar(){
 		System.out.println("Aluno salvo com sucesso!");
-		System.out.println(aluno);
+		System.out.println(aluno.toString());
 	}
 	
 	

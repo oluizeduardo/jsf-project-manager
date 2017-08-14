@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:panel header="Informações de Acesso ao Sistema">
+
+	<p:messages closable="true" />
+
+	<div align="center">
+		<h:panelGrid columns="1" cellspacing="5">
+
+			<p:outputLabel value="Usuário:" for="username-field" />
+			<p:inputText id="username-field" required="true"
+				requiredMessage="É necessário informar um nome de usuário para acessar o sistema." />
+
+			<p:outputLabel value="Senha:" for="password1-field" />
+			<p:password id="password1-field" feedback="true" required="true"
+				requiredMessage="Informe uma senha!" weakLabel="Senha fraca"
+				goodLabel="Senha boa" strongLabel="Senha forte"
+				promptLabel="Entre com uma senha" />
+
+			<p:outputLabel value="Confirmar Senha:" for="password2-field" />
+			<p:password id="password2-field" required="true"
+				match="password1-field"
+				validatorMessage="Verifique a senha. Não confirmada!"
+				requiredMessage="Preencha corretamente a senha de confirmação." />
+
+			<p />
+			<p:commandButton value="Finalizar Cadastro" icon="ui-icon-disk"
+				style="width:205px; height:50px"
+				action="#{cadastrarAlunoController.salvar}" process="@this"
+				update="form" />
+			<p />
+		</h:panelGrid>
+	</div>
+
+</p:panel>
+
+</html>

@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:panel header="Informações de Habilidades">
+
+	<p:messages closable="true" />
+
+	<div align="center">
+		<h:panelGrid columns="5" cellspacing="20">
+			<h:outputLabel value="Descrição:" />
+			<p:inputText />
+
+			<h:outputLabel value="Nível:" />
+			<p:selectOneMenu style="width:150px">
+				<f:selectItem itemLabel="Básico" itemValue="Básico" />
+				<f:selectItem itemLabel="Médio" itemValue="Médio" />
+				<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
+			</p:selectOneMenu>
+
+			<p:commandButton id="btnaddHability" value="+" style="width:50px;" />
+			<p:tooltip id="toolTip-add-hability" for="btnaddHability"
+				value="Adicionar" trackMouse="false" />
+
+		</h:panelGrid>
+	</div>
+
+	<!-- 
+					Creio que aqui caberá bem o componente DataList no modo Paginator.
+					
+					https://www.primefaces.org/showcase/ui/data/dataList.xhtml
+				 -->
+
+</p:panel>
+
+</html>
