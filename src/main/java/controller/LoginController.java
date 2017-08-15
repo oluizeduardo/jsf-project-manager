@@ -1,49 +1,28 @@
 package controller;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
-import org.primefaces.context.RequestContext;
+import model.pojo.Usuario;
 
-import model.Login;
 
 @ManagedBean
+@ViewScoped
 public class LoginController {
 
 	
-	private Login login;
+	private Usuario usuario;
 	
 	
 	public LoginController() {
-		this.login = new Login();
+		this.usuario = new Usuario();
 	}
 	
 	
 	
-	public Login getLogin(){
-		return login;
+	public Usuario getUsuario(){
+		return usuario;
 	}
-	
-	
-	
-	public void clickNovoUsuario() {
-        RequestContext requestContext = RequestContext.getCurrentInstance();
-         
-        requestContext.update("form:display");
-        requestContext.execute("PF('newUserDialog').show()");
-        
-        System.out.println("Usuário ("+login.getUsuario()+" - "+login.getSenha()+") acessando o sistema...");
-    }
-	
-
-	
-	public void clickNovoAluno() {
-		System.out.println("Cadastrar um novo aluno...");
-	}
-	
-	public void clickNovoProfessor() {
-		System.out.println("Cadastrar um novo professor...");
-	}
-	
 	
 	
 	

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.event.FlowEvent;
-import model.Professor;
+import model.pojo.Professor;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
 import model.helperView.ListaDeIdiomas;
@@ -40,7 +40,7 @@ public class CadastrarProfessorController {
 	
 	public void salvar(){
 		
-		System.out.println("Dados do professor salvo com sucesso!");
+		System.out.println("Dados do professor salvos com sucesso!");
 		
 	}
 	
@@ -55,7 +55,6 @@ public class CadastrarProfessorController {
 	public void setAluno(Professor prof) {
 		this.professor = prof;
 	}
-
 	
 	public List<String> getEstadosBrasileiros() {
 		return estadosBrasileiros;

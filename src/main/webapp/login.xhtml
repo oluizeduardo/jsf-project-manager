@@ -25,12 +25,12 @@
 						<p:outputLabel for="username" value="Login:" />
 						<p:inputText id="username" 
 							requiredMessage="Informe um nome de usuário"
-							value="#{loginController.login.usuario}" />
+							value="#{loginController.usuario.email}" />
 
 						<p:outputLabel for="password" value="Senha:" />
 						<p:password id="password" 
 						 	requiredMessage="Informe a senha"
-							value="#{loginController.login.senha}" />
+							value="#{loginController.usuario.senha}" />
 					</h:panelGrid>
 
 				</h:panelGrid>
@@ -38,7 +38,7 @@
 				<p:selectBooleanCheckbox value="false" />
 				<h:outputText value=" Lembrar minha senha " style="font-size:12;" />
 
-				<p />
+				<p/>
 
 				<p:commandButton value="Acessar" id="access" style="width:300px;"
 					update="growl" />
@@ -58,12 +58,12 @@
 					
 						<p:commandButton id="newStudent" value="Sou Aluno"
 							style="width:300px; height:50px;" 
-							action="aluno/cadastrar.xhtml"
+							action="aluno/novoCadastro.xhtml"
 							icon="ui-icon-person" />
 
 						<p:commandButton id="newTeacher" value="Sou Professor"
 							style="width:300px; height:50px;"
-							action="professor/cadastrar.xhtml"
+							action="professor/novoCadastro.xhtml"
 							icon="ui-icon-person" />
 							
 					</h:panelGrid>

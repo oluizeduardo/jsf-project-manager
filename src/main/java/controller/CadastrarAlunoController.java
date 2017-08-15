@@ -4,11 +4,8 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-
 import org.primefaces.event.FlowEvent;
-import model.Aluno;
+import model.pojo.Aluno;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
 import model.helperView.ListaDeIdiomas;
@@ -25,12 +22,14 @@ public class CadastrarAlunoController {
 	private List<String> idiomas = null;
 	
 	
+	
 	public CadastrarAlunoController() {
 		this.aluno = new Aluno();
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
 	}
+	
 	
 	
 	
@@ -43,15 +42,7 @@ public class CadastrarAlunoController {
 	
 	public void salvar(){
 		
-		System.out.println("Aluno salvo com sucesso!");
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-		
-		String nome = request.getParameter("form:name-field");
-		String cpf = request.getParameter("cpf-field");
-		
-		System.out.println("Nome: "+nome+" CPF: "+cpf);
+		System.out.println("Dados do aluno salvos com sucesso!");
 		
 	}
 	
