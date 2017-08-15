@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +15,7 @@ import model.helperView.ListaDeIdiomas;
 
 
 @ManagedBean
+@ViewScoped
 public class CadastrarAlunoController {
 
 	
