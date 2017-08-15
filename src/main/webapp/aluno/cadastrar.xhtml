@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Cadastro de Aluno</title>
+</h:head>
+<h:body>
+
+	<h1 style="margin-top: 10" align="center">
+		<h:outputText value="Cadastro de Aluno" />
+	</h1>
+
+	<p />
+
+	<h:form id="form">
+
+		<p:wizard flowListener="#{cadastrarAlunoController.onFlowProcess}"
+			style="margin:50px" backLabel="Voltar" nextLabel="Próximo">
+
+			<!-- IDENTIFICAÇÃO -->
+			<p:tab id="identification" title="Identificação">
+				<ui:include src="detalhesPessoais.xhtml" />
+			</p:tab>
+
+
+			<!-- LOCALIZAÇÃO E CONTATO -->
+			<p:tab id="address" title="Localização e Contato">
+				<ui:include src="localizacaoContato.xhtml" />
+			</p:tab>
+
+
+			<!-- IDIOMAS -->
+			<p:tab id="languages" title="Idiomas">
+				<ui:include src="idiomas.xhtml" />
+			</p:tab>
+
+
+			<!-- HABILIDADES -->
+			<p:tab id="habilities" title="Habilidades">
+				<ui:include src="habilidades.xhtml" />
+			</p:tab>
+
+
+			<!-- ACESSO AO SISTEMA -->
+			<p:tab id="access" title="Acesso">
+				<ui:include src="acesso.xhtml" />
+			</p:tab>
+
+		</p:wizard>
+	</h:form>
+</h:body>
+</html>

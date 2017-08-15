@@ -23,12 +23,13 @@
 					<h:panelGrid columns="2" cellpadding="5">
 
 						<p:outputLabel for="username" value="Login:" />
-						<p:inputText id="username"
+						<p:inputText id="username" 
 							requiredMessage="Informe um nome de usuário"
 							value="#{loginController.login.usuario}" />
 
 						<p:outputLabel for="password" value="Senha:" />
-						<p:password id="password" requiredMessage="Informe a senha"
+						<p:password id="password" 
+						 	requiredMessage="Informe a senha"
 							value="#{loginController.login.senha}" />
 					</h:panelGrid>
 
@@ -53,16 +54,18 @@
 					header="Quem é você?" widgetVar="newUserDialog" resizable="false"
 					closeOnEscape="true">
 
-
 					<h:panelGrid columns="1" cellpadding="10">
+					
 						<p:commandButton id="newStudent" value="Sou Aluno"
-							style="width:300px; height:50px;" action="/cadastrarAluno.xhtml"
+							style="width:300px; height:50px;" 
+							action="aluno/cadastrar.xhtml"
 							icon="ui-icon-person" />
 
 						<p:commandButton id="newTeacher" value="Sou Professor"
 							style="width:300px; height:50px;"
-							actionListener="#{loginController.clickNovoProfessor}"
+							action="professor/cadastrar.xhtml"
 							icon="ui-icon-person" />
+							
 					</h:panelGrid>
 				</p:dialog>
 
