@@ -24,7 +24,8 @@
 			<p:password id="password2-field" required="true"
 				match="password1-field"
 				validatorMessage="Verifique a senha. Não confirmada!"
-				requiredMessage="Preencha corretamente a senha de confirmação." />
+				requiredMessage="Preencha corretamente a senha de confirmação."
+				value="#{cadastrarAlunoController.aluno.senha}" />
 
 
 			<p:separator />
@@ -40,7 +41,7 @@
 
 				<h:outputText
 					value="Aluno #{cadastrarAlunoController.aluno.nome} - 
-					#{cadastrarAlunoController.aluno.login.usuario} cadastrado com sucesso!"
+					#{cadastrarAlunoController.aluno.email} cadastrado com sucesso!"
 					style="font-weight:bold; font-size:30" />
 			</p:dialog>
 
