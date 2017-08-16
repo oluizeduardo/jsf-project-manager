@@ -1,5 +1,9 @@
+body {
+	background-color: lightgrey;
+	font-family: Poppins, sans-serif;
+	font-size: 18px;
+}
 
-body{
-	background-color:lightgrey;  
- 	color: black;
+#login-panel{
+	margin: 5%;
 }
