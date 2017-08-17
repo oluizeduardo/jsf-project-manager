@@ -4,7 +4,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Login</title>	
+	<title>Login</title>
 	<h:outputStylesheet library="css" name="default.css" />
 </h:head>
 <h:body>
@@ -24,13 +24,12 @@
 					<h:panelGrid columns="2" cellpadding="5">
 
 						<p:outputLabel for="username" value="Login:" />
-						<p:inputText id="username" 
+						<p:inputText id="username"
 							requiredMessage="Informe um nome de usuário"
 							value="#{loginController.usuario.email}" />
 
 						<p:outputLabel for="password" value="Senha:" />
-						<p:password id="password" 
-						 	requiredMessage="Informe a senha"
+						<p:password id="password" requiredMessage="Informe a senha"
 							value="#{loginController.usuario.senha}" />
 					</h:panelGrid>
 
@@ -39,41 +38,46 @@
 				<p:selectBooleanCheckbox value="false" />
 				<h:outputText value=" Lembrar minha senha " style="font-size:12;" />
 
-				<p/>
+				<p />
 
-				<p:commandButton value="Acessar" id="access" style="width:300px;"
-					update="growl"  />
+				<a href="index.xhtml"> 
+					<p:commandButton type="button"
+						value="Acessar" id="access" style="width:300px;" update="growl" />
+				</a>
 
-				<p/>
+				<p />
 
 				<p:commandButton value="Novo aqui? Registre-se" id="newUser"
-					style="width:300px;" onclick="PF('newUserDialog').show()" />
+					style="width:300px;" onclick="PF('eitaDialog').show()" />
 
-				<p/>
+				<p />
 
 				<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-					header="Quem é você?" widgetVar="newUserDialog" resizable="false"
+					header="Quem é você?" widgetVar="eitaDialog" resizable="false"
 					closeOnEscape="true">
 
-					<h:panelGrid columns="1" cellpadding="10">
-					
-						<p:commandButton id="newStudent" value="Sou Aluno"
-							style="width:300px; height:50px;" 
-							action="aluno/novoCadastro.xhtml"
-							icon="ui-icon-person" />
-
-						<p:commandButton id="newTeacher" value="Sou Professor"
-							style="width:300px; height:50px;"
-							action="professor/novoCadastro.xhtml"
-							icon="ui-icon-person" />
-							
-					</h:panelGrid>
+						<a href="aluno/novoCadastro.xhtml">
+							<p:commandButton id="newStudent" type="button" 
+								value="Sou Aluno"
+								style="width:300px; height:50px;"
+								icon="ui-icon-person" />
+						</a>
+						
+						<p/>
+						
+						<a href="professor/novoCadastro.xhtml">
+							<p:commandButton id="newProfessor" type="button" 
+								value="Sou Professor"
+								style="width:300px; height:50px;"
+								icon="ui-icon-person" />
+						</a>
+						
 				</p:dialog>
-
+				
 			</p:panel>
 
 		</h:form>
-		
+
 	</div>
 
 </h:body>
