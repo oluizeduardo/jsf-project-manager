@@ -1,4 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
@@ -14,90 +15,71 @@
 	<!-- Barra de Menu -->
 	<h:form>
 		<p:growl id="messages" />
-
-		<p:menubar>
-			<p:submenu label="Sistema" icon="ui-icon-wrench">
-				<p:menuitem value="Perfil" icon="ui-icon-person" url="#" />
-				<p:separator />
-				<p:menuitem value="Sair" icon="ui-icon-close" url="login.xhtml" />
-			</p:submenu>
-
-			<p:submenu label="Cadastrar" icon="ui-icon-plus">
-				<p:menuitem value="Aluno" icon="ui-icon-plus" url="#" />
-				<p:menuitem value="Professor" icon="ui-icon-plus" url="#" />
-				<p:menuitem value="Projeto" icon="ui-icon-plus" url="#" />
-			</p:submenu>
-
-			<p:submenu label="Consultar" icon="disk">
-				<p:menuitem value="Aluno" icon="ui-icon-search" url="#" />
-				<p:menuitem value="Professor" icon="ui-icon-search" url="#" />
-				<p:menuitem value="Projeto" icon="ui-icon-search" url="#" />
-			</p:submenu>
-
-			<f:facet name="options">
-				<p:inputText style="margin-right:10px" placeholder="Buscar" />
-
-				<a href="login.xhtml"> <p:commandButton type="button"
-						value="Logout" icon="ui-icon-extlink" />
-				</a>
-			</f:facet>
-		</p:menubar>
+		
+		<!-- BARRA DE MENU -->
+		<ui:include src="barraDeMenu.xhtml" />
 
 		<p:spacer height="10" />
 
-		<p:layout style="min-width:400px;min-height:550px;">
-			<p:layoutUnit position="west" size="300">
+		<p:layout style="min-width:250px;min-height:550px;">
 
-				<h:panelGrid columns="1" width="250" style="margin:20px;">
-					<p:panel style="height:200px"/>
+			<!-- PAINEL DE PERFIL -->
+			<p:layoutUnit position="west" size="250">
+				<h:panelGrid columns="1" width="200" style="margin:10px;">
 
-					<p:outputLabel value="Luiz Eduardo da Costa" styleClass="nome"
-						style="font-size: 30" />
+					<p:panel style="height:180px; width:205px;">
+						<h:graphicImage value="/resources/images/luiz.jpg" 
+							height="170"
+							width="170" />
+					</p:panel>
+
+					<p:outputLabel value="Luiz Eduardo da Costa" styleClass="nome" style="font-size:30px"/>
 
 					<p:outputLabel value="Cachoeira de Minas/MG"
 						styleClass="espaco-linhas" />
 					<p:outputLabel value="costaeduardoluiz@gmail.com" />
 
 				</h:panelGrid>
-
 			</p:layoutUnit>
 
+
+			<!-- PAINEL DE PROJETOS -->
 			<p:layoutUnit position="center">
+			
+				<p:panel style="height:500px; margin:10px">
 
-				<p:panel style="height:500px; margin:20px">
+					<h:form id="search-projects">
+						<h:panelGrid columns="4" cellspacing="5">
+							<p:inputText placeholder="Buscar Projetos..." style="width:400px" />
 
-					<h:panelGrid columns="4" cellspacing="5">
-						<p:inputText placeholder="Buscar Projetos..."
-							style="width:400px" />
+							<p:selectOneMenu>
+								<f:selectItem itemLabel="Onde" itemValue="Onde"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Toda universidade"
+									itemValue="Toda Universidade" />
+								<f:selectItem itemLabel="Somente no meu curso"
+									itemValue="Somente no meu curso" />
+							</p:selectOneMenu>
 
-						<p:selectOneMenu>
-							<f:selectItem itemLabel="Onde" itemValue="Onde"
-								noSelectionOption="true" />
-							<f:selectItem itemLabel="Toda universidade"
-								itemValue="Toda Universidade" />
-							<f:selectItem itemLabel="Somente no meu curso"
-								itemValue="Somente no meu curso" />
-						</p:selectOneMenu>
+							<p:selectOneMenu>
+								<f:selectItem itemLabel="Habilidade" itemValue="habilidade"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Java" itemValue="Java" />
+								<f:selectItem itemLabel="Banco de Dados"
+									itemValue="Banco de Dados" />
+							</p:selectOneMenu>
 
-						<p:selectOneMenu>
-							<f:selectItem itemLabel="Habilidade" itemValue="habilidade"
-								noSelectionOption="true" />
-							<f:selectItem itemLabel="Java" itemValue="Java" />
-							<f:selectItem itemLabel="Banco de Dados"
-								itemValue="Banco de Dados" />
-						</p:selectOneMenu>
+							<p:commandButton value="Buscar" icon="ui-icon-search" />
 
-						<p:commandButton value="Buscar" icon="ui-icon-search"/>
+						</h:panelGrid>
 
-					</h:panelGrid>
+					</h:form>
 
 				</p:panel>
 
 			</p:layoutUnit>
+
 		</p:layout>
-
-
-
 
 	</h:form>
 </h:body>
