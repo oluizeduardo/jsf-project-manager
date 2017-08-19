@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
+
 <h:head>
 	<title>Inicio</title>
 	<h:outputStylesheet library="css" name="default.css" />
@@ -12,28 +13,28 @@
 
 <h:body>
 
-	<!-- Barra de Menu -->
 	<h:form>
+
 		<p:growl id="messages" />
-		
+
 		<!-- BARRA DE MENU -->
 		<ui:include src="barraDeMenu.xhtml" />
 
 		<p:spacer height="10" />
 
-		<p:layout style="min-width:250px;min-height:550px;">
+		<p:layout style="min-width:150px;min-height:550px;">
 
 			<!-- PAINEL DE PERFIL -->
 			<p:layoutUnit position="west" size="250">
 				<h:panelGrid columns="1" width="200" style="margin:10px;">
 
 					<p:panel style="height:180px; width:205px;">
-						<h:graphicImage value="/resources/images/luiz.jpg" 
-							height="170"
+						<h:graphicImage value="/resources/images/luiz.jpg" height="170"
 							width="170" />
 					</p:panel>
 
-					<p:outputLabel value="Luiz Eduardo da Costa" styleClass="nome" style="font-size:30px"/>
+					<p:outputLabel value="Luiz Eduardo da Costa" styleClass="nome"
+						style="font-size:30px" />
 
 					<p:outputLabel value="Cachoeira de Minas/MG"
 						styleClass="espaco-linhas" />
@@ -45,12 +46,14 @@
 
 			<!-- PAINEL DE PROJETOS -->
 			<p:layoutUnit position="center">
-			
+
 				<p:panel style="height:500px; margin:10px">
 
+
+					<!-- BUSCA POR PROJETOS -->
 					<h:form id="search-projects">
 						<h:panelGrid columns="4" cellspacing="5">
-							<p:inputText placeholder="Buscar Projetos..." style="width:400px" />
+							<p:inputText placeholder="Buscar Projetos..." style="width:460px" />
 
 							<p:selectOneMenu>
 								<f:selectItem itemLabel="Onde" itemValue="Onde"
@@ -75,12 +78,69 @@
 
 					</h:form>
 
+					<p />
+
+					<!-- PROJETOS LISTADOS -->
+					<p:dataGrid var="projeto" value="#{projetoBean.projetos}"
+						columns="2" rows="4" style="padding:10" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}">
+
+
+						<p:panel id="pnProjeto" header="#{projeto.titulo}"
+							style="widht:300px; margin:5px">
+
+							<f:facet name="actions">
+								<p:commandLink
+									styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
+									<h:outputText styleClass="ui-icon ui-icon-grip-dotted-vertical"
+										title="Clique e arraste" />
+								</p:commandLink>
+							</f:facet>
+
+
+							<h:panelGrid columns="2">
+								<p:graphicImage value="resources/images/document.png"
+									height="50" width="50" />
+								<h:outputText value="#{projeto.descricao}" />
+								<h:outputText value="Publicado em: #{projeto.dataPublicacao}"
+									style="font-size:12px" />
+
+
+								<h:form>
+									<!-- TELA DE CONFIRMAÇÃO DE CANDIDATURA -->
+									<p:growl id="msg-confirm" showDetail="true" />
+
+									<p:commandButton value="Candidatar" update="msg-confirm">
+										<p:confirm header="Confirmação"
+											message="Confirma que deseja se candidatar a este projeto?"
+											icon="ui-icon-alert" />
+									</p:commandButton>
+
+									<p:confirmDialog global="true" showEffect="fade"
+										hideEffect="fade" closeOnEscape="true">
+										<p:commandButton value="Sim" type="button"
+											styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+										<p:commandButton value="Não" type="button"
+											styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+									</p:confirmDialog>
+
+								</h:form>
+
+							</h:panelGrid>
+
+						</p:panel>
+
+						<p:draggable for="pnProjeto" revert="true" stack=".ui-panel" />
+
+					</p:dataGrid>
+
 				</p:panel>
 
 			</p:layoutUnit>
 
 		</p:layout>
-
 	</h:form>
+
 </h:body>
 </html>
