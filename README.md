@@ -6,7 +6,7 @@ Trabalho de conclusão de curso - Universidade do Vale do Sapucaí - UNIVÁS - P
 # Authors
 * [Fabiano Junior](https://github.com/lomonaco91)
   (fabiano.lomonaco.junior@gmail.com)
-* [Luiz Eduardo Costa](github.com/oluizeduardo);
+* [Luiz Eduardo Costa](https://github.com/oluizeduardo);
   (costaeduardoluiz@gmail.com)
   
 
