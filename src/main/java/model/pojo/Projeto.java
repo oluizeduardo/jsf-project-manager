@@ -7,7 +7,8 @@ public class Projeto {
 	
 	private long codigo;// Código/Registro de publicação.
 	private String titulo;
-	private String descricao;
+	private String descricaoCurta;
+	private String resumo;
 	private Professor coordenador;
 	private List<Curso> cursosEnvolvidos;
 	private List<Habilidade> habilidades;	
@@ -16,15 +17,17 @@ public class Projeto {
 	private Date dataInicio;
 	private Date dataFim;
 	private Date dataPublicacao;
+	private Financiamento financiamento;
 	
 	
 	
 	public Projeto() { }
 	
 	
-	public Projeto(String titulo, String descricao, Date dataPublicacao) {
+	public Projeto(long codigo, String titulo, String descricao, Date dataPublicacao) {
+		this.codigo = codigo;
 		this.titulo = titulo;
-		this.descricao = descricao;
+		this.descricaoCurta = descricao;
 		this.dataPublicacao = dataPublicacao;
 	}
 
@@ -48,14 +51,23 @@ public class Projeto {
 		this.titulo = titulo;
 	}
 
-
-	public String getDescricao() {
-		return descricao;
+	
+	public String getDescricaoCurta() {
+		return descricaoCurta;
 	}
 
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setDescricaoCurta(String descricao) {
+		this.descricaoCurta = descricao;
+	}
+	
+	public String getResumo() {
+		return resumo;
+	}
+
+
+	public void setResumo(String resumo) {
+		this.resumo = resumo;
 	}
 
 
@@ -138,4 +150,17 @@ public class Projeto {
 		this.dataPublicacao = dataPublicacao;
 	}
 
+
+	public Financiamento getFinanciamento() {
+		return financiamento;
+	}
+
+
+	public void setFinanciamento(Financiamento financiamento) {
+		this.financiamento = financiamento;
+	}
+
+	
+	
+	
 }
