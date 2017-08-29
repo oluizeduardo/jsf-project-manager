@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+
+	<h:form id="initial-registration-student">
+		<p:panel style="width:450px">
+
+			<!-- Mensagem -->
+			<div align="left">
+				<p:messages id="msg" closable="true" />
+
+
+				<p:outputLabel
+					value="Informe aqui alguns dados breves para o cadastro."
+					style="font-size:13px; font-style:italic; padding:10px" />
+			</div>
+
+			<h:panelGrid columns="1" cellspacing="20">
+				<p:inputText id="name-field" required="true"
+					value="#{cadastrarAlunoController.aluno.nome}"
+					requiredMessage="Informe o nome." style="width:350px" 
+					placeholder="Nome completo"/>
+
+				<p:inputText id="email-field" required="true" type="email"
+					value="#{cadastrarAlunoController.aluno.email}"
+					requiredMessage="Informe um email." style="width:350px"
+					placeholder="Email" />
+				
+				<p:password id="password1-field" feedback="true" required="true"
+					requiredMessage="Informe uma senha!" weakLabel="Senha fraca"
+					goodLabel="Senha boa" strongLabel="Senha forte"
+					promptLabel="Escolha uma senha" style="width:350px"
+					placeholder="Senha" />
+
+				<p:password id="password2-field" required="true"
+					match="password1-field"
+					validatorMessage="Senha não confirmada!"
+					requiredMessage="Confirme a senha."
+					value="#{cadastrarAlunoController.aluno.senha}" 
+					style="width:350px" placeholder="Confirme a senha"/>
+			</h:panelGrid>
+
+			<h:panelGrid columns="2" cellspacing="10">
+				<p:commandButton type="reset" value="Cancelar" icon="ui-icon-close"
+					onclick="PF('newStudentDialog').hide()" />
+
+				<p:commandButton type="submit" value="Finalizar"
+					icon="ui-icon-check" update="msg" />
+
+			</h:panelGrid>
+
+		</p:panel>
+
+	</h:form>
+
+</h:body>
+
+</html>

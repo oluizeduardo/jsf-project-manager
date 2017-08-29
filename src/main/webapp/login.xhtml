@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
@@ -40,8 +41,7 @@
 
 				<p />
 
-				<a href="index.xhtml"> 
-					<p:commandButton type="button"
+				<a href="index.xhtml"> <p:commandButton type="button"
 						value="Acessar" id="access" style="width:300px;" update="growl" />
 				</a>
 
@@ -52,26 +52,43 @@
 
 				<p />
 
+
+
+				<!-- SELECIONAR O TIPO DE USUÁRIO -->
 				<p:dialog modal="true" showEffect="fade" hideEffect="fade"
 					header="Quem é você?" widgetVar="newUserDialog" resizable="false"
 					closeOnEscape="true">
 
-						<a href="aluno/novoCadastro.xhtml">
-							<p:commandButton id="newStudent" type="button" 
-								value="Sou Aluno"
-								style="width:300px; height:50px;"
-								icon="ui-icon-person" />
-						</a>
-						
-						<p/>
-						
-						<a href="professor/novoCadastro.xhtml">
-							<p:commandButton id="newProfessor" type="button" 
-								value="Sou Professor"
-								style="width:300px; height:50px;"
-								icon="ui-icon-person" />
-						</a>
-						
+					<p:commandButton id="newStudent" type="button" value="Sou Aluno"
+						style="width:300px; height:50px;" icon="ui-icon-person"
+						onclick="PF('newStudentDialog').show()"/>
+
+
+					<p/>
+
+					 
+					<p:commandButton
+							id="newProfessor" type="button" value="Sou Professor"
+							style="width:300px; height:50px;" icon="ui-icon-person"
+							onclick="PF('newProfessorDialog').show()" />
+											
+				</p:dialog>
+
+
+				<!-- Cadastro de Aluno -->
+				<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+					header="Novo Aluno" widgetVar="newStudentDialog" resizable="false"
+					closeOnEscape="true">
+
+					<ui:include src="aluno/cadastroInicial.xhtml" />
+				</p:dialog>
+				
+				<!-- Cadastro de Professor -->
+				<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+					header="Novo Professor" widgetVar="newProfessorDialog" resizable="false"
+					closeOnEscape="true">
+
+					<ui:include src="professor/cadastroInicial.xhtml" />
 				</p:dialog>
 				
 			</p:panel>
