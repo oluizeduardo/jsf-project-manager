@@ -14,11 +14,11 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
-	<!-- ALTERA O TEMA DO PRIMEFACES.
+	<!-- TEMA DO PRIMEFACES -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>bootstrap</param-value>
+		<param-value>south-street</param-value>
 	</context-param>
-	 -->
+	   
 	 
 </web-app>
