@@ -1,34 +1,39 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:menubar>
-		<p:submenu label="Sistema" icon="ui-icon-wrench">			
-			<p:menuitem value="Sair" icon="ui-icon-close" url="login.xhtml" />
-		</p:submenu>
-	
-		<p:submenu label="Perfil" icon="ui-icon-person">
-			<p:menuitem value="Gerenciar Perfil" icon="ui-icon-person" url="#" />
-		</p:submenu>
-	
-		<p:submenu label="Cadastrar" icon="ui-icon-plus">
-			<p:menuitem value="Aluno" icon="ui-icon-plus" url="#" />
-			<p:menuitem value="Professor" icon="ui-icon-plus" url="#" />
-			<p:menuitem value="Projeto" icon="ui-icon-plus" url="#" />
-		</p:submenu>
-	
-		<p:submenu label="Consultar" icon="ui-icon-search">
-			<p:menuitem value="Alunos" icon="ui-icon-search" url="#" />
-			<p:menuitem value="Professores" icon="ui-icon-search" url="#" />
-			<p:menuitem value="Projetos" icon="ui-icon-search" url="#" />
-		</p:submenu>
-	
-		<f:facet name="options">	
-			<a href="login.xhtml"> 
-				<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-			</a>
-		</f:facet>
-	</p:menubar>
+<p:menubar>
+	<p:submenu label="Sistema" icon="ui-icon-wrench">
+		<p:menuitem value="Sair" icon="ui-icon-close" url="login.xhtml" />
+	</p:submenu>
+
+	<p:submenu label="Perfil" icon="ui-icon-person">
+		<p:menuitem value="Gerenciar Perfil" icon="ui-icon-person"
+					url="aluno/editarPerfil.xhtml"/>
+	</p:submenu>
+
+	<p:submenu label="Consultar" icon="ui-icon-search">
+		<p:menuitem value="Alunos" icon="ui-icon-search" url="#" />
+		<p:menuitem value="Professores" icon="ui-icon-search" url="#" />
+		<p:menuitem value="Projetos" icon="ui-icon-search" url="#" />
+	</p:submenu>
+
+	<f:facet name="options">
+		<a href="login.xhtml"> 
+			<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+		</a>
+	</f:facet>
+</p:menubar>
+
+<!-- Editar Perfil 
+<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+	header="Editar Perfil" widgetVar="editProfileDialog" resizable="false"
+	closeOnEscape="true" >
+
+	<ui:include src="aluno/editarPerfil.xhtml"/>
+</p:dialog>
+-->
 
 </html>

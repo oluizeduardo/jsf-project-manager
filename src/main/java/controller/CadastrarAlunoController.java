@@ -11,7 +11,7 @@ import model.helperView.ListaDeEstados;
 import model.helperView.ListaDeIdiomas;
 
 
-@ManagedBean
+@ManagedBean(name = "cadastrarAlunoController")
 @ViewScoped
 public class CadastrarAlunoController {
 
@@ -32,44 +32,60 @@ public class CadastrarAlunoController {
 	
 	
 	
-	
 	public String onFlowProcess(FlowEvent event) {
-
 		return event.getNewStep();
 	}
 
-
 	
 	public void salvar(){
-		
-		System.out.println("Dados do aluno salvos com sucesso!");
-		
+		System.out.println("Dados salvos com sucesso!");		
 	}
-	
-	
-	
-	
+
+
+
 	public Aluno getAluno() {
 		return aluno;
 	}
+
 
 
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
 	}
 
-	
+
+
 	public List<String> getEstadosBrasileiros() {
 		return estadosBrasileiros;
 	}
-	
+
+
+
+	public void setEstadosBrasileiros(List<String> estadosBrasileiros) {
+		this.estadosBrasileiros = estadosBrasileiros;
+	}
+
+
+
 	public List<String> getEstadoCivil() {
 		return estadoCivil;
 	}
-	
+
+
+
+	public void setEstadoCivil(List<String> estadoCivil) {
+		this.estadoCivil = estadoCivil;
+	}
+
+
+
 	public List<String> getIdiomas() {
 		return idiomas;
 	}
-	
-	
+
+
+
+	public void setIdiomas(List<String> idiomas) {
+		this.idiomas = idiomas;
+	}
 }

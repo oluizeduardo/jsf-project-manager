@@ -11,9 +11,9 @@ public class Pessoa {
 	private String sexo;
 	private String estadoCivil;
 	private Date dataNascimento;
-	private String matricula;	
-	private Endereco endereco;
-	private Contato contato;
+	private long matricula;	
+	private Endereco endereco = new Endereco();
+	private Contato contato = new Contato();
 	private List<Idioma> idiomas;
 	
 	
@@ -58,10 +58,10 @@ public class Pessoa {
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	public String getMatricula() {
+	public long getMatricula() {
 		return matricula;
 	}
-	public void setMatricula(String matricula) {
+	public void setMatricula(long matricula) {
 		this.matricula = matricula;
 	}
 	public Endereco getEndereco() {

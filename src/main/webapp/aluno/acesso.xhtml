@@ -11,13 +11,13 @@
 		<h:panelGrid columns="1" cellspacing="5">
 
 			<p:outputLabel value="Usuário:" for="username-field" />
-			<p:inputText id="username-field" required="true"
-				requiredMessage="É necessário informar um nome de usuário para acessar o sistema." />
+			<p:inputText id="username-field" />
 
 			<p:outputLabel value="Senha:" for="password1-field" />
-			<p:password id="password1-field" feedback="true" required="true"
-				requiredMessage="Informe uma senha!" weakLabel="Senha fraca"
-				goodLabel="Senha boa" strongLabel="Senha forte"
+			<p:password id="password1-field" feedback="true"
+				weakLabel="Senha fraca"
+				goodLabel="Senha boa" 
+				strongLabel="Senha forte"
 				promptLabel="Entre com uma senha" />
 
 			<p:outputLabel value="Confirmar Senha:" for="password2-field" />
@@ -40,8 +40,7 @@
 				draggable="false">
 
 				<h:outputText
-					value="Aluno #{cadastrarAlunoController.aluno.nome} - 
-					#{cadastrarAlunoController.aluno.email} cadastrado com sucesso!"
+					value="Dados atualizados com sucesso!!"
 					style="font-weight:bold; font-size:30" />
 			</p:dialog>
 

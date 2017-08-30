@@ -10,19 +10,20 @@
 	<h:panelGrid columns="8" cellspacing="10" columnClasses="label, value">
 
 		<p:outputLabel value="Endereço:" for="address-field" />
-		<p:inputText id="address-field" required="true"
-			requiredMessage="O campo Endereço precisa ser preenchido." />
+		<p:inputText id="address-field" 
+					 value="#{cadastrarAlunoController.aluno.endereco.rua}"/>
 
 		<p:outputLabel value="Bairro:" for="neighborhood-field" />
-		<p:inputText id="neighborhood-field" />
+		<p:inputText id="neighborhood-field"
+					 value="#{cadastrarAlunoController.aluno.endereco.bairro}"/>
 
 		<p:outputLabel value="Cidade:" for="city-field" />
-		<p:inputText id="city-field" required="true"
-			requiredMessage="O campo Cidade precisa ser preenchido." />
+		<p:inputText id="city-field" 
+					 value="#{cadastrarAlunoController.aluno.endereco.cidade}"/>
 
 		<p:outputLabel value="Estado:" for="state-field" />
-		<p:selectOneMenu id="state-field" required="true"
-			requiredMessage="Você deve selecionar um estado."
+		<p:selectOneMenu id="state-field"
+			value="#{cadastrarAlunoController.aluno.endereco.estado}"
 			style="width:170px;">
 
 			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
@@ -32,17 +33,16 @@
 
 
 		<p:outputLabel value="Email:" for="email-field" />
-		<p:inputText type="email" id="email-field" required="true"
-			requiredMessage="O campo Email deve ser preenchido." />
+		<p:inputText type="email" id="email-field" value="#{cadastrarAlunoController.aluno.contato.email}" />
 
 		<p:outputLabel value="Skype:" for="skype-field" />
-		<p:inputText id="skype-field" />
+		<p:inputText id="skype-field" value="#{cadastrarAlunoController.aluno.contato.skype}"/>
 
 		<p:outputLabel value="Telefone:" for="phone-field" />
-		<p:inputMask id="phone-field" mask="(99)99999-9999" />
+		<p:inputMask id="phone-field" mask="(99)99999-9999" value="#{cadastrarAlunoController.aluno.contato.telefone}"/>
 
 		<p:outputLabel value="Facebook:" for="facebook-field" />
-		<p:inputText id="facebook-field" />
+		<p:inputText id="facebook-field" value="#{cadastrarAlunoController.aluno.contato.facebook}"/>
 	</h:panelGrid>
 </p:panel>
 

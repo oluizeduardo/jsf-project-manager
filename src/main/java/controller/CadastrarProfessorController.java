@@ -11,7 +11,7 @@ import model.helperView.ListaDeEstados;
 import model.helperView.ListaDeIdiomas;
 
 
-@ManagedBean
+@ManagedBean(name = "cadastrarProfessorController")
 @ViewScoped
 public class CadastrarProfessorController {
 

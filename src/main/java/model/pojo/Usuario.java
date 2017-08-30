@@ -2,9 +2,7 @@ package model.pojo;
 
 public class Usuario extends Pessoa {
 
-	private String email;
 	private String senha;
-	private boolean lembrarSenha = false;
 	private boolean ativo = false;
 	
 
@@ -13,7 +11,7 @@ public class Usuario extends Pessoa {
 	
 	
 	public Usuario(String email, String senha, boolean ativo){
-		this.email = email;
+		super.getContato().setEmail(email);
 		this.senha = senha;
 		this.ativo = ativo;
 	}
@@ -26,22 +24,6 @@ public class Usuario extends Pessoa {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-
-	public boolean isLembrarSenha() {
-		return lembrarSenha;
-	}
-
-	public void setLembrarSenha(boolean lembrarSenha) {
-		this.lembrarSenha = lembrarSenha;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public boolean isAtivo() {

@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Aluno extends Usuario {
 
-	
 	private String curso;	
 	private List<Habilidade> habilidades;
 	private String dataMatricula;
@@ -15,7 +14,16 @@ public class Aluno extends Usuario {
 	
 	public Aluno() { }
 
-
+	
+	public Aluno(long matricula, String curso, String nome) {
+		super.setMatricula(matricula);
+		this.curso = curso;
+		super.setNome(nome);
+	}
+	
+	
+	
+	
 	
 	
 	public String getCurso() {

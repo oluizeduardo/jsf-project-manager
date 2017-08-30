@@ -12,26 +12,21 @@
 	<h:panelGrid columns="6" columnClasses="label, value" cellspacing="20">
 
 		<p:outputLabel value="Nome Completo:" for="name-field" />
-		<p:inputText id="name-field"
-			value="#{cadastrarAlunoController.aluno.nome}" required="true"
-			requiredMessage="O campo Nome precisa ser preenchido." />
+		<p:inputText id="name-field" value="#{cadastrarAlunoController.aluno.nome}"/>
 
 		<p:outputLabel value="RG:" for="rg-field" />
 		<p:inputMask id="rg-field"
 			value="#{cadastrarAlunoController.aluno.documentoRG}"
-			mask="99.999.999" required="true"
-			requiredMessage="O campo RG precisa ser preenchido." />
+			mask="99.999.999"/>
 
 		<p:outputLabel value="CPF:" for="cpf-field" />
 		<p:inputMask id="cpf-field"
 			value="#{cadastrarAlunoController.aluno.documentoCPF}"
-			mask="999.999.999-99" required="true"
-			requiredMessage="O campo CPF precisa ser preenchido." />
+			mask="999.999.999-99"/>
 
 		<p:outputLabel value="Sexo:" for="gender-field" />
 		<p:selectOneMenu style="width:170px" id="gender-field"
-			value="#{cadastrarAlunoController.aluno.sexo}" required="true"
-			requiredMessage="É necessário informar o sexo.">
+			value="#{cadastrarAlunoController.aluno.sexo}">
 
 			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 				noSelectionOption="true" />
@@ -41,9 +36,8 @@
 
 		<p:outputLabel value="Estado Cívil:" for="marital_status-field" />
 		<p:selectOneMenu id="marital_status-field"
-			value="#{cadastrarAlunoController.aluno.estadoCivil}" required="true"
-			style="width:170px"
-			requiredMessage="É necessário informar o Estado Cívil.">
+			value="#{cadastrarAlunoController.aluno.estadoCivil}"
+			style="width:170px">
 
 			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 				noSelectionOption="true" />
@@ -53,23 +47,22 @@
 		<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
 		<p:calendar id="birthday-field"
 			value="#{cadastrarAlunoController.aluno.dataNascimento}"
-			required="true" pattern="dd-MM-yyyy" mask="true" navigator="true"
-			requiredMessage="O campo Data de Nascimento precisa ser preenchido." />
+			pattern="dd-MM-yyyy" mask="true" navigator="true" />
 
 		<p:outputLabel value="Matrícula:" for="id-field" />
-		<p:inputMask id="id-field" mask="99999999" required="true"
-			requiredMessage="O campo Matricula precisa ser preenchido.">
+		<p:inputMask id="id-field" mask="99999999" 
+					 value="#{cadastrarAlunoController.aluno.matricula}">
 			<p:tooltip id="toolTip-ra" for="id-field"
 				value="Código de registro do aluno junto à universidade." />
 		</p:inputMask>
 
 		<p:outputLabel value="Curso:" for="course-field" />
-		<p:inputText id="course-field" required="true"
-			requiredMessage="O campo Curso precisa ser preenchido." />
+		<p:inputText id="course-field" value="#{cadastrarAlunoController.aluno.curso}"/>
 
 		<p:outputLabel value="Data de Matrícula" for="registration_date-field" />
 		<p:calendar id="registration_date-field" pattern="dd-MM-yyyy"
-			mask="true" navigator="true" locale="br"/>
+			mask="true" navigator="true" locale="br" 
+			value="#{cadastrarAlunoController.aluno.dataMatricula}"/>
 
 	</h:panelGrid>
 </p:panel>

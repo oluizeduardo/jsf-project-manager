@@ -6,7 +6,7 @@
 
 <h:head>
 	<title>Login</title>
-	<h:outputStylesheet library="css" name="default.css" />
+	<h:outputStylesheet library="css" name="default.css" />	
 </h:head>
 <h:body>
 
@@ -27,7 +27,7 @@
 						<p:outputLabel for="username" value="Login:" />
 						<p:inputText id="username"
 							requiredMessage="Informe um nome de usuário"
-							value="#{loginController.usuario.email}" />
+							value="#{loginController.usuario.contato.email}" />
 
 						<p:outputLabel for="password" value="Senha:" />
 						<p:password id="password" requiredMessage="Informe a senha"
@@ -36,19 +36,21 @@
 
 				</h:panelGrid>
 
-				<p:selectBooleanCheckbox value="false" />
-				<h:outputText value=" Lembrar minha senha " style="font-size:12;" />
-
 				<p />
 
-				<a href="index.xhtml"> <p:commandButton type="button"
-						value="Acessar" id="access" style="width:300px;" update="growl" />
+				<a href="home.xhtml"> 
+					<p:commandButton type="button" value="Acessar" 
+									 id="btn-access" 
+									 style="width:300px;" 
+									 update="growl" />
 				</a>
 
 				<p />
 
-				<p:commandButton value="Novo aqui? Registre-se" id="newUser"
-					style="width:300px;" onclick="PF('newUserDialog').show()" />
+				<p:commandButton value="Novo aqui? Registre-se" 
+								 id="btn-newUser"
+								 style="width:300px;" 
+								 onclick="PF('newUserDialog').show()" />
 
 				<p />
 

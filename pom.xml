@@ -41,12 +41,11 @@
 
 		<!-- TEMA DO PRIMEFACES -->
 		<dependency>
-			<groupId>org.primefaces.extensions</groupId>
-			<artifactId>all-themes</artifactId>
-			<version>1.0.8</version>
-			<type>pom</type>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>south-street</artifactId>
+			<version>1.0.10</version>
 		</dependency>
-		  
+
 
 	</dependencies>
 </project>

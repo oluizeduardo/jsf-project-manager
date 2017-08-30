@@ -25,12 +25,12 @@
 					placeholder="Nome completo"/>
 
 				<p:inputText id="email-field" required="true" type="email"
-					value="#{cadastrarAlunoController.aluno.email}"
+					value="#{cadastrarAlunoController.aluno.contato.email}"
 					requiredMessage="Informe um email." style="width:350px"
 					placeholder="Email" />
 				
 				<p:password id="password1-field" feedback="true" required="true"
-					requiredMessage="Informe uma senha!" weakLabel="Senha fraca"
+					requiredMessage="Informe uma senha." weakLabel="Senha fraca"
 					goodLabel="Senha boa" strongLabel="Senha forte"
 					promptLabel="Escolha uma senha" style="width:350px"
 					placeholder="Senha" />

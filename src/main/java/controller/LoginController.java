@@ -6,7 +6,7 @@ import javax.faces.bean.ViewScoped;
 import model.pojo.Usuario;
 
 
-@ManagedBean
+@ManagedBean(name = "loginController")
 @ViewScoped
 public class LoginController {
 
