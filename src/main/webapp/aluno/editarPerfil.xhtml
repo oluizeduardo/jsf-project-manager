@@ -16,9 +16,22 @@
 <h:body>
 	
 	<h:form id="form-edit-profile">
+	
+		<!-- BARRA DE MENU -->
+		<ui:include src="barraDeMenu.xhtml" />
+		
+		<!-- MENSAGEM -->
+		<p:growl id="messages" />
 
-		<p:wizard flowListener="#{cadastrarAlunoController.onFlowProcess}"
-			style="margin:50px" backLabel="Voltar" nextLabel="Próximo">
+		<p:spacer height="8"/>
+			<p:panel>
+				<p:commandButton value="Salvar Alterações" 
+								 icon="ui-icon-disk"
+								 update="messages"/>
+			</p:panel>
+		<p:spacer height="8"/>
+
+		<p:tabView>
 
 			<!-- IDENTIFICAÇÃO -->
 			<p:tab id="identification" title="Identificação">
@@ -45,12 +58,12 @@
 
 
 			<!-- ACESSO AO SISTEMA -->
-			<p:tab id="access" title="Acesso">
+			<p:tab id="access" title="Alterar Senha">
 				<ui:include src="acesso.xhtml" />
 			</p:tab>
 
-		</p:wizard>
-		
+		</p:tabView>
+
 	</h:form>
 	
 </h:body>
