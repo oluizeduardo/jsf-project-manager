@@ -45,7 +45,13 @@
 			<artifactId>south-street</artifactId>
 			<version>1.0.10</version>
 		</dependency>
-
-
+		
+		<!-- NEO4j -->
+		<dependency>
+			<groupId>org.neo4j.driver</groupId>
+			<artifactId>neo4j-java-driver</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		
 	</dependencies>
 </project>
