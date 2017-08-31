@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Projetos Cadastrados</title>
+	<style>
+		body {
+			background-color: #C1E1A6;
+		}
+	</style>	
+</h:head>
+
+<h:body>
+	
+	<h:form>
+	
+		<!-- BARRA DE MENU -->
+		<ui:include src="barraDeMenu.xhtml" />
+		
+		<!-- MENSAGEM -->
+		<p:growl id="messages" />
+
+		<p:spacer height="8"/>
+		
+		<p:panel>
+			Projetos em que eu estou cadastrado.
+		</p:panel>
+
+	</h:form>
+	
+</h:body>
+
+</html>

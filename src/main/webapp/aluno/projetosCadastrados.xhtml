@@ -1,0 +1,83 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Projetos Cadastrados</title>
+	<style>
+body {
+	background-color: #C1E1A6;
+}
+</style>
+</h:head>
+
+<h:body>
+
+	<h:form>
+
+		<!-- BARRA DE MENU -->
+		<ui:include src="barraDeMenu.xhtml" />
+
+		<!-- MENSAGEM -->
+		<p:growl id="messages" />
+
+		<p:spacer height="8" />
+
+		<p:panel>
+			<p:dataTable id="table-projects-registered" var="projeto"
+				value="#{projetoBean.projetos}" widgetVar="projectsTable"
+				multiViewState="true" rows="15" paginator="true"
+				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+				emptyMessage="Nenhum projeto encontrado com essa busca.">
+
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Buscar em todos os campos: " />
+						<p:spacer width="10px" />
+						<p:inputText id="globalFilter" style="width:250px"
+							placeholder="Palavra chave" />
+
+						<p:commandButton id="toggler" type="button" value="Colunas"
+							style="float:right" icon="ui-icon-calculator" />
+						<p:columnToggler datasource="table-projects-registered"
+							trigger="toggler" />
+
+					</p:outputPanel>
+				</f:facet>
+
+				<p:column headerText="Código" filterBy="#{car.id}"
+					sortBy="#{car.id}" filterMatchMode="contains"
+					style="width:100px;text-align: center">
+					<h:outputText value="#{projeto.codigo}" />
+				</p:column>
+
+				<p:column headerText="Título" filterBy="#{projeto.titulo}"
+					sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
+					<h:outputText value="#{projeto.titulo}" />
+				</p:column>
+
+				<p:column headerText="Publicado em"
+					filterBy="#{projeto.dataPublicacao}"
+					sortBy="#{projeto.dataPublicacao}" filterMatchMode="startsWith">
+					<h:outputText value="#{projeto.dataPublicacao}" />
+				</p:column>
+
+				<p:column style="width:32px;text-align: center" headerText=" ">
+					<p:commandButton icon="ui-icon-search" 
+									 title="Visualizar">
+						
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+		</p:panel>
+
+	</h:form>
+
+</h:body>
+
+</html>
