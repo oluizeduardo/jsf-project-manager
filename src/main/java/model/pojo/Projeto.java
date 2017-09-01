@@ -24,10 +24,11 @@ public class Projeto {
 	public Projeto() { }
 	
 	
-	public Projeto(long codigo, String titulo, String descricao, Date dataPublicacao) {
+	public Projeto(long codigo, String titulo, String descricao, Professor coordenador, Date dataPublicacao) {
 		this.codigo = codigo;
 		this.titulo = titulo;
 		this.descricaoCurta = descricao;
+		this.coordenador = coordenador;
 		this.dataPublicacao = dataPublicacao;
 	}
 

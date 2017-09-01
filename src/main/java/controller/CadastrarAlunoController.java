@@ -1,10 +1,11 @@
 package controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import org.primefaces.event.FlowEvent;
+import javax.faces.context.FacesContext;
 import model.pojo.Aluno;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
@@ -31,14 +32,14 @@ public class CadastrarAlunoController {
 	}
 	
 	
-	
-	public String onFlowProcess(FlowEvent event) {
-		return event.getNewStep();
-	}
-
-	
 	public void salvar(){
-		System.out.println("Dados salvos com sucesso!");		
+		System.out.println("Dados do novo aluno salvos com sucesso! "
+						 + "Redirecionando para aluno/home...");
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("aluno/home.xhtml");
+		} catch (IOException e) { 
+			System.err.println(e.getMessage());
+		}
 	}
 
 

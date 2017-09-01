@@ -1,10 +1,11 @@
 package controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import org.primefaces.event.FlowEvent;
+import javax.faces.context.FacesContext;
 import model.pojo.Professor;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
@@ -22,6 +23,7 @@ public class CadastrarProfessorController {
 	private List<String> idiomas = null;
 	
 	
+	
 	public CadastrarProfessorController() {
 		this.professor = new Professor();
 		this.estadosBrasileiros = new ListaDeEstados().getList();
@@ -29,19 +31,22 @@ public class CadastrarProfessorController {
 		this.idiomas = new ListaDeIdiomas().getList();
 	}
 	
-	
-	
-	public String onFlowProcess(FlowEvent event) {
-
-		return event.getNewStep();
-	}
 
 
 	
+	/**
+	 * Salva os dados de um novo objeto Professor.
+	 */
 	public void salvar(){
 		
-		System.out.println("Dados do professor salvos com sucesso!");
+		System.out.println("Dados do novo professor salvos com sucesso! "
+						  + "Redirecionando para professor/home...");
 		
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("professor/home.xhtml");
+		} catch (IOException e) { 
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	

@@ -8,17 +8,22 @@
 	<title>Login</title>
 	<h:outputStylesheet library="css" name="default.css" />	
 </h:head>
+
+
 <h:body>
 
-	<div align="center" id="login-panel">
+	<h:form id="form-login">
+		
+		<!-- MENSAGEM -->
+		<p:growl id="growl" />
+	
+		<div align="center" id="login-panel">
 
-		<h:form>
-
-			<p:growl id="growl" />
 			<p:focus for="username" />
 
 			<p:panel header="Login"
-				footer="UNIVÁS - Sistemas de Informação - 2017" style="width:500px;">
+					 footer="UNIVÁS - Sistemas de Informação - 2017" 
+					 style="width:500px;">
 
 				<h:panelGrid columns="1" cellpadding="10">
 
@@ -38,65 +43,58 @@
 
 				<p />
 
-				<a href="aluno/home.xhtml"> 
-					<p:commandButton type="button" value="Acessar" 
-									 id="btn-access" 
-									 style="width:300px;" 
-									 update="growl" />
-				</a>
+				<p:commandButton value="Acessar" id="btn-access"
+								 style="width:300px;" update="growl"
+								 actionListener="#{loginController.acessar}" />
 
 				<p />
 
-				<p:commandButton value="Novo aqui? Registre-se" 
-								 id="btn-newUser"
+				<p:commandButton value="Novo aqui? Registre-se" id="btn-newUser"
 								 style="width:300px;" 
 								 onclick="PF('newUserDialog').show()" />
 
 				<p />
-
-
-
-				<!-- SELECIONAR O TIPO DE USUÁRIO -->
-				<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-					header="Quem é você?" widgetVar="newUserDialog" resizable="false"
-					closeOnEscape="true">
-
-					<p:commandButton id="newStudent" type="button" value="Sou Aluno"
-						style="width:300px; height:50px;" icon="ui-icon-person"
-						onclick="PF('newStudentDialog').show()"/>
-
-
-					<p/>
-
-					 
-					<p:commandButton
-							id="newProfessor" type="button" value="Sou Professor"
-							style="width:300px; height:50px;" icon="ui-icon-person"
-							onclick="PF('newProfessorDialog').show()" />
-											
-				</p:dialog>
-
-
-				<!-- Cadastro de Aluno -->
-				<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-					header="Novo Aluno" widgetVar="newStudentDialog" resizable="false"
-					closeOnEscape="true">
-
-					<ui:include src="aluno/cadastroInicial.xhtml" />
-				</p:dialog>
-				
-				<!-- Cadastro de Professor -->
-				<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-					header="Novo Professor" widgetVar="newProfessorDialog" resizable="false"
-					closeOnEscape="true">
-
-					<ui:include src="professor/cadastroInicial.xhtml" />
-				</p:dialog>
-				
 			</p:panel>
+		</div>
+	</h:form>
 
-		</h:form>
 
-	</div>
+
+
+
+	<!-- SELECIONAR O TIPO DE USUÁRIO -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+			  header="Quem é você?" widgetVar="newUserDialog" 
+			  resizable="false" closeOnEscape="true">
+
+		<p:commandButton id="newStudent" type="button" value="Sou Aluno"
+			style="width:300px; height:50px;" icon="ui-icon-person"
+			onclick="PF('newStudentDialog').show()" />
+
+		<p />
+
+		<p:commandButton id="newProfessor" type="button" value="Sou Professor"
+			style="width:300px; height:50px;" icon="ui-icon-person"
+			onclick="PF('newProfessorDialog').show()" />
+
+	</p:dialog>
+
+
+	<!-- CADASTRO DE ALUNO -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+		header="Novo Aluno" widgetVar="newStudentDialog" 
+		resizable="false" closeOnEscape="true">
+
+		<ui:include src="aluno/cadastroInicial.xhtml" />
+	</p:dialog>
+
+	<!-- CADASTRO DE PROFESSOR -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+		header="Novo Professor" widgetVar="newProfessorDialog"
+		resizable="false" closeOnEscape="true">
+
+		<ui:include src="professor/cadastroInicial.xhtml" />
+	</p:dialog>
+
 </h:body>
 </html>

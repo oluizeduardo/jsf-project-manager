@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Cadastro de Professor</title>
+	<title>Editar Perfil do Professor</title>
 	<style>
 		body {
 			background-color: #C1E1A6;
@@ -14,16 +14,23 @@
 </h:head>
 <h:body>
 
-	<h1 style="margin-top: 10" align="center">
-		<h:outputText value="Cadastro de Professor" />
-	</h1>
+	<h:form id="form-edit-profile">
 
-	<p />
+		<!-- BARRA DE MENU -->
+		<ui:include src="barraDeMenu.xhtml" />
+		
+		<!-- MENSAGEM -->
+		<p:growl id="messages" />
 
-	<h:form id="form">
-
-		<p:wizard flowListener="#{cadastrarProfessorController.onFlowProcess}"
-			style="margin:50px" backLabel="Voltar" nextLabel="Próximo">
+		<p:spacer height="8"/>
+		<p:panel>
+			<p:commandButton value="Salvar Alterações" 
+							 icon="ui-icon-disk"
+							 update="messages"/>
+		</p:panel>
+		<p:spacer height="8"/>
+		
+		<p:tabView>
 
 			<!-- IDENTIFICAÇÃO -->
 			<p:tab id="identification" title="Identificação">
@@ -44,11 +51,12 @@
 
 
 			<!-- ACESSO AO SISTEMA -->
-			<p:tab id="access" title="Acesso">
+			<p:tab id="access" title="Alterar Senha">
 				
 			</p:tab>
 
-		</p:wizard>
+		</p:tabView>
+	
 	</h:form>
 </h:body>
 </html>

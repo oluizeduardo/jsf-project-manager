@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>Inicio</title>
+	<h:outputStylesheet library="css" name="default.css" />
+	<h:outputStylesheet library="css" name="index.css" />
+</h:head>
+
+<h:body>
+
+	<h:form>
+
+		<p:growl id="messages" />
+
+		<!-- BARRA DE MENU -->
+		<ui:include src="barraDeMenu.xhtml" />
+
+		<p:spacer height="8"/>
+
+		<p:layout>
+
+			<!-- PAINEL DE PERFIL -->
+			<p:layoutUnit position="west" size="250">
+				<h:panelGrid columns="1" width="200" style="margin:10px;">
+
+					<p:panel style="height:180px; width:205px;">
+						<h:graphicImage value="/resources/images/roberto.png" height="170"
+							width="170" />
+					</p:panel>
+
+					<p:outputLabel value="Roberto Ribeiro Rocha" styleClass="nome"
+						style="font-size:30px" />
+
+					<p:outputLabel value="Cachoeira de Minas/MG"
+						styleClass="espaco-linhas" />
+					<p:outputLabel value="rrocharoberto@gmail.com" />
+					
+					<p:spacer height="60"/>
+					<p:outputLabel value="Progresso de atualização do perfil:" style="font-size:14"/>
+					<p:progressBar value="10" labelTemplate="{value}%" displayOnly="true"/>
+
+				</h:panelGrid>
+			</p:layoutUnit>
+
+
+			
+			<p:layoutUnit position="center">
+					
+					<p:tabView style="margin:10px">
+
+						<!-- CADASTRO DE NOVOS PROJETOS -->
+						<p:tab id="new-project" title="Projetos Para Alunos">
+							
+						</p:tab>
+						
+						<!-- BUSCA POR ALUNOS -->
+						<p:tab id="search-students" title="Alunos Para Projetos">
+							
+						</p:tab>
+					</p:tabView>
+
+			</p:layoutUnit>
+
+		</p:layout>
+	</h:form>
+
+</h:body>
+</html>

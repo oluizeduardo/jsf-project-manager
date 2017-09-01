@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:menubar>
+	<p:menuitem value="Início" icon="ui-icon-refresh" url="home.xhtml"/>
+
+	<p:submenu label="Perfil" icon="ui-icon-person">
+		<p:menuitem value="Gerenciar Perfil" icon="ui-icon-person"
+					url="editarPerfil.xhtml"/>
+	</p:submenu>
+
+	<p:submenu label="Consultar" icon="ui-icon-search">
+		<p:menuitem value="Projetos Cadastrados" icon="ui-icon-search" url="projetosCadastrados.xhtml" />			
+	</p:submenu>
+	
+	<p:menuitem value="Estatísticas" icon="ui-icon-calculator" url="estatisticas.xhtml"/>
+
+	<f:facet name="options">
+		<a href="../login.xhtml"> 
+			<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+		</a>
+	</f:facet>
+</p:menubar>
+
+</html>
