@@ -36,8 +36,7 @@
 					<p:outputLabel value="Luiz Eduardo da Costa" styleClass="nome"
 						style="font-size:30px" />
 
-					<p:outputLabel value="Cachoeira de Minas/MG"
-						styleClass="espaco-linhas" />
+					<p:outputLabel value="Cachoeira de Minas/MG" style="line-height: 30px;"/>
 					<p:outputLabel value="costaeduardoluiz@gmail.com" />
 					
 					<p:spacer height="60"/>
@@ -104,22 +103,27 @@
 
 
 							<h:panelGrid columns="2">
-								<p:graphicImage value="/resources/images/document.png"
-									height="50" width="50" />
+								<p:graphicImage value="/resources/images/document.png" height="50" width="50" />
 								<h:outputText value="#{projeto.descricaoCurta}" />
 								<h:outputText value="Publicado em: #{projeto.dataPublicacao}"
-									style="font-size:12px" />
+											  style="font-size:12px" />
 
 
 								<h:form>
 									<!-- TELA DE CONFIRMAÇÃO DE CANDIDATURA -->
 									<p:growl id="msg-confirm" showDetail="true" />
 
+									
+									<p:commandButton value="Detalhes"/>
+									
+									<p:spacer width="10px"/>
+									
 									<p:commandButton value="Candidatar" update="msg-confirm">
 										<p:confirm header="Confirmação"
 											message="Confirma que deseja se candidatar a este projeto?"
 											icon="ui-icon-alert" />
 									</p:commandButton>
+																		
 
 									<p:confirmDialog global="true" showEffect="fade"
 										hideEffect="fade" closeOnEscape="true">
