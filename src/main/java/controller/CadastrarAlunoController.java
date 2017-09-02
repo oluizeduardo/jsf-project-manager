@@ -1,10 +1,11 @@
 package controller;
 
 import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import org.primefaces.event.FlowEvent;
 import model.pojo.Aluno;
 import model.dao.AlunoDAO;
@@ -28,6 +29,7 @@ public class CadastrarAlunoController {
 		this.idiomas = new ListaDeIdiomas().getList();
 	}
 	
+
 	public String onFlowProcess(FlowEvent event) {
 		return event.getNewStep();
 	}
@@ -37,6 +39,7 @@ public class CadastrarAlunoController {
 		System.out.println("Salvando aluno: " + aluno);
 		AlunoDAO alunoDAO = new AlunoDAO();
 		alunoDAO.salvarAluno(aluno);
+
 	}
 	
 	public void salvarHabilidade() {

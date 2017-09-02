@@ -6,10 +6,12 @@
 <h:body>
 
 	<h:form id="initial-registration-prof">
+	
 		<p:panel style="width:450px">
-
-			<!-- Mensagem -->
+			
 			<div align="left">
+			
+				<!-- Mensagem -->
 				<p:messages id="message" closable="true" />
 
 
@@ -17,6 +19,7 @@
 					value="Informe aqui alguns dados breves para o cadastro."
 					style="font-size:13px; font-style:italic; padding:10px" />
 			</div>
+
 
 			<h:panelGrid columns="1" cellspacing="20">
 				<p:inputText id="name-prof" required="true"
@@ -33,24 +36,28 @@
 					requiredMessage="Informe uma senha." weakLabel="Senha fraca"
 					goodLabel="Senha boa" strongLabel="Senha forte"
 					promptLabel="Escolha uma senha" style="width:350px"
-					placeholder="Senha" />
+					placeholder="Senha" match="password2-prof"/>
 
 				<p:password id="password2-prof" required="true"
-					match="password1-prof"
 					validatorMessage="Senha não confirmada!"
 					requiredMessage="Confirme a senha."
 					value="#{cadastrarProfessorController.professor.senha}" 
 					style="width:350px" placeholder="Confirme a senha"/>
 			</h:panelGrid>
 
-			<h:panelGrid columns="2" cellspacing="10">
-				<p:commandButton type="reset" value="Cancelar" icon="ui-icon-close"
-					onclick="PF('newProfessorDialog').hide()" />
-
-				<p:commandButton type="submit" value="Finalizar"
-					icon="ui-icon-check" update="message" />
-
-			</h:panelGrid>
+			
+			<div align="center">
+				<h:panelGrid columns="2" cellspacing="10">
+					<p:commandButton type="reset" value="Cancelar" 
+									 icon="ui-icon-close"
+									 onclick="PF('newProfessorDialog').hide()" />
+	
+					<p:commandButton value="Finalizar" 
+									 icon="ui-icon-check" update="message"
+									 actionListener="#{cadastrarProfessorController.salvar}" />
+	
+				</h:panelGrid>
+			</div>
 
 		</p:panel>
 

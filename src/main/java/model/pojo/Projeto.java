@@ -14,9 +14,9 @@ public class Projeto {
 	private List<Habilidade> habilidades;	
 	private List<Aluno> alunos;
 	private String status;//Em andamento, Finalizado, Cancelado, etc.
-	private Date dataInicio;
-	private Date dataFim;
-	private Date dataPublicacao;
+	private String dataInicio;
+	private String dataFim;
+	private String dataPublicacao;
 	private Financiamento financiamento;
 	
 	
@@ -24,10 +24,11 @@ public class Projeto {
 	public Projeto() { }
 	
 	
-	public Projeto(long codigo, String titulo, String descricao, Date dataPublicacao) {
+	public Projeto(long codigo, String titulo, String descricao, Professor coordenador, String dataPublicacao) {
 		this.codigo = codigo;
 		this.titulo = titulo;
 		this.descricaoCurta = descricao;
+		this.coordenador = coordenador;
 		this.dataPublicacao = dataPublicacao;
 	}
 
@@ -121,32 +122,32 @@ public class Projeto {
 	}
 
 
-	public Date getDataInicio() {
+	public String getDataInicio() {
 		return dataInicio;
 	}
 
 
-	public void setDataInicio(Date dataInicio) {
+	public void setDataInicio(String dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
 
-	public Date getDataFim() {
+	public String getDataFim() {
 		return dataFim;
 	}
 
 
-	public void setDataFim(Date dataFim) {
+	public void setDataFim(String dataFim) {
 		this.dataFim = dataFim;
 	}
 
 
-	public Date getDataPublicacao() {
+	public String getDataPublicacao() {
 		return dataPublicacao;
 	}
 
 
-	public void setDataPublicacao(Date dataPublicacao) {
+	public void setDataPublicacao(String dataPublicacao) {
 		this.dataPublicacao = dataPublicacao;
 	}
 

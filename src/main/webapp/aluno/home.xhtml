@@ -22,12 +22,14 @@
 
 		<p:spacer height="8"/>
 
-		<p:layout style="min-width:150px;min-height:550px;">
+		<p:layout>
 
 			<!-- PAINEL DE PERFIL -->
 			<p:layoutUnit position="west" size="250">
 				<h:panelGrid columns="1" width="200" style="margin:10px;">
 
+
+					<!-- PAINEL DA FOTO -->
 					<p:panel style="height:180px; width:205px;">
 						<h:graphicImage value="/resources/images/luiz.jpg" height="170"
 							width="170" />
@@ -36,8 +38,7 @@
 					<p:outputLabel value="Luiz Eduardo da Costa" styleClass="nome"
 						style="font-size:30px" />
 
-					<p:outputLabel value="Cachoeira de Minas/MG"
-						styleClass="espaco-linhas" />
+					<p:outputLabel value="Cachoeira de Minas/MG" style="line-height: 30px;"/>
 					<p:outputLabel value="costaeduardoluiz@gmail.com" />
 					
 					<p:spacer height="60"/>
@@ -51,15 +52,19 @@
 			<!-- PAINEL DE PROJETOS -->
 			<p:layoutUnit position="center">
 
-				<p:panel style="height:500px; margin:10px">
+
+				<!-- PAINEL BASE -->
+				<p:panel style="height:510px; margin:10px">
 
 
 					<!-- BUSCA POR PROJETOS -->
 					<h:form id="search-projects">
 						<h:panelGrid columns="4" cellspacing="5">
-							<p:inputText placeholder="Buscar Projetos..." style="width:460px" />
+							<p:inputText placeholder="Buscar Projetos..." 
+										 style="width:460px"
+										 value="#{homeController.palavraChave}" />
 
-							<p:selectOneMenu>
+							<p:selectOneMenu value="#{homeController.onde}">
 								<f:selectItem itemLabel="Onde" itemValue="Onde"
 									noSelectionOption="true" />
 								<f:selectItem itemLabel="Toda universidade"
@@ -68,7 +73,7 @@
 									itemValue="Somente no meu curso" />
 							</p:selectOneMenu>
 
-							<p:selectOneMenu>
+							<p:selectOneMenu value="#{homeController.habilidade}">
 								<f:selectItem itemLabel="Habilidade" itemValue="habilidade"
 									noSelectionOption="true" />
 								<f:selectItem itemLabel="Java" itemValue="Java" />
@@ -76,7 +81,9 @@
 									itemValue="Banco de Dados" />
 							</p:selectOneMenu>
 
-							<p:commandButton value="Buscar" icon="ui-icon-search" />
+							<p:commandButton value="Buscar" 
+											 icon="ui-icon-search" 
+											 actionListener="#{homeController.pesquisarProjetos}"/>
 
 						</h:panelGrid>
 
@@ -84,9 +91,10 @@
 
 					<p />
 
+
 					<!-- PROJETOS LISTADOS -->
-					<p:dataGrid var="projeto" value="#{projetoBean.projetos}"
-						columns="2" rows="4" style="padding:10" paginator="true"
+					<p:dataGrid var="projeto" value="#{homeController.projetoBean.projetos}"
+						columns="2" rows="4" paginator="true"
 						paginatorPosition="bottom"
 						paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}">
 
@@ -104,22 +112,27 @@
 
 
 							<h:panelGrid columns="2">
-								<p:graphicImage value="/resources/images/document.png"
-									height="50" width="50" />
+								<p:graphicImage value="/resources/images/document.png" height="50" width="50" />
 								<h:outputText value="#{projeto.descricaoCurta}" />
 								<h:outputText value="Publicado em: #{projeto.dataPublicacao}"
-									style="font-size:12px" />
+											  style="font-size:12px" />
 
 
 								<h:form>
 									<!-- TELA DE CONFIRMAÇÃO DE CANDIDATURA -->
 									<p:growl id="msg-confirm" showDetail="true" />
 
+									
+									<p:commandButton value="Detalhes" onclick="PF('project-details').show()"/>
+									
+									<p:spacer width="10px"/>
+									
 									<p:commandButton value="Candidatar" update="msg-confirm">
 										<p:confirm header="Confirmação"
 											message="Confirma que deseja se candidatar a este projeto?"
 											icon="ui-icon-alert" />
 									</p:commandButton>
+																		
 
 									<p:confirmDialog global="true" showEffect="fade"
 										hideEffect="fade" closeOnEscape="true">
@@ -145,6 +158,26 @@
 
 		</p:layout>
 	</h:form>
+	
+	
+	
+	<!-- DETALHES DO PROJETO -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+			  header="Detalhes do Projeto" widgetVar="project-details" 
+			  resizable="false" closeOnEscape="true">
+	
+		<p:panel>
+			<p:outputLabel value="Detalhes completo do projeto"/>
+			<p:commandButton value="Candidatar">
+				<div align="center">
+					<p:confirm header="Confirmação"
+					message="Confirma que deseja se candidatar a este projeto?"
+					icon="ui-icon-alert" />
+				</div>
+			</p:commandButton>
+		</p:panel>
+	 
+	</p:dialog>
 
 </h:body>
 </html>
