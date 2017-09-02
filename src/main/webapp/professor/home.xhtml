@@ -20,7 +20,7 @@
 		<!-- BARRA DE MENU -->
 		<ui:include src="barraDeMenu.xhtml" />
 
-		<p:spacer height="8"/>
+		<p:spacer height="8" />
 
 		<p:layout>
 
@@ -39,30 +39,62 @@
 					<p:outputLabel value="Cachoeira de Minas/MG"
 						styleClass="espaco-linhas" />
 					<p:outputLabel value="rrocharoberto@gmail.com" />
-					
-					<p:spacer height="60"/>
-					<p:outputLabel value="Progresso de atualização do perfil:" style="font-size:14"/>
-					<p:progressBar value="#{homeProfessorController.progressoDeAtualizacaoPerfil}" labelTemplate="{value}%" displayOnly="true"/>
+
+					<p:spacer height="60" />
+					<p:outputLabel value="Progresso de atualização do perfil:"
+						style="font-size:14" />
+					<p:progressBar
+						value="#{homeProfessorController.progressoDeAtualizacaoPerfil}"
+						labelTemplate="{value}%" displayOnly="true" />
 
 				</h:panelGrid>
 			</p:layoutUnit>
 
 
-			
-			<p:layoutUnit position="center">
-					
-					<p:tabView style="margin:10px">
 
-						<!-- CADASTRO DE NOVOS PROJETOS -->
-						<p:tab id="new-project" title="Projetos Para Alunos">
-							
-						</p:tab>
+			<p:layoutUnit position="center">
+
+				<p:tabView style="margin:10px">
+
+					<!-- CADASTRO DE NOVOS PROJETOS -->
+					<p:tab id="new-project" title="Projetos Para Alunos">
+
+						<p:panel>
+							<div align="right">
+								<p:commandButton value="Salvar Novo Projeto" icon="ui-icon-disk" />
+							</div>													
+						</p:panel>
 						
-						<!-- BUSCA POR ALUNOS -->
-						<p:tab id="search-students" title="Alunos Para Projetos">
+						<p:spacer height="8"/>
+						
+						
+						<!-- PAINEL DE ABAS HORIZONTAIS -->
+						<p:accordionPanel multiple="false">
+						
+							<p:tab title="Identificação">
+								<ui:include src="projetos/identificacao.xhtml"/>							
+							</p:tab>
 							
-						</p:tab>
-					</p:tabView>
+							<p:tab title="Administração">
+								<ui:include src="projetos/administracao.xhtml"/>
+							</p:tab>
+							
+							<p:tab title="Alunos e Habilidades">
+								<ui:include src="projetos/alunosHabilidades.xhtml"/>
+							</p:tab>
+							
+							<p:tab title="Resumo">
+								<ui:include src="projetos/resumo.xhtml"/>
+							</p:tab>
+							
+						</p:accordionPanel>
+					</p:tab>
+
+					<!-- BUSCA POR ALUNOS -->
+					<p:tab id="search-students" title="Alunos Para Projetos">
+
+					</p:tab>
+				</p:tabView>
 
 			</p:layoutUnit>
 

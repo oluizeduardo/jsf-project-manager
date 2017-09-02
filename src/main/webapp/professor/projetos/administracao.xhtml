@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:selectBooleanButton value="true" offLabel="Não sou o coordenador" 
+							   onLabel="Sou o coordenador"
+   					   		   offIcon="ui-icon-close" onIcon="ui-icon-check"/>
+	<p/>
+	   			
+	<p:panel>
+		<h:panelGrid columns="4" cellspacing="10">
+			<p:outputLabel value="Professor coordenador: " for="coordenator-name"/>
+			<p:inputText id="coordenator-name"/>
+			
+			<p:outputLabel value="Titulação:" for="role"/>
+			<p:selectOneMenu id="role">
+				<f:selectItem itemLabel="Especialista" itemValue="Especialista" />
+				<f:selectItem itemLabel="Mestre" itemValue="Mestre" />
+				<f:selectItem itemLabel="Doutor" itemValue="Doutor" />
+			</p:selectOneMenu>
+		</h:panelGrid>		
+	</p:panel>
+
+	<p/>
+	<p:separator />
+	<p/>
+	
+	<p:selectBooleanButton value="false" 
+						   offLabel="Não possui financiamento" 
+						   onLabel="Possui financiamento"
+						   offIcon="ui-icon-close" onIcon="ui-icon-check"/>
+	
+	<p/>
+	
+	<p:panel>
+		<h:panelGrid columns="4" cellspacing="10">
+			<p:outputLabel value="Natureza:" for="type-financing"/>
+		
+			<p:selectOneMenu id="type-financing">
+				<f:selectItem itemLabel="Auxílio" itemValue="Auxílio" />
+	
+				<f:selectItem itemLabel="Bolsa"	itemValue="Bolsa" />
+			</p:selectOneMenu>
+			
+			<p:outputLabel value="Valor:" for="value-financing"/>
+			<p:inputText id="value-financing"/>
+			
+		</h:panelGrid>
+	</p:panel>
+</html>

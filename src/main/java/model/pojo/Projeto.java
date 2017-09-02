@@ -5,23 +5,34 @@ import java.util.List;
 
 public class Projeto {
 	
-	private long codigo;// Código/Registro de publicação.
+	// Identificação
+	private long codigo;
 	private String titulo;
 	private String descricaoCurta;
-	private String resumo;
-	private Professor coordenador;
-	private List<Curso> cursosEnvolvidos;
-	private List<Habilidade> habilidades;	
-	private List<Aluno> alunos;
-	private String status;//Em andamento, Finalizado, Cancelado, etc.
 	private String dataInicio;
 	private String dataFim;
 	private String dataPublicacao;
+	
+	// Administração
+	private Professor coordenador;
 	private Financiamento financiamento;
+	
+	// Cursos e Habilidades
+	private List<Curso> cursosEnvolvidos;
+	private List<Habilidade> habilidades;
+	
+	// Alunos
+	private List<Aluno> alunos;
+	private String status;//Em andamento, Finalizado, Cancelado, etc.
+	
+	// Resumo
+	private String resumo;
 	
 	
 	
 	public Projeto() { }
+	
+	
 	
 	
 	public Projeto(long codigo, String titulo, String descricao, Professor coordenador, String dataPublicacao) {
