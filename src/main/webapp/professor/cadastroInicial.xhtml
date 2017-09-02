@@ -36,10 +36,10 @@
 					requiredMessage="Informe uma senha." weakLabel="Senha fraca"
 					goodLabel="Senha boa" strongLabel="Senha forte"
 					promptLabel="Escolha uma senha" style="width:350px"
-					placeholder="Senha" match="password2-prof"/>
+					placeholder="Senha" match="password2-prof"
+					validatorMessage="Senha não confirmada!"/>
 
-				<p:password id="password2-prof" required="true"
-					validatorMessage="Senha não confirmada!"
+				<p:password id="password2-prof" required="true"					
 					requiredMessage="Confirme a senha."
 					value="#{cadastrarProfessorController.professor.senha}" 
 					style="width:350px" placeholder="Confirme a senha"/>
