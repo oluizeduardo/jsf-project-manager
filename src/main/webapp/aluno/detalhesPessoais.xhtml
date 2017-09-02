@@ -15,18 +15,13 @@
 		<p:inputText id="name-field" value="#{cadastrarAlunoController.aluno.nome}"/>
 
 		<p:outputLabel value="RG:" for="rg-field" />
-		<p:inputMask id="rg-field"
-			value="#{cadastrarAlunoController.aluno.documentoRG}"
-			mask="99.999.999"/>
+		<p:inputMask id="rg-field" value="#{cadastrarAlunoController.aluno.documentoRG}" mask="99.999.999"/>
 
 		<p:outputLabel value="CPF:" for="cpf-field" />
-		<p:inputMask id="cpf-field"
-			value="#{cadastrarAlunoController.aluno.documentoCPF}"
-			mask="999.999.999-99"/>
+		<p:inputMask id="cpf-field" value="#{cadastrarAlunoController.aluno.documentoCPF}" mask="999.999.999-99"/>
 
-		<p:outputLabel value="Sexo:" for="gender-field" />
-		<p:selectOneMenu style="width:170px" id="gender-field"
-			value="#{cadastrarAlunoController.aluno.sexo}">
+		<p:outputLabel value="Sexo:" for="gender-field"/>
+		<p:selectOneMenu style="width:170px" id="gender-field" value="#{cadastrarAlunoController.aluno.sexo}">
 
 			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 				noSelectionOption="true" />

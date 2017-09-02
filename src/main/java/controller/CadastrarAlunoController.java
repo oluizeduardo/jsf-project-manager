@@ -21,9 +21,13 @@ public class CadastrarAlunoController {
 	private List<String> estadosBrasileiros = null;
 	private List<String> estadoCivil = null;
 	private List<String> idiomas = null;
+	private AlunoDAO alunoDAO = new AlunoDAO();
+	
+	
 	
 	public CadastrarAlunoController() {
 		this.aluno = new Aluno();
+		aluno = alunoDAO.buscaAlunoEspecifico("fabiano@univas.edu.br");
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
@@ -37,7 +41,7 @@ public class CadastrarAlunoController {
 	
 	public void salvarAluno(){
 		System.out.println("Salvando aluno: " + aluno);
-		AlunoDAO alunoDAO = new AlunoDAO();
+		alunoDAO = new AlunoDAO();
 		alunoDAO.salvarAluno(aluno);
 		
 		try {
@@ -47,6 +51,13 @@ public class CadastrarAlunoController {
 		catch (IOException e) { 
 			System.err.println(e.getMessage());
 		}
+	}
+	
+	public void atualizarAluno() {
+		System.out.println("Atualizando aluno:" + aluno);
+		alunoDAO = new AlunoDAO();
+		alunoDAO.atualizarAluno(aluno);
+		
 	}
 	
 	public void salvarHabilidade() {
