@@ -31,7 +31,6 @@ public class AlunoDAO {
 			+ "', matricula:'" + aluno.getMatricula()
 			+ "', senha:'" + aluno.getSenha()
 			+ "', sexo:'" + aluno.getSexo()
-			+ "', contato:'" + aluno.getContato()
 			+ "', dataNascimento:'" + aluno.getDataNascimento()
 			+ "', habilidades:'" + aluno.getHabilidades()
 			+ "', idiomas:'" + aluno.getIdiomas()
@@ -56,6 +55,11 @@ public class AlunoDAO {
 			}
 		}
 		session.close();
+	}
+	
+	//Método para atualizar o nó aluno no banco
+	public void atualizarAluno() {
+		
 	}
 
 }

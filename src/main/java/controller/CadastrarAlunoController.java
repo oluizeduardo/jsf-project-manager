@@ -39,7 +39,14 @@ public class CadastrarAlunoController {
 		System.out.println("Salvando aluno: " + aluno);
 		AlunoDAO alunoDAO = new AlunoDAO();
 		alunoDAO.salvarAluno(aluno);
-
+		
+		try {
+			
+			FacesContext.getCurrentInstance().getExternalContext().redirect("aluno/home.xhtml");
+		} 
+		catch (IOException e) { 
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	public void salvarHabilidade() {
