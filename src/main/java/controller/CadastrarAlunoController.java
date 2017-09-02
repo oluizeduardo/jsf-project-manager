@@ -27,7 +27,7 @@ public class CadastrarAlunoController {
 	
 	public CadastrarAlunoController() {
 		this.aluno = new Aluno();
-		aluno = alunoDAO.buscaAlunoEspecifico("fabiano@univas.edu.br");
+		aluno = alunoDAO.buscarAlunoEmail("fabiano@univas.edu.br");
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();

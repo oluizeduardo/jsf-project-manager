@@ -61,10 +61,11 @@ public class AlunoDAO {
 	
 	//Método para atualizar o nó aluno no banco
 	public void atualizarAluno(Aluno aluno) {
+		
 		Transaction tx = session.beginTransaction();
 
 		try {
-			System.out.println("CHEGOU AQUI!!");
+			System.out.println("CHEGOU AQUI ATUALIZAR!!");
 			System.out.println("aluno nome: " + aluno.getNome());
 			
 			tx.run("MATCH (a:Aluno) WHERE a.nome = '" + aluno.getNome() + 
@@ -104,7 +105,7 @@ public class AlunoDAO {
 	}
 	
 	//método para localizar aluno específico por usuário e senha
-	public Aluno buscaAlunoEspecifico(String email) {
+	public Aluno buscarAlunoEmail(String email) {
 		System.out.println("BUSCA POR ALUNO ESPECIFICO");
 		
 		Aluno alunoEspecifico = new Aluno();
