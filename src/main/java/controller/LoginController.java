@@ -5,7 +5,9 @@ import java.io.IOException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.swing.JOptionPane;
 
+import model.dao.LoginDAO;
 import model.pojo.Usuario;
 
 
@@ -17,39 +19,37 @@ public class LoginController {
 	 * Objeto do usuário que acessa o sistema.
 	 */
 	private Usuario usuario;
-	
-	
+	private LoginDAO loginDAO = new LoginDAO();
 	
 	public LoginController() {
 		this.usuario = new Usuario();
 	}
-	
-	
-	
 	
 	public void acessar(){
 		
 		String user = this.usuario.getContato().getEmail();
 		String password = this.usuario.getSenha();
 		
-		System.out.println("Acessando sistema... USUÁRIO: '"+user+"' SENHA: '"+password+"'");
+		 Usuario existeUsuario = loginDAO.verificarLogin(user, password);
 		
-		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("aluno/home.xhtml");
-		} catch (IOException e) { 
-			System.err.println(e.getMessage());
-		}
+		
+		//System.out.println("Acessando sistema... USUÁRIO: '"+user+"' SENHA: '"+password+"'");
+		
+//		if(existeUsuario) {
+//			System.out.println("AMEM DEUS");
+//			
+////			try {
+////				FacesContext.getCurrentInstance().getExternalContext().redirect("aluno/home.xhtml");
+////			} catch (IOException e) { 
+////				System.err.println(e.getMessage());
+////			}
+//		}
+//		else {
+//			System.out.println("FUDEU");
+//		}
 	}
-	
-	
-	
 	
 	public Usuario getUsuario(){
 		return usuario;
 	}
-	
-	
-	
-	
-	
 }

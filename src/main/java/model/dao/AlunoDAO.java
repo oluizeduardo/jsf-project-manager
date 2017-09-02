@@ -66,6 +66,7 @@ public class AlunoDAO {
 
 		try {
 			System.out.println("CHEGOU AQUI ATUALIZAR!!");
+			
 			System.out.println("aluno nome: " + aluno.getNome());
 			
 			tx.run("MATCH (a:Aluno) WHERE a.nome = '" + aluno.getNome() + 

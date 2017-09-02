@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import model.pojo.Professor;
+import model.dao.ProfessorDAO;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
 import model.helperView.ListaDeIdiomas;
@@ -16,13 +17,11 @@ import model.helperView.ListaDeIdiomas;
 @ViewScoped
 public class CadastrarProfessorController {
 
-	
 	private Professor professor = null;
 	private List<String> estadosBrasileiros = null;
 	private List<String> estadoCivil = null;
 	private List<String> idiomas = null;
-	
-	
+	private ProfessorDAO profDAO = new ProfessorDAO();
 	
 	public CadastrarProfessorController() {
 		this.professor = new Professor();
@@ -32,15 +31,11 @@ public class CadastrarProfessorController {
 	}
 	
 
-
-	
-	/**
-	 * Salva os dados de um novo objeto Professor.
-	 */
 	public void salvar(){
 		
-		System.out.println("Dados do novo professor salvos com sucesso! "
-						  + "Redirecionando para professor/home...");
+		System.out.println("Salvando professor: " + professor);
+		profDAO = new ProfessorDAO();
+		profDAO.salvarProfessor(professor);
 		
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("professor/home.xhtml");
@@ -48,9 +43,6 @@ public class CadastrarProfessorController {
 			System.err.println(e.getMessage());
 		}
 	}
-	
-	
-	
 	
 	public Professor getProfessor() {
 		return professor;
