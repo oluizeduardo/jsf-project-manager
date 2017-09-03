@@ -66,15 +66,17 @@ public class ListaDeCursos {
 		cursos.add(new Curso("Administração"));
 		cursos.add(new Curso("Biologia"));
 		cursos.add(new Curso("Contabilidade"));
+		cursos.add(new Curso("Educação Física"));
 		cursos.add(new Curso("Engenharia de Produção"));
 		cursos.add(new Curso("Farmácia"));
 		cursos.add(new Curso("Fisioterapia"));
 		cursos.add(new Curso("Gestão de Produção Industrial"));
 		cursos.add(new Curso("História"));
+		cursos.add(new Curso("Medicina"));		
+		cursos.add(new Curso("Pedagogia"));
 		cursos.add(new Curso("Psicologia"));
-		cursos.add(new Curso("Recursos Humanos"));
-		cursos.add(new Curso("Administração"));
-		cursos.add(new Curso("Administração"));
+		cursos.add(new Curso("Publicidade"));;
+		cursos.add(new Curso("Recursos Humanos"));				
 		cursos.add(new Curso("Sistemas de Informação"));		
 	}
 
@@ -89,15 +91,17 @@ public class ListaDeCursos {
 		strCursos.add("Administração");
 		strCursos.add("Biologia");
 		strCursos.add("Contabilidade");
+		strCursos.add("Educação Física");
 		strCursos.add("Engenharia de Produção");
 		strCursos.add("Farmácia");
 		strCursos.add("Fisioterapia");
 		strCursos.add("Gestão de Produção Industrial");
 		strCursos.add("História");
+		strCursos.add("Medicina");
+		strCursos.add("Pedagogia");
 		strCursos.add("Psicologia");
+		strCursos.add("Publicidade");
 		strCursos.add("Recursos Humanos");
-		strCursos.add("Administração");
-		strCursos.add("Administração");
 		strCursos.add("Sistemas de Informação");	
 	}
 	
