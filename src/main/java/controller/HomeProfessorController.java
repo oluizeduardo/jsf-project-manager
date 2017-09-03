@@ -2,10 +2,11 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+
+import model.pojo.Projeto;
 
 
 
@@ -13,8 +14,10 @@ import javax.faces.event.ActionEvent;
 @ViewScoped
 public class HomeProfessorController {
 		
+	private Projeto novoProjeto = new Projeto();
 	
 	private List<String> cursosAlvo = new ArrayList<String>();	
+	
 	
 	
 	public HomeProfessorController() {  }
@@ -42,6 +45,20 @@ public class HomeProfessorController {
 		this.cursosAlvo = cursosAlvo;
 	}
 	
+	/**
+	 * Retorna a instância de umm novo objeto Projeto a ser cadastrado.
+	 */
+	public Projeto getNovoProjeto() {
+		return novoProjeto;
+	}
+
+	/**
+	 * Define uma nova instância para o objeto Projeto. 
+	 */
+	public void setNovoProjeto(Projeto novoProjeto) {
+		this.novoProjeto = novoProjeto;
+	}
+
 
 
 	/**

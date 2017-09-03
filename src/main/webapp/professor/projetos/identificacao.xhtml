@@ -4,11 +4,13 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
+	
 	<h:panelGrid columns="4" cellspacing="20">
 
-		<p:outputLabel value="Código:" for="id-field" />
-		<p:inputText id="id-field" required="true" 
-					 requiredMessage="É necessário informar o código do novo projeto."/>
+		<p:outputLabel value="Natureza:" for="type-of-project"/>
+		<p:selectOneMenu id="type-of-project" value="#{homeProfessorController.novoProjeto.natureza}">
+			<f:selectItems value="#{homeProfessorController.novoProjeto.naturezas}"/>
+		</p:selectOneMenu>
 
 		<p:outputLabel value="Título:" for="title-field" />
 		<p:inputMask id="title-field" required="true" 
