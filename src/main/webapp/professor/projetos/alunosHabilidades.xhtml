@@ -5,5 +5,27 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
-
+	<h:panelGrid columns="4" cellspacing="20">
+		<p:outputLabel value="Número de Participantes:"
+			for="numeber-of-participants" />
+		<p:inputText id="numeber-of-participants"
+			style="width:70px; text-align:center" />
+	
+		<h:form>
+			<p:panel>
+			<h:panelGrid columns="3" cellspacing="10">
+				<p:outputLabel value="Cursos Alvo:" />
+				<p:selectOneMenu id="course-field" style="width:170px;">
+					<f:selectItem itemLabel="Selecione" itemValue="Selecione"
+						noSelectionOption="true" />
+					<f:selectItems value="#{listaDeCursos.strCursos}" />
+				</p:selectOneMenu>
+				<p:commandButton id="btnadd" 
+								 value="+" style="width:50px;" 
+								 actionListener="#{homeProfessorController.adicionaNovoCursoAlvo}" />
+				<p:tooltip id="toolTipTrack" for="btnadd" value="Adicionar" trackMouse="false" />
+			</h:panelGrid>
+		</p:panel>
+		</h:form>		
+	</h:panelGrid>
 </html>

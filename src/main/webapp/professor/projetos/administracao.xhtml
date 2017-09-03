@@ -10,10 +10,10 @@
    					   		   offIcon="ui-icon-close" onIcon="ui-icon-check"/>
 	<p/>
 	   			
-	<p:panel>
+	<p:panel >
 		<h:panelGrid columns="4" cellspacing="10">
-			<p:outputLabel value="Professor coordenador: " for="coordenator-name"/>
-			<p:inputText id="coordenator-name"/>
+			<p:outputLabel value="Professor coordenador:" for="coordenator-name"/>
+			<p:inputText id="coordenator-name" style="width:250px"/>
 			
 			<p:outputLabel value="Titulação:" for="role"/>
 			<p:selectOneMenu id="role">
@@ -28,10 +28,11 @@
 	<p:separator />
 	<p/>
 	
-	<p:selectBooleanButton value="false" 
+	<p:selectBooleanButton id="ehfinanciado"
+						   value="false" 
 						   offLabel="Não possui financiamento" 
 						   onLabel="Possui financiamento"
-						   offIcon="ui-icon-close" onIcon="ui-icon-check"/>
+						   offIcon="ui-icon-close" onIcon="ui-icon-check" />
 	
 	<p/>
 	

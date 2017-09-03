@@ -20,13 +20,18 @@ public class Projeto {
 	// Cursos e Habilidades
 	private List<Curso> cursosEnvolvidos;
 	private List<Habilidade> habilidades;
-	
-	// Alunos
-	private List<Aluno> alunos;
-	private String status;//Em andamento, Finalizado, Cancelado, etc.
+	private int numeroDeParticipantes;
 	
 	// Resumo
 	private String resumo;
+	
+	// Equipe
+	private List<Aluno> alunos;
+	
+	// Status do Projeto
+	private String status;//Em andamento, Finalizado, Cancelado, etc.
+	
+	
 	
 	
 	
@@ -172,7 +177,14 @@ public class Projeto {
 		this.financiamento = financiamento;
 	}
 
-	
+	public int getNumeroDeParticipantes() {
+		return numeroDeParticipantes;
+	}
+
+	public void setNumeroDeParticipantes(int numeroDeParticipantes) {
+		this.numeroDeParticipantes = numeroDeParticipantes;
+	}
+
 	
 	
 }
