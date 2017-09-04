@@ -8,7 +8,6 @@
 <h:head>
 	<title>Inicio</title>
 	<h:outputStylesheet library="css" name="default.css" />
-	<h:outputStylesheet library="css" name="index.css" />
 </h:head>
 
 <h:body>
@@ -31,18 +30,22 @@
 
 					<!-- PAINEL DA FOTO -->
 					<p:panel style="height:180px; width:205px;">
-						<h:graphicImage value="/resources/images/luiz.jpg" height="170"
+						<h:graphicImage value="/resources/images/user_default.png" height="170"
 							width="170" />
 					</p:panel>
 
-					<p:outputLabel value="Luiz Eduardo da Costa" styleClass="nome"
-						style="font-size:30px" />
+					<p:outputLabel value="Luiz Eduardo da Costa"
+								   style="font-size:25px;font-weight:bold;" />
 
-					<p:outputLabel value="Cachoeira de Minas/MG" style="line-height: 30px;"/>
-					<p:outputLabel value="costaeduardoluiz@gmail.com" />
+					<p:spacer height="10px"/>
+
+					<p:outputLabel value="Cachoeira de Minas/MG" 
+								   style="font-size:14px;"/>
+					<p:outputLabel value="costaeduardoluiz@gmail.com"
+								   style="font-size:14px;"/>
 					
 					<p:spacer height="60"/>
-					<p:outputLabel value="Progresso de atualização do perfil:" style="font-size:14"/>
+					<p:outputLabel value="Progresso de atualização do perfil:" style="font-size:13px"/>
 					<p:progressBar value="#{homeController.progressoDeAtualizacaoPerfil}" labelTemplate="{value}%" displayOnly="true"/>
 
 				</h:panelGrid>

@@ -5,7 +5,7 @@ import java.util.List;
 public class Professor extends Usuario {
 
 	private String dataAdmissao;
-	private String profissao;
+	private String cargo;
 	private String titulacao;
 	private List<Disciplina> disciplinas;
 	
@@ -29,13 +29,13 @@ public class Professor extends Usuario {
 	}
 
 
-	public String getProfissao() {
-		return profissao;
+	public String getCargo() {
+		return cargo;
 	}
 
 
-	public void setProfissao(String profissao) {
-		this.profissao = profissao;
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
 	}
 
 

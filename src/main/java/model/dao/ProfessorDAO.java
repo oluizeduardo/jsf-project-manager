@@ -26,7 +26,7 @@ private Session session = null;
 			+ "', estadoCivil:'" + professor.getEstadoCivil()
 			+ "', matricula:'" + professor.getMatricula()
 			+ "', nome:'" + professor.getNome()
-			+ "', profissao:'" + professor.getProfissao()
+			+ "', profissao:'" + professor.getCargo()
 			+ "', senha:'" + professor.getSenha()
 			+ "', sexo:'" + professor.getSexo()
 			+ "', titulacao:'" + professor.getTitulacao()

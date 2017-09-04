@@ -8,7 +8,6 @@
 <h:head>
 	<title>Inicio</title>
 	<h:outputStylesheet library="css" name="default.css" />
-	<h:outputStylesheet library="css" name="index.css" />
 </h:head>
 
 <h:body>
@@ -29,20 +28,23 @@
 				<h:panelGrid columns="1" width="200" style="margin:10px;">
 
 					<p:panel style="height:180px; width:205px;">
-						<h:graphicImage value="/resources/images/roberto.png" height="170"
+						<h:graphicImage value="/resources/images/user_default.png" height="170"
 							width="170" />
 					</p:panel>
 
-					<p:outputLabel value="Roberto Ribeiro Rocha" styleClass="nome"
-						style="font-size:30px" />
-
-					<p:outputLabel value="Cachoeira de Minas/MG"
-						styleClass="espaco-linhas" />
-					<p:outputLabel value="rrocharoberto@gmail.com" />
+					<p:outputLabel value="Fabiano Lomonaco Junior"
+						style="font-size:25px;font-weight: bold;" />
+					
+					<p:spacer height="10px"/>
+					
+					<p:outputLabel value="Santa Rita do Sapucaí/MG" 
+									style="font-size:13px;"/>
+					<p:outputLabel value="fabiano.lomonaco.junior@gmail.com"
+									style="font-size:13px"/>
 
 					<p:spacer height="60" />
 					<p:outputLabel value="Progresso de atualização do perfil:"
-						style="font-size:14" />
+						style="font-size:13px" />
 					<p:progressBar
 						value="#{homeProfessorController.progressoDeAtualizacaoPerfil}"
 						labelTemplate="{value}%" displayOnly="true" />
