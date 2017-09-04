@@ -52,7 +52,7 @@ public class HomeAlunoController {
 	 * Retorna o valor da porcentagem de campos preenchidos do perfil.
 	 */
 	public int getProgressoDeAtualizacaoPerfil(){
-		return 30;
+		return 10;
 	}
 
 

@@ -7,9 +7,10 @@
 
 	<h:panelGrid columns="4" cellspacing="20">
 		<p:outputLabel value="Número de Participantes:"
-			for="numeber-of-participants" />
-		<p:inputText id="numeber-of-participants"
-			style="width:70px; text-align:center" />
+					   for="numeber-of-participants" />
+			
+		<p:spinner id="numeber-of-participants" 
+				   min="0" size="3"/>
 		<p:tooltip id="tt-numeber-of-participants" 
 				   for="numeber-of-participants" 
 				   value="Total de alunos para este projeto."
