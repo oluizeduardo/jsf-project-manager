@@ -35,7 +35,6 @@ private Session session = null;
 			+ "', skype:'" + professor.getContato().getSkype()
 			+ "', telefone:'" + professor.getContato().getTelefone()
 			+ "', dataNascimento:'" + professor.getDataNascimento()
-			+ "', disciplinas:'" + professor.getDisciplinas()
 			+ "', bairro:'" + professor.getEndereco().getBairro()
 			+ "', cidade:'" + professor.getEndereco().getCidade()
 			+ "', estado:'" + professor.getEndereco().getEstado()

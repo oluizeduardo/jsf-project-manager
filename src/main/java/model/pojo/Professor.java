@@ -7,7 +7,7 @@ public class Professor extends Usuario {
 	private String dataAdmissao;
 	private String cargo;
 	private String titulacao;
-	private List<Disciplina> disciplinas;
+	private List<Projeto> projetos;
 	
 	
 	public Professor() { }
@@ -49,19 +49,21 @@ public class Professor extends Usuario {
 	}
 
 
-	public List<Disciplina> getDisciplinas() {
-		return disciplinas;
+	public List<Projeto> getProjetos() {
+		return projetos;
 	}
 
 
-	public void setDisciplinas(List<Disciplina> disciplinas) {
-		this.disciplinas = disciplinas;
+	public void setProjetos(List<Projeto> projetos) {
+		this.projetos = projetos;
 	}
 
-	
-	public void addDisciplina(Disciplina novaDisciplina){
-		novaDisciplina.setProfessorTitular(this);
-		getDisciplinas().add(novaDisciplina);	
+	/**
+	 * Adiciona um novo projeto àlista de projetos deste professor.
+	 */
+	public void addProjeto(Projeto novoProjeto){
+		novoProjeto.setCoordenador(this);
+		getProjetos().add(novoProjeto);	
 	}
 	
 	
