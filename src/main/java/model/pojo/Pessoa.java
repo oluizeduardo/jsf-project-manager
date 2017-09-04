@@ -1,6 +1,5 @@
 package model.pojo;
 
-import java.util.Date;
 import java.util.List;
 
 public class Pessoa {
@@ -10,7 +9,7 @@ public class Pessoa {
 	private String documentoCPF;
 	private String sexo;
 	private String estadoCivil;
-	private Date dataNascimento;
+	private String dataNascimento;
 	private long matricula;	
 	private Endereco endereco = new Endereco();
 	private Contato contato = new Contato();
@@ -52,10 +51,10 @@ public class Pessoa {
 	public void setEstadoCivil(String estadoCivil) {
 		this.estadoCivil = estadoCivil;
 	}
-	public Date getDataNascimento() {
+	public String getDataNascimento() {
 		return dataNascimento;
 	}
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	public long getMatricula() {
