@@ -1,6 +1,5 @@
 package model.pojo;
 
-import java.util.List;
 
 public class Pessoa {
 	
@@ -13,7 +12,7 @@ public class Pessoa {
 	private long matricula;	
 	private Endereco endereco = new Endereco();
 	private Contato contato = new Contato();
-	private List<Idioma> idiomas;
+	private String senha;
 	
 	
 	
@@ -75,11 +74,12 @@ public class Pessoa {
 	public void setContato(Contato contato) {
 		this.contato = contato;
 	}
-	public List<Idioma> getIdiomas() {
-		return idiomas;
+	public String getSenha() {
+		return senha;
 	}
-	public void setIdiomas(List<Idioma> idiomas) {
-		this.idiomas = idiomas;
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }

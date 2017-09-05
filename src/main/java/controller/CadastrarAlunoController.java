@@ -6,7 +6,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.event.FlowEvent;
 import model.pojo.Aluno;
 import model.dao.AlunoDAO;
 import model.helperView.ListaDeEstadoCivil;
@@ -32,15 +31,11 @@ public class CadastrarAlunoController {
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
 	}
-	
 
-	public String onFlowProcess(FlowEvent event) {
-		return event.getNewStep();
-	}
 
 	
 	public void salvarAluno(){
-		System.out.println("Salvando aluno: " + aluno);
+		System.out.println("Salvando aluno: " + aluno.getNome());
 		alunoDAO = new AlunoDAO();
 		alunoDAO.salvarAluno(aluno);
 		

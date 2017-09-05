@@ -5,29 +5,34 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import model.dao.LoginDAO;
-import model.pojo.Usuario;
+import model.pojo.Pessoa;
+
 
 @ManagedBean(name = "loginController")
 @ViewScoped
 public class LoginController {
 
-	private Usuario usuario;
-	private LoginDAO loginDAO = new LoginDAO();
+	private Pessoa usuario;
+	private LoginDAO loginDAO;
 
+	
+	
 	public LoginController() {
-		this.usuario = new Usuario();
+		this.usuario = new Pessoa();
+		this.loginDAO = new LoginDAO();
 	}
 
+	
+	
 	public void acessar() {
 
-		String user = this.usuario.getContato().getEmail();
+		String userName = this.usuario.getContato().getEmail();
 		String password = this.usuario.getSenha();
 
-		boolean existeUsuario = loginDAO.verificarLogin(user, password);
-
+		boolean existeUsuario = loginDAO.verificarLogin(userName, password);
+		
 		if (existeUsuario) {
 			System.out.println("Logado com sucesso!");
-
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("aluno/home.xhtml");
 			} catch (IOException e) {
@@ -38,7 +43,9 @@ public class LoginController {
 		}
 	}
 
-	public Usuario getUsuario() {
+	
+	
+	public Pessoa getUsuario() {
 		return usuario;
 	}
 }

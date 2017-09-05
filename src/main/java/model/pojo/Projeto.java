@@ -28,7 +28,7 @@ public class Projeto {
 	private Financiamento financiamento;
 	
 	// Cursos e Habilidades
-	private List<Curso> cursosEnvolvidos;
+	private List<String> cursosEnvolvidos;
 	private List<Habilidade> habilidades;
 	private int numeroDeParticipantes;
 	
@@ -134,12 +134,12 @@ public class Projeto {
 	}
 
 
-	public List<Curso> getCursosEnvolvidos() {
+	public List<String> getCursosEnvolvidos() {
 		return cursosEnvolvidos;
 	}
 
 
-	public void setCursosEnvolvidos(List<Curso> cursosEnvolvidos) {
+	public void setCursosEnvolvidos(List<String> cursosEnvolvidos) {
 		this.cursosEnvolvidos = cursosEnvolvidos;
 	}
 

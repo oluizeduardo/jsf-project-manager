@@ -3,20 +3,46 @@ package model.pojo;
 import java.util.List;
 
 
-public class Aluno extends Usuario {
+public class Aluno extends Pessoa {
 
 	private String curso;	
 	private List<Habilidade> habilidades;
+	private List<Idioma> idiomas;
+	private List<Projeto> projetos;
 	private String dataMatricula;
+	
 	
 	public Aluno() { }
 
+	
 	public Aluno(long matricula, String curso, String nome) {
 		super.setMatricula(matricula);
 		this.curso = curso;
 		super.setNome(nome);
 	}
 	
+	
+	
+	
+	
+	public List<Projeto> getProjetos() {
+		return projetos;
+	}
+
+	public void setProjetos(List<Projeto> projetos) {
+		this.projetos = projetos;
+	}
+
+	public List<Idioma> getIdiomas() {
+		return idiomas;
+	}
+
+
+	public void setIdiomas(List<Idioma> idiomas) {
+		this.idiomas = idiomas;
+	}
+
+
 	public String getCurso() {
 		return curso;
 	}

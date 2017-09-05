@@ -2,11 +2,9 @@ package model.helperView;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import model.pojo.Curso;
 
 @ManagedBean(name = "listaDeCursos")
 @ViewScoped
@@ -14,95 +12,53 @@ public class ListaDeCursos {
 
 	
 	/** Instância da lista que armazena todos os cursos da UNIVÁS. */
-	private List<Curso> cursos;
-	
-	/** Lista dos cursos da UNIVÁS em tipo String (somente o nome do curso). */
-	private List<String> strCursos;
+	private List<String> cursos;
 	
 	
 	public ListaDeCursos() {
-		montaListaStringDeCursos();
+		montaListaDeCursos();
 	}
 	
 	
 	
-	/**
-	 * Retorna uma lista de objetos String contendo os
-	 * nomes de todos os cursos da UNIVÁS.
-	 */
-	public List<String> getStrCursos(){
-		return strCursos;
-	}
 	
 	/**
-	 * Define uma nova lista de objetos String com os nomes dos cursos da UNIVÁS.
-	 */
-	public void setStrCursos(List<String> cursos) {
-		this.strCursos = cursos;
-	}
-	
-	/**
-	 * Retorna uma lista de objetos Curso.
+	 * Retorna uma lista de objetos String.
 	 * Lista de todos os cursos da UNIVÁS.
 	 */
-	public List<Curso> getCursos(){
+	public List<String> getCursos(){
 		return cursos;
 	}
 	
 	/**
-	 * Define uma nova lista de objetos Curso.
+	 * Define uma nova lista de cursos.
 	 */
-	public void setCursos(List<Curso> cursos) {
+	public void setCursos(List<String> cursos) {
 		this.cursos = cursos;
 	}
 	
 	
 	/**
-	 * Preenche uma lista contendo todos os cursos da UNIVÁS.
-	 */
-	private void montaListaDeCursos(){
-		this.cursos = new ArrayList<Curso>();
-		
-		cursos.add(new Curso("Administração"));
-		cursos.add(new Curso("Biologia"));
-		cursos.add(new Curso("Contabilidade"));
-		cursos.add(new Curso("Educação Física"));
-		cursos.add(new Curso("Engenharia de Produção"));
-		cursos.add(new Curso("Farmácia"));
-		cursos.add(new Curso("Fisioterapia"));
-		cursos.add(new Curso("Gestão de Produção Industrial"));
-		cursos.add(new Curso("História"));
-		cursos.add(new Curso("Medicina"));		
-		cursos.add(new Curso("Pedagogia"));
-		cursos.add(new Curso("Psicologia"));
-		cursos.add(new Curso("Publicidade"));;
-		cursos.add(new Curso("Recursos Humanos"));				
-		cursos.add(new Curso("Sistemas de Informação"));		
-	}
-
-	
-	
-	/**
 	 * Preenche uma lista de objetos String contendo todos os cursos da UNIVÁS.
 	 */
-	private void montaListaStringDeCursos(){
-		this.strCursos = new ArrayList<String>();
+	private void montaListaDeCursos(){
+		this.cursos = new ArrayList<String>();
 		
-		strCursos.add("Administração");
-		strCursos.add("Biologia");
-		strCursos.add("Contabilidade");
-		strCursos.add("Educação Física");
-		strCursos.add("Engenharia de Produção");
-		strCursos.add("Farmácia");
-		strCursos.add("Fisioterapia");
-		strCursos.add("Gestão de Produção Industrial");
-		strCursos.add("História");
-		strCursos.add("Medicina");
-		strCursos.add("Pedagogia");
-		strCursos.add("Psicologia");
-		strCursos.add("Publicidade");
-		strCursos.add("Recursos Humanos");
-		strCursos.add("Sistemas de Informação");	
+		cursos.add("Administração");
+		cursos.add("Biologia");
+		cursos.add("Contabilidade");
+		cursos.add("Educação Física");
+		cursos.add("Engenharia de Produção");
+		cursos.add("Farmácia");
+		cursos.add("Fisioterapia");
+		cursos.add("Gestão de Produção Industrial");
+		cursos.add("História");
+		cursos.add("Medicina");		
+		cursos.add("Pedagogia");
+		cursos.add("Psicologia");
+		cursos.add("Publicidade");
+		cursos.add("Recursos Humanos");				
+		cursos.add("Sistemas de Informação");		
 	}
-	
+
 }
