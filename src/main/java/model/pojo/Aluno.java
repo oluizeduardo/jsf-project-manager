@@ -13,14 +13,11 @@ public class Aluno extends Pessoa {
 	
 	
 	public Aluno() { }
-
 	
-	public Aluno(long matricula, String curso, String nome) {
-		super.setMatricula(matricula);
-		this.curso = curso;
-		super.setNome(nome);
-	}
 	
+	public Aluno(String nome, String email, String senha) { 
+		super(nome, email, senha);
+	}	
 	
 	
 	

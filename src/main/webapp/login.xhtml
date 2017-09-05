@@ -59,41 +59,12 @@
 	</h:form>
 
 
-
-
-
-	<!-- SELECIONAR O TIPO DE USUÁRIO -->
+	<!-- FORMULÁRIO DE CADASTRO DO NOVO USUÁRIO -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-			  header="Quem é você?" widgetVar="newUserDialog" 
-			  resizable="false" closeOnEscape="true">
-
-		<p:commandButton id="newStudent" type="button" value="Sou Aluno"
-			style="width:300px; height:50px;" icon="ui-icon-person"
-			onclick="PF('newStudentDialog').show()" />
-
-		<p />
-
-		<p:commandButton id="newProfessor" type="button" value="Sou Professor"
-			style="width:300px; height:50px;" icon="ui-icon-person"
-			onclick="PF('newProfessorDialog').show()" />
-
-	</p:dialog>
-
-
-	<!-- CADASTRO DE ALUNO -->
-	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-		header="Novo Aluno" widgetVar="newStudentDialog" 
+		header="Novo Usuário" widgetVar="newUserDialog" 
 		resizable="false" closeOnEscape="true">
 
-		<ui:include src="aluno/cadastroInicial.xhtml" />
-	</p:dialog>
-
-	<!-- CADASTRO DE PROFESSOR -->
-	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-		header="Novo Professor" widgetVar="newProfessorDialog"
-		resizable="false" closeOnEscape="true">
-
-		<ui:include src="professor/cadastroInicial.xhtml" />
+		<ui:include src="common/cadastroInicial.xhtml" />
 	</p:dialog>
 
 </h:body>

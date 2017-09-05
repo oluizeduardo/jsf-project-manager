@@ -5,7 +5,7 @@
 
 <h:body>
 
-	<h:form id="initial-registration-student">
+	<h:form id="initial-registration">
 
 		<p:panel style="width:450px">
 
@@ -21,14 +21,25 @@
 
 			<h:panelGrid columns="1" cellspacing="20">
 				<p:inputText id="name-field" required="true"
-					value="#{cadastrarAlunoController.aluno.nome}"
+					value="#{novoUsuarioController.novoUsuario.nome}"
 					requiredMessage="Informe o nome." style="width:350px"
 					placeholder="Nome completo" />
 
 				<p:inputText id="email-field" required="true" type="email"
-					value="#{cadastrarAlunoController.aluno.contato.email}"
+					value="#{novoUsuarioController.novoUsuario.contato.email}"
 					requiredMessage="Informe um email." style="width:350px"
 					placeholder="Email" />
+
+				<p:selectOneMenu id="perfil"
+								 style="width:320px" 
+								 value="#{novoUsuarioController.tipoDePerfil}"
+								 required="true"
+								 requiredMessage="Informe o seu perfil.">
+					<f:selectItem itemLabel="Perfil" itemValue="Perfil"
+								  noSelectionOption="true"/>
+					<f:selectItem itemLabel="Aluno" itemValue="Aluno" />
+					<f:selectItem itemLabel="Professor" itemValue="Professor" />
+				</p:selectOneMenu>
 
 				<p:password id="password1-field" feedback="true" required="true"
 					requiredMessage="Informe uma senha." weakLabel="Senha fraca"
@@ -39,7 +50,7 @@
 
 				<p:password id="password2-field" required="true"					
 					requiredMessage="Confirme a senha."
-					value="#{cadastrarAlunoController.aluno.senha}" style="width:350px"
+					value="#{novoUsuarioController.novoUsuario.senha}" style="width:350px"
 					placeholder="Confirme a senha" />
 			</h:panelGrid>
 
@@ -47,12 +58,11 @@
 			<div align="center">
 				<h:panelGrid columns="2" cellspacing="10">
 					<p:commandButton type="reset" value="Cancelar" icon="ui-icon-close"
-						onclick="PF('newStudentDialog').hide()" />
+						onclick="PF('newUserDialog').hide()" />
 
 					<p:commandButton value="Finalizar"
 						icon="ui-icon-check" update="msg"
-						actionListener="#{cadastrarAlunoController.salvarAluno}" />
-
+						actionListener="#{novoUsuarioController.salvarNovoUsuario}"/>
 				</h:panelGrid>
 			</div>
 

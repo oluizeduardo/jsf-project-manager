@@ -13,9 +13,14 @@ public class Professor extends Pessoa {
 	public Professor() { }
 
 	
-	public Professor(String nome, String titulacao) { 
-		super.setNome(nome);
-		this.titulacao = titulacao;
+	public Professor(String nome, String email, String senha) { 
+		super(nome, email, senha);
+	}
+	
+	
+	public Professor(String nome, String titulacao){
+		setNome(nome);
+		setTitulacao(titulacao);
 	}
 	
 

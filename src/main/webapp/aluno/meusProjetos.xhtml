@@ -49,7 +49,7 @@ body {
 
 				<p:column headerText="Natureza" filterBy="#{projeto.natureza}"
 					sortBy="#{projeto.natureza}" filterMatchMode="startsWith"
-					style="width:100px;text-align: center">
+					style="text-align: center">
 					<h:outputText value="#{projeto.natureza}" />
 				</p:column>
 
@@ -67,7 +67,7 @@ body {
 				<p:column headerText="Publicado em"
 					filterBy="#{projeto.dataPublicacao}"
 					sortBy="#{projeto.dataPublicacao}" filterMatchMode="startsWith"
-					style="text-align: center">
+					style="width:100px; text-align: center">
 					<h:outputText value="#{projeto.dataPublicacao}" />
 				</p:column>
 

@@ -16,7 +16,14 @@ public class Pessoa {
 	
 	
 	
-	public Pessoa() {}
+	public Pessoa() { }
+	
+	
+	public Pessoa(String nome, String email, String senha){
+		this.nome = nome;
+		this.contato.setEmail(email);
+		this.senha = senha;
+	}
 	
 	
 	
