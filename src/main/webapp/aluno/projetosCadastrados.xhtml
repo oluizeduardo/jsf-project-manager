@@ -44,10 +44,10 @@ body {
 					</p:outputPanel>
 				</f:facet>
 
-				<p:column headerText="Código" filterBy="#{projeto.codigo}"
-					sortBy="#{projeto.codigo}" filterMatchMode="startsWith"
-					style="width:100px;text-align: center">
-					<h:outputText value="#{projeto.codigo}" />
+				<p:column headerText="Natureza" filterBy="#{projeto.natureza}"
+					sortBy="#{projeto.natureza}" filterMatchMode="startsWith"
+					style="text-align: center">
+					<h:outputText value="#{projeto.natureza}" />
 				</p:column>
 
 				<p:column headerText="Título" filterBy="#{projeto.titulo}"
@@ -61,10 +61,10 @@ body {
 				</p:column>
 
 				<p:column headerText="Publicado em"
-						  filterBy="#{projeto.dataPublicacao}"
-						  sortBy="#{projeto.dataPublicacao}" 
-						  filterMatchMode="startsWith"
-						  style="text-align: center">
+					filterBy="#{projeto.dataPublicacao}"
+					sortBy="#{projeto.dataPublicacao}" 
+					filterMatchMode="startsWith"
+					style="text-align:center; width:150px">
 					<h:outputText value="#{projeto.dataPublicacao}" />
 				</p:column>
 

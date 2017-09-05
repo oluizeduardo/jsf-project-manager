@@ -13,10 +13,11 @@ public class ConnectionNeo4j {
 	public ConnectionNeo4j() {
 		criarDriver();
 		criarSession();
+		System.out.println("Iniciada conexao com o banco de dados.");
 	}
 	
 	public void criarDriver() {
-
+		
 		try {
 			this.driver = GraphDatabase.driver("bolt://localhost", AuthTokens.basic("neo4j", "123456"));
 		} catch (Exception e) {
