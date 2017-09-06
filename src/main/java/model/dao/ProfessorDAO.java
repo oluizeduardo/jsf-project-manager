@@ -45,7 +45,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 				+ "', sexo:'" + professor.getSexo()
 				+ "', titulacao:'" + professor.getTitulacao()
 				+ "', email:'" + professor.getContato().getEmail()
-				+ "', facebook:'" + professor.getContato().getFacebook()
+				+ "', site:'" + professor.getContato().getSite()
 				+ "', skype:'" + professor.getContato().getSkype()
 				+ "', telefone:'" + professor.getContato().getTelefone()
 				+ "', dataNascimento:'" + professor.getDataNascimento()

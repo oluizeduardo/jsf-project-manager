@@ -33,10 +33,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		+ "', senha:'" + aluno.getSenha()
 		+ "', sexo:'" + aluno.getSexo()
 		+ "', dataNascimento:'" + aluno.getDataNascimento()
-		+ "', habilidades:'" + aluno.getHabilidades()
-		+ "', idiomas:'" + aluno.getIdiomas()
 		+ "', email:'" + aluno.getContato().getEmail()
-		+ "', facebook:'" + aluno.getContato().getFacebook()
+		+ "', facebook:'" + aluno.getContato().getSite()
 		+ "', skype:'" + aluno.getContato().getSkype()
 		+ "', telefone:'" + aluno.getContato().getTelefone()
 		+ "', bairro:'" + aluno.getEndereco().getBairro()
@@ -101,10 +99,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "a.senha = '" + aluno.getSenha() + "', "
 				+ "a.sexo = '" + aluno.getSexo() + "', "
 				+ "a.dataNascimento = '" + aluno.getDataNascimento() + "', "
-				+ "a.habilidades = '" + aluno.getHabilidades() + "', " 
-				+ "a.idiomas = '" + aluno.getIdiomas() + "', "
 				+ "a.email = '" + aluno.getContato().getEmail() + "', "
-				+ "a.facebook = '" + aluno.getContato().getFacebook() + "', "
+				+ "a.site = '" + aluno.getContato().getSite() + "', "
 				+ "a.skype = '" + aluno.getContato().getSkype() + "', "
 				+ "a.telefone = '" + aluno.getContato().getTelefone() + "', "
 				+ "a.bairro = '" + aluno.getEndereco().getBairro() + "', "

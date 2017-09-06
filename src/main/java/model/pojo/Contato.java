@@ -4,7 +4,7 @@ public class Contato {
 
 	private String email;
 	private String skype;
-	private String facebook;
+	private String site;
 	private String telefone;
 	
 	public Contato() { }
@@ -25,12 +25,12 @@ public class Contato {
 		this.skype = skype;
 	}
 
-	public String getFacebook() {
-		return facebook;
+	public String getSite() {
+		return site;
 	}
 
-	public void setFacebook(String facebook) {
-		this.facebook = facebook;
+	public void setSite(String site) {
+		this.site = site;
 	}
 
 	public String getTelefone() {

@@ -6,9 +6,11 @@ import javax.faces.bean.ManagedBean;
 public class BarraDeMenuController {
 
 	
-	
-	public void viewEditarPerfil(){
-		System.out.println("Tela de edição de perfil");
+	/**
+	 * Este método executa o logout do usuário no sistema.
+	 */
+	public void logout(){
+		
 	}
 	
 }

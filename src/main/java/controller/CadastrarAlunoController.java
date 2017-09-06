@@ -34,8 +34,7 @@ public class CadastrarAlunoController {
 
 
 	
-	public void salvarAluno(){
-		
+	public void salvarAluno(){		
 		alunoDAO = new AlunoDAO();
 		alunoDAO.salvar(aluno);
 		
@@ -53,23 +52,20 @@ public class CadastrarAlunoController {
 	public void atualizarAluno() {
 		System.out.println("Atualizando aluno:" + aluno);
 		alunoDAO = new AlunoDAO();
-		alunoDAO.atualizar(aluno);
-		
+		alunoDAO.atualizar(aluno);		
 	}
 	
-	public void salvarHabilidade() {
-		
-	}
 	
 	public ArrayList<Aluno> buscarAluno(){
 		ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 		return alunos;
 	}
 	
+	
+	
 	public Aluno getAluno() {
 		return aluno;
 	}
-
 
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
