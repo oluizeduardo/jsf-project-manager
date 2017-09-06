@@ -6,6 +6,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import model.dao.LoginDAO;
 import model.pojo.Pessoa;
+import view.Mensagem;
 
 
 @ManagedBean(name = "loginController")
@@ -29,7 +30,7 @@ public class LoginController {
 		String userName = this.usuario.getContato().getEmail();
 		String password = this.usuario.getSenha();
 
-		boolean existeUsuario = loginDAO.verificarLogin(userName, password);
+		boolean existeUsuario = loginDAO.validaLogin(userName, password);
 		
 		if (existeUsuario) {
 			System.out.println("Logado com sucesso!");
@@ -39,7 +40,7 @@ public class LoginController {
 				System.err.println(e.getMessage());
 			}
 		} else {
-			System.out.println("Não logou!");
+			Mensagem.ExibeMensagemAtencao("Nenhum usuário foi encontrado com esses dados.");
 		}
 	}
 

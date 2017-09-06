@@ -1,28 +1,24 @@
 package model.dao;
 
 import org.neo4j.driver.v1.Record;
-import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
-import model.dao.databaseconfig.ConnectionNeo4j;
 
-public class LoginDAO {
 
-	private Session session = null;
 
-	public LoginDAO() {
-		ConnectionNeo4j neo4j = new ConnectionNeo4j();
-		this.session = neo4j.getSession();
-	}
+public class LoginDAO extends DAOBase {
+	
 
-	public boolean verificarLogin(String user, String password) {
+	public LoginDAO() { }
+	
+	
+	public boolean validaLogin(String user, String password) {
 
-		System.out.println("VARIAVEIS QUE VIERAM DO PARAMETRO");
-		System.out.println(user);
-		System.out.println(password);
-		System.out.println("realizando busca!!");
-
-		StatementResult resultado = session.run("MATCH (n) WHERE n.email= '" + user + "'and n.senha= '" + password
-				+ "' RETURN n.email as email, n.senha as senha");
+		super.iniciaSessaoNeo4J();
+		
+		String script = "MATCH (n) WHERE n.email= '" + user + "'and n.senha= '" + password
+						+ "' RETURN n.email as email, n.senha as senha";
+		
+		StatementResult resultado = session.run(script);
 
 		String emailAux = "";
 		String senhaAux = "";
@@ -31,16 +27,13 @@ public class LoginDAO {
 			Record registro = resultado.next();
 			emailAux = registro.get("email").asString();
 			senhaAux = registro.get("senha").asString();
+			
+			if (emailAux.equals(user) && senhaAux.equals(password)) {
+				return true;
+			}
 		}
-
 		session.close();
-
-		if (emailAux.equals(user) && senhaAux.equals(password)) {
-			return true;
-		}
-
-		else {
-			return false;
-		}
+		
+		return false;
 	}
 }

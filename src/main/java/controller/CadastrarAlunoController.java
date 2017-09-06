@@ -26,7 +26,7 @@ public class CadastrarAlunoController {
 	
 	public CadastrarAlunoController() {
 		this.aluno = new Aluno();
-		aluno = alunoDAO.buscarAlunoEmail("fabiano@univas.edu.br");
+		aluno = alunoDAO.buscarAlunoPorEmail("fabiano@univas.edu.br");
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
@@ -35,9 +35,9 @@ public class CadastrarAlunoController {
 
 	
 	public void salvarAluno(){
-		System.out.println("Salvando aluno: " + aluno.getNome());
+		
 		alunoDAO = new AlunoDAO();
-		alunoDAO.salvarAluno(aluno);
+		alunoDAO.salvar(aluno);
 		
 		try {
 			
@@ -48,10 +48,12 @@ public class CadastrarAlunoController {
 		}
 	}
 	
+	
+	
 	public void atualizarAluno() {
 		System.out.println("Atualizando aluno:" + aluno);
 		alunoDAO = new AlunoDAO();
-		alunoDAO.atualizarAluno(aluno);
+		alunoDAO.atualizar(aluno);
 		
 	}
 	

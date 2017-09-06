@@ -32,10 +32,8 @@ public class CadastrarProfessorController {
 	
 
 	public void salvar(){
-		
-		System.out.println("Salvando professor: " + professor);
 		profDAO = new ProfessorDAO();
-		profDAO.salvarProfessor(professor);
+		profDAO.salvar(professor);
 		
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("professor/home.xhtml");

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import model.dao.AlunoDAO;
@@ -43,21 +44,19 @@ public class NovoUsuarioController {
 		String email = novoUsuario.getContato().getEmail();
 		String senha = novoUsuario.getSenha();
 		
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		
 		if(tipoDePerfil.equals(PERFIL_ALUNO)){
-			System.out.println("Cadastro de um novo Aluno");
-			new AlunoDAO().salvarAluno(new Aluno(nome, email, senha));
+			new AlunoDAO().salvar(new Aluno(nome, email, senha));
 			
-			try {
-				
-				FacesContext.getCurrentInstance().getExternalContext().redirect("aluno/home.xhtml");
+			try {				
+				externalContext.redirect("aluno/home.xhtml");
 			} 
 			catch (IOException e) {  }			
 		}else{
-			System.out.println("Cadastro de um novo Professor");
-			new ProfessorDAO().salvarProfessor(new Professor(nome, email, senha));
-			try {
-				
-				FacesContext.getCurrentInstance().getExternalContext().redirect("professor/home.xhtml");
+			new ProfessorDAO().salvar(new Professor(nome, email, senha));
+			try {				
+				externalContext.redirect("professor/home.xhtml");
 			} 
 			catch (IOException e) {  }
 		}

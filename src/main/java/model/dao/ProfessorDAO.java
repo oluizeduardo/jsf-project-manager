@@ -1,57 +1,104 @@
 package model.dao;
-import org.neo4j.driver.v1.Session;
-import org.neo4j.driver.v1.Transaction;
+
+import java.util.List;
 import org.neo4j.driver.v1.exceptions.ClientException;
-import model.dao.databaseconfig.ConnectionNeo4j;
 import model.pojo.Professor;
 
-public class ProfessorDAO {
+
+
+public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor> {
 	
-private Session session = null;
 	
-	public ProfessorDAO() {
-		ConnectionNeo4j neo4j = new ConnectionNeo4j();
-		this.session = neo4j.getSession();
+	
+	public ProfessorDAO() { }
+	
+	
+	/**
+	 * Atualiza no banco de dados o registro de um Professor específico.
+	 */
+	public void atualizar(Professor obj) {
+		super.iniciaSessaoNeo4J();
+		// TODO Auto-generated method stub
 	}
+
 	
-	//Método para salvar (criar um nó) do tipo professor no banco
-	public void salvarProfessor (Professor professor) {
-		System.out.println("Objeto aluno:" + professor);
-		Transaction tx = session.beginTransaction();
+	/**
+	 * Salva no banco de dados os dados de um Professor.
+	 * 
+	 * Retorna o status do cadastro no banco.
+	 */
+	public boolean salvar(Professor professor) {
+		
+		super.iniciaSessaoNeo4J();
+		
+		transaction = session.beginTransaction();
+		boolean status = false;//Status do cadastro.
+		
+		String script = "CREATE (pr:Professor {nome: '" + professor.getDataAdmissao() 
+				+ "', documentoCPF:'" + professor.getDocumentoCPF() 
+				+ "', documentoRG:'" + professor.getDocumentoRG()
+				+ "', estadoCivil:'" + professor.getEstadoCivil()
+				+ "', matricula:'" + professor.getMatricula()
+				+ "', nome:'" + professor.getNome()
+				+ "', profissao:'" + professor.getCargo()
+				+ "', senha:'" + professor.getSenha()
+				+ "', sexo:'" + professor.getSexo()
+				+ "', titulacao:'" + professor.getTitulacao()
+				+ "', email:'" + professor.getContato().getEmail()
+				+ "', facebook:'" + professor.getContato().getFacebook()
+				+ "', skype:'" + professor.getContato().getSkype()
+				+ "', telefone:'" + professor.getContato().getTelefone()
+				+ "', dataNascimento:'" + professor.getDataNascimento()
+				+ "', bairro:'" + professor.getEndereco().getBairro()
+				+ "', cidade:'" + professor.getEndereco().getCidade()
+				+ "', estado:'" + professor.getEndereco().getEstado()
+				+ "', rua:'" + professor.getEndereco().getRua() + "'})";
 		
 		try{
-			tx.run("CREATE (pr:Professor {nome: '" + professor.getDataAdmissao() 
-			+ "', documentoCPF:'" + professor.getDocumentoCPF() 
-			+ "', documentoRG:'" + professor.getDocumentoRG()
-			+ "', estadoCivil:'" + professor.getEstadoCivil()
-			+ "', matricula:'" + professor.getMatricula()
-			+ "', nome:'" + professor.getNome()
-			+ "', profissao:'" + professor.getCargo()
-			+ "', senha:'" + professor.getSenha()
-			+ "', sexo:'" + professor.getSexo()
-			+ "', titulacao:'" + professor.getTitulacao()
-			+ "', email:'" + professor.getContato().getEmail()
-			+ "', facebook:'" + professor.getContato().getFacebook()
-			+ "', skype:'" + professor.getContato().getSkype()
-			+ "', telefone:'" + professor.getContato().getTelefone()
-			+ "', dataNascimento:'" + professor.getDataNascimento()
-			+ "', bairro:'" + professor.getEndereco().getBairro()
-			+ "', cidade:'" + professor.getEndereco().getCidade()
-			+ "', estado:'" + professor.getEndereco().getEstado()
-			+ "', rua:'" + professor.getEndereco().getRua() + "'})");
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			status = true;
+		}catch(Exception ex){
+			status = false;
 			
-			tx.success();
-		}
-		finally {
+		}finally {
 			try {
-				tx.close();
+				transaction.close();
 			} 
 			catch (ClientException excep) {
-				tx.failure();
-				tx.close();
+				transaction.failure();
+				transaction.close();
 			}
 		}
 		session.close();
+		
+		return status;
+	}
+
+	
+	
+	/**
+	 * Realiza uma busca completa por todos os professores cadastrados 
+	 * no banco de dados.
+	 * 
+	 * Retorna uma lista de objetos Professor.
+	 */
+	public List<Professor> listar() {
+		super.iniciaSessaoNeo4J();
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	/**
+	 * Exclui do banco de dados o registro de um professor expecífico.
+	 * 
+	 * Esse método é necessário caso o professor queira deletar sua conta no sistema.
+	 */
+	public void excluir(Professor obj) {
+		super.iniciaSessaoNeo4J();
+		// TODO Auto-generated method stub
 	}
 
 }
