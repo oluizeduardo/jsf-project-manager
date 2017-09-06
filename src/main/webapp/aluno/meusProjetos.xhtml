@@ -47,15 +47,15 @@ body {
 					</p:outputPanel>
 				</f:facet>
 
+				<p:column headerText="Título" filterBy="#{projeto.titulo}"
+					sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
+					<h:outputText value="#{projeto.titulo}" />
+				</p:column>
+				
 				<p:column headerText="Natureza" filterBy="#{projeto.natureza}"
 					sortBy="#{projeto.natureza}" filterMatchMode="startsWith"
 					style="text-align: center">
 					<h:outputText value="#{projeto.natureza}" />
-				</p:column>
-
-				<p:column headerText="Título" filterBy="#{projeto.titulo}"
-					sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
-					<h:outputText value="#{projeto.titulo}" />
 				</p:column>
 
 				<p:column headerText="Coordenador"
