@@ -1,10 +1,10 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Date;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
+import org.neo4j.driver.v1.Value;
 import model.dao.ProjetoDAO;
 import model.pojo.Projeto;
 
@@ -22,9 +22,12 @@ public class CadastrarProjetoController {
 	}
 
 	public void salvarProjeto() {
-		projeto.setDataPublicacao(new Date());
+		projeto.setDataPublicacao((Value) new Date());
 		new ProjetoDAO().salvar(projeto);
-		System.out.println("ENTROU AQUI!!");
+	}
+	
+	public ArrayList<Projeto> buscarProjeto(){
+		return (ArrayList<Projeto>) (new ProjetoDAO().listar());
 	}
 	
 	public String getCursoEnvolvido() {

@@ -1,8 +1,9 @@
 package model.pojo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import org.neo4j.driver.v1.Value;
 
 
 public class Projeto {
@@ -20,9 +21,9 @@ public class Projeto {
 	private String natureza = TRABALHO_ACADEMICO;// Item default no cadastro de novo projeto.
 	private String titulo;
 	private String descricaoCurta;
-	private Date dataInicio;
-	private Date dataFim;
-	private Date dataPublicacao;
+	private Value dataInicio;
+	private Value dataFim;
+	private Value dataPublicacao;
 	
 	// Administração
 	private Professor coordenador = new Professor();
@@ -47,7 +48,7 @@ public class Projeto {
 	
 	public Projeto() { }
 	
-	public Projeto(String natureza, String titulo, String descricao, Professor coordenador, Date dataPublicacao) {
+	public Projeto(String natureza, String titulo, String descricao, Professor coordenador, Value dataPublicacao) {
 		this.natureza = natureza;
 		this.titulo = titulo;
 		this.descricaoCurta = descricao;
@@ -169,32 +170,32 @@ public class Projeto {
 	}
 
 
-	public Date getDataInicio() {
+	public Value getDataInicio() {
 		return dataInicio;
 	}
 
 
-	public void setDataInicio(Date dataInicio) {
+	public void setDataInicio(Value dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
 
-	public Date getDataFim() {
+	public Value getDataFim() {
 		return dataFim;
 	}
 
 
-	public void setDataFim(Date dataFim) {
+	public void setDataFim(Value dataFim) {
 		this.dataFim = dataFim;
 	}
 
 
-	public Date getDataPublicacao() {
+	public Value getDataPublicacao() {
 		return dataPublicacao;
 	}
 
 
-	public void setDataPublicacao(Date dataPublicacao) {
+	public void setDataPublicacao(Value dataPublicacao) {
 		this.dataPublicacao = dataPublicacao;
 	}
 

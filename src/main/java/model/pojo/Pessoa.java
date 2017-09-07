@@ -101,7 +101,7 @@ public class Pessoa {
 	public String getCurso() {
 		return curso;
 	}
-	void setCurso(String curso) {
+	public void setCurso(String curso) {
 		this.curso = curso;
 	}
 	
