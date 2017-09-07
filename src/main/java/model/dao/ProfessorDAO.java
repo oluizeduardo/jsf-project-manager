@@ -34,7 +34,8 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		transaction = session.beginTransaction();
 		boolean status = false;//Status do cadastro.
 		
-		String script = "CREATE (pr:Professor {nome: '" + professor.getDataAdmissao() 
+		String script = "CREATE (pr:Professor {nome: '" + professor.getDataAdmissao()
+				+ "', papel:'" + professor.getPapel()
 				+ "', documentoCPF:'" + professor.getDocumentoCPF() 
 				+ "', documentoRG:'" + professor.getDocumentoRG()
 				+ "', estadoCivil:'" + professor.getEstadoCivil()
