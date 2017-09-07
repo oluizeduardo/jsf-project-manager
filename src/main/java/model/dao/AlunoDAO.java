@@ -31,7 +31,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		+ "', sexo:'" + aluno.getSexo()
 		+ "', dataNascimento:'" + aluno.getDataNascimento()
 		+ "', email:'" + aluno.getContato().getEmail()
-		+ "', facebook:'" + aluno.getContato().getSite()
+		+ "', site:'" + aluno.getContato().getSite()
 		+ "', skype:'" + aluno.getContato().getSkype()
 		+ "', telefone:'" + aluno.getContato().getTelefone()
 		+ "', bairro:'" + aluno.getEndereco().getBairro()

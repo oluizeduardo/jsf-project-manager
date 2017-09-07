@@ -12,19 +12,18 @@ import model.dao.ProfessorDAO;
 import model.pojo.Aluno;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
+import web.SessionUtil;
 
 @ManagedBean(name = "novoUsuarioController")
 @ViewScoped
 public class NovoUsuarioController {
 
 	private final String PERFIL_ALUNO = "Aluno";
+	private final String PERFIL_PROFESSOR = "Professor";
 	
 	
 	// Objeto pessoa salva os dados iniciais do novo usuário.
 	private Pessoa novoUsuario = null;
-	
-	// Necessária para se saber que tipo de objeto deve ser cadastrado.
-	private String tipoDePerfil = null;
 	
 	
 	
@@ -40,26 +39,33 @@ public class NovoUsuarioController {
 	 * Redireciona para o cadastro correto.
 	 */
 	public void salvarNovoUsuario(){
-		String nome = novoUsuario.getNome();
+		String nome  = novoUsuario.getNome();
 		String email = novoUsuario.getContato().getEmail();
 		String senha = novoUsuario.getSenha();
+		String papel = novoUsuario.getPapel();//Papel: Aluno ou Professor.
+		
+		String tipoDeUsuario = "";// "aluno" ou "professor".
 		
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		
-		if(tipoDePerfil.equals(PERFIL_ALUNO)){
+				
+		if(papel.equals(PERFIL_ALUNO)){
 			new AlunoDAO().salvar(new Aluno(nome, email, senha));
+			tipoDeUsuario = "aluno";
 			
-			try {				
-				externalContext.redirect("aluno/home.xhtml");
-			} 
-			catch (IOException e) {  }			
-		}else{
+		}else if(papel.equals(PERFIL_PROFESSOR)){
 			new ProfessorDAO().salvar(new Professor(nome, email, senha));
-			try {				
-				externalContext.redirect("professor/home.xhtml");
-			} 
-			catch (IOException e) {  }
+			tipoDeUsuario = "professor";
 		}
+		
+		// Inicia uma sessão para um Aluno.
+		SessionUtil.setParam(SessionUtil.KEY_SESSION, novoUsuario);
+		
+		
+		try {				
+			externalContext.redirect(tipoDeUsuario+"/home.xhtml");
+		} 
+		catch (IOException e) {  }	
 	}
 	
 	
@@ -73,15 +79,5 @@ public class NovoUsuarioController {
 		this.novoUsuario = novoUsuario;
 	}
 
-	public String getTipoDePerfil() {
-		return tipoDePerfil;
-	}
-
-	public void setTipoDePerfil(String tipoDePerfil) {
-		this.tipoDePerfil = tipoDePerfil;
-	}
-	
-	
-	
 	
 }

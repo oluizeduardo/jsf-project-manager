@@ -38,8 +38,12 @@ public class HomeAlunoController {
 		this.pessoaSession = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
 		if(pessoaSession != null){
+			userAluno.setId(pessoaSession.getId());
+			userAluno.setNome(pessoaSession.getNome());
+			userAluno.setPapel(pessoaSession.getPapel());
 			userAluno.getContato().setEmail(pessoaSession.getContato().getEmail());
 			userAluno.setSenha(pessoaSession.getSenha());
+			userAluno.getEndereco().setCidade(pessoaSession.getEndereco().getCidade());
 		}
 		
 	}

@@ -13,19 +13,24 @@ import web.SessionUtil;
 @ViewScoped
 public class LoginController {
 
+	// Salva os dados básicos de uma pessoa que está acessando o sistema.
 	private Pessoa usuario;
-	private LoginDAO loginDAO;
 
+	
+	
 	public LoginController() {
 		this.usuario = new Pessoa();
-		this.loginDAO = new LoginDAO();
 	}
 
+	
+	
 	public void validarAcessar() {
 
+		// Dados de usuário e senha informados na tela de login.
 		String userName = this.usuario.getContato().getEmail();
 		String password = this.usuario.getSenha();
 
+		// Validação dos campos da tela de login.
 		if (userName.isEmpty() && password.isEmpty()) {
 			Mensagem.ExibeMensagem("Informe um email e senha válidos.");
 		} else {
@@ -36,23 +41,35 @@ public class LoginController {
 					Mensagem.ExibeMensagem("Informe a senha do usuário.");
 				} else {
 
-					Pessoa objPessoa = loginDAO.buscaPessoa(userName, password);
-
+					
+					// Busca no banco um registro baseado no email e senha informado.
+					Pessoa objPessoa = new LoginDAO().buscaPessoa(userName, password);
+					
+					
+					// Se o objeto não for nulo é porque existe o usuário cadastrado.
 					if (objPessoa != null) {
 
 						if (objPessoa.getPapel().equals("Aluno")) {
 
+							
+							// Inicia uma sessão para um Aluno.
 							SessionUtil.setParam(SessionUtil.KEY_SESSION, usuario);
 
+							
+							System.out.println("Aluno acessando o sistema...");
 							try {
 								FacesContext.getCurrentInstance().getExternalContext().redirect("aluno/home.xhtml");
 							} catch (IOException e) {
 								System.err.println(e.getMessage());
 							}
-						} else if (objPessoa.getPapel().equals("Professor")) {
+						} else {
 
+							
+							// Inicia uma sessão para um Professor.
 							SessionUtil.setParam(SessionUtil.KEY_SESSION, usuario);
 
+							
+							System.out.println("Professor acessando o sistema...");
 							try {
 								FacesContext.getCurrentInstance().getExternalContext().redirect("professor/home.xhtml");
 							} catch (IOException e) {
