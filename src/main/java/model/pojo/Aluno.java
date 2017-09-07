@@ -4,8 +4,7 @@ import java.util.List;
 
 
 public class Aluno extends Pessoa {
-	
-	private String curso;	
+			
 	private List<Habilidade> habilidades;
 	private List<Idioma> idiomas;
 	private List<Projeto> projetos;
@@ -39,15 +38,6 @@ public class Aluno extends Pessoa {
 
 	public void setIdiomas(List<Idioma> idiomas) {
 		this.idiomas = idiomas;
-	}
-
-
-	public String getCurso() {
-		return curso;
-	}
-
-	public void setCurso(String curso) {
-		this.curso = curso;
 	}
 
 	public List<Habilidade> getHabilidades() {

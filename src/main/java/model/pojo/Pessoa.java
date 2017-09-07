@@ -15,6 +15,7 @@ public class Pessoa {
 	private Endereco endereco = new Endereco();
 	private Contato contato = new Contato();
 	private String senha;
+	private String curso;
 	
 	
 	
@@ -100,6 +101,12 @@ public class Pessoa {
 	}
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	public String getCurso() {
+		return curso;
+	}
+	void setCurso(String curso) {
+		this.curso = curso;
 	}
 	
 	

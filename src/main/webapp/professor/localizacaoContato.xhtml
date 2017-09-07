@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:panel header="Detalhes de Endereço e Contato">
+
+	<p:messages closable="true" />
+
+	<h:panelGrid columns="8" cellspacing="20">
+
+		<p:outputLabel value="Endereço:" for="address-field" />
+		<p:inputText id="address-field" 
+					 value="#{cadastrarProfessorController.professor.endereco.rua}"/>
+
+		<p:outputLabel value="Bairro:" for="neighborhood-field" />
+		<p:inputText id="neighborhood-field"
+					 value="#{cadastrarProfessorController.professor.endereco.bairro}"/>
+
+		<p:outputLabel value="Cidade:" for="city-field" />
+		<p:inputText id="city-field" 
+					 value="#{cadastrarProfessorController.professor.endereco.cidade}"/>
+
+		<p:outputLabel value="Estado:" for="state-field" />
+		<p:selectOneMenu id="state-field"
+			value="#{cadastrarProfessorController.professor.endereco.estado}"
+			style="width:170px;">
+
+			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
+				noSelectionOption="true" />
+			<f:selectItems value="#{cadastrarProfessorController.estadosBrasileiros}" />
+		</p:selectOneMenu>
+
+
+		<p:outputLabel value="Email:" for="email-field" />
+		<p:inputText type="email" id="email-field" value="#{cadastrarProfessorController.professor.contato.email}" />
+
+		<p:outputLabel value="Skype:" for="skype-field" />
+		<p:inputText id="skype-field" value="#{cadastrarProfessorController.professor.contato.skype}"/>
+
+		<p:outputLabel value="Telefone:" for="phone-field" />
+		<p:inputMask id="phone-field" mask="(99)99999-9999" value="#{cadastrarProfessorController.professor.contato.telefone}"/>
+
+		<p:outputLabel value="Site:" for="site-field" />
+		<p:inputText id="site-field" value="#{cadastrarProfessorController.professor.contato.site}"/>
+	</h:panelGrid>
+</p:panel>
+
+</html>

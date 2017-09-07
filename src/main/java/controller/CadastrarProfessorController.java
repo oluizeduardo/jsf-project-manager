@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import model.pojo.Professor;
+import view.Mensagem;
 import model.dao.ProfessorDAO;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
@@ -23,6 +24,10 @@ public class CadastrarProfessorController {
 	private List<String> idiomas = null;
 	private ProfessorDAO profDAO = new ProfessorDAO();
 	
+	private String senhaAntiga = null;
+	private String novaSenha = null;
+	
+	
 	public CadastrarProfessorController() {
 		this.professor = new Professor();
 		this.estadosBrasileiros = new ListaDeEstados().getList();
@@ -31,21 +36,37 @@ public class CadastrarProfessorController {
 	}
 	
 
-	public void salvar(){
-		profDAO = new ProfessorDAO();
-		profDAO.salvar(professor);
+	public void salvarProfessor(){
 		
-		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("professor/home.xhtml");
-		} catch (IOException e) { 
-			System.err.println(e.getMessage());
+		profDAO = new ProfessorDAO();
+		boolean cadastrou = profDAO.salvar(professor);
+		
+		if(cadastrou){
+			Mensagem.ExibeMensagem("Dados atualizados com sucesso!");
+		}else{
+			Mensagem.ExibeMensagem("Não foi possível atualizar os dados.");
 		}
 	}
 	
+	
+	
+	
+	public String getNovaSenha() {
+		return novaSenha;
+	}
+	public void setNovaSenha(String novaSenha) {
+		this.novaSenha = novaSenha;
+	}
+	public String getSenhaAntiga() {
+		return senhaAntiga;
+	}
+	public void setSenhaAntiga(String senhaAntiga) {
+		this.senhaAntiga = senhaAntiga;
+	}
+
 	public Professor getProfessor() {
 		return professor;
 	}
-
 
 	public void setAluno(Professor prof) {
 		this.professor = prof;
