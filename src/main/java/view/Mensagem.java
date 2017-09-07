@@ -33,9 +33,9 @@ public class Mensagem {
 	/**
 	 * Exibe uma mensagem de informação na tela onde é chamado.
 	 */
-	public static void ExibeMensagemInfo(String mensagem){		
+	public static void ExibeMensagemErro(String mensagem){		
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", mensagem));
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", mensagem));
 	}
 	
 }

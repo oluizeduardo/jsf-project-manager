@@ -1,9 +1,10 @@
 package model.pojo;
 
+import org.neo4j.driver.v1.Value;
 
 public class Pessoa {
 	
-	private int id;
+	private Value id;
 	private String papel;// Aluno ou Professor.
 	private String nome;
 	private String documentoRG;
@@ -17,10 +18,7 @@ public class Pessoa {
 	private String senha;
 	private String curso;
 	
-	
-	
 	public Pessoa() { }
-	
 	
 	public Pessoa(String nome, String email, String senha){
 		this.nome = nome;
@@ -28,13 +26,11 @@ public class Pessoa {
 		this.senha = senha;
 	}
 	
-	
-	
-	public int getId() {
+	public Value getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(Value value) {
+		this.id = value;
 	}
 	public String getPapel() {
 		return papel;

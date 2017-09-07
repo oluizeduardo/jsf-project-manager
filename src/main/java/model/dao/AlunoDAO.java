@@ -25,6 +25,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		String script = "CREATE (a:Aluno {nome: '" + aluno.getNome() 
 		+ "', curso:'" + aluno.getCurso() 
+		+ "', papel:'" + aluno.getPapel()
 		+ "', dataMatricula:'" + aluno.getDataMatricula()
 		+ "', documentoCPF:'" + aluno.getDocumentoCPF()
 		+ "', documentoRG:'" + aluno.getDocumentoRG()
