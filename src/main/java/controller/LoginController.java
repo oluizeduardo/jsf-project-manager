@@ -43,8 +43,7 @@ public class LoginController {
 
 					
 					// Busca no banco um registro baseado no email e senha informado.
-					Pessoa objPessoa = new LoginDAO().buscaPessoa(userName, password);
-					
+					Pessoa objPessoa = new LoginDAO().buscaPessoa(userName, password);					
 					
 					// Se o objeto não for nulo é porque existe o usuário cadastrado.
 					if (objPessoa != null) {
@@ -53,7 +52,7 @@ public class LoginController {
 
 							
 							// Inicia uma sessão para um Aluno.
-							SessionUtil.setParam(SessionUtil.KEY_SESSION, usuario);
+							SessionUtil.setParam(SessionUtil.KEY_SESSION, objPessoa);
 
 							
 							System.out.println("Aluno acessando o sistema...");
@@ -66,7 +65,7 @@ public class LoginController {
 
 							
 							// Inicia uma sessão para um Professor.
-							SessionUtil.setParam(SessionUtil.KEY_SESSION, usuario);
+							SessionUtil.setParam(SessionUtil.KEY_SESSION, objPessoa);
 
 							
 							System.out.println("Professor acessando o sistema...");

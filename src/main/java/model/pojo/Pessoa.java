@@ -12,7 +12,7 @@ public class Pessoa {
 	private String sexo;
 	private String estadoCivil;
 	private String dataNascimento;
-	private long matricula;	
+	private String matricula;	
 	private Endereco endereco = new Endereco();
 	private Contato contato = new Contato();
 	private String senha;
@@ -74,10 +74,10 @@ public class Pessoa {
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	public long getMatricula() {
+	public String getMatricula() {
 		return matricula;
 	}
-	public void setMatricula(long matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 	public Endereco getEndereco() {

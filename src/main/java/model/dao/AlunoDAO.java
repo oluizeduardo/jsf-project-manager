@@ -72,14 +72,19 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		super.iniciaSessaoNeo4J();
 		
-		ArrayList<Aluno>alunos = new ArrayList<Aluno>();
+		ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 		
-		StatementResult resultado = session.run("MATCH (a:Aluno) RETURN ID (a) as id, a.nome as Nome, a.cidade as Cidade, "
-				+ "a.estado as Estado, a.telefone as Telefone, a.site as Site, "
-				+ "a.estadoCivil as Estado_Civil, a.senha as Senha, a.skype as Skype, "
-				+ "a.curso as Curso, a.dataMatricula as Data_Matricula, a.matricula as Matricula, "
+		String script = "MATCH (a:Aluno) RETURN ID (a) as id, a.nome as Nome, "
+				+ "a.cidade as Cidade, a.estado as Estado, "
+				+ "a.telefone as Telefone, a.site as Site, "
+				+ "a.estadoCivil as Estado_Civil, a.senha as Senha, "
+				+ "a.skype as Skype, a.curso as Curso, "
+				+ "a.dataMatricula as Data_Matricula, a.matricula as Matricula, "
 				+ "a.documentoCPF as CPF, a.documentoRG as RG, a.sexo as Sexo, "
-				+ "a.dataNascimento as Data_Nascimento, a.papel as Papel, a.email as Email, a.rua as Rua");
+				+ "a.dataNascimento as Data_Nascimento, "
+				+ "a.papel as Papel, a.email as Email, a.rua as rua";
+		
+		StatementResult resultado = session.run(script);
 		
 		while(resultado.hasNext()) {
 			
@@ -98,7 +103,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			alunoAux.getContato().setSkype(alunoAtual.get("Skype").asString());
 			alunoAux.setCurso(alunoAtual.get("Curso").asString());
 			alunoAux.setDataMatricula(alunoAtual.get("Data_Matricula").asString());
-			alunoAux.setMatricula(alunoAtual.get("Matricula").asLong());
+			alunoAux.setMatricula(alunoAtual.get("Matricula").asString());
 			alunoAux.setDocumentoCPF(alunoAtual.get("CPF").asString());
 			alunoAux.setDocumentoRG(alunoAtual.get("RG").asString());
 			alunoAux.setSexo(alunoAtual.get("Sexo").asString());

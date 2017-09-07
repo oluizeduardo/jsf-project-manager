@@ -25,7 +25,7 @@ public class HomeProfessorController {
 	private Pessoa pessoaSession = null;
 	
 	// Usuário professor da sessão atual.
-	private Professor userProfessor = new Professor();
+	private Professor userProfessor;
 	
 	
 	
@@ -34,6 +34,7 @@ public class HomeProfessorController {
 		this.pessoaSession = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
 		if(pessoaSession != null){
+			userProfessor = new Professor();
 			userProfessor.setId(pessoaSession.getId());
 			userProfessor.setNome(pessoaSession.getNome());
 			userProfessor.setPapel(pessoaSession.getPapel());
@@ -79,6 +80,14 @@ public class HomeProfessorController {
 	 */
 	public void setNovoProjeto(Projeto novoProjeto) {
 		this.novoProjeto = novoProjeto;
+	}
+
+	public Professor getUserProfessor() {
+		return userProfessor;
+	}
+
+	public void setUserProfessor(Professor userProfessor) {
+		this.userProfessor = userProfessor;
 	}
 
 
