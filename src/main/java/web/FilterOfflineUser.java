@@ -33,7 +33,7 @@ public class FilterOfflineUser implements Filter {
 			System.out.println("=> Access Denied!! You need to be logged in. <=");
 			HttpServletResponse resp = (HttpServletResponse) response;
 
-			resp.sendRedirect("login.html");
+			resp.sendRedirect("login.xhtml");
 		}else{
 			System.out.println("User "+user+" accessing: "+uri);
 			

@@ -2,8 +2,6 @@ package model.dao;
 
 import java.util.List;
 import org.neo4j.driver.v1.exceptions.ClientException;
-
-import model.pojo.Aluno;
 import model.pojo.Professor;
 
 
@@ -63,6 +61,8 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		}
 		session.close();	
 	}
+	
+	
 	
 	/**
 	 * Salva no banco de dados os dados de um Professor.

@@ -13,8 +13,9 @@
 <h:body>
 
 	<h:form id="form-projects">
-
-		<p:growl id="messages" />
+	
+		<!-- MENSAGEM -->
+		<p:growl id="growl" showDetail="true" />
 
 		<!-- BARRA DE MENU -->
 		<ui:include src="barraDeMenu.xhtml" />
@@ -63,7 +64,7 @@
 						<p:panel>
 							<div align="right">
 								<p:commandButton value="Salvar Novo Projeto" icon="ui-icon-disk" ajax="false"
-								actionListener="#{cadastrarProjetoController.salvarProjeto}" />
+								actionListener="#{cadastrarProjetoController.salvarProjeto}" update="horizontal-panel"/>
 							</div>													
 						</p:panel>
 						
@@ -71,7 +72,7 @@
 						
 						
 						<!-- PAINEL DE ABAS HORIZONTAIS -->
-						<p:accordionPanel multiple="false">
+						<p:accordionPanel multiple="false" id="horizontal-panel">
 						
 							<p:tab title="Identificação">
 								<ui:include src="projetos/identificacao.xhtml"/>							
