@@ -21,9 +21,6 @@ public class Aluno extends Pessoa {
 		setPapel("Aluno");
 	}	
 	
-	
-	
-	
 	public List<Projeto> getProjetos() {
 		return projetos;
 	}

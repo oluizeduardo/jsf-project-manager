@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
@@ -66,9 +67,51 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	
 	public List<Aluno> listar() {
+		
+		//lista todos os alunos
+		
 		super.iniciaSessaoNeo4J();
-		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList<Aluno>alunos = new ArrayList<Aluno>();
+		
+		StatementResult resultado = session.run("MATCH (a:Aluno) RETURN ID (a) as id, a.nome as Nome, a.cidade as Cidade, "
+				+ "a.estado as Estado, a.telefone as Telefone, a.site as Site, "
+				+ "a.estadoCivil as Estado_Civil, a.senha as Senha, a.skype as Skype, "
+				+ "a.curso as Curso, a.dataMatricula as Data_Matricula, a.matricula as Matricula, "
+				+ "a.documentoCPF as CPF, a.documentoRG as RG, a.sexo as Sexo, "
+				+ "a.dataNascimento as Data_Nascimento, a.papel as Papel, a.email as Email, a.rua as Rua");
+		
+		while(resultado.hasNext()) {
+			
+			Record alunoAtual = resultado.next();
+			
+			Aluno alunoAux = new Aluno();
+			
+			alunoAux.setId(alunoAtual.get("id"));
+			alunoAux.setNome(alunoAtual.get("Nome").asString());
+			alunoAux.getEndereco().setCidade(alunoAtual.get("Cidade").asString());
+			alunoAux.getEndereco().setEstado(alunoAtual.get("Estado").asString());
+			alunoAux.getContato().setTelefone(alunoAtual.get("Telefone").asString());
+			alunoAux.getContato().setSite(alunoAtual.get("Site").asString());
+			alunoAux.setEstadoCivil(alunoAtual.get("Estado_Civil").asString());
+			alunoAux.setSenha(alunoAtual.get("Senha").asString());
+			alunoAux.getContato().setSkype(alunoAtual.get("Skype").asString());
+			alunoAux.setCurso(alunoAtual.get("Curso").asString());
+			alunoAux.setDataMatricula(alunoAtual.get("Data_Matricula").asString());
+			alunoAux.setMatricula(alunoAtual.get("Matricula").asLong());
+			alunoAux.setDocumentoCPF(alunoAtual.get("CPF").asString());
+			alunoAux.setDocumentoRG(alunoAtual.get("RG").asString());
+			alunoAux.setSexo(alunoAtual.get("Sexo").asString());
+			alunoAux.setDataNascimento(alunoAtual.get("Data_Nascimento").asString());
+			alunoAux.setPapel(alunoAtual.get("Papel").asString());
+			alunoAux.getContato().setEmail(alunoAtual.get("Email").asString());
+			alunoAux.getEndereco().setRua(alunoAtual.get("Rua").asString());
+			
+			alunos.add(alunoAux);
+		
+		}
+		
+		return alunos;
 	}
 
 	public void excluir(Aluno obj) {
@@ -76,9 +119,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		// TODO Auto-generated method stub
 		
 	}
-	
-
-	
 	
 	public void atualizar(Aluno aluno) {
 		super.iniciaSessaoNeo4J();

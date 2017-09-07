@@ -20,7 +20,6 @@ public class CadastrarAlunoController {
 	private List<String> estadosBrasileiros = null;
 	private List<String> estadoCivil = null;
 	private List<String> idiomas = null;
-	private AlunoDAO alunoDAO = new AlunoDAO();
 	
 	public CadastrarAlunoController() {
 		this.aluno = new Aluno();
@@ -30,8 +29,7 @@ public class CadastrarAlunoController {
 	}
 
 	public void salvarAluno(){		
-		alunoDAO = new AlunoDAO();
-		alunoDAO.salvar(aluno);
+		new AlunoDAO().salvar(aluno);
 		
 		try {
 			
@@ -44,14 +42,12 @@ public class CadastrarAlunoController {
 	
 	public void atualizarAluno() {
 		System.out.println("Atualizando aluno:" + aluno);
-		alunoDAO = new AlunoDAO();
-		alunoDAO.atualizar(aluno);		
+		new AlunoDAO().atualizar(aluno);		
 	}
 	
 	
 	public ArrayList<Aluno> buscarAluno(){
-		ArrayList<Aluno> alunos = new ArrayList<Aluno>();
-		return alunos;
+		return (ArrayList<Aluno>) (new AlunoDAO().listar());
 	}
 	
 	
