@@ -130,7 +130,9 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		transaction = session.beginTransaction();
 		
-		String script = "MATCH (a:Aluno) WHERE a.nome = '" + aluno.getNome() + 
+		String script = "MATCH (a:Aluno) WHERE a.email = '" + aluno.getContato().getEmail() 
+				+ "'and a.senha ='" + aluno.getSenha() +
+
 				"' SET a.nome = '" + aluno.getNome() + "', "
 				+ "a.curso = '" + aluno.getCurso() + "', " 
 				+ "a.dataMatricula = '" + aluno.getDataMatricula() + "', "
@@ -168,30 +170,26 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	}
 	
 	
+//	public Aluno buscarAlunoPorEmail(String email) {
+//
+//		iniciaSessaoNeo4J();
+//		
+//		Aluno alunoEspecifico = new Aluno();
+//		String script = "MATCH (a:Aluno) WHERE a.email= '" + email + "' RETURN a.email as email";
+//		
+//		StatementResult resultado = session.run(script);
+//
+//		while (resultado.hasNext()) {
+//
+//			Record registro = resultado.next();
+//
+//			String email2 = registro.get("email").asString();
+//			
+//			alunoEspecifico.getContato().setEmail(email2);
+//		}
+//
+//		session.close();
+//		return alunoEspecifico;
+//	}
 	
-	
-	public Aluno buscarAlunoPorEmail(String email) {
-
-		iniciaSessaoNeo4J();
-		
-		Aluno alunoEspecifico = new Aluno();
-		String script = "MATCH (a:Aluno) WHERE a.email= '" + email + "' RETURN a.email as email";
-		
-		StatementResult resultado = session.run(script);
-
-		while (resultado.hasNext()) {
-
-			Record registro = resultado.next();
-
-			String email2 = registro.get("email").asString();
-			
-			alunoEspecifico.getContato().setEmail(email2);
-		}
-
-		session.close();
-		return alunoEspecifico;
-	}
-	
-
-		
 }

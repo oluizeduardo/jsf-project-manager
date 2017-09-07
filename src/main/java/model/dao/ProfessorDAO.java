@@ -2,6 +2,8 @@ package model.dao;
 
 import java.util.List;
 import org.neo4j.driver.v1.exceptions.ClientException;
+
+import model.pojo.Aluno;
 import model.pojo.Professor;
 
 
@@ -16,11 +18,51 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 	/**
 	 * Atualiza no banco de dados o registro de um Professor específico.
 	 */
-	public void atualizar(Professor obj) {
+	public void atualizar(Professor professor) {
 		super.iniciaSessaoNeo4J();
-		// TODO Auto-generated method stub
-	}
+		
+		transaction = session.beginTransaction();
+		
+		String script = "MATCH (pr:Professor) WHERE a.email = '" + professor.getContato().getEmail() 
+				+ "'and a.senha ='" + professor.getSenha() +
 
+				"' SET a.nome = '" + professor.getNome() + "', "
+				+ "', papel:'" + professor.getPapel()
+				+ "', documentoCPF:'" + professor.getDocumentoCPF() 
+				+ "', documentoRG:'" + professor.getDocumentoRG()
+				+ "', estadoCivil:'" + professor.getEstadoCivil()
+				+ "', matricula:'" + professor.getMatricula()
+				+ "', nome:'" + professor.getNome()
+				+ "', profissao:'" + professor.getCargo()
+				+ "', senha:'" + professor.getSenha()
+				+ "', sexo:'" + professor.getSexo()
+				+ "', titulacao:'" + professor.getTitulacao()
+				+ "', email:'" + professor.getContato().getEmail()
+				+ "', site:'" + professor.getContato().getSite()
+				+ "', skype:'" + professor.getContato().getSkype()
+				+ "', telefone:'" + professor.getContato().getTelefone()
+				+ "', dataNascimento:'" + professor.getDataNascimento()
+				+ "', bairro:'" + professor.getEndereco().getBairro()
+				+ "', cidade:'" + professor.getEndereco().getCidade()
+				+ "', estado:'" + professor.getEndereco().getEstado()
+				+ "', rua:'" + professor.getEndereco().getRua()
+				+ "' RETURN a";
+		
+		try {
+			// Executa o script no banco de dados.
+			transaction.run(script);
+			transaction.success();
+			
+		} finally {
+			try {
+				transaction.close();
+			} catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();	
+	}
 	
 	/**
 	 * Salva no banco de dados os dados de um Professor.
@@ -77,8 +119,6 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		return status;
 	}
 
-	
-	
 	/**
 	 * Realiza uma busca completa por todos os professores cadastrados 
 	 * no banco de dados.

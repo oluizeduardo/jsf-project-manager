@@ -21,9 +21,9 @@ public class Projeto {
 	private String natureza = TRABALHO_ACADEMICO;// Item default no cadastro de novo projeto.
 	private String titulo;
 	private String descricaoCurta;
-	private Value dataInicio;
-	private Value dataFim;
-	private Value dataPublicacao;
+	private String dataInicio;
+	private String dataFim;
+	private String dataPublicacao;
 	
 	// Administração
 	private Professor coordenador = new Professor();
@@ -48,7 +48,7 @@ public class Projeto {
 	
 	public Projeto() { }
 	
-	public Projeto(String natureza, String titulo, String descricao, Professor coordenador, Value dataPublicacao) {
+	public Projeto(String natureza, String titulo, String descricao, Professor coordenador, String dataPublicacao) {
 		this.natureza = natureza;
 		this.titulo = titulo;
 		this.descricaoCurta = descricao;
@@ -170,32 +170,32 @@ public class Projeto {
 	}
 
 
-	public Value getDataInicio() {
+	public String getDataInicio() {
 		return dataInicio;
 	}
 
 
-	public void setDataInicio(Value dataInicio) {
+	public void setDataInicio(String dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
 
-	public Value getDataFim() {
+	public String getDataFim() {
 		return dataFim;
 	}
 
 
-	public void setDataFim(Value dataFim) {
+	public void setDataFim(String dataFim) {
 		this.dataFim = dataFim;
 	}
 
 
-	public Value getDataPublicacao() {
+	public String getDataPublicacao() {
 		return dataPublicacao;
 	}
 
 
-	public void setDataPublicacao(Value dataPublicacao) {
+	public void setDataPublicacao(String dataPublicacao) {
 		this.dataPublicacao = dataPublicacao;
 	}
 
