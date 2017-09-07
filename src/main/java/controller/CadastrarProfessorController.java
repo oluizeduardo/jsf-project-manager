@@ -1,11 +1,8 @@
 package controller;
 
-import java.io.IOException;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import model.pojo.Professor;
 import view.Mensagem;
 import model.dao.ProfessorDAO;
@@ -44,7 +41,7 @@ public class CadastrarProfessorController {
 		if(cadastrou){
 			Mensagem.ExibeMensagem("Dados atualizados com sucesso!");
 		}else{
-			Mensagem.ExibeMensagem("Não foi possível atualizar os dados.");
+			Mensagem.ExibeMensagemErro("Não foi possível atualizar os dados.");
 		}
 	}
 	
