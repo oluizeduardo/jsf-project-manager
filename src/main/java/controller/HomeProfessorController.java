@@ -6,7 +6,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
+import model.pojo.Pessoa;
+import model.pojo.Professor;
 import model.pojo.Projeto;
+import web.SessionUtil;
 
 
 
@@ -18,9 +21,20 @@ public class HomeProfessorController {
 	
 	private List<String> cursosAlvo = new ArrayList<String>();	
 	
+	// Guarda os valores do usuário que acabou de logar no sistema.
+	private Pessoa pessoaSession = null;
+	
+	// Usuário professor da sessão atual.
+	private Professor userProfessor = new Professor();
 	
 	
-	public HomeProfessorController() {  }
+	
+	
+	public HomeProfessorController() {  
+		this.pessoaSession = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		userProfessor.getContato().setEmail(pessoaSession.getContato().getEmail());
+		userProfessor.setSenha(pessoaSession.getSenha());
+	}
 	
 	
 

@@ -4,8 +4,7 @@ import java.util.List;
 
 
 public class Aluno extends Pessoa {
-
-	private String papel = "ALUNO";
+	
 	private String curso;	
 	private List<Habilidade> habilidades;
 	private List<Idioma> idiomas;
@@ -13,7 +12,9 @@ public class Aluno extends Pessoa {
 	private String dataMatricula;
 	
 	
-	public Aluno() { }
+	public Aluno() { 
+		setPapel("Aluno");
+	}
 	
 	
 	public Aluno(String nome, String email, String senha) { 
@@ -68,15 +69,6 @@ public class Aluno extends Pessoa {
 	public void addHabilidade(Habilidade novaHabilidade){
 		getHabilidades().add(novaHabilidade);
 	}
-
-	public String getPapel() {
-		return papel;
-	}
-
-	public void setPapel(String papel) {
-		this.papel = papel;
-	}
-	
 	
 }
 

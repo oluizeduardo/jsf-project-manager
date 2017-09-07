@@ -18,9 +18,7 @@
 	</p:submenu>
 
 	<f:facet name="options">
-		<a href="../login.xhtml"> 
-			<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-		</a>
+		<p:commandButton value="Logout" icon="ui-icon-extlink" actionListener="#{barraDeMenu.logout}" />		
 	</f:facet>
 </p:menubar>
 

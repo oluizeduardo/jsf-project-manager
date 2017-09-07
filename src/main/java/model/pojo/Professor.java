@@ -4,14 +4,15 @@ import java.util.List;
 
 public class Professor extends Pessoa {
 
-	private String papel = "PROFESSOR";
 	private String dataAdmissao;
 	private String cargo;
 	private String titulacao;
 	private List<Projeto> projetos;
 	
 	
-	public Professor() { }
+	public Professor() {
+		setPapel("Professor");
+	}
 
 	
 	public Professor(String nome, String email, String senha) { 
@@ -70,14 +71,6 @@ public class Professor extends Pessoa {
 	public void addProjeto(Projeto novoProjeto){
 		novoProjeto.setCoordenador(this);
 		getProjetos().add(novoProjeto);	
-	}
-
-	public String getPapel() {
-		return papel;
-	}
-
-	public void setPapel(String papel) {
-		this.papel = papel;
 	}
 	
 	

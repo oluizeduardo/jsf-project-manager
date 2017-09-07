@@ -33,14 +33,14 @@
 						<h:graphicImage value="/resources/images/user_default.png" height="170" width="170" />
 					</p:panel>
 
-					<p:outputLabel value="Luiz Eduardo da Costa"
+					<p:outputLabel value="#{homeController.userAluno.nome}"
 								   style="font-size:25px;font-weight:bold;" />
 
 					<p:spacer height="10px"/>
 
-					<p:outputLabel value="Cachoeira de Minas/MG" 
+					<p:outputLabel value="#{homeController.userAluno.endereco.cidade}" 
 								   style="font-size:14px;"/>
-					<p:outputLabel value="costaeduardoluiz@gmail.com"
+					<p:outputLabel value="#{homeController.userAluno.contato.email}"
 								   style="font-size:14px;"/>
 					
 					<p:spacer height="60"/>

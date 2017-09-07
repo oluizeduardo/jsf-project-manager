@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import model.dao.LoginDAO;
 import model.pojo.Pessoa;
 import view.Mensagem;
+import web.SessionUtil;
 
 
 @ManagedBean(name = "loginController")
@@ -22,7 +23,8 @@ public class LoginController {
 		this.usuario = new Pessoa();
 		this.loginDAO = new LoginDAO();
 	}
-
+	
+	
 	
 	
 	public void acessar() {
@@ -33,7 +35,11 @@ public class LoginController {
 		boolean existeUsuario = loginDAO.validaLogin(userName, password);
 		
 		if (existeUsuario) {
+			
+			SessionUtil.setParam(SessionUtil.KEY_SESSION, usuario);
 			System.out.println("Logado com sucesso!");
+			System.out.println(SessionUtil.getParam("user-logged"));
+			
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("aluno/home.xhtml");
 			} catch (IOException e) {

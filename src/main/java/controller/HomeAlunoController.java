@@ -3,6 +3,10 @@ package controller;
 import javax.faces.bean.ManagedBean;
 
 import model.helperView.ProjetoBean;
+import model.pojo.Aluno;
+import model.pojo.Pessoa;
+import web.SessionUtil;
+
 
 @ManagedBean(name = "homeController")
 public class HomeAlunoController {
@@ -19,12 +23,21 @@ public class HomeAlunoController {
 	// Buscar projetos que contenham esta habilidade.
 	private String habilidade;
 	
+	// Guarda os valores do usuário que acabou de logar no sistema.
+	private Pessoa pessoaSession = null;
+	
+	// Usuário aluno da sessão atual.
+	private Aluno userAluno = new Aluno();
 	
 	
 	
 	
 	public HomeAlunoController() { 
 		this.projetoBean = new ProjetoBean();
+		
+		this.pessoaSession = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		userAluno.getContato().setEmail(pessoaSession.getContato().getEmail());
+		userAluno.setSenha(pessoaSession.getSenha());
 	}
 	
 	
@@ -73,28 +86,28 @@ public class HomeAlunoController {
 		return onde;
 	}
 
-
-
 	public void setOnde(String onde) {
 		this.onde = onde;
 	}
-
-
 
 	public String getHabilidade() {
 		return habilidade;
 	}
 
-
-
 	public void setHabilidade(String habilidade) {
 		this.habilidade = habilidade;
 	}
-
-
-
+	
 	public void setProjetoBean(ProjetoBean projetoBean) {
 		this.projetoBean = projetoBean;
+	}
+
+	public Aluno getUserAluno() {
+		return userAluno;
+	}
+
+	public void setUserAluno(Aluno userAluno) {
+		this.userAluno = userAluno;
 	}
 	
 	

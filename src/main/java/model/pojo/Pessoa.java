@@ -3,6 +3,8 @@ package model.pojo;
 
 public class Pessoa {
 	
+	private int id;
+	private String papel;// Aluno ou Professor.
 	private String nome;
 	private String documentoRG;
 	private String documentoCPF;
@@ -27,6 +29,18 @@ public class Pessoa {
 	
 	
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getPapel() {
+		return papel;
+	}
+	public void setPapel(String papel) {
+		this.papel = papel;
+	}
 	public String getNome() {
 		return nome;
 	}
@@ -84,9 +98,14 @@ public class Pessoa {
 	public String getSenha() {
 		return senha;
 	}
-
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "[EMAIL: "+getContato().getEmail()+" SENHA: "+senha+"]";
 	}
 
 }
