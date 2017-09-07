@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<p:textEditor widgetVar="" height="300" style="margin-bottom:10px"
-		placeholder="Resumo do projeto">
+		placeholder="Resumo do projeto" value="#{cadastrarProjetoController.projeto.resumo}">
 		<f:facet name="toolbar">
 			<span class="ql-formats">
 				<button class="ql-bold"></button>
@@ -13,8 +13,9 @@
 				<button class="ql-underline"></button>
 				<button class="ql-strike"></button>
 			</span>
-			<span class="ql-formats"> <select class="ql-font"></select> <select
-				class="ql-size"></select>
+			<span class="ql-formats"> 
+				<select class="ql-font"/> 
+				<select	class="ql-size"/>
 			</span>
 		</f:facet>
 	</p:textEditor>

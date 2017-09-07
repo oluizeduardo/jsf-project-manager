@@ -1,6 +1,7 @@
 package model.pojo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -19,13 +20,13 @@ public class Projeto {
 	private String natureza = TRABALHO_ACADEMICO;// Item default no cadastro de novo projeto.
 	private String titulo;
 	private String descricaoCurta;
-	private String dataInicio;
-	private String dataFim;
-	private String dataPublicacao;
+	private Date dataInicio;
+	private Date dataFim;
+	private Date dataPublicacao;
 	
 	// Administração
-	private Professor coordenador;
-	private Financiamento financiamento;
+	private Professor coordenador = new Professor();
+	private Financiamento financiamento = new Financiamento();
 	
 	// Cursos e Habilidades
 	private List<String> cursosEnvolvidos;
@@ -44,15 +45,9 @@ public class Projeto {
 	// Lista de possíveis naturezas de um projeto.
 	private List<String> naturezas;
 	
-	
-	
-	
 	public Projeto() { }
 	
-	
-	
-	
-	public Projeto(String natureza, String titulo, String descricao, Professor coordenador, String dataPublicacao) {
+	public Projeto(String natureza, String titulo, String descricao, Professor coordenador, Date dataPublicacao) {
 		this.natureza = natureza;
 		this.titulo = titulo;
 		this.descricaoCurta = descricao;
@@ -174,32 +169,32 @@ public class Projeto {
 	}
 
 
-	public String getDataInicio() {
+	public Date getDataInicio() {
 		return dataInicio;
 	}
 
 
-	public void setDataInicio(String dataInicio) {
+	public void setDataInicio(Date dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
 
-	public String getDataFim() {
+	public Date getDataFim() {
 		return dataFim;
 	}
 
 
-	public void setDataFim(String dataFim) {
+	public void setDataFim(Date dataFim) {
 		this.dataFim = dataFim;
 	}
 
 
-	public String getDataPublicacao() {
+	public Date getDataPublicacao() {
 		return dataPublicacao;
 	}
 
 
-	public void setDataPublicacao(String dataPublicacao) {
+	public void setDataPublicacao(Date dataPublicacao) {
 		this.dataPublicacao = dataPublicacao;
 	}
 
@@ -220,7 +215,5 @@ public class Projeto {
 	public void setNumeroDeParticipantes(int numeroDeParticipantes) {
 		this.numeroDeParticipantes = numeroDeParticipantes;
 	}
-
-	
 	
 }

@@ -14,17 +14,17 @@
 
 		<p:outputLabel value="Título:" for="title-field" />
 		<p:inputMask id="title-field" required="true" 
-					 requiredMessage="Informe o título do projeto."/>
+					 requiredMessage="Informe o título do projeto." value="#{cadastrarProjetoController.projeto.titulo}"/>
 
 		<p:outputLabel value="Data de Início:" for="startdate-field" />
 		<p:calendar id="startdate-field"
 					pattern="dd-MM-yyyy" mask="true" 
 					navigator="true" required="true"
-					requiredMessage="Informe a data de início do projeto." />
+					requiredMessage="Informe a data de início do projeto." value="#{cadastrarProjetoController.projeto.dataInicio}" />
 
 		<p:outputLabel value="Data de Término:" for="enddate-field" />
 		<p:calendar id="enddate-field"
-			pattern="dd-MM-yyyy" mask="true" navigator="true" />
+			pattern="dd-MM-yyyy" mask="true" navigator="true" value="#{cadastrarProjetoController.projeto.dataFim}"/>
 
 	</h:panelGrid>
 	
@@ -33,7 +33,7 @@
 			<p:outputLabel value="Descrição:" for="description-field"/>
 			<p:inputTextarea id="description-field" rows="2" cols="75" counter="display" 
 							 maxlength="100" counterTemplate="{0} caracteres restantes." 
-							 autoResize="false" required="true" placeholder="Descrição curta sobre o projeto" />
+							 autoResize="false" required="true" placeholder="Descrição curta sobre o projeto" value="#{cadastrarProjetoController.projeto.descricaoCurta}"/>
 		    <h:outputText id="display" style="font-size:12" />
 		</h:panelGrid>
 	</p:panel>

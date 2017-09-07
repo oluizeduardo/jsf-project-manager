@@ -10,7 +10,8 @@
 					   for="numeber-of-participants" />
 			
 		<p:spinner id="numeber-of-participants" 
-				   min="0" size="3"/>
+				   min="0" size="3"
+				   value="#{cadastrarProjetoController.projeto.numeroDeParticipantes}"/>
 		<p:tooltip id="tt-numeber-of-participants" 
 				   for="numeber-of-participants" 
 				   value="Total de alunos para este projeto."
@@ -20,7 +21,7 @@
 			<p:panel>
 				<h:panelGrid columns="3" cellspacing="10">
 					<p:outputLabel value="Cursos Alvo:" />
-					<p:selectOneMenu id="course-field" style="width:220px;">
+					<p:selectOneMenu id="course-field" style="width:220px;" value="#{cadastrarProjetoController.cursoEnvolvido}">
 						<f:selectItem itemLabel="Todos" itemValue="Todos" />
 						<f:selectItems value="#{listaDeCursos.cursos}" />
 					</p:selectOneMenu>

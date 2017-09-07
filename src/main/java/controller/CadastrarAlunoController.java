@@ -22,18 +22,13 @@ public class CadastrarAlunoController {
 	private List<String> idiomas = null;
 	private AlunoDAO alunoDAO = new AlunoDAO();
 	
-	
-	
 	public CadastrarAlunoController() {
 		this.aluno = new Aluno();
-		aluno = alunoDAO.buscarAlunoPorEmail("fabiano@univas.edu.br");
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
 	}
 
-
-	
 	public void salvarAluno(){		
 		alunoDAO = new AlunoDAO();
 		alunoDAO.salvar(aluno);
@@ -46,8 +41,6 @@ public class CadastrarAlunoController {
 			System.err.println(e.getMessage());
 		}
 	}
-	
-	
 	
 	public void atualizarAluno() {
 		System.out.println("Atualizando aluno:" + aluno);

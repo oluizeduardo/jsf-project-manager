@@ -10,11 +10,7 @@ import model.pojo.Aluno;
 
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
-	
-	
 	public AlunoDAO() { }
-	
-	
 	
 	public boolean salvar(Aluno aluno) {
 		

@@ -8,10 +8,10 @@
 	<p:panel >
 		<h:panelGrid columns="4" cellspacing="10">
 			<p:outputLabel value="Professor coordenador:" for="coordenator-name"/>
-			<p:inputText id="coordenator-name" style="width:250px"/>
+			<p:inputText id="coordenator-name" style="width:250px" value="#{cadastrarProjetoController.projeto.coordenador.nome}"/>
 			
-			<p:outputLabel value="Titulação:" for="role"/>
-			<p:selectOneMenu id="role">
+			<p:outputLabel value="Titulação:" for="role" />
+			<p:selectOneMenu id="role" value="#{cadastrarProjetoController.projeto.coordenador.titulacao}" >
 				<f:selectItem itemLabel="Especialista" itemValue="Especialista" />
 				<f:selectItem itemLabel="Mestre" itemValue="Mestre" />
 				<f:selectItem itemLabel="Doutor" itemValue="Doutor" />
@@ -35,14 +35,14 @@
 		<h:panelGrid columns="4" cellspacing="10">
 			<p:outputLabel value="Natureza:" for="type-financing"/>
 		
-			<p:selectOneMenu id="type-financing">
+			<p:selectOneMenu id="type-financing" value="#{cadastrarProjetoController.projeto.financiamento.natureza}">
 				<f:selectItem itemLabel="Auxílio" itemValue="Auxílio" />
 	
 				<f:selectItem itemLabel="Bolsa"	itemValue="Bolsa" />
 			</p:selectOneMenu>
 			
 			<p:outputLabel value="Valor:" for="value-financing"/>
-			<p:inputText id="value-financing"/>
+			<p:inputText id="value-financing" value="#{cadastrarProjetoController.projeto.financiamento.valor}"/>
 			
 		</h:panelGrid>
 	</p:panel>

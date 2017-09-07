@@ -12,7 +12,7 @@
 
 <h:body>
 
-	<h:form>
+	<h:form id="form-projects">
 
 		<p:growl id="messages" />
 
@@ -58,11 +58,12 @@
 				<p:tabView style="margin:10px">
 
 					<!-- CADASTRO DE NOVOS PROJETOS -->
-					<p:tab id="new-project" title="Projetos Para Alunos">
+					<p:tab title="Projetos Para Alunos">
 
 						<p:panel>
 							<div align="right">
-								<p:commandButton value="Salvar Novo Projeto" icon="ui-icon-disk" />
+								<p:commandButton value="Salvar Novo Projeto" icon="ui-icon-disk" ajax="false"
+								actionListener="#{cadastrarProjetoController.salvarProjeto}" />
 							</div>													
 						</p:panel>
 						
