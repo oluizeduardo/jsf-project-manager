@@ -36,8 +36,12 @@ public class HomeAlunoController {
 		this.projetoBean = new ProjetoBean();
 		
 		this.pessoaSession = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
-		userAluno.getContato().setEmail(pessoaSession.getContato().getEmail());
-		userAluno.setSenha(pessoaSession.getSenha());
+		
+		if(pessoaSession != null){
+			userAluno.getContato().setEmail(pessoaSession.getContato().getEmail());
+			userAluno.setSenha(pessoaSession.getSenha());
+		}
+		
 	}
 	
 	

@@ -130,6 +130,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	public Aluno buscarAlunoPorEmail(String email) {
 
+		iniciaSessaoNeo4J();
+		
 		Aluno alunoEspecifico = new Aluno();
 		String script = "MATCH (a:Aluno) WHERE a.email= '" + email + "' RETURN a.email as email";
 		

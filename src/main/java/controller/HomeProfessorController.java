@@ -32,8 +32,11 @@ public class HomeProfessorController {
 	
 	public HomeProfessorController() {  
 		this.pessoaSession = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
-		userProfessor.getContato().setEmail(pessoaSession.getContato().getEmail());
-		userProfessor.setSenha(pessoaSession.getSenha());
+		
+		if(pessoaSession != null){
+			userProfessor.getContato().setEmail(pessoaSession.getContato().getEmail());
+			userProfessor.setSenha(pessoaSession.getSenha());
+		}
 	}
 	
 	
