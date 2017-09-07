@@ -73,11 +73,11 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			
 			Projeto projetoAux = new Projeto();
 			
-			projetoAux.setDataFim(projetoAtual.get("Data_Fim"));
-			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio"));
+			projetoAux.setDataFim(projetoAtual.get("Data_Fim").asString());
+			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio").asString());
 			projetoAux.getCoordenador().setNome(projetoAtual.get("Nome_Coordenador").asString());
 			projetoAux.getCoordenador().setTitulacao(projetoAtual.get("Titulacao_Coordenador").asString());
-			projetoAux.setDataPublicacao(projetoAtual.get("Data_Publicacao"));
+			projetoAux.setDataPublicacao(projetoAtual.get("Data_Publicacao").asString());
 			projetoAux.getFinanciamento().setValor(projetoAtual.get("Valor").asDouble());
 			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
 			projetoAux.setNatureza(projetoAtual.get("Natureza").asString());

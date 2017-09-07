@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
@@ -11,25 +12,29 @@ import model.pojo.Projeto;
 @ManagedBean(name = "cadastrarProjetoController")
 @ViewScoped
 public class CadastrarProjetoController {
-		
+
 	private Projeto projeto = null;
-	
+
 	private String cursoEnvolvido = null;
-	
-	
+
 	public CadastrarProjetoController() {
 		this.projeto = new Projeto();
 	}
 
+	private String getCurrentDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("DD/MM/yyyy");
+		return sdf.format(new Date());
+	}
+
 	public void salvarProjeto() {
-		projeto.setDataPublicacao((Value) new Date());
+		projeto.setDataPublicacao(getCurrentDate());
 		new ProjetoDAO().salvar(projeto);
 	}
-	
-	public ArrayList<Projeto> buscarProjeto(){
+
+	public ArrayList<Projeto> buscarProjeto() {
 		return (ArrayList<Projeto>) (new ProjetoDAO().listar());
 	}
-	
+
 	public String getCursoEnvolvido() {
 		return cursoEnvolvido;
 	}

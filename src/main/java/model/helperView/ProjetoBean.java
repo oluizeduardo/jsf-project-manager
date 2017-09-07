@@ -28,19 +28,19 @@ public class ProjetoBean {
 		String dataPublicacao = getCurrentDate();			
 		
 		projetos = new ArrayList<Projeto>();
-		projetos.add(new Projeto(Projeto.TRABALHO_ACADEMICO, "Aplicativo Móvel", "Desenvolver um aplicativo para consulta de notas.", coordenador1, (Value) new Date()));
-		projetos.add(new Projeto(Projeto.TRABALHO_ACADEMICO, "Jogo", "Desenvolver um jogo para crianças deficientes.", coordenador1, (Value) new Date()));
-		projetos.add(new Projeto(Projeto.TRABALHO_ACADEMICO, "Plano de Negócios", "Desenvolvimento de um PN para a empresa junior.", coordenador2, (Value) new Date()));
-		projetos.add(new Projeto(Projeto.INICIACAO_CIENTIFICA, "Botânica", "Estudo sobre as flores da praça da UNIVÁS.", coordenador2, (Value) new Date()));
+		projetos.add(new Projeto(Projeto.TRABALHO_ACADEMICO, "Aplicativo Móvel", "Desenvolver um aplicativo para consulta de notas.", coordenador1, getCurrentDate()));
+		projetos.add(new Projeto(Projeto.TRABALHO_ACADEMICO, "Jogo", "Desenvolver um jogo para crianças deficientes.", coordenador1, getCurrentDate()));
+		projetos.add(new Projeto(Projeto.TRABALHO_ACADEMICO, "Plano de Negócios", "Desenvolvimento de um PN para a empresa junior.", coordenador2, getCurrentDate()));
+		projetos.add(new Projeto(Projeto.INICIACAO_CIENTIFICA, "Botânica", "Estudo sobre as flores da praça da UNIVÁS.", coordenador2, getCurrentDate()));
 		
-		projetos.add(new Projeto(Projeto.INICIACAO_CIENTIFICA, "Genética", "Estudo sobre genética dos cachorros Pitbull.", coordenador2, (Value) new Date()));
-		projetos.add(new Projeto(Projeto.TRABALHO_ACADEMICO, "Jogo", "Desenvolver um jogo de perguntas e respostas.", coordenador1, (Value) new Date()));
-		projetos.add(new Projeto(Projeto.PROJETO_DE_EXTENSAO, "Ginástica", "Trabalho com idosos.", coordenador2, (Value) new Date()));
-		projetos.add(new Projeto(Projeto.EVENTO_INTERNO, "Campeonato", "Voluntários para o campeonato de futsal.", coordenador2, (Value) new Date()));
+		projetos.add(new Projeto(Projeto.INICIACAO_CIENTIFICA, "Genética", "Estudo sobre genética dos cachorros Pitbull.", coordenador2, getCurrentDate()));
+		projetos.add(new Projeto(Projeto.TRABALHO_ACADEMICO, "Jogo", "Desenvolver um jogo de perguntas e respostas.", coordenador1, getCurrentDate()));
+		projetos.add(new Projeto(Projeto.PROJETO_DE_EXTENSAO, "Ginástica", "Trabalho com idosos.", coordenador2, getCurrentDate()));
+		projetos.add(new Projeto(Projeto.EVENTO_INTERNO, "Campeonato", "Voluntários para o campeonato de futsal.", coordenador2, getCurrentDate()));
 		
-		projetos.add(new Projeto(Projeto.EVENTO_EXTERNO, "Fisioterapia", "Atividade prática na APAE de Pouso Alegre.", coordenador2, (Value) new Date()));
-		projetos.add(new Projeto(Projeto.PROJETO_DE_EXTENSAO, "Jogo", "Desenvolver um jogo para crianças deficientes.", coordenador1,  (Value) new Date()));
-		projetos.add(new Projeto(Projeto.EVENTO_EXTERNO, "Elaboração de Currículos", "Voluntários do curso de RH para workshop sobre como montar o currículo.", coordenador2, (Value) new Date()));
+		projetos.add(new Projeto(Projeto.EVENTO_EXTERNO, "Fisioterapia", "Atividade prática na APAE de Pouso Alegre.", coordenador2, getCurrentDate()));
+		projetos.add(new Projeto(Projeto.PROJETO_DE_EXTENSAO, "Jogo", "Desenvolver um jogo para crianças deficientes.", coordenador1,  getCurrentDate()));
+		projetos.add(new Projeto(Projeto.EVENTO_EXTERNO, "Elaboração de Currículos", "Voluntários do curso de RH para workshop sobre como montar o currículo.", coordenador2, getCurrentDate()));
 	}
 
 	public List<Projeto> getProjetos() {
