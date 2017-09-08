@@ -7,9 +7,9 @@
 	
 	<h:panelGrid columns="4" cellspacing="20">
 
-		<p:outputLabel value="Natureza:" for="type-of-project"/>
-		<p:selectOneMenu id="type-of-project" value="#{homeProfessorController.novoProjeto.natureza}">
-			<f:selectItems value="#{homeProfessorController.novoProjeto.naturezas}"/>
+		<p:outputLabel value="Categoria:" for="type-of-project"/>
+		<p:selectOneMenu id="type-of-project" value="#{homeProfessorController.novoProjeto.categoria}">
+			<f:selectItems value="#{homeProfessorController.novoProjeto.categorias}"/>
 		</p:selectOneMenu>
 
 		<p:outputLabel value="Título:" for="title-field" />

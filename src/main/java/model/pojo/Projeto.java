@@ -3,12 +3,16 @@ package model.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.neo4j.driver.v1.Value;
 
-
+/**
+ * Classe que modela um projeto criado por um professor.
+ * 
+ * @author Luiz Eduardo
+ *
+ */
 public class Projeto {
 	
-	// Naturezas de projeto.
+	// Categorias de projeto.
 	public static final String PROJETO_DE_EXTENSAO = "Projeto de Extensão";
 	public static final String INICIACAO_CIENTIFICA = "Iniciação Científica";
 	public static final String ESTAGIO = "Estágio";
@@ -18,7 +22,7 @@ public class Projeto {
 	
 	
 	// Identificação
-	private String natureza = TRABALHO_ACADEMICO;// Item default no cadastro de novo projeto.
+	private String categoria = TRABALHO_ACADEMICO;// Item default no cadastro de novo projeto.
 	private String titulo;
 	private String descricaoCurta;
 	private String dataInicio;
@@ -43,13 +47,15 @@ public class Projeto {
 	// Status do Projeto
 	private String status;//Em andamento, Finalizado, Cancelado, etc.
 	
-	// Lista de possíveis naturezas de um projeto.
-	private List<String> naturezas;
+	// Lista de possíveis categorias de um projeto.
+	private List<String> categorias;
+	
 	
 	public Projeto() { }
 	
-	public Projeto(String natureza, String titulo, String descricao, Professor coordenador, String dataPublicacao) {
-		this.natureza = natureza;
+	
+	public Projeto(String categorias, String titulo, String descricao, Professor coordenador, String dataPublicacao) {
+		this.categoria = categorias;
 		this.titulo = titulo;
 		this.descricaoCurta = descricao;
 		this.coordenador = coordenador;
@@ -58,36 +64,36 @@ public class Projeto {
 
 
 	/**
-	 * Retorna uma lista com as possíveis naturezas de um projeto.
+	 * Retorna uma lista com as possíveis categorias de um projeto.
 	 */
-	public List<String> getNaturezas() {
+	public List<String> getCategorias() {
 		// Se o objeto estiver nulo, carrega a lista.
-		if(naturezas == null){
-			naturezas = new ArrayList<String>();
-			naturezas.add(ESTAGIO);
-			naturezas.add(EVENTO_EXTERNO);
-			naturezas.add(EVENTO_INTERNO);
-			naturezas.add(INICIACAO_CIENTIFICA);
-			naturezas.add(PROJETO_DE_EXTENSAO);
-			naturezas.add(TRABALHO_ACADEMICO);
+		if(categorias == null){
+			categorias = new ArrayList<String>();
+			categorias.add(ESTAGIO);
+			categorias.add(EVENTO_EXTERNO);
+			categorias.add(EVENTO_INTERNO);
+			categorias.add(INICIACAO_CIENTIFICA);
+			categorias.add(PROJETO_DE_EXTENSAO);
+			categorias.add(TRABALHO_ACADEMICO);
 		}		
-		return naturezas;
+		return categorias;
 	}
 
 	/**
 	 * Define uma nova lista de possíveis naturezas de um projeto.
 	 */
-	public void setNaturezas(List<String> naturezas) {
-		this.naturezas = naturezas;
+	public void setCategorias(List<String> categorias) {
+		this.categorias = categorias;
 	}
 	
-	public String getNatureza() {
-		return natureza;
+	public String getCategoria() {
+		return categoria;
 	}
 
 
-	public void setNatureza(String natureza) {
-		this.natureza = natureza;
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 
 
