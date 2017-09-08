@@ -43,8 +43,14 @@
 				value="Código de registro do professor junto à universidade." />
 		</p:inputMask>
 
-		<p:outputLabel value="Curso:" for="course-field" />
-		<p:inputText id="course-field" value="#{cadastrarProfessorController.professor.curso}"/>
+		<p:outputLabel value="Titulação" for="degree-field" />
+		<p:selectOneMenu style="width:170px" id="degree-field" 
+				value="#{cadastrarProfessorController.professor.titulacao}">
+			<f:selectItem itemLabel="Selecione" itemValue="Selecione" noSelectionOption="true" />
+			<f:selectItem itemLabel="Especialista" itemValue="Especialista" />
+			<f:selectItem itemLabel="Mestre" itemValue="Mestre" />
+			<f:selectItem itemLabel="Doutor" itemValue="Doutor" />
+		</p:selectOneMenu>		
 
 		<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
 		<p:calendar id="birthday-field"
@@ -55,19 +61,12 @@
 		<p:calendar id="registration_date-field" pattern="dd-MM-yyyy"
 			mask="true" navigator="true" locale="br" 
 			value="#{cadastrarProfessorController.professor.dataAdmissao}"/>
-
-		<p:outputLabel value="Cargo:" for="occupation-field" />
-		<p:inputText id="occupation-field" value="#{cadastrarProfessorController.professor.cargo}"/>
-
-		<p:outputLabel value="Titulação" for="degree-field" />
-		<p:selectOneMenu style="width:170px" id="degree-field" 
-				value="#{cadastrarProfessorController.professor.titulacao}">
-
-			<f:selectItem itemLabel="Selecione" itemValue="Selecione" noSelectionOption="true" />
-			<f:selectItem itemLabel="Especialista" itemValue="Especialista" />
-			<f:selectItem itemLabel="Mestre" itemValue="Mestre" />
-			<f:selectItem itemLabel="Doutor" itemValue="Doutor" />
+			
+		<p:outputLabel value="Curso:" for="course-field" />
+		<p:selectOneMenu id="course-field" value="#{cadastrarProfessorController.professor.curso}">
+			<f:selectItems value="#{listaDeCursos.cursos}" />
 		</p:selectOneMenu>
+			
 
 	</h:panelGrid>
 </p:panel>
