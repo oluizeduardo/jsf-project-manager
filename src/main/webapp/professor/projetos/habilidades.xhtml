@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	
+	<h:form>
+		<p:panel>
+			<div align="center">
+				<h:panelGrid columns="5" cellspacing="20">
+				
+					<h:outputLabel value="Descrição:" for="description-field"/>
+					<p:inputText id="description-field" style="width:250px"/>
+		
+					<h:outputLabel value="Nível:" />
+					<p:selectOneMenu style="width:150px">
+						<f:selectItem itemLabel="Básico" itemValue="Básico" />
+						<f:selectItem itemLabel="Médio" itemValue="Médio" />
+						<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
+					</p:selectOneMenu>
+		
+					<p:commandButton id="btnaddHability" value="+" style="width:50px;" />
+					<p:tooltip id="toolTip-add-hability" for="btnaddHability"
+						value="Adicionar" trackMouse="false" />
+		
+				</h:panelGrid>
+			</div>	
+		</p:panel>
+	</h:form>
+</html>

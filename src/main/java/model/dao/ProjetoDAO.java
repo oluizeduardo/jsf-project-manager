@@ -23,6 +23,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "', nomeCoordenador:'" + projeto.getCoordenador().getNome()
 		+ "', titulacaoCoordenador:'" + projeto.getCoordenador().getTitulacao()
 		+ "', dataPublicacao:'" + projeto.getDataPublicacao()
+		+ "', eFinanciado:'" + projeto.getFinanciamento().isExistente()
 		+ "', valor:'" + projeto.getFinanciamento().getValor()
 		+ "', descricaoCurta:'" + projeto.getDescricaoCurta()
 		+ "', natureza:'" + projeto.getNatureza()
