@@ -2,6 +2,7 @@ package model.dao;
 
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
+import org.neo4j.driver.v1.exceptions.ClientException;
 
 import model.pojo.Pessoa;
 
@@ -50,6 +51,8 @@ public class LoginDAO extends DAOBase {
 			pessoa.getContato().setSkype(registro.get("skype").asString());
 			pessoa.getContato().setTelefone(registro.get("tel").asString());
 		}
+		
+		session.close();
 		
 		return pessoa;
 	}

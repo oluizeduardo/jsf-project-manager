@@ -6,17 +6,17 @@ public class Pessoa {
 	
 	private Value id;
 	private String papel;// Aluno ou Professor.
-	private String nome;
-	private String documentoRG;
-	private String documentoCPF;
-	private String sexo;
-	private String estadoCivil;
-	private String dataNascimento;
-	private String matricula;	
+	private String nome="";
+	private String documentoRG="";
+	private String documentoCPF="";
+	private String sexo="";
+	private String estadoCivil="";
+	private String dataNascimento="";
+	private String matricula="";	
 	private Endereco endereco = new Endereco();
 	private Contato contato = new Contato();
-	private String senha;
-	private String curso;
+	private String senha="";
+	private String curso="";
 	
 	public Pessoa() { }
 	

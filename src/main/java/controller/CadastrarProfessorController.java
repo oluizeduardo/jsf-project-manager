@@ -3,8 +3,11 @@ package controller;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import model.pojo.Pessoa;
 import model.pojo.Professor;
 import view.Mensagem;
+import web.SessionUtil;
 import model.dao.ProfessorDAO;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
@@ -19,24 +22,40 @@ public class CadastrarProfessorController {
 	private List<String> estadosBrasileiros = null;
 	private List<String> estadoCivil = null;
 	private List<String> idiomas = null;
-	private ProfessorDAO profDAO = new ProfessorDAO();
 	
 	private String senhaAntiga = null;
 	private String novaSenha = null;
 	
 	
 	public CadastrarProfessorController() {
-		this.professor = new Professor();
+		
+		// Carrega os dados do professor logado no sistema.
+		carregaDadosDoProfessor();
+			
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
 	}
 	
 
+	
+	/**
+	 * Carrega os dados do professor logado no sistema.
+	 */
+	private void carregaDadosDoProfessor() {
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+
+		if (pessoa != null) {
+			this.professor = new ProfessorDAO().buscarProfessor(pessoa.getContato().getEmail(), pessoa.getSenha());
+		} else {
+			this.professor = new Professor();
+		}
+	}
+
+
 	public void salvarProfessor(){
 		
-		profDAO = new ProfessorDAO();
-		boolean cadastrou = profDAO.salvar(professor);
+		boolean cadastrou = new ProfessorDAO().salvar(professor);
 		
 		if(cadastrou){
 			Mensagem.ExibeMensagem("Dados atualizados com sucesso!");
@@ -46,6 +65,9 @@ public class CadastrarProfessorController {
 	}
 	
 	
+	public void alterarSenha(){
+		System.out.println("Alterando a senha do professor...");
+	}
 	
 	
 	public String getNovaSenha() {

@@ -33,4 +33,23 @@
 			</p:panel>
 		</h:form>		
 	</h:panelGrid>
+	
+	<p:dataList id="pnList"
+		value="#{cadastrarProjetoController.habilidades}" var="habilidade"
+		type="unordered" itemType="none" styleClass="paginated">
+	
+		<p:commandLink title="Excluir" styleClass="ui-icon ui-icon-trash"
+			style="float:left;margin-right:10px">
+	
+			<p:ajax update="pnList"
+				listener="#{cadastrarProjetoController.exluirHabilidade}" />
+	
+			<f:setPropertyActionListener value="#{habilidade}"
+				target="#{cadastrarProjetoController.habSelecionada}" />
+			<h:outputText value="#{habilidade.descricao} #{habilidade.nivel}" />
+		</p:commandLink>
+		<h:outputText value="#{habilidade.descricao}, (#{habilidade.nivel})"
+			style="display:inline-block" />
+	</p:dataList>
+	
 </html>

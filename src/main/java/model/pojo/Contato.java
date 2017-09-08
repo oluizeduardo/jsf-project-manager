@@ -2,10 +2,10 @@ package model.pojo;
 
 public class Contato {
 
-	private String email;
-	private String skype;
-	private String site;
-	private String telefone;
+	private String email="";
+	private String skype="";
+	private String site="";
+	private String telefone="";
 	
 	public Contato() { }
 

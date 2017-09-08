@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Professor extends Pessoa {
 
-	private String dataAdmissao;
-	private String titulacao;
+	private String dataAdmissao="";
+	private String titulacao="";
 	private List<Projeto> projetos;
 	
 	

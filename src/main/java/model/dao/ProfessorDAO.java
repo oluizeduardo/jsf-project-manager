@@ -1,6 +1,9 @@
 package model.dao;
 
 import java.util.List;
+
+import org.neo4j.driver.v1.Record;
+import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Professor;
 
@@ -75,13 +78,13 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		transaction = session.beginTransaction();
 		boolean status = false;//Status do cadastro.
 		
-		String script = "CREATE (pr:Professor {nome: '" + professor.getDataAdmissao()
+		String script = "CREATE (pr:Professor {nome: '" + professor.getNome()
 				+ "', papel:'" + professor.getPapel()
 				+ "', documentoCPF:'" + professor.getDocumentoCPF() 
 				+ "', documentoRG:'" + professor.getDocumentoRG()
 				+ "', estadoCivil:'" + professor.getEstadoCivil()
 				+ "', matricula:'" + professor.getMatricula()
-				+ "', nome:'" + professor.getNome()
+				+ "', dataAdmissao:'" + professor.getDataAdmissao()
 				+ "', senha:'" + professor.getSenha()
 				+ "', sexo:'" + professor.getSexo()
 				+ "', titulacao:'" + professor.getTitulacao()
@@ -128,6 +131,60 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	/**
+	 * Busca no banco de dados um professor específico baseado no seu email e senha.
+	 * 
+	 * @param email
+	 * @param senha
+	 * @return Objeto Professor.
+	 */
+	public Professor buscarProfessor(String email, String senha){
+		
+		super.iniciaSessaoNeo4J();
+		//transaction = session.beginTransaction();
+		Professor professor = null;		
+		
+		String script = "MATCH(pr:Professor) "
+						+ "WHERE pr.email='"+email+"' AND pr.senha = '"+senha+"' "
+						+ "return pr.nome as nome, pr.documentoRG as rg,"
+						+ "pr.documentoCPF as cpf, pr.estadoCivil as esci,"
+						+ "pr.matricula as mat, pr.senha as senha, pr.sexo as sexo,"
+						+ "pr.titulacao as titulacao, pr.email as email, pr.site as site,"
+						+ "pr.skype as skype, pr.telefone as telefone, "
+						+ "pr.dataNascimento as datanas, pr.cidade as cidade,"
+						+ "pr.estado as estado, pr.rua as rua";
+	
+		StatementResult resultado = session.run(script);
+		
+		while (resultado.hasNext()) {
+			professor = new Professor();
+			Record registro = resultado.next();
+			
+			professor.setDocumentoRG(registro.get("rg").asString());
+			professor.setDocumentoCPF(registro.get("cpf").asString());
+			professor.setEstadoCivil(registro.get("esci").asString());
+			professor.setMatricula(registro.get("mat").asString());
+			professor.setNome(registro.get("nome").asString());
+			professor.setSenha(registro.get("senha").asString());			
+			professor.setSexo(registro.get("sexo").asString());
+			professor.setTitulacao(registro.get("titulacao").asString());
+			professor.getContato().setEmail(registro.get("email").asString());			
+			professor.getContato().setSite(registro.get("site").asString());			
+			professor.getContato().setSkype(registro.get("skype").asString());
+			professor.getContato().setTelefone(registro.get("telefone").asString());
+			professor.setDataNascimento(registro.get("datanas").asString());
+			professor.getEndereco().setCidade(registro.get("cidade").asString());			
+			professor.getEndereco().setEstado(registro.get("estado").asString());
+			professor.getEndereco().setRua(registro.get("rua").asString());					
+		}
+
+		session.close();
+		
+		return professor;
+	}
+	
 	
 	
 	/**

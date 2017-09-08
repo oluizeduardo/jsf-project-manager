@@ -8,7 +8,7 @@ public class Aluno extends Pessoa {
 	private List<Habilidade> habilidades;
 	private List<Idioma> idiomas;
 	private List<Projeto> projetos;
-	private String dataMatricula;
+	private String dataMatricula="";
 	
 	
 	public Aluno() { 
