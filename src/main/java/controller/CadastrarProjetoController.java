@@ -14,8 +14,9 @@ import view.Mensagem;
 public class CadastrarProjetoController {
 
 	// Guarda os dados do novo projeto que será cadastrado.
-	private Projeto projeto = new Projeto();;
-
+	private Projeto projeto = new Projeto();
+	
+	
 	
 	public CadastrarProjetoController() { }
 

@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+  		
+	
+	<p:selectBooleanButton id="ehfinanciado"
+						   value="#{cadastrarProjetoController.projeto.financiamento.existente}" 
+						   offLabel="Não possui financiamento" 
+						   onLabel="Possui financiamento"
+						   offIcon="ui-icon-close" onIcon="ui-icon-check" onchange="">
+ 		
+ 		<p:ajax update="pnFinanciamento"/>						   
+	</p:selectBooleanButton>
+	
+	<p/>
+	
+	<div align="center">
+		<p:panel id="pnFinanciamento" visible="#{cadastrarProjetoController.projeto.financiamento.existente}">
+			<h:panelGrid columns="4" cellspacing="10">
+				<p:outputLabel value="Natureza:" for="type-financing"/>
+			
+				<p:selectOneMenu id="type-financing" 
+						value="#{cadastrarProjetoController.projeto.financiamento.natureza}">
+					<f:selectItem itemLabel="Auxílio" itemValue="Auxílio" />
+		
+					<f:selectItem itemLabel="Bolsa"	itemValue="Bolsa" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Valor:" for="value-financing"/>
+				<p:inputText id="value-financing" style="width:90px"
+				value="#{cadastrarProjetoController.projeto.financiamento.valor}"/>
+				
+			</h:panelGrid>
+		</p:panel>
+	</div>
+</html>
