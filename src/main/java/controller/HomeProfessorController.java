@@ -90,15 +90,6 @@ public class HomeProfessorController {
 		this.userProfessor = userProfessor;
 	}
 
-
-
-	/**
-	 * Retorna o valor da porcentagem de campos preenchidos do perfil.
-	 */
-	public int getProgressoDeAtualizacaoPerfil(){
-		return 10;
-	}
-
 	
 	
 	

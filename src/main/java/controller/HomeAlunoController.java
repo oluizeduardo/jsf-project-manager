@@ -68,27 +68,13 @@ public class HomeAlunoController {
 		return projetoBean;
 	}
 
-	
-	/**
-	 * Retorna o valor da porcentagem de campos preenchidos do perfil.
-	 */
-	public int getProgressoDeAtualizacaoPerfil(){
-		return 10;
-	}
-
-
-
 	public String getPalavraChave() {
 		return palavraChave;
 	}
 
-
-
 	public void setPalavraChave(String palavraChave) {
 		this.palavraChave = palavraChave;
 	}
-
-
 
 	public String getOnde() {
 		return onde;

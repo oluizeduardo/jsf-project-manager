@@ -33,7 +33,7 @@
 						<h:graphicImage value="/resources/images/user_default.png" height="170" width="170" />
 					</p:panel>
 
-					<p:outputLabel value="#{homeController.userAluno.nome}"
+					<p:outputLabel value="#{homeController.userAluno.nome} || {Luiz Eduardo}"
 								   style="font-size:30px;font-weight:bold;" />
 
 					<p:spacer height="10px"/>
@@ -43,10 +43,6 @@
 					<p:outputLabel value="#{homeController.userAluno.contato.email}"
 								   style="font-size:14px;"/>
 					
-					<p:spacer height="60"/>
-					<p:outputLabel value="Progresso de atualização do perfil:" style="font-size:13px"/>
-					<p:progressBar value="#{homeController.progressoDeAtualizacaoPerfil}" labelTemplate="{value}%" displayOnly="true"/>
-
 				</h:panelGrid>
 			</p:layoutUnit>
 
@@ -104,13 +100,13 @@
 						<p:panel id="pnProjeto" header="#{projeto.titulo}"
 							style="widht:300px; margin:5px">
 
-							<f:facet name="actions">
+							<!--<f:facet name="actions">
 								<p:commandLink
 									styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
 									<h:outputText styleClass="ui-icon ui-icon-grip-dotted-vertical"
 										title="Clique e arraste" />
 								</p:commandLink>
-							</f:facet>
+							</f:facet> -->
 
 
 							<h:panelGrid columns="2">
@@ -149,8 +145,6 @@
 							</h:panelGrid>
 
 						</p:panel>
-
-						<p:draggable for="pnProjeto" revert="true" stack=".ui-panel" />
 
 					</p:dataGrid>
 
