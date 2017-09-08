@@ -3,9 +3,12 @@ package controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.dao.ProjetoDAO;
+import model.pojo.Habilidade;
 import model.pojo.Projeto;
 import view.Mensagem;
 
@@ -15,6 +18,13 @@ public class CadastrarProjetoController {
 
 	// Guarda os dados do novo projeto que será cadastrado.
 	private Projeto projeto = new Projeto();
+	
+	// Lista de habilidades exigidas neste projeto.
+	private List<Habilidade> habilidades;
+	
+	// Habilidade selecionada para ser excluida da lista.
+	private Habilidade habSelecionada = new Habilidade(null, null);
+	
 	
 	
 	
@@ -60,6 +70,33 @@ public class CadastrarProjetoController {
 
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
+	}
+
+	public List<Habilidade> getHabilidades() {
+		if(habilidades == null){
+			habilidades = new ArrayList<Habilidade>();
+			habilidades.add(new Habilidade("Java", "Médio"));
+			habilidades.add(new Habilidade("Banco de dados", "Básico"));
+			habilidades.add(new Habilidade("Javascript", "Avançado"));
+			habilidades.add(new Habilidade("Engenharia de Software", "Básico"));
+			habilidades.add(new Habilidade("Python", "Básico"));
+		}		
+		return habilidades;
+	}
+
+	public void exluirHabilidade(){
+		this.habilidades.remove(habSelecionada);
+		System.out.println("REMOVIDO: "+habSelecionada.getDescricao());
+	}
+	
+	public void setHabilidades(List<Habilidade> habilidades) {
+		this.habilidades = habilidades;
+	}
+	public Habilidade getHabSelecionada() {
+		return habSelecionada;
+	}
+	public void setHabSelecionada(Habilidade habSelecionada) {
+		this.habSelecionada = habSelecionada;
 	}
 
 }

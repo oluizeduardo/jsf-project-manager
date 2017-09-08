@@ -5,10 +5,10 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	
-	<h:form>
-		<p:panel>
+	<h:form id="form-Habilidades">
+		<p:panel id="pn-Habilidades">
 			<div align="center">
-				<h:panelGrid columns="5" cellspacing="20">
+				<h:panelGrid columns="5" cellspacing="10">
 				
 					<h:outputLabel value="Descrição:" for="description-field"/>
 					<p:inputText id="description-field" style="width:250px"/>
@@ -27,5 +27,27 @@
 				</h:panelGrid>
 			</div>	
 		</p:panel>
-	</h:form>
+
+		<p:dataList id="pnList"
+					value="#{cadastrarProjetoController.habilidades}" 
+					var="habilidade" type="unordered"
+					itemType="none" styleClass="paginated">
+
+			<p:commandLink title="Excluir" 
+				styleClass="ui-icon ui-icon-trash"
+				style="float:left;margin-right:10px"
+				update="form-projects:j_idt35:horizontal-panel:form-Habilidades:pnList:0:j_idt88">
+				
+				<p:ajax update="pnList" listener="#{cadastrarProjetoController.exluirHabilidade}"/>
+				
+				<f:setPropertyActionListener value="#{habilidade}"
+					target="#{cadastrarProjetoController.habSelecionada}" />
+				<h:outputText value="#{habilidade.descricao} #{habilidade.nivel}" />
+			</p:commandLink>
+			<h:outputText value="#{habilidade.descricao}, (#{habilidade.nivel})"
+				style="display:inline-block" />
+		</p:dataList>
+
+
+</h:form>
 </html>
