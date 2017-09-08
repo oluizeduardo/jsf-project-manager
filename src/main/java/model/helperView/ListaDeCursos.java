@@ -45,19 +45,22 @@ public class ListaDeCursos {
 		this.cursos = new ArrayList<String>();
 		
 		cursos.add("Administração");
-		cursos.add("Biologia");
+		cursos.add("Ciências Biológicas");
 		cursos.add("Contabilidade");
 		cursos.add("Educação Física");
 		cursos.add("Engenharia de Produção");
+		cursos.add("Enfermagem");
 		cursos.add("Farmácia");
 		cursos.add("Fisioterapia");
+		cursos.add("Gastronomia");
 		cursos.add("Gestão de Produção Industrial");
+		cursos.add("Gestão de Recursos Humanos");
 		cursos.add("História");
-		cursos.add("Medicina");		
+		cursos.add("Medicina");	
+		cursos.add("Nutrição");
 		cursos.add("Pedagogia");
 		cursos.add("Psicologia");
-		cursos.add("Publicidade");
-		cursos.add("Recursos Humanos");				
+		cursos.add("Publicidade");			
 		cursos.add("Sistemas de Informação");		
 	}
 

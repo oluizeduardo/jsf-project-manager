@@ -52,7 +52,9 @@
 		</p:inputMask>
 
 		<p:outputLabel value="Curso:" for="course-field" />
-		<p:inputText id="course-field" value="#{cadastrarAlunoController.aluno.curso}"/>
+		<p:selectOneMenu id="course-field" value="#{cadastrarAlunoController.aluno.curso}">
+			<f:selectItems value="#{listaDeCursos.cursos}" />
+		</p:selectOneMenu>
 
 		<p:outputLabel value="Data de Matrícula" for="registration_date-field" />
 		<p:calendar id="registration_date-field" pattern="dd-MM-yyyy"
