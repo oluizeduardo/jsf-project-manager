@@ -7,6 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import model.pojo.Aluno;
+import model.pojo.Pessoa;
+import web.SessionUtil;
 import model.dao.AlunoDAO;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
@@ -22,12 +24,36 @@ public class CadastrarAlunoController {
 	private List<String> idiomas = null;
 	
 	public CadastrarAlunoController() {
-		this.aluno = new Aluno();
+		
+		// Carrega os dados do aluno logado no sistema.
+		carregaDadosDoAluno();
+		
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
 	}
 
+	
+	
+	/**
+	 * Carrega os dados do aluno logado no sistema.
+	 */
+	private void carregaDadosDoAluno() {
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+
+		if (pessoa != null) {
+			
+			String email = pessoa.getContato().getEmail();
+			String senha = pessoa.getSenha();
+			
+			this.aluno = new AlunoDAO().buscarAluno(email, senha);
+		} else {
+			this.aluno = new Aluno();
+		}		
+	}
+
+	
+	
 	public void salvarAluno(){		
 		new AlunoDAO().salvar(aluno);
 		

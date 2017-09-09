@@ -168,28 +168,55 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		}
 		session.close();	
 	}
+
 	
 	
-//	public Aluno buscarAlunoPorEmail(String email) {
-//
-//		iniciaSessaoNeo4J();
-//		
-//		Aluno alunoEspecifico = new Aluno();
-//		String script = "MATCH (a:Aluno) WHERE a.email= '" + email + "' RETURN a.email as email";
-//		
-//		StatementResult resultado = session.run(script);
-//
-//		while (resultado.hasNext()) {
-//
-//			Record registro = resultado.next();
-//
-//			String email2 = registro.get("email").asString();
-//			
-//			alunoEspecifico.getContato().setEmail(email2);
-//		}
-//
-//		session.close();
-//		return alunoEspecifico;
-//	}
+	/**
+	 * Busca no banco de dados um aluno específico baseado no seu email e senha.
+	 * 
+	 * @param email
+	 * @param senha
+	 * @return O objeto Aluno específico.
+	 */
+	public Aluno buscarAluno(String email, String senha) {
+		
+		super.iniciaSessaoNeo4J();
+		Aluno aluno = null;
+		
+		String script = "MATCH(al:Aluno) "
+				+ "WHERE al.email='"+email+"' AND al.senha = '"+senha+"' "
+				+ "return al.nome as nome, al.documentoRG as rg,"
+				+ "al.documentoCPF as cpf, al.estadoCivil as esci,"
+				+ "al.matricula as mat, al.senha as senha, al.sexo as sexo,"
+				+ "al.email as email, al.site as site,"
+				+ "al.skype as skype, al.telefone as telefone, "
+				+ "al.dataNascimento as datanas, al.cidade as cidade,"
+				+ "al.estado as estado, al.rua as rua";
+		
+		StatementResult resultado = session.run(script);
+		
+		while (resultado.hasNext()) {
+			aluno = new Aluno();
+			Record registro = resultado.next();
+			
+			aluno.setNome(registro.get("nome").asString());
+			aluno.setDocumentoRG(registro.get("rg").asString());
+			aluno.setDocumentoCPF(registro.get("cpf").asString());
+			aluno.setEstadoCivil(registro.get("esci").asString());			
+			aluno.setMatricula(registro.get("mat").asString());
+			aluno.setSenha(registro.get("senha").asString());			
+			aluno.setSexo(registro.get("sexo").asString());
+			aluno.getContato().setEmail(registro.get("email").asString());			
+			aluno.getContato().setSite(registro.get("site").asString());			
+			aluno.getContato().setSkype(registro.get("skype").asString());
+			aluno.getContato().setTelefone(registro.get("telefone").asString());
+			aluno.setDataNascimento(registro.get("datanas").asString());
+			aluno.getEndereco().setCidade(registro.get("cidade").asString());			
+			aluno.getEndereco().setEstado(registro.get("estado").asString());
+			aluno.getEndereco().setRua(registro.get("rua").asString());	
+		}					
+		return aluno;
+	}
+	
 	
 }
