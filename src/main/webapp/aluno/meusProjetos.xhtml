@@ -31,31 +31,21 @@
 			<!-- TABELA DE PROJETOS EM QUE O ALUNO ESTÁ CADASTRADO -->
 			<p:dataTable id="table-projects-registered" var="projeto"
 				value="#{projetoBean.projetos}" widgetVar="projectsTable"
-				multiViewState="true" rows="5" paginator="true"
+				multiViewState="true" rows="10" paginator="true"
 				paginatorPosition="bottom"
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
 				emptyMessage="Nenhum projeto encontrado com essa busca.">
 
-
-				<f:facet name="header">
-					<p:outputPanel>
-						<h:outputText value="Buscar em todos os campos: " />
-						<p:spacer width="10px" />
-						<p:inputText id="globalFilter" style="width:250px"
-							placeholder="Palavra chave" />
-
-					</p:outputPanel>
-				</f:facet>
 
 				<p:column headerText="Título" filterBy="#{projeto.titulo}"
 					sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
 					<h:outputText value="#{projeto.titulo}" />
 				</p:column>
 				
-				<p:column headerText="Natureza" filterBy="#{projeto.natureza}"
-					sortBy="#{projeto.natureza}" filterMatchMode="startsWith"
+				<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
+					sortBy="#{projeto.categoria}" filterMatchMode="startsWith"
 					style="text-align: center">
-					<h:outputText value="#{projeto.natureza}" />
+					<h:outputText value="#{projeto.categoria}" />
 				</p:column>
 
 				<p:column headerText="Coordenador"
@@ -67,7 +57,7 @@
 				<p:column headerText="Publicado em"
 					filterBy="#{projeto.dataPublicacao}"
 					sortBy="#{projeto.dataPublicacao}" filterMatchMode="startsWith"
-					style="width:100px; text-align: center">
+					style="width:150px; text-align: center">
 					<h:outputText value="#{projeto.dataPublicacao}" />
 				</p:column>
 

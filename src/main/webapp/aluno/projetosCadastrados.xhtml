@@ -28,21 +28,11 @@ body {
 		<p:panel>
 			<p:dataTable id="table-projects-registered" var="projeto"
 				value="#{projetoBean.projetos}" widgetVar="projectsTable"
-				multiViewState="true" rows="15" paginator="true" 
+				multiViewState="true" rows="10" paginator="true" 
 				paginatorPosition="bottom"
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
 				emptyMessage="Nenhum projeto encontrado com essa busca.">
 
-
-				<f:facet name="header">
-					<p:outputPanel>
-						<h:outputText value="Buscar em todos os campos: " />
-						<p:spacer width="10px" />
-						<p:inputText id="globalFilter" style="width:250px"
-							placeholder="Palavra chave" />
-
-					</p:outputPanel>
-				</f:facet>
 
 				<p:column headerText="Título" filterBy="#{projeto.titulo}"
 					sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
