@@ -28,12 +28,30 @@
 
 		<p:panel>
 			<div align="center">
-				<h:panelGrid columns="2" cellspacing="10">						
-					<p:chart type="bar" model="#{relatoriosController.barModel}" style="height:300px"/>
-					<p:chart type="bar" model="#{relatoriosController.barModel}" style="height:300px"/>						
+				<h:panelGrid columns="2" cellspacing="10">
+					<h:panelGrid columns="1">
+					
+						<p:selectOneMenu id="course-field" style="width:370px">
+							<f:selectItems value="#{listaDeCursos.cursos}" />
+						</p:selectOneMenu>
+
+						<p:panel style="width:400px">
+							<p:chart type="bar" model="#{relatoriosController.barModel}" style="height:250px" />
+						</p:panel>
+					</h:panelGrid>
+					
+					<p:panel style="width:450px">
+						<p:chart type="bar" model="#{relatoriosController.barModel}" style="height:285px" />
+					</p:panel>
 				</h:panelGrid>
-			</div>			
-		</p:panel>		
+			</div>
+		</p:panel>
+		
+		<p:spacer width="5px"/>
+		
+		<p:panel style="height:200px">
+		
+		</p:panel>
 	</h:form>
 
 </h:body>
