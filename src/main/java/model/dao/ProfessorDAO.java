@@ -196,5 +196,6 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		super.iniciaSessaoNeo4J();
 		// TODO Auto-generated method stub
 	}
+	
 
 }
