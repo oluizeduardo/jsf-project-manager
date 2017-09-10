@@ -133,7 +133,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String senha = aluno.getSenha();
 				
 		transaction = session.beginTransaction();
-		
+
 		System.out.println("RODANDO O SCRIPT");
 		
 		String script = "MATCH (n:Aluno) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "

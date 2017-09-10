@@ -58,19 +58,30 @@ public class CadastrarAlunoController {
 	public void salvarAluno(){		
 		new AlunoDAO().salvar(aluno);
 		
-		try {
-			
-			FacesContext.getCurrentInstance().getExternalContext().redirect("aluno/home.xhtml");
+		try {			
+			FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
 		} 
-		catch (IOException e) { 
-			System.err.println(e.getMessage());
-		}
+		catch (IOException e) { System.err.println(e.getMessage());	}
 	}
 	
+	
+	/**
+	 * Executa este método para atualização do registro quando o usuário editar o perfil.
+	 */
 	public void atualizarAluno() {
-		System.out.println("Atualizando aluno:" + aluno);
-		new AlunoDAO().atualizar(aluno);
-		Mensagem.ExibeMensagem("Alterações salvas com sucesso");
+		System.out.println("ATUALIZANDO ALUNO: " + aluno);
+		new AlunoDAO().atualizar(aluno);		
+		Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+		
+//		try {
+//			Thread.sleep(500);
+//		} catch (InterruptedException e1) { e1.printStackTrace(); }
+//		
+//		try {
+//			FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+//		} catch (IOException e) {
+//			System.err.println(e.getMessage());
+//		}
 	}
 	
 	

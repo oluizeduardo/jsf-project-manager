@@ -3,7 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-
+<h:form>
 <p:panel header="Detalhes Pessoais">
 
 	<!-- Mensagem -->
@@ -23,8 +23,7 @@
 		<p:outputLabel value="Sexo:" for="gender-field"/>
 		<p:selectOneMenu style="width:170px" id="gender-field" value="#{cadastrarAlunoController.aluno.sexo}">
 
-			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
-				noSelectionOption="true" />
+			<f:selectItem itemLabel="Selecione" itemValue="Selecione" noSelectionOption="true" />
 			<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
 			<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
 		</p:selectOneMenu>
@@ -63,5 +62,5 @@
 
 	</h:panelGrid>
 </p:panel>
-
+</h:form>
 </html>
