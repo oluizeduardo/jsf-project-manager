@@ -130,10 +130,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		transaction = session.beginTransaction();
 		
-		String script = "MATCH (a:Aluno) WHERE a.email = '" + aluno.getContato().getEmail() 
-				+ "'and a.senha ='" + aluno.getSenha() +
-
-				"' SET a.nome = '" + aluno.getNome() + "', "
+		String script = "MATCH (a:Aluno) WHERE a.email = '" + aluno.getContato().getEmail()+ "'"
+				+ " AND a.senha = '"+aluno.getSenha()+"' SET a.nome = '" + aluno.getNome() + "', "
 				+ "a.curso = '" + aluno.getCurso() + "', " 
 				+ "a.dataMatricula = '" + aluno.getDataMatricula() + "', "
 				+ "a.documentoCPF = '" + aluno.getDocumentoCPF() + "', "

@@ -27,9 +27,7 @@
 		</p:selectOneMenu>
 
 		<p:outputLabel value="Estado Cívil:" for="marital_status-field" />
-		<p:selectOneMenu id="marital_status-field"
-			value="#{cadastrarProfessorController.estadoCivil}"
-			style="width:170px">
+		<p:selectOneMenu id="marital_status-field" style="width:170px">
 
 			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 				noSelectionOption="true" />
@@ -63,7 +61,7 @@
 			value="#{cadastrarProfessorController.professor.dataAdmissao}"/>
 			
 		<p:outputLabel value="Curso:" for="course-field" />
-		<p:selectOneMenu id="course-field" value="#{cadastrarProfessorController.professor.curso}">
+		<p:selectOneMenu id="course-field" >
 			<f:selectItems value="#{listaDeCursos.cursos}" />
 		</p:selectOneMenu>
 			
