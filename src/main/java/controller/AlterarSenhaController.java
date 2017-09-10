@@ -22,15 +22,13 @@ import web.SessionUtil;
 @SessionScoped
 public class AlterarSenhaController implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
 	private String senhaAntiga;
 	private String novaSenha;
-	
-	
-	public AlterarSenhaController() { }
-	
-	
+
+	public AlterarSenhaController() {
+	}
+
 	public void alterarSenha(){
 		System.out.println("Alterando a senha do professor...\n"
 				+ "SENHA ANTIGA: "+senhaAntiga+"\nNOVA SENHA: "+novaSenha);
@@ -38,21 +36,27 @@ public class AlterarSenhaController implements Serializable {
 		// Retorna os dados da pessoa logada nos sistema.
 		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
-		// Retorna o status da alteração da senha.
-		boolean alterouSenha = new SenhaDAO().alterarSenha(usuarioLogado, novaSenha);
-	
-		if(alterouSenha){
-			System.out.println("Senha alterada com sucesso!");
-			Mensagem.ExibeMensagem("Senha alterada com sucesso!");
-		}else{
-			System.out.println("Erro na alteração de senha!");
-			Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
+		if(usuarioLogado.getSenha().equals(senhaAntiga)) {
+			
+			boolean alterouSenha = new SenhaDAO().alterarSenha(usuarioLogado, novaSenha);
+			
+				if(alterouSenha == true) {
+					System.out.println("Senha alterada com sucesso!");
+					Mensagem.ExibeMensagem("Senha alterada com sucesso!");
+				}
+				
+				else{
+					System.out.println("Erro na alteração de senha!");
+					Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
+				}
 		}
+		
+		else {
+			Mensagem.ExibeMensagemErro("Não corresponde com a senha usada para o Login!");
+		}
+
 	}
 
-	
-	
-	
 	public String getSenhaAntiga() {
 		return senhaAntiga;
 	}
@@ -68,6 +72,5 @@ public class AlterarSenhaController implements Serializable {
 	public void setNovaSenha(String novaSenha) {
 		this.novaSenha = novaSenha;
 	}
-	
-	
+
 }
