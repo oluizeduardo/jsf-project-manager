@@ -6,7 +6,10 @@ import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
+
+import model.pojo.Pessoa;
 import model.pojo.Projeto;
+import web.SessionUtil;
 
 public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 
@@ -14,14 +17,19 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	
 	public boolean salvar(Projeto projeto) {
 		super.iniciaSessaoNeo4J();
-				
+		
+		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		String email = usuarioLogado.getContato().getEmail();
+		String senha = usuarioLogado.getSenha();
+		
+		System.out.println(email);
+		System.out.println(senha);
+		
 		transaction = session.beginTransaction();
 		boolean status = false;//Status do cadastro.
 		
-		String script = "CREATE (pj:Projeto {dataFim: '" + projeto.getDataFim() 
+		String script = "MATCH (pr:Professor{email:'"+email+"',senha:'"+senha+"'}) CREATE (pj:Projeto {titulo: '" + projeto.getTitulo() 
 		+ "', dataInicio:'" + projeto.getDataInicio() 
-		+ "', nomeCoordenador:'" + projeto.getCoordenador().getNome()
-		+ "', titulacaoCoordenador:'" + projeto.getCoordenador().getTitulacao()
 		+ "', dataPublicacao:'" + projeto.getDataPublicacao()
 		+ "', eFinanciado:'" + projeto.getFinanciamento().isExistente()
 		+ "', valor:'" + projeto.getFinanciamento().getValor()
@@ -30,9 +38,9 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "', numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
 		//+ "', cursosAlvos:'" + projeto.getCursosEnvolvidos()
 		+ "', resumo:'" + projeto.getResumo()
-		+ "', titulo:'" + projeto.getTitulo()
-		+ "'})";
-		
+		+ "', dataFim:'" + projeto.getDataFim()
+		+ "'}),(pr)-[:COOORDENA{Desde:'"+projeto.getDataInicio()+"'}]->(pj)";
+				
 		try{
 			// Executa o script no banco de dados.
 			transaction.run(script);			
@@ -95,13 +103,40 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	public void excluir(Projeto obj) {
 		super.iniciaSessaoNeo4J();
 		// TODO Auto-generated method stub
-		
 	}
 
-	public void atualizar(Projeto obj) {
+	public void atualizar(Projeto projeto) {
 		super.iniciaSessaoNeo4J();
-		// TODO Auto-generated method stub
 		
+		transaction = session.beginTransaction();
+		
+		String script = "MATCH (pj:Projeto) WHERE pj.titulo = '" + projeto.getTitulo()
+		+ "' SET pj.titulo:'" + projeto.getTitulo()
+		+ "'pj.dataFim: '" + projeto.getDataFim()
+		+ "pj.dataInicio: '" + projeto.getDataInicio()
+		+ "'pj.dataPublicacao:'" + projeto.getDataPublicacao()
+		+ "'pj.eFinanciado:'" + projeto.getFinanciamento().isExistente()
+		+ "'pj.valor:'" + projeto.getFinanciamento().getValor()
+		+ "'pj.descricaoCurta:'" + projeto.getDescricaoCurta()
+		+ "'pj.categoria:'" + projeto.getCategoria()
+		+ "'pj.numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
+		+ "'pj.resumo:'" + projeto.getResumo()
+		+"'RETURN pj";
+		
+		try {
+			// Executa o script no banco de dados.
+			transaction.run(script);
+			transaction.success();
+			
+		} finally {
+			try {
+				transaction.close();
+			} catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();	
 	}
-
+	
 }
