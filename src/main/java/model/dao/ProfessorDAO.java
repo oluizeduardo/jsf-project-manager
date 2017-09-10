@@ -1,7 +1,6 @@
 package model.dao;
 
 import java.util.List;
-
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;

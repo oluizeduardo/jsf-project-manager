@@ -1,5 +1,6 @@
 package model.dao;
 
+import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Pessoa;
 
 /**
@@ -7,13 +8,9 @@ import model.pojo.Pessoa;
  * 
  * @author Luiz Eduardo
  */
-public class SenhaDAO {
+public class SenhaDAO extends DAOBase {
 
-	
-	
 	public SenhaDAO() { }
-	
-	
 	
 	/**
 	 * Altera a senha do professor no banco de dados.
@@ -25,7 +22,36 @@ public class SenhaDAO {
 	 * @return Status da alteração de senha.
 	 */
 	public boolean alterarSenha(Pessoa usuarioLogado, String novaSenha){
-		//TODO Contruir o método para alterar a senha do professor.
-		return false;
+		super.iniciaSessaoNeo4J();
+		
+		String email = usuarioLogado.getContato().getEmail();
+		String senha = usuarioLogado.getSenha();
+		
+		transaction = session.beginTransaction();
+		
+		String script = "MATCH (n:Pessoa) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
+				+ "SET n+= {senha:'" +novaSenha+ "'} RETURN n";
+		
+		boolean status = false;//Status do cadastro.
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			status = true;
+		}catch(Exception ex){
+			status = false;
+			
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();
+				
+		return status;
 	}
 }
