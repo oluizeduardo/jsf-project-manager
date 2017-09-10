@@ -52,13 +52,13 @@
 
 		<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
 		<p:calendar id="birthday-field"
-			value="#{cadastrarProfessorController.professor.dataNascimento}"
+			value="#{cadastrarProfessorController.dataNascimento}"
 			pattern="dd-MM-yyyy" mask="true" navigator="true" />
 
 		<p:outputLabel value="Data de Admissão:" for="registration_date-field" />
 		<p:calendar id="registration_date-field" pattern="dd-MM-yyyy"
 			mask="true" navigator="true" locale="br" 
-			value="#{cadastrarProfessorController.professor.dataAdmissao}"/>
+			value="#{cadastrarProfessorController.dataAdmissao}"/>
 			
 		<p:outputLabel value="Curso:" for="course-field" />
 		<p:selectOneMenu id="course-field" value="#{cadastrarProfessorController.professor.curso}" >

@@ -1,30 +1,30 @@
 package controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
 import model.pojo.Pessoa;
 import model.pojo.Professor;
 import view.Mensagem;
 import web.SessionUtil;
-import model.dao.AlunoDAO;
 import model.dao.ProfessorDAO;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
-import model.helperView.ListaDeIdiomas;
 
 
 @ManagedBean(name = "cadastrarProfessorController")
 @ViewScoped
 public class CadastrarProfessorController {
 
+	
 	private Professor professor = null;
 	private List<String> estadosBrasileiros = null;
 	private List<String> estadoCivil = null;
-	private List<String> idiomas = null;	
-	private String senhaAntiga = null;
-	private String novaSenha = null;
+	private Date dataNascimento = null;
+	private Date dataAdmissao = null;
+	
 	
 	
 	public CadastrarProfessorController() {
@@ -34,7 +34,6 @@ public class CadastrarProfessorController {
 			
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
-		this.idiomas = new ListaDeIdiomas().getList();
 	}
 	
 
@@ -53,8 +52,13 @@ public class CadastrarProfessorController {
 	}
 
 
+	/**
+	 * Salva no banco de dados o registro do objeto que está sendo manipulado
+	 * por esta classe controladora.
+	 */
 	public void salvarProfessor(){
 		
+		converterDatasDoProfessor();
 		boolean cadastrou = new ProfessorDAO().salvar(professor);
 		
 		if(cadastrou){
@@ -63,32 +67,48 @@ public class CadastrarProfessorController {
 			Mensagem.ExibeMensagemErro("Não foi possível atualizar os dados.");
 		}
 	}
+
 	
 	
-	public void alterarSenha(){
-		System.out.println("Alterando a senha do professor...");
-	}
-	
+	/**
+	 * Atualiza no banco de dados o registro do professor logado no sistema.
+	 */
 	public void atualizarProfessor() {
-		System.out.println("ATUALIZANDO PROF: " + professor);
+		System.out.println("Atualizando professor: " + professor);
+		
+		converterDatasDoProfessor();
 		new ProfessorDAO().atualizar(professor);		
 		Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
 	}
 	
 	
-	public String getNovaSenha() {
-		return novaSenha;
-	}
-	public void setNovaSenha(String novaSenha) {
-		this.novaSenha = novaSenha;
-	}
-	public String getSenhaAntiga() {
-		return senhaAntiga;
-	}
-	public void setSenhaAntiga(String senhaAntiga) {
-		this.senhaAntiga = senhaAntiga;
+	
+	
+	/**
+	 * Converte as datas do perfil do professor para o formato String.
+	 */
+	private void converterDatasDoProfessor(){		
+		
+		// Necessário para construir a máscara desejada.
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		/* Se o professor não informar a data de admissão e nascimento, 
+		 * cadastra no banco uma String vazia. */
+		if(dataAdmissao == null){			
+			professor.setDataAdmissao("");
+		}else{
+			professor.setDataAdmissao(sdf.format(dataAdmissao));
+		}
+		
+		if(dataNascimento == null){
+			professor.setDataNascimento("");
+		}else{
+			professor.setDataNascimento(sdf.format(dataNascimento));
+		}
 	}
 
+	
+	
 	public Professor getProfessor() {
 		return professor;
 	}
@@ -100,14 +120,20 @@ public class CadastrarProfessorController {
 	public List<String> getEstadosBrasileiros() {
 		return estadosBrasileiros;
 	}
-	
 	public List<String> getEstadoCivil() {
 		return estadoCivil;
 	}
-	
-	public List<String> getIdiomas() {
-		return idiomas;
+	public Date getDataNascimento() {
+		return dataNascimento;
 	}
-	
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+	public Date getDataAdmissao() {
+		return dataAdmissao;
+	}
+	public void setDataAdmissao(Date dataAdmissao) {
+		this.dataAdmissao = dataAdmissao;
+	}
 	
 }
