@@ -22,31 +22,49 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 	public void atualizar(Professor professor) {
 		super.iniciaSessaoNeo4J();
 		
+		String email = professor.getContato().getEmail();
+		String senha = professor.getSenha();
+		
 		transaction = session.beginTransaction();
 		
-		String script = "MATCH (pr:Professor) WHERE a.email = '" + professor.getContato().getEmail() 
-				+ "'and a.senha ='" + professor.getSenha() +
+//		String script = "MATCH (n:Professor) WHERE n.email = '" + email + "'and n.senha ='" + senha +
 
-				"' SET a.nome = '" + professor.getNome() + "', "
-				+ "', papel:'" + professor.getPapel()
-				+ "', documentoCPF:'" + professor.getDocumentoCPF() 
+ 
+
+//				+ "', estadoCivil:'" + professor.getEstadoCivil()
+//				+ "', matricula:'" + professor.getMatricula()
+//				+ "', nome:'" + professor.getNome()
+//				+ "', senha:'" + professor.getSenha()
+//				+ "', sexo:'" + professor.getSexo()
+//				+ "', titulacao:'" + professor.getTitulacao()
+//				+ "', email:'" + professor.getContato().getEmail()
+//				+ "', site:'" + professor.getContato().getSite()
+//				+ "', skype:'" + professor.getContato().getSkype()
+//				+ "', telefone:'" + professor.getContato().getTelefone()
+//				+ "', dataNascimento:'" + professor.getDataNascimento()
+//				+ "', bairro:'" + professor.getEndereco().getBairro()
+//				+ "', cidade:'" + professor.getEndereco().getCidade()
+//				+ "', estado:'" + professor.getEndereco().getEstado()
+//				+ "', rua:'" + professor.getEndereco().getRua()
+//				+ "'} RETURN a";
+		String script = "MATCH (n:Professor) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
+				+ "SET n+= {nome: '" + professor.getNome()
+				+ "', documentoCPF:'" + professor.getDocumentoCPF()
 				+ "', documentoRG:'" + professor.getDocumentoRG()
 				+ "', estadoCivil:'" + professor.getEstadoCivil()
 				+ "', matricula:'" + professor.getMatricula()
-				+ "', nome:'" + professor.getNome()
 				+ "', senha:'" + professor.getSenha()
-				+ "', sexo:'" + professor.getSexo()
-				+ "', titulacao:'" + professor.getTitulacao()
-				+ "', email:'" + professor.getContato().getEmail()
-				+ "', site:'" + professor.getContato().getSite()
+				+ "', sexo:'" + professor.getSexo() 
+				+ "', dataNascimento:'" + professor.getDataNascimento() 
+				+ "', dataAdmissao:'" + professor.getDataAdmissao()
+				+ "', email:'" + professor.getContato().getEmail() 
+				+ "', site:'" + professor.getContato().getSite() 
 				+ "', skype:'" + professor.getContato().getSkype()
 				+ "', telefone:'" + professor.getContato().getTelefone()
-				+ "', dataNascimento:'" + professor.getDataNascimento()
 				+ "', bairro:'" + professor.getEndereco().getBairro()
-				+ "', cidade:'" + professor.getEndereco().getCidade()
+				+ "', cidade:'" + professor.getEndereco().getCidade() 
 				+ "', estado:'" + professor.getEndereco().getEstado()
-				+ "', rua:'" + professor.getEndereco().getRua()
-				+ "' RETURN a";
+				+ "', rua:'" + professor.getEndereco().getRua() + "'} RETURN n";
 		
 		try {
 			// Executa o script no banco de dados.

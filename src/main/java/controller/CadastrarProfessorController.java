@@ -8,6 +8,7 @@ import model.pojo.Pessoa;
 import model.pojo.Professor;
 import view.Mensagem;
 import web.SessionUtil;
+import model.dao.AlunoDAO;
 import model.dao.ProfessorDAO;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
@@ -67,6 +68,12 @@ public class CadastrarProfessorController {
 	
 	public void alterarSenha(){
 		System.out.println("Alterando a senha do professor...");
+	}
+	
+	public void atualizarProfessor() {
+		System.out.println("ATUALIZANDO PROF: " + professor);
+		new ProfessorDAO().atualizar(professor);		
+		Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
 	}
 	
 	

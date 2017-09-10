@@ -34,8 +34,6 @@ public class CadastrarAlunoController {
 		this.idiomas = new ListaDeIdiomas().getList();
 	}
 
-	
-	
 	/**
 	 * Carrega os dados do aluno logado no sistema.
 	 */
