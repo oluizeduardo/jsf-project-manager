@@ -46,6 +46,9 @@ public class CadastrarProjetoController {
 	 */
 	public void salvarProjeto() {
 		projeto.setDataPublicacao(getCurrentDate());
+		projeto.setDataFim(getCurrentDate());
+		projeto.setDataInicio(getCurrentDate());
+		
 		boolean salvou = new ProjetoDAO().salvar(projeto);
 		
 		if(salvou){
