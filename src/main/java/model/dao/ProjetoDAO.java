@@ -15,15 +15,16 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 
 	public ProjetoDAO() { }
 	
+	
+	/**
+	 * Salva um novo objeto Projeto no banco de dados.
+	 */
 	public boolean salvar(Projeto projeto) {
 		super.iniciaSessaoNeo4J();
 		
 		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		String email = usuarioLogado.getContato().getEmail();
 		String senha = usuarioLogado.getSenha();
-		
-		System.out.println(email);
-		System.out.println(senha);
 		
 		transaction = session.beginTransaction();
 		boolean status = false;//Status do cadastro.
@@ -36,7 +37,6 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "', descricaoCurta:'" + projeto.getDescricaoCurta()
 		+ "', categoria:'" + projeto.getCategoria()
 		+ "', numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
-		//+ "', cursosAlvos:'" + projeto.getCursosEnvolvidos()
 		+ "', resumo:'" + projeto.getResumo()
 		+ "', dataFim:'" + projeto.getDataFim()
 		+ "'}),(pr)-[:COOORDENA{Desde:'"+projeto.getDataInicio()+"'}]->(pj)";
@@ -64,11 +64,17 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		return status;
 	}
 
+	
+	
+	
+	/**
+	 * Retorna uma lista com todos os projetos salvos por um usuário professor.
+	 */
 	public List<Projeto> listar() {
 		
 		super.iniciaSessaoNeo4J();
 		
-		ArrayList<Projeto>projetos = new ArrayList<Projeto>();
+		ArrayList<Projeto> projetos = new ArrayList<Projeto>();
 		
 		StatementResult resultado = session.run("MATCH(pj:Projeto) return ID (pj) as id, pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, pj.nomeCoordenador as Nome_Coordenador, "
@@ -87,24 +93,31 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			projetoAux.getCoordenador().setNome(projetoAtual.get("Nome_Coordenador").asString());
 			projetoAux.getCoordenador().setTitulacao(projetoAtual.get("Titulacao_Coordenador").asString());
 			projetoAux.setDataPublicacao(projetoAtual.get("Data_Publicacao").asString());
-			projetoAux.getFinanciamento().setValor(projetoAtual.get("Valor").asDouble());
+			//projetoAux.getFinanciamento().setValor(projetoAtual.get("Valor").);
 			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
 			projetoAux.setCategoria(projetoAtual.get("Categoria").asString());
-			projetoAux.setNumeroDeParticipantes(projetoAtual.get("Numero_Participantes").asInt());
+			//projetoAux.setNumeroDeParticipantes(projetoAtual.get("Numero_Participantes").asInt());
 			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
 			projetoAux.setTitulo(projetoAtual.get("Titulo").asString());
-			
-		}
 		
+			projetos.add(projetoAux);
+		}		
 		return projetos;
 	}
 	
 
+	/**
+	 * Exlui um determinado projeto no banco de dados.
+	 */
 	public void excluir(Projeto obj) {
 		super.iniciaSessaoNeo4J();
 		// TODO Auto-generated method stub
 	}
 
+	
+	/**
+	 * Atualiza os dados de um objeto projeto no banco de dados.
+	 */
 	public void atualizar(Projeto projeto) {
 		super.iniciaSessaoNeo4J();
 		

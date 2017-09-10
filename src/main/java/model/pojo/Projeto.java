@@ -36,7 +36,7 @@ public class Projeto {
 	// Cursos e Habilidades
 	private List<String> cursosEnvolvidos;
 	private List<Habilidade> habilidades;
-	private int numeroDeParticipantes;
+	private Integer numeroDeParticipantes;
 	
 	// Resumo
 	private String resumo;
@@ -215,11 +215,11 @@ public class Projeto {
 		this.financiamento = financiamento;
 	}
 
-	public int getNumeroDeParticipantes() {
+	public Integer getNumeroDeParticipantes() {
 		return numeroDeParticipantes;
 	}
 
-	public void setNumeroDeParticipantes(int numeroDeParticipantes) {
+	public void setNumeroDeParticipantes(Integer numeroDeParticipantes) {
 		this.numeroDeParticipantes = numeroDeParticipantes;
 	}
 	
