@@ -6,6 +6,7 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Aluno;
+import web.SessionUtil;
 
 
 
@@ -128,30 +129,26 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	public void atualizar(Aluno aluno) {
 		super.iniciaSessaoNeo4J();
 		
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
+				
 		transaction = session.beginTransaction();
 		
-		String script = "MATCH (a:Aluno) WHERE a.email = '" + aluno.getContato().getEmail() 
-				+ "'and a.senha ='" + aluno.getSenha() +
-
-				"' SET a.nome = '" + aluno.getNome() + "', "
-				+ "a.curso = '" + aluno.getCurso() + "', " 
-				+ "a.dataMatricula = '" + aluno.getDataMatricula() + "', "
-				+ "a.documentoCPF = '" + aluno.getDocumentoCPF() + "', "
-				+ "a.documentoRG = '" + aluno.getDocumentoRG() + "', "
-				+ "a.estadoCivil = '" + aluno.getEstadoCivil() + "', "
-				+ "a.matricula = '" + aluno.getMatricula() + "', "
-				+ "a.senha = '" + aluno.getSenha() + "', "
-				+ "a.sexo = '" + aluno.getSexo() + "', "
-				+ "a.dataNascimento = '" + aluno.getDataNascimento() + "', "
-				+ "a.email = '" + aluno.getContato().getEmail() + "', "
-				+ "a.site = '" + aluno.getContato().getSite() + "', "
-				+ "a.skype = '" + aluno.getContato().getSkype() + "', "
-				+ "a.telefone = '" + aluno.getContato().getTelefone() + "', "
-				+ "a.bairro = '" + aluno.getEndereco().getBairro() + "', "
-				+ "a.cidade = '" + aluno.getEndereco().getCidade() + "', "
-				+ "a.estado = '" + aluno.getEndereco().getEstado() + "', "
-				+ "a.rua = '" + aluno.getEndereco().getRua() + "', "
-				+ "' RETURN a";
+		System.out.println("RODANDO O SCRIPT");
+		
+		String script = "MATCH (n:Aluno) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
+				+ "SET n.nome = '" + aluno.getNome() + "'," 
+				+ "n.curso = '" + aluno.getCurso() + "', " 
+//				+ "n.dataMatricula = '" + aluno.getDataMatricula() + "', n.documentoCPF = '" + aluno.getDocumentoCPF() + "', "
+//				+ "n.documentoRG = '" + aluno.getDocumentoRG() + "', n.estadoCivil = '" + aluno.getEstadoCivil() + "', "
+//				+ "n.matricula = '" + aluno.getMatricula() + "', "
+//				+ "n.senha = '" + aluno.getSenha() + "', n.sexo = '" + aluno.getSexo() + "', "
+//				+ "n.dataNascimento = '" + aluno.getDataNascimento() + "', n.email = '" + aluno.getContato().getEmail() + "', "
+//				+ "n.site = '" + aluno.getContato().getSite() + "', n.skype = '" + aluno.getContato().getSkype() + "', "
+//				+ "n.telefone = '" + aluno.getContato().getTelefone() + "', n.bairro = '" + aluno.getEndereco().getBairro() + "', "
+//				+ "n.cidade = '" + aluno.getEndereco().getCidade() + "', 	n.estado = '" + aluno.getEndereco().getEstado() + "', "
+//				+ "n.rua = '" + aluno.getEndereco().getRua() + "', "
+				+ "' RETURN n";
 		
 		try {
 			// Executa o script no banco de dados.

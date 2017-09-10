@@ -8,6 +8,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import model.pojo.Aluno;
 import model.pojo.Pessoa;
+import view.Mensagem;
 import web.SessionUtil;
 import model.dao.AlunoDAO;
 import model.helperView.ListaDeEstadoCivil;
@@ -68,7 +69,8 @@ public class CadastrarAlunoController {
 	
 	public void atualizarAluno() {
 		System.out.println("Atualizando aluno:" + aluno);
-		new AlunoDAO().atualizar(aluno);		
+		new AlunoDAO().atualizar(aluno);
+		Mensagem.ExibeMensagem("Alterações salvas com sucesso");
 	}
 	
 	

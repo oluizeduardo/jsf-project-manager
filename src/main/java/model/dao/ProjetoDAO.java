@@ -70,11 +70,11 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		ArrayList<Projeto>projetos = new ArrayList<Projeto>();
 		
-		StatementResult resultado = session.run("MATCH(pj:Projeto) return ID (pj) as id, pj.dataFim as Data_Fim, "
-				+ "pj.dataInicio as Data_Inicio, pj.nomeCoordenador as Nome_Coordenador, "
-				+ "pj.titulacaoCoordenador as Titulacao_Coordenador, pj.dataPublicacao as Data_Publicacao, "
-				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, pj.categoria as Categoria, "
-				+ "pj.numeroParticipantes as Numero_Participantes, pj.resumo as Resumo, pj.titulo as Titulo");
+		StatementResult resultado = session.run("MATCH(pr:Professor)-[:COOORDENA]->(pj:Projeto) return id(pj) as ID, "
+				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
+				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo, "
+				+ "pr.nome as Coordenador");
 		
 		while(resultado.hasNext()) {
 			
@@ -82,17 +82,18 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			
 			Projeto projetoAux = new Projeto();
 			
+			projetoAux.setTitulo(projetoAtual.get("Titulo").asString());
 			projetoAux.setDataFim(projetoAtual.get("Data_Fim").asString());
 			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio").asString());
-			projetoAux.getCoordenador().setNome(projetoAtual.get("Nome_Coordenador").asString());
-			projetoAux.getCoordenador().setTitulacao(projetoAtual.get("Titulacao_Coordenador").asString());
-			projetoAux.setDataPublicacao(projetoAtual.get("Data_Publicacao").asString());
+			projetoAux.setDataPublicacao(projetoAtual.get("Publicacao").asString());
 			projetoAux.getFinanciamento().setValor(projetoAtual.get("Valor").asDouble());
 			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
 			projetoAux.setCategoria(projetoAtual.get("Categoria").asString());
-			projetoAux.setNumeroDeParticipantes(projetoAtual.get("Numero_Participantes").asInt());
+			projetoAux.setNumeroDeParticipantes(projetoAtual.get("QTD_Participantes").asInt());
 			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
-			projetoAux.setTitulo(projetoAtual.get("Titulo").asString());
+			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
+			
+			projetos.add(projetoAux);
 			
 		}
 		
