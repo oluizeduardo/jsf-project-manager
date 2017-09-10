@@ -153,7 +153,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 						+ "pr.titulacao as titulacao, pr.email as email, pr.site as site,"
 						+ "pr.skype as skype, pr.telefone as telefone, pr.bairro as bairro, "
 						+ "pr.dataNascimento as datanas, pr.cidade as cidade,"
-						+ "pr.estado as estado, pr.rua as rua";
+						+ "pr.estado as estado, pr.rua as rua, pr.curso as curso";
 	
 		StatementResult resultado = session.run(script);
 		
@@ -177,7 +177,8 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 			professor.getEndereco().setCidade(registro.get("cidade").asString());	
 			professor.getEndereco().setBairro(registro.get("bairro").asString());
 			professor.getEndereco().setEstado(registro.get("estado").asString());
-			professor.getEndereco().setRua(registro.get("rua").asString());					
+			professor.getEndereco().setRua(registro.get("rua").asString());
+			professor.setCurso(registro.get("curso").asString());	
 		}
 
 		session.close();
