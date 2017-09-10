@@ -22,10 +22,9 @@
 					 value="#{cadastrarProfessorController.professor.endereco.cidade}"/>
 
 		<p:outputLabel value="Estado:" for="state-field" />
-		<p:selectOneMenu id="state-field" style="width:170px;">
-
-			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
-				noSelectionOption="true" />
+		<p:selectOneMenu id="state-field" style="width:170px;"
+		 value="#{cadastrarProfessorController.professor.endereco.estado}">
+			<f:selectItem itemLabel="Selecione" itemValue="Selecione" noSelectionOption="true" />
 			<f:selectItems value="#{cadastrarProfessorController.estadosBrasileiros}" />
 		</p:selectOneMenu>
 

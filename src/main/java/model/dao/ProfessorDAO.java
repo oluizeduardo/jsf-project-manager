@@ -8,9 +8,7 @@ import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Professor;
 
 
-
 public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor> {
-	
 	
 	
 	public ProfessorDAO() { }
@@ -30,11 +28,14 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		String script = "MATCH (n:Professor) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
 				+ "SET n+= {nome: '" + professor.getNome()
 				+ "', documentoCPF:'" + professor.getDocumentoCPF()
+				+ "', curso:'" + professor.getCurso()
 				+ "', documentoRG:'" + professor.getDocumentoRG()
 				+ "', estadoCivil:'" + professor.getEstadoCivil()
 				+ "', matricula:'" + professor.getMatricula()
 				+ "', senha:'" + professor.getSenha()
 				+ "', sexo:'" + professor.getSexo() 
+				+ "', estadoCivil:'" + professor.getEstadoCivil()
+				+ "', titulacao:'" + professor.getTitulacao()
 				+ "', dataNascimento:'" + professor.getDataNascimento() 
 				+ "', dataAdmissao:'" + professor.getDataAdmissao()
 				+ "', email:'" + professor.getContato().getEmail() 
@@ -77,12 +78,14 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		String script = "CREATE (pr:Professor {nome: '" + professor.getNome()
 				+ "', papel:'" + professor.getPapel()
 				+ "', documentoCPF:'" + professor.getDocumentoCPF() 
+				+ "', curso:'" + professor.getCurso() 
 				+ "', documentoRG:'" + professor.getDocumentoRG()
 				+ "', estadoCivil:'" + professor.getEstadoCivil()
 				+ "', matricula:'" + professor.getMatricula()
 				+ "', dataAdmissao:'" + professor.getDataAdmissao()
 				+ "', senha:'" + professor.getSenha()
 				+ "', sexo:'" + professor.getSexo()
+				+ "', estadoCivil:'" + professor.getEstadoCivil()
 				+ "', titulacao:'" + professor.getTitulacao()
 				+ "', email:'" + professor.getContato().getEmail()
 				+ "', site:'" + professor.getContato().getSite()
@@ -148,7 +151,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 						+ "pr.documentoCPF as cpf, pr.estadoCivil as esci,"
 						+ "pr.matricula as mat, pr.senha as senha, pr.sexo as sexo,"
 						+ "pr.titulacao as titulacao, pr.email as email, pr.site as site,"
-						+ "pr.skype as skype, pr.telefone as telefone, "
+						+ "pr.skype as skype, pr.telefone as telefone, pr.bairro as bairro, "
 						+ "pr.dataNascimento as datanas, pr.cidade as cidade,"
 						+ "pr.estado as estado, pr.rua as rua";
 	
@@ -171,7 +174,8 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 			professor.getContato().setSkype(registro.get("skype").asString());
 			professor.getContato().setTelefone(registro.get("telefone").asString());
 			professor.setDataNascimento(registro.get("datanas").asString());
-			professor.getEndereco().setCidade(registro.get("cidade").asString());			
+			professor.getEndereco().setCidade(registro.get("cidade").asString());	
+			professor.getEndereco().setBairro(registro.get("bairro").asString());
 			professor.getEndereco().setEstado(registro.get("estado").asString());
 			professor.getEndereco().setRua(registro.get("rua").asString());					
 		}

@@ -22,8 +22,7 @@ public class CadastrarProfessorController {
 	private Professor professor = null;
 	private List<String> estadosBrasileiros = null;
 	private List<String> estadoCivil = null;
-	private List<String> idiomas = null;
-	
+	private List<String> idiomas = null;	
 	private String senhaAntiga = null;
 	private String novaSenha = null;
 	
