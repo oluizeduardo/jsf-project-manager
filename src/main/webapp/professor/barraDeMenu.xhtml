@@ -4,25 +4,25 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-<p:menubar>
-	<p:menuitem value="Início" icon="ui-icon-home" url="home.xhtml"/>
-
-	<p:submenu label="Perfil" icon="ui-icon-person">
-		<p:menuitem value="Gerenciar Perfil" icon="ui-icon-person" url="editarPerfil.xhtml"/>
-		<p:menuitem value="Alterar Senha" icon="ui-icon-wrench" url="alterarSenha.xhtml"/>
-	</p:submenu>
-
-	<p:submenu label="Consultar" icon="ui-icon-search">
-		<p:menuitem value="Projetos Cadastrados" icon="ui-icon-search" url="projetosCadastrados.xhtml" />			
-	</p:submenu>
 	
-	<p:menuitem value="Relatórios" icon="ui-icon-calculator" url="relatorios.xhtml"/>
-
-	<f:facet name="options">
-		<a href="../login.xhtml"> 
-			<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
-		</a>
-	</f:facet>
-</p:menubar>
-
+	<p:menubar>
+		<p:menuitem value="Início" icon="ui-icon-home" url="home.xhtml"/>
+	
+		<p:submenu label="Perfil" icon="ui-icon-person">
+			<p:menuitem value="Gerenciar Perfil" icon="ui-icon-person" url="editarPerfil.xhtml"/>
+		</p:submenu>
+	
+		<p:submenu label="Consultar" icon="ui-icon-search">
+			<p:menuitem value="Projetos Cadastrados" icon="ui-icon-search" url="projetosCadastrados.xhtml" />			
+		</p:submenu>
+		
+		<p:menuitem value="Relatórios" icon="ui-icon-calculator" url="relatorios.xhtml"/>
+	
+		<f:facet name="options">
+			<p:commandButton value="Logout" icon="ui-icon-extlink" actionListener="#{barraDeMenu.logout}" />		
+		</f:facet>		
+	</p:menubar>
+	
+	<p:spacer height="8" />
+		
 </html>
