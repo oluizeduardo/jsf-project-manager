@@ -27,26 +27,6 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		
 		transaction = session.beginTransaction();
 		
-//		String script = "MATCH (n:Professor) WHERE n.email = '" + email + "'and n.senha ='" + senha +
-
- 
-
-//				+ "', estadoCivil:'" + professor.getEstadoCivil()
-//				+ "', matricula:'" + professor.getMatricula()
-//				+ "', nome:'" + professor.getNome()
-//				+ "', senha:'" + professor.getSenha()
-//				+ "', sexo:'" + professor.getSexo()
-//				+ "', titulacao:'" + professor.getTitulacao()
-//				+ "', email:'" + professor.getContato().getEmail()
-//				+ "', site:'" + professor.getContato().getSite()
-//				+ "', skype:'" + professor.getContato().getSkype()
-//				+ "', telefone:'" + professor.getContato().getTelefone()
-//				+ "', dataNascimento:'" + professor.getDataNascimento()
-//				+ "', bairro:'" + professor.getEndereco().getBairro()
-//				+ "', cidade:'" + professor.getEndereco().getCidade()
-//				+ "', estado:'" + professor.getEndereco().getEstado()
-//				+ "', rua:'" + professor.getEndereco().getRua()
-//				+ "'} RETURN a";
 		String script = "MATCH (n:Professor) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
 				+ "SET n+= {nome: '" + professor.getNome()
 				+ "', documentoCPF:'" + professor.getDocumentoCPF()
@@ -81,8 +61,6 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		}
 		session.close();	
 	}
-	
-	
 	
 	/**
 	 * Salva no banco de dados os dados de um Professor.
@@ -202,8 +180,6 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		
 		return professor;
 	}
-	
-	
 	
 	/**
 	 * Exclui do banco de dados o registro de um professor expecífico.
