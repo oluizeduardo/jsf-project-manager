@@ -41,7 +41,8 @@
 		<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
 		<p:calendar id="birthday-field"
 			value="#{cadastrarAlunoController.aluno.dataNascimento}"
-			pattern="dd-MM-yyyy" mask="true" navigator="true" />
+			pattern="dd-MM-yyyy" mask="true" navigator="true"
+			maxdate="#{cadastrarAlunoController.dataMaxima}" />
 
 		<p:outputLabel value="Matrícula:" for="id-field" />
 		<p:inputMask id="id-field" mask="99999999" 
@@ -58,7 +59,8 @@
 		<p:outputLabel value="Data de Matrícula" for="registration_date-field" />
 		<p:calendar id="registration_date-field" pattern="dd-MM-yyyy"
 			mask="true" navigator="true" locale="br" 
-			value="#{cadastrarAlunoController.aluno.dataMatricula}"/>
+			value="#{cadastrarAlunoController.aluno.dataMatricula}"
+			maxdate="#{cadastrarAlunoController.dataMaxima}"/>
 
 	</h:panelGrid>
 </p:panel>

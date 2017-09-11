@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.io.IOException;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -23,6 +24,8 @@ public class CadastrarAlunoController {
 	private List<String> estadosBrasileiros = null;
 	private List<String> estadoCivil = null;
 	private List<String> idiomas = null;
+	private Date dataMaxima = new Date();
+	
 	
 	public CadastrarAlunoController() {
 		
@@ -92,33 +95,32 @@ public class CadastrarAlunoController {
 	public Aluno getAluno() {
 		return aluno;
 	}
-
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
 	}
-
-
 	public List<String> getEstadosBrasileiros() {
 		return estadosBrasileiros;
 	}
-
 	public void setEstadosBrasileiros(List<String> estadosBrasileiros) {
 		this.estadosBrasileiros = estadosBrasileiros;
 	}
-
 	public List<String> getEstadoCivil() {
 		return estadoCivil;
 	}
-
 	public void setEstadoCivil(List<String> estadoCivil) {
 		this.estadoCivil = estadoCivil;
 	}
-
 	public List<String> getIdiomas() {
 		return idiomas;
 	}
-
 	public void setIdiomas(List<String> idiomas) {
 		this.idiomas = idiomas;
 	}
+	public Date getDataMaxima() {
+		return dataMaxima;
+	}
+	public void setDataMaxima(Date dataMaxima) {
+		this.dataMaxima = dataMaxima;
+	}
+	
 }
