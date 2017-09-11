@@ -51,7 +51,7 @@ public class AlterarSenhaController implements Serializable {
 				Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
 			}
 		}else {
-			Mensagem.ExibeMensagemErro("A senha digitada não corresponde com a senha usada n login!");
+			Mensagem.ExibeMensagemErro("A senha digitada não corresponde com a senha usada no login!");
 		}
 	}
 

@@ -11,8 +11,10 @@ import model.pojo.Projeto;
 @ViewScoped
 public class ProjetoBean {
 	
+	
 	private List<Projeto> projetos;
 
+	
 	public ProjetoBean() {
 		List<Projeto> listaAux = new ProjetoDAO().listar();
 		
@@ -25,13 +27,6 @@ public class ProjetoBean {
 
 	public List<Projeto> getProjetos() {
 		return projetos;
-	}
-	
-	
-//	private String getCurrentDate(){		
-//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//		return sdf.format(new Date());
-//	}
-	
+	}	
 	
 }

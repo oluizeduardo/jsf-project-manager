@@ -94,20 +94,12 @@
 					<p:dataGrid var="projeto" value="#{homeController.projetoBean.projetos}"
 						columns="2" rows="4" paginator="true"
 						paginatorPosition="bottom"
+						emptyMessage="Nenhum projeto localizado."
 						paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}">
 
 
 						<p:panel id="pnProjeto" header="#{projeto.titulo}"
 							style="widht:300px; margin:5px">
-
-							<!--<f:facet name="actions">
-								<p:commandLink
-									styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
-									<h:outputText styleClass="ui-icon ui-icon-grip-dotted-vertical"
-										title="Clique e arraste" />
-								</p:commandLink>
-							</f:facet> -->
-
 
 							<h:panelGrid columns="2">
 								<p:graphicImage value="/resources/images/document.png" height="50" width="50" />

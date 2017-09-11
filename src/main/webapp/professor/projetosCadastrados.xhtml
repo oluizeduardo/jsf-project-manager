@@ -49,7 +49,7 @@
 				multiViewState="true" rows="10" paginator="true"
 				paginatorPosition="bottom"
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
-				emptyMessage="Nenhum projeto encontrado com essa busca.">
+				emptyMessage="Nenhum projeto localizado.">
 
 
 				<p:column headerText="Título" filterBy="#{projeto.titulo}"
@@ -57,14 +57,15 @@
 					<h:outputText value="#{projeto.titulo}" />
 				</p:column>
 				
-				<p:column headerText="Natureza" filterBy="#{projeto.categoria}"
+				<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
 					sortBy="#{projeto.categoria}" filterMatchMode="startsWith"
 					style="text-align: center">
 					<h:outputText value="#{projeto.categoria}" />
 				</p:column>
 				
 				<p:column headerText="Coordenador" filterBy="#{projeto.coordenador.nome}"
-					sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith">
+					sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
+					style="text-align: center">
 					<h:outputText value="#{projeto.coordenador.nome}" />
 				</p:column>
 
@@ -77,9 +78,7 @@
 				</p:column>
 
 				<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-search" title="Visualizar">
-
-					</p:commandButton>
+					<p:commandButton icon="ui-icon-search" title="Visualizar"/>
 				</p:column>
 
 			</p:dataTable>
