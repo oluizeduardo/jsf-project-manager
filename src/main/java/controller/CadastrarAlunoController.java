@@ -55,7 +55,11 @@ public class CadastrarAlunoController {
 	}
 
 	
-	
+	/**
+	 * Método executado no início, quando um novo usuário aluno
+	 * se cadastra no sistema. Após a realização do cadastro, o novo
+	 * usuário é redirecionado para a página inicial da aplicação.
+	 */
 	public void salvarAluno(){		
 		new AlunoDAO().salvar(aluno);
 		
@@ -73,16 +77,6 @@ public class CadastrarAlunoController {
 		System.out.println("ATUALIZANDO ALUNO: " + aluno);
 		new AlunoDAO().atualizar(aluno);		
 		Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
-		
-//		try {
-//			Thread.sleep(500);
-//		} catch (InterruptedException e1) { e1.printStackTrace(); }
-//		
-//		try {
-//			FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
-//		} catch (IOException e) {
-//			System.err.println(e.getMessage());
-//		}
 	}
 	
 	

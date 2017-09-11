@@ -120,14 +120,16 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	public void excluir(Aluno aluno) {
 		super.iniciaSessaoNeo4J();
 		
-		String email = aluno.getContato().getEmail();
-		String senha = aluno.getSenha();
+//		String email = aluno.getContato().getEmail();
+//		String senha = aluno.getSenha();
 		
 		transaction = session.beginTransaction();
-		
-		
 	}
 	
+	
+	/**
+	 * Atualiza no banco de dados o registro de um aluuno.
+	 */
 	public void atualizar(Aluno aluno) {
 		super.iniciaSessaoNeo4J();
 		
@@ -196,7 +198,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "al.email as email, al.site as site,"
 				+ "al.skype as skype, al.telefone as telefone, "
 				+ "al.dataNascimento as datanas, al.cidade as cidade,"
-				+ "al.estado as estado, al.rua as rua";
+				+ "al.estado as estado, al.rua as rua, al.curso as curso";
 		
 		StatementResult resultado = session.run(script);
 		
@@ -218,7 +220,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			aluno.setDataNascimento(registro.get("datanas").asString());
 			aluno.getEndereco().setCidade(registro.get("cidade").asString());			
 			aluno.getEndereco().setEstado(registro.get("estado").asString());
-			aluno.getEndereco().setRua(registro.get("rua").asString());	
+			aluno.getEndereco().setRua(registro.get("rua").asString());
+			aluno.setCurso(registro.get("curso").asString());
 		}					
 		return aluno;
 	}

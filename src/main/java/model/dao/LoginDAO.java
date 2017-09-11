@@ -2,7 +2,6 @@ package model.dao;
 
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
-import org.neo4j.driver.v1.exceptions.ClientException;
 
 import model.pojo.Pessoa;
 

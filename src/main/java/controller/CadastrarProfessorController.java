@@ -99,7 +99,6 @@ public class CadastrarProfessorController {
 		}else{
 			professor.setDataAdmissao(sdf.format(dataAdmissao));
 		}
-		
 		if(dataNascimento == null){
 			professor.setDataNascimento("");
 		}else{
