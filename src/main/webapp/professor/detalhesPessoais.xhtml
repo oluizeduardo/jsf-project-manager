@@ -19,9 +19,7 @@
 
 		<p:outputLabel value="Sexo:" for="gender-field"/>
 		<p:selectOneMenu style="width:170px" id="gender-field" value="#{cadastrarProfessorController.professor.sexo}">
-
-			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
-				noSelectionOption="true" />
+			<f:selectItem itemLabel="Selecione" itemValue="Selecione" noSelectionOption="true" />
 			<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
 			<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
 		</p:selectOneMenu>
@@ -29,8 +27,7 @@
 		<p:outputLabel value="Estado Cívil:" for="marital_status-field" />
 		<p:selectOneMenu id="marital_status-field" style="width:170px"
 			value="#{cadastrarProfessorController.professor.estadoCivil}">
-			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
-				noSelectionOption="true" />
+			<f:selectItem itemLabel="Selecione" itemValue="Selecione" noSelectionOption="true" />
 			<f:selectItems value="#{cadastrarProfessorController.estadoCivil}" />
 		</p:selectOneMenu>		
 
@@ -53,12 +50,14 @@
 		<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
 		<p:calendar id="birthday-field"
 			value="#{cadastrarProfessorController.dataNascimento}"
-			pattern="dd-MM-yyyy" mask="true" navigator="true" />
+			pattern="dd-MM-yyyy" mask="true" 
+			navigator="true" maxdate="#{cadastrarProfessorController.dataMaxima}"/>
 
 		<p:outputLabel value="Data de Admissão:" for="registration_date-field" />
 		<p:calendar id="registration_date-field" pattern="dd-MM-yyyy"
 			mask="true" navigator="true" locale="br" 
-			value="#{cadastrarProfessorController.dataAdmissao}"/>
+			value="#{cadastrarProfessorController.dataAdmissao}"
+			maxdate="#{cadastrarProfessorController.dataMaxima}"/>
 			
 		<p:outputLabel value="Curso:" for="course-field" />
 		<p:selectOneMenu id="course-field" value="#{cadastrarProfessorController.professor.curso}" >

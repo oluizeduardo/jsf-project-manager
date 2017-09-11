@@ -24,7 +24,7 @@ public class CadastrarProfessorController {
 	private List<String> estadoCivil = null;
 	private Date dataNascimento = null;
 	private Date dataAdmissao = null;
-	
+	private Date dataMaxima = new Date();
 	
 	
 	public CadastrarProfessorController() {
@@ -134,6 +134,12 @@ public class CadastrarProfessorController {
 	}
 	public void setDataAdmissao(Date dataAdmissao) {
 		this.dataAdmissao = dataAdmissao;
+	}
+	public Date getDataMaxima() {
+		return dataMaxima;
+	}
+	public void setDataMaxima(Date dataMaxima) {
+		this.dataMaxima = dataMaxima;
 	}
 	
 }

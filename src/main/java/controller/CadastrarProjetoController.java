@@ -25,6 +25,8 @@ public class CadastrarProjetoController {
 	// Habilidade selecionada para ser excluida da lista.
 	private Habilidade habSelecionada = new Habilidade(null, null);
 	
+	// Data mínima para o início do projeto.
+	private Date dataMinima = new Date();
 	
 	
 	
@@ -102,6 +104,12 @@ public class CadastrarProjetoController {
 	}
 	public void setHabSelecionada(Habilidade habSelecionada) {
 		this.habSelecionada = habSelecionada;
+	}
+	public Date getDataMinima() {
+		return dataMinima;
+	}
+	public void setDataMinima(Date dataMinima) {
+		this.dataMinima = dataMinima;
 	}
 
 }

@@ -19,13 +19,15 @@
 		<p:calendar id="startdate-field"
 					pattern="dd-MM-yyyy" mask="true" 
 					navigator="true"						
-					value="#{cadastrarProjetoController.projeto.dataInicio}" />
+					value="#{cadastrarProjetoController.projeto.dataInicio}"
+					mindate="#{cadastrarProjetoController.dataMinima}" />
 
 		<p:outputLabel value="Data de Término:" for="enddate-field" />
 		<p:calendar id="enddate-field"
 				    pattern="dd-MM-yyyy" 
 				    mask="true" navigator="true" 
-				    value="#{cadastrarProjetoController.projeto.dataFim}"/>
+				    value="#{cadastrarProjetoController.projeto.dataFim}"
+				    mindate="#{cadastrarProjetoController.dataMinima}"/>
 	
 	</h:panelGrid>	
 
