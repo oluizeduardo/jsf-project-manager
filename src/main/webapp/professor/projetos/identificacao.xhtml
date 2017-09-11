@@ -30,5 +30,16 @@
 				    mindate="#{cadastrarProjetoController.dataMinima}"/>
 	
 	</h:panelGrid>	
+	
+	<p:panel>		
+ 		<h:panelGrid columns="3" cellpadding="5">		
+ 			<p:outputLabel value="Descrição:" for="description-field"/>		
+ 			<p:inputTextarea id="description-field" rows="2" cols="75" counter="display" 		
+ 							 maxlength="100" counterTemplate="{0} caracteres restantes." 		
+ 							 autoResize="false" placeholder="Descrição curta sobre o projeto" 
+ 							 value="#{cadastrarProjetoController.projeto.descricaoCurta}"/>		
+ 		    <h:outputText id="display" style="font-size:12" />		
+ 		</h:panelGrid>		
+ 	</p:panel>
 
 </html>
