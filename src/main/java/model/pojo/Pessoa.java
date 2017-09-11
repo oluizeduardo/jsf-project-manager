@@ -1,8 +1,7 @@
 package model.pojo;
 
-import java.util.Date;
-
 import org.neo4j.driver.v1.Value;
+
 
 public class Pessoa {
 	
@@ -13,7 +12,7 @@ public class Pessoa {
 	private String documentoCPF="";
 	private String sexo="";
 	private String estadoCivil="";
-	private String dataNascimento;
+	private String dataNascimento="";
 	private String matricula="";	
 	private Endereco endereco = new Endereco();
 	private Contato contato = new Contato();

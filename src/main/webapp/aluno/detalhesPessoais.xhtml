@@ -33,21 +33,20 @@
 			value="#{cadastrarAlunoController.aluno.estadoCivil}"
 			style="width:170px">
 
-			<f:selectItem itemLabel="Selecione" itemValue="Selecione"
-				noSelectionOption="true" />
+			<f:selectItem itemLabel="Selecione" itemValue="Selecione" noSelectionOption="true" />
 			<f:selectItems value="#{cadastrarAlunoController.estadoCivil}" />
 		</p:selectOneMenu>
 
 		<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
-		<p:calendar id="birthday-field"
+	 	<p:calendar id="birthday-field"
 			value="#{cadastrarAlunoController.aluno.dataNascimento}"
 			pattern="dd-MM-yyyy" mask="true" navigator="true"
 			maxdate="#{cadastrarAlunoController.dataMaxima}" />
-
+ 
 		<p:outputLabel value="Matrícula:" for="id-field" />
 		<p:inputMask id="id-field" mask="99999999" 
 					 value="#{cadastrarAlunoController.aluno.matricula}">
-			<p:tooltip id="toolTip-ra" for="id-field"
+			<p:tooltip id="toolTip-ra" for="id-field" position="bottom"
 				value="Código de registro do aluno junto à universidade." />
 		</p:inputMask>
 
