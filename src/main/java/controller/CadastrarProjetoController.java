@@ -36,7 +36,7 @@ public class CadastrarProjetoController {
 	/**
 	 * Retorna a data atual formatada para o padrão de leitura simples.
 	 */
-	private String getCurrentDate() {
+	private String getDataAtual() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(new Date());
 	}
@@ -47,7 +47,7 @@ public class CadastrarProjetoController {
 	 * É exibido uma mensagem na tela informando o usuário sobre o status da execução.
 	 */
 	public void salvarProjeto() {
-		projeto.setDataPublicacao(getCurrentDate());
+		projeto.setDataPublicacao(getDataAtual());
 		
 		//TODO
 //		projeto.setDataFim(getCurrentDate());
@@ -57,6 +57,9 @@ public class CadastrarProjetoController {
 		
 		if(salvou){
 			Mensagem.ExibeMensagem("Novo projeto salvo com sucesso!");
+			
+			// Reinicia o objeto para limpar os campos da tela.
+			this.projeto = new Projeto();
 		}else{
 			Mensagem.ExibeMensagemErro("Houve um problema ao tentar salvar o novo projeto.");
 		}

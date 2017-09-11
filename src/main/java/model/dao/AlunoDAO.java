@@ -6,6 +6,7 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Aluno;
+import model.pojo.Projeto;
 
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
@@ -226,5 +227,10 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		return aluno;
 	}
 	
+	
+	
+	public List<Projeto> getProjetosQueParticipa(){
+		return (new ArrayList<Projeto>());
+	}
 	
 }

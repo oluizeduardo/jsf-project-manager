@@ -16,15 +16,13 @@
 					 value="#{cadastrarProjetoController.projeto.titulo}"/>
 					 
 		<p:outputLabel value="Data de Início:" for="startdate-field" />
-		<p:calendar id="startdate-field"
-					pattern="dd-MM-yyyy" mask="true" 
-					navigator="true"						
+		<p:calendar id="startdate-field" navigator="true"
+					pattern="dd-MM-yyyy" mask="true" 										
 					value="#{cadastrarProjetoController.projeto.dataInicio}"
 					mindate="#{cadastrarProjetoController.dataMinima}" />
 
 		<p:outputLabel value="Data de Término:" for="enddate-field" />
-		<p:calendar id="enddate-field"
-				    pattern="dd-MM-yyyy" 
+		<p:calendar id="enddate-field" pattern="dd-MM-yyyy" 
 				    mask="true" navigator="true" 
 				    value="#{cadastrarProjetoController.projeto.dataFim}"
 				    mindate="#{cadastrarProjetoController.dataMinima}"/>
@@ -35,7 +33,7 @@
  		<h:panelGrid columns="3" cellpadding="5">		
  			<p:outputLabel value="Descrição:" for="description-field"/>		
  			<p:inputTextarea id="description-field" rows="2" cols="75" counter="display" 		
- 							 maxlength="100" counterTemplate="{0} caracteres restantes." 		
+ 							 maxlength="70" counterTemplate="{0} caracteres restantes." 		
  							 autoResize="false" placeholder="Descrição curta sobre o projeto" 
  							 value="#{cadastrarProjetoController.projeto.descricaoCurta}"/>		
  		    <h:outputText id="display" style="font-size:12" />		

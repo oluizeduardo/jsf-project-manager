@@ -2,7 +2,7 @@ package controller;
 
 import javax.faces.bean.ManagedBean;
 
-import model.helperView.ProjetoBean;
+import model.ProjetoBean;
 import model.pojo.Aluno;
 import model.pojo.Pessoa;
 import web.SessionUtil;

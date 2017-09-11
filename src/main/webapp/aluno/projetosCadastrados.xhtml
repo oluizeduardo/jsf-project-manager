@@ -5,12 +5,12 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Projetos Cadastrados</title>
+	<title>Todos Projetos Cadastrados</title>
 	<style>
-body {
-	background-color: #C1E1A6;
-}
-</style>
+		body {
+			background-color: #C1E1A6;
+		}
+	</style>
 </h:head>
 
 <h:body>
@@ -25,7 +25,7 @@ body {
 
 		<p:panel>
 			<p:dataTable id="table-projects-registered" var="projeto"
-				value="#{projetoBean.projetos}" widgetVar="projectsTable"
+				value="#{projetoBean.todosProjetos}" widgetVar="projectsTable"
 				multiViewState="true" rows="10" paginator="true" 
 				paginatorPosition="bottom"
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
