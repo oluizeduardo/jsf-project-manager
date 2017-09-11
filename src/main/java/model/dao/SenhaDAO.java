@@ -26,14 +26,16 @@ public class SenhaDAO extends DAOBase {
 		
 		String email = usuarioLogado.getContato().getEmail();
 		String senha = usuarioLogado.getSenha();
+		String papel = usuarioLogado.getPapel();// Aluno ou Professor.
 		
 		transaction = session.beginTransaction();
 		
-		String script = "MATCH (n:Pessoa) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
-				+ "SET n+= {senha:'" +novaSenha+ "'} RETURN n";
+		String script = "MATCH (n:"+papel+") WHERE n.email = '" +email+ "' AND n.senha ='" +senha+ "' "
+				+ "SET n += {senha:'" +novaSenha+ "'} RETURN n";
 		
 		boolean status = false;//Status do cadastro.
 		try{
+			System.out.println("Alterando a senha do usuário "+papel);
 			// Executa o script no banco de dados.
 			transaction.run(script);			
 			transaction.success();

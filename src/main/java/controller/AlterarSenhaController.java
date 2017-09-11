@@ -23,40 +23,40 @@ import web.SessionUtil;
 public class AlterarSenhaController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	// A mesma senha que foi usada para acessar o sistema.
 	private String senhaAntiga;
+	// A nova senha que se deseja utilizar.
 	private String novaSenha;
 
-	public AlterarSenhaController() {
-	}
+	
+	
+	public AlterarSenhaController() { }
 
-	public void alterarSenha(){
-		System.out.println("Alterando a senha do professor...\n"
-				+ "SENHA ANTIGA: "+senhaAntiga+"\nNOVA SENHA: "+novaSenha);
-		
+	
+	/**
+	 * Executado quando o usuário deseja alterar a senha de acesso ao sistema.
+	 */
+	public void alterarSenha(){		
 		// Retorna os dados da pessoa logada nos sistema.
 		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
-		if(usuarioLogado.getSenha().equals(senhaAntiga)) {
+		if(senhaAntiga.equals(usuarioLogado.getSenha())) {
 			
 			boolean alterouSenha = new SenhaDAO().alterarSenha(usuarioLogado, novaSenha);
 			
-				if(alterouSenha == true) {
-					System.out.println("Senha alterada com sucesso!");
-					Mensagem.ExibeMensagem("Senha alterada com sucesso!");
-				}
-				
-				else{
-					System.out.println("Erro na alteração de senha!");
-					Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
-				}
+			if(alterouSenha) {
+				Mensagem.ExibeMensagem("Senha alterada com sucesso!");			
+			}else{
+				Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
+			}
+		}else {
+			Mensagem.ExibeMensagemErro("A senha digitada não corresponde com a senha usada n login!");
 		}
-		
-		else {
-			Mensagem.ExibeMensagemErro("Não corresponde com a senha usada para o Login!");
-		}
-
 	}
 
+	
+	
 	public String getSenhaAntiga() {
 		return senhaAntiga;
 	}

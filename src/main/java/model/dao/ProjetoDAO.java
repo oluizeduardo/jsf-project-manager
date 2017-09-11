@@ -113,6 +113,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	public void excluir(Projeto obj) {
 		super.iniciaSessaoNeo4J();
 		// TODO Auto-generated method stub
+		// Primeiro deve excluir o relacionamento: MATCH p=()-[r:COOORDENA]->() DELETE r
 	}
 
 	
