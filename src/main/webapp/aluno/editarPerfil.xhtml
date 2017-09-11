@@ -23,13 +23,12 @@
 		<!-- MENSAGEM -->
 		<p:growl id="messages" showDetail="true" />
 
-		<p:spacer height="8"/>
-			<p:panel>
-				<p:commandButton value="Salvar Alterações" 
-								 icon="ui-icon-disk"
-								 update="messages"
-								 actionListener="#{cadastrarAlunoController.atualizarAluno}"/>
-			</p:panel>
+		<p:panel>
+			<p:commandButton value="Salvar Alterações" 
+							 icon="ui-icon-disk"
+							 update="messages"
+							 actionListener="#{cadastrarAlunoController.atualizarAluno}"/>
+		</p:panel>
 		<p:spacer height="8"/>
 
 		<p:tabView>
