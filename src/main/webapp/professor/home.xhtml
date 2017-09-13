@@ -12,13 +12,13 @@
 
 <h:body>
 
-	<h:form>
-	
-		<!-- MENSAGEM -->
-		<p:growl id="growl" showDetail="true"/>
+	<h:form id="form-register-new-project">
 
 		<!-- BARRA DE MENU -->
 		<ui:include src="barraDeMenu.xhtml" />
+
+		<!-- MENSAGEM -->
+		<p:growl id="mensagem" showDetail="true" closable="true"/>
 
 		<p:layout>
 
@@ -55,8 +55,8 @@
 
 						<p:panel>
 							<div align="right">
-								<p:commandButton value="Salvar Novo Projeto" icon="ui-icon-disk" ajax="false"
-								actionListener="#{cadastrarProjetoController.salvarProjeto}" update="growl"/>
+								<p:commandButton value="Salvar Novo Projeto" icon="ui-icon-disk"
+								actionListener="#{cadastrarProjetoController.salvarProjeto}" ajax="false" update="mensagem"/>
 							</div>													
 						</p:panel>
 						

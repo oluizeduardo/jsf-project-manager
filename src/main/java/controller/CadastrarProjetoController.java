@@ -1,20 +1,22 @@
 package controller;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import model.dao.ProjetoDAO;
 import model.pojo.Habilidade;
 import model.pojo.Projeto;
 import view.Mensagem;
 
-@ManagedBean(name = "cadastrarProjetoController")
-@ViewScoped
-public class CadastrarProjetoController {
+@ManagedBean
+@SessionScoped
+public class CadastrarProjetoController implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	// Guarda os dados do novo projeto que será cadastrado.
 	private Projeto projeto = new Projeto();
@@ -47,21 +49,32 @@ public class CadastrarProjetoController {
 	 * É exibido uma mensagem na tela informando o usuário sobre o status da execução.
 	 */
 	public void salvarProjeto() {
-		projeto.setDataPublicacao(getDataAtual());
 		
-		//TODO
-//		projeto.setDataFim(getCurrentDate());
-//		projeto.setDataInicio(getCurrentDate());
+		System.err.println("ENTROU AQUI!!");
 		
-		boolean salvou = new ProjetoDAO().salvar(projeto);
-		
-		if(salvou){
-			Mensagem.ExibeMensagem("Novo projeto salvo com sucesso!");
-			
-			// Reinicia o objeto para limpar os campos da tela.
-			this.projeto = new Projeto();
+		if(projeto.getTitulo().isEmpty()){
+			Mensagem.ExibeMensagemAtencao("Informe o título do projeto.");
 		}else{
-			Mensagem.ExibeMensagemErro("Houve um problema ao tentar salvar o novo projeto.");
+			if(projeto.getDataInicio().isEmpty() || projeto.getDataFim().isEmpty()){
+				Mensagem.ExibeMensagemAtencao("Informe corretamente a data de início e fim do projeto.");
+			}else{
+				if(projeto.getDescricaoCurta().isEmpty()){
+					Mensagem.ExibeMensagemAtencao("Descreva este projeto em até 70 caractéres.");
+				}else{
+					
+					projeto.setDataPublicacao(getDataAtual());
+					boolean salvou = new ProjetoDAO().salvar(projeto);
+					
+					if(salvou){
+						Mensagem.ExibeMensagem("Novo projeto salvo com sucesso!");
+						
+						// Reinicia o objeto para limpar os campos da tela.
+						this.projeto = new Projeto();
+					}else{
+						Mensagem.ExibeMensagemErro("Houve um problema ao tentar salvar o novo projeto.");
+					}
+				}
+			}
 		}
 	}
 

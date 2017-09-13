@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -11,8 +13,12 @@ import web.SessionUtil;
 
 @ManagedBean(name = "loginController")
 @ViewScoped
-public class LoginController {
+public class LoginController implements Serializable {
 
+
+	private static final long serialVersionUID = 1L;
+	
+	
 	// Salva os dados básicos de uma pessoa que está acessando o sistema.
 	private Pessoa usuario;
 

@@ -19,7 +19,7 @@ public class SessionUtil {
 	 */
     private static HttpSession getSession() {
         FacesContext ctx = FacesContext.getCurrentInstance();
-        HttpSession sessao = (HttpSession) ctx.getExternalContext().getSession(false);
+        HttpSession sessao = (HttpSession) ctx.getExternalContext().getSession(true);
         return sessao;
     }
 

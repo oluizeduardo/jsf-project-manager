@@ -2,8 +2,6 @@ package controller;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.HorizontalBarChartModel;
@@ -35,9 +33,9 @@ public class RelatoriosController {
  
         ChartSeries boys = new ChartSeries();
         boys.setLabel("Sistemas de Informação");
-        boys.set("Java", 120);
-        boys.set("Banco de Dados", 150);
-        boys.set("Python", 25);
+        boys.set("Java", 60);
+        boys.set("Banco de Dados", 45);
+        boys.set("Android", 10);
  
         model.addSeries(boys);
          

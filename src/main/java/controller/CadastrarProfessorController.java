@@ -59,13 +59,7 @@ public class CadastrarProfessorController {
 	public void salvarProfessor(){
 		
 		converterDatasDoProfessor();
-		boolean cadastrou = new ProfessorDAO().salvar(professor);
-		
-		if(cadastrou){
-			Mensagem.ExibeMensagem("Dados atualizados com sucesso!");
-		}else{
-			Mensagem.ExibeMensagemErro("Não foi possível atualizar os dados.");
-		}
+		new ProfessorDAO().salvar(professor);
 	}
 
 	
@@ -79,6 +73,16 @@ public class CadastrarProfessorController {
 		converterDatasDoProfessor();
 		new ProfessorDAO().atualizar(professor);		
 		Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+		
+		// Atualiza os dados do objeto Session.
+		// Necessário para atualizar as informações do professor no painel do perfil.
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		pessoa.setNome(professor.getNome());
+		pessoa.getEndereco().setCidade(professor.getEndereco().getCidade());
+		pessoa.getContato().setEmail(professor.getContato().getEmail());
+
+		SessionUtil.invalidate();
+		SessionUtil.setParam(SessionUtil.KEY_SESSION, pessoa);
 	}
 	
 	

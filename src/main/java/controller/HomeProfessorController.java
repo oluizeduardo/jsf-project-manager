@@ -3,9 +3,8 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
-
 import model.pojo.Pessoa;
 import model.pojo.Professor;
 import model.pojo.Projeto;
@@ -14,7 +13,7 @@ import web.SessionUtil;
 
 
 @ManagedBean(name = "homeProfessorController")
-@ViewScoped
+@SessionScoped
 public class HomeProfessorController {
 		
 	private Projeto novoProjeto = new Projeto();
@@ -36,7 +35,7 @@ public class HomeProfessorController {
 		if(pessoaSession != null){
 			userProfessor = new Professor();
 			userProfessor.setId(pessoaSession.getId());
-			userProfessor.setNome(pessoaSession.getNome());
+			userProfessor.setNome(pessoaSession.getNome());			
 			userProfessor.setPapel(pessoaSession.getPapel());
 			userProfessor.getContato().setEmail(pessoaSession.getContato().getEmail());
 			userProfessor.setSenha(pessoaSession.getSenha());
