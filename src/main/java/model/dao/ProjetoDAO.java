@@ -107,23 +107,26 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	}
 	
 
+	
 	/**
 	 * Exlui um determinado projeto no banco de dados.
 	 */
-	public void excluir(Projeto obj) {
+	public boolean excluir(Projeto obj) {
 		super.iniciaSessaoNeo4J();
 		// TODO Auto-generated method stub
 		// Primeiro deve excluir o relacionamento: MATCH p=()-[r:COOORDENA]->() DELETE r
+		return false;
 	}
 
 	
 	/**
 	 * Atualiza os dados de um objeto projeto no banco de dados.
 	 */
-	public void atualizar(Projeto projeto) {
+	public boolean atualizar(Projeto projeto) {
 		super.iniciaSessaoNeo4J();
 		
 		transaction = session.beginTransaction();
+		boolean status = false;
 		
 		String script = "MATCH (pj:Projeto) WHERE pj.titulo = '" + projeto.getTitulo()
 		+ "' SET pj.titulo:'" + projeto.getTitulo()
@@ -138,20 +141,27 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "'pj.resumo:'" + projeto.getResumo()
 		+"'RETURN pj";
 		
-		try {
+		
+		try{
 			// Executa o script no banco de dados.
-			transaction.run(script);
+			transaction.run(script);			
 			transaction.success();
+			status = true;
+		}catch(Exception ex){
+			status = false;
 			
-		} finally {
+		}finally {
 			try {
 				transaction.close();
-			} catch (ClientException excep) {
+			} 
+			catch (ClientException excep) {
 				transaction.failure();
 				transaction.close();
 			}
 		}
-		session.close();	
+		session.close();
+		
+		return status;	
 	}
 	
 }

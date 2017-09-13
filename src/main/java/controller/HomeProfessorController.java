@@ -16,8 +16,10 @@ import web.SessionUtil;
 @SessionScoped
 public class HomeProfessorController {
 		
+	// Instância com os dados do novo projeto cadastrado pelo professor.
 	private Projeto novoProjeto = new Projeto();
 	
+	// Acesso à lista de cursos aos quais o novo projeto se destina.
 	private List<String> cursosAlvo = new ArrayList<String>();	
 	
 	// Guarda os valores do usuário que acabou de logar no sistema.
@@ -29,7 +31,9 @@ public class HomeProfessorController {
 	
 	
 	
-	public HomeProfessorController() {  
+	public HomeProfessorController() { 
+		
+		// Recupera os dados da Session para apresentação no painel de perfil.
 		this.pessoaSession = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
 		if(pessoaSession != null){
@@ -89,8 +93,4 @@ public class HomeProfessorController {
 		this.userProfessor = userProfessor;
 	}
 
-	
-	
-	
-	
 }

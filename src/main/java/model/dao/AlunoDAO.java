@@ -118,28 +118,24 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		return alunos;
 	}
 
-	public void excluir(Aluno aluno) {
-		super.iniciaSessaoNeo4J();
-		
-//		String email = aluno.getContato().getEmail();
-//		String senha = aluno.getSenha();
-		
+	public boolean excluir(Aluno aluno) {
+		super.iniciaSessaoNeo4J();		
 		transaction = session.beginTransaction();
+		return false;
 	}
 	
 	
 	/**
 	 * Atualiza no banco de dados o registro de um aluuno.
 	 */
-	public void atualizar(Aluno aluno) {
+	public boolean atualizar(Aluno aluno) {
 		super.iniciaSessaoNeo4J();
 		
 		String email = aluno.getContato().getEmail();
 		String senha = aluno.getSenha();
-				
+		boolean status = false;// Status da atualização.		
+		
 		transaction = session.beginTransaction();
-
-		System.out.println("RODANDO O SCRIPT");
 		
 		String script = "MATCH (n:Aluno) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
 				+ "SET n+= {nome: '" + aluno.getNome()
@@ -161,20 +157,26 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "', estado:'" + aluno.getEndereco().getEstado()
 				+ "', rua:'" + aluno.getEndereco().getRua() + "'} RETURN n";
 				
-		try {
+		try{
 			// Executa o script no banco de dados.
-			transaction.run(script);
+			transaction.run(script);			
 			transaction.success();
+			status = true;
+		}catch(Exception ex){
+			status = false;
 			
-		} finally {
+		}finally {
 			try {
 				transaction.close();
-			} catch (ClientException excep) {
+			} 
+			catch (ClientException excep) {
 				transaction.failure();
 				transaction.close();
 			}
 		}
-		session.close();	
+		session.close();
+		
+		return status;	
 	}
 
 	

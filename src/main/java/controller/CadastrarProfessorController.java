@@ -18,9 +18,11 @@ import model.helperView.ListaDeEstados;
 @ViewScoped
 public class CadastrarProfessorController {
 
-	
+	// Instância do professor logado no sistema.
 	private Professor professor = null;
+	// Acesso à lista de estados brasileiros.
 	private List<String> estadosBrasileiros = null;
+	// Acesso á lista de estado cívil.
 	private List<String> estadoCivil = null;
 	private Date dataNascimento = null;
 	private Date dataAdmissao = null;
@@ -28,7 +30,6 @@ public class CadastrarProfessorController {
 	
 	
 	public CadastrarProfessorController() {
-		
 		// Carrega os dados do professor logado no sistema.
 		carregaDadosDoProfessor();
 			
@@ -52,16 +53,6 @@ public class CadastrarProfessorController {
 	}
 
 
-	/**
-	 * Salva no banco de dados o registro do objeto que está sendo manipulado
-	 * por esta classe controladora.
-	 */
-	public void salvarProfessor(){
-		
-		converterDatasDoProfessor();
-		new ProfessorDAO().salvar(professor);
-	}
-
 	
 	
 	/**
@@ -71,18 +62,22 @@ public class CadastrarProfessorController {
 		System.out.println("Atualizando professor: " + professor);
 		
 		converterDatasDoProfessor();
-		new ProfessorDAO().atualizar(professor);		
-		Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+		boolean atualizou = new ProfessorDAO().atualizar(professor);
 		
-		// Atualiza os dados do objeto Session.
-		// Necessário para atualizar as informações do professor no painel do perfil.
-		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
-		pessoa.setNome(professor.getNome());
-		pessoa.getEndereco().setCidade(professor.getEndereco().getCidade());
-		pessoa.getContato().setEmail(professor.getContato().getEmail());
+		if(atualizou){
+			Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+			
+			// Atualiza os dados do objeto Session.
+			// Necessário para atualizar as informações do professor no painel do perfil.
+			Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+			pessoa.setNome(professor.getNome());
+			pessoa.getEndereco().setCidade(professor.getEndereco().getCidade());
+			pessoa.getContato().setEmail(professor.getContato().getEmail());
 
-		SessionUtil.invalidate();
-		SessionUtil.setParam(SessionUtil.KEY_SESSION, pessoa);
+			// Desfaz a sessão atual e constroi outra com os dados atualizados.
+			SessionUtil.invalidate();
+			SessionUtil.setParam(SessionUtil.KEY_SESSION, pessoa);
+		}
 	}
 	
 	
@@ -111,7 +106,7 @@ public class CadastrarProfessorController {
 	}
 
 	
-	
+	/**Retona a instância do atual professor logado no sistema.*/
 	public Professor getProfessor() {
 		return professor;
 	}

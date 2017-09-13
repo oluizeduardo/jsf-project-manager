@@ -4,7 +4,10 @@ import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
+
+import model.pojo.Pessoa;
 import model.pojo.Professor;
+import web.SessionUtil;
 
 
 public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor> {
@@ -16,11 +19,14 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 	/**
 	 * Atualiza no banco de dados o registro de um Professor específico.
 	 */
-	public void atualizar(Professor professor) {
+	public boolean atualizar(Professor professor) {
 		super.iniciaSessaoNeo4J();
+		boolean status = false;//Status da atualização.
 		
-		String email = professor.getContato().getEmail();
-		String senha = professor.getSenha();
+		// Retorna o objeto com os valroes do usuário logado no sistema.
+		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		String email = usuarioLogado.getContato().getEmail();
+		String senha = usuarioLogado.getSenha();
 		
 		transaction = session.beginTransaction();
 		
@@ -46,21 +52,29 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 				+ "', estado:'" + professor.getEndereco().getEstado()
 				+ "', rua:'" + professor.getEndereco().getRua() + "'} RETURN n";
 		
-		try {
+		try{
 			// Executa o script no banco de dados.
-			transaction.run(script);
+			transaction.run(script);			
 			transaction.success();
+			status = true;
+		}catch(Exception ex){
+			status = false;
 			
-		} finally {
+		}finally {
 			try {
 				transaction.close();
-			} catch (ClientException excep) {
+			} 
+			catch (ClientException excep) {
 				transaction.failure();
 				transaction.close();
 			}
 		}
-		session.close();	
+		session.close();
+		
+		return status;	
 	}
+	
+	
 	
 	/**
 	 * Salva no banco de dados os dados de um Professor.
@@ -190,9 +204,10 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 	 * 
 	 * Esse método é necessário caso o professor queira deletar sua conta no sistema.
 	 */
-	public void excluir(Professor obj) {
+	public boolean excluir(Professor obj) {
 		super.iniciaSessaoNeo4J();
 		// TODO Auto-generated method stub
+		return false;
 	}
 	
 

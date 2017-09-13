@@ -2,11 +2,9 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.io.IOException;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import model.pojo.Aluno;
 import model.pojo.Pessoa;
 import view.Mensagem;
@@ -16,19 +14,26 @@ import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
 import model.helperView.ListaDeIdiomas;
 
+
+
 @ManagedBean(name = "cadastrarAlunoController")
 @ViewScoped
 public class CadastrarAlunoController {
 
+	// Instância do aluno logado no sistema.
 	private Aluno aluno = null;
+	// Acesso à lista de estados brasileiros.
 	private List<String> estadosBrasileiros = null;
+	// Acesso à lista de estado cívil.
 	private List<String> estadoCivil = null;
+	// Acesso à lista de idiomas.
 	private List<String> idiomas = null;
+	// Necessário para bloqueio de datas no calendário.
 	private Date dataMaxima = new Date();
 	
 	
-	public CadastrarAlunoController() {
-		
+	
+	public CadastrarAlunoController() {		
 		// Carrega os dados do aluno logado no sistema.
 		carregaDadosDoAluno();
 		
@@ -37,10 +42,18 @@ public class CadastrarAlunoController {
 		this.idiomas = new ListaDeIdiomas().getList();
 	}
 
+	
+	
+	
 	/**
 	 * Carrega os dados do aluno logado no sistema.
+	 * 
+	 * Utiliza o email e senha do usuário logado para buscar
+	 * no banco de dados o seu registro completo. 
+	 * Os dados buscados serão distribuídos nos campos do perfil do aluno.
 	 */
 	private void carregaDadosDoAluno() {
+		// Recupera os dados da pessoa na sessão atual.
 		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 
 		if (pessoa != null) {
@@ -55,37 +68,30 @@ public class CadastrarAlunoController {
 	}
 
 	
-	/**
-	 * Método executado no início, quando um novo usuário aluno
-	 * se cadastra no sistema. Após a realização do cadastro, o novo
-	 * usuário é redirecionado para a página inicial da aplicação.
-	 */
-	public void salvarAluno(){		
-		new AlunoDAO().salvar(aluno);
-		
-		try {			
-			FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
-		} 
-		catch (IOException e) { System.err.println(e.getMessage());	}
-	}
-	
 	
 	/**
-	 * Executa este método para atualização do registro quando o usuário editar o perfil.
+	 * Executa este método para atualização do registro 
+	 * quando o usuário editar o perfil.
 	 */
 	public void atualizarAluno() {
 		System.out.println("ATUALIZANDO ALUNO: " + aluno);
-		new AlunoDAO().atualizar(aluno);		
-		Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+		boolean atualizou = new AlunoDAO().atualizar(aluno);		
+		
+		if(atualizou){
+			Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+		}
 	}
 	
 	
+	/**
+	 * Retorna uma lista de todos os alunos cadastrados no banco de dados.
+	 */
 	public ArrayList<Aluno> buscarAluno(){
 		return (ArrayList<Aluno>) (new AlunoDAO().listar());
 	}
 	
 	
-	
+	/**Instância do aluno logado no sistema.*/
 	public Aluno getAluno() {
 		return aluno;
 	}

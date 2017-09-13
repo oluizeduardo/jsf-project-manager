@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface AcoesBancoDeDados <C> {
 
-	void atualizar(C obj);
+	boolean atualizar(C obj);
 	
 	boolean salvar(C obj);
 	
 	List<C> listar();
 	
-	void excluir(C obj);
+	boolean excluir(C obj);
 }

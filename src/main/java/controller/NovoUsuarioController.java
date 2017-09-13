@@ -12,12 +12,14 @@ import model.dao.ProfessorDAO;
 import model.pojo.Aluno;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
+import view.Mensagem;
 import web.SessionUtil;
 
 @ManagedBean(name = "novoUsuarioController")
 @ViewScoped
 public class NovoUsuarioController {
 
+	// Contantes para definição do perfil de usuário.
 	private final String PERFIL_ALUNO = "Aluno";
 	private final String PERFIL_PROFESSOR = "Professor";
 	
@@ -35,8 +37,11 @@ public class NovoUsuarioController {
 	
 	
 	/**
-	 * Verifica se o novo usuário é um Aluno ou Professor.
-	 * Redireciona para o cadastro correto.
+	 * Método executado no início, quando um novo usuário 
+	 * se cadastra no sistema. 
+	 * Após a realização do cadastro, verifica se o novo usuário 
+	 * é um Aluno ou Professor e redireciona-o para a página inicial da 
+	 * aplicação.
 	 */
 	public void salvarNovoUsuario(){
 		String nome  = novoUsuario.getNome();
@@ -44,28 +49,36 @@ public class NovoUsuarioController {
 		String senha = novoUsuario.getSenha();
 		String papel = novoUsuario.getPapel();//Papel: Aluno ou Professor.
 		
+		
 		String tipoDeUsuario = "";// "aluno" ou "professor".
+		boolean cadastrou = false;// status do cadastro.
 		
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		
+		// Pega o ojeto ExternalContext para fazer o redirecionamento de página.
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();		
 				
+		// Verifica que tipo de usuário quer fazer o cadastro.
 		if(papel.equals(PERFIL_ALUNO)){
-			new AlunoDAO().salvar(new Aluno(nome, email, senha));
+			cadastrou = new AlunoDAO().salvar(new Aluno(nome, email, senha));
 			tipoDeUsuario = "aluno";
 			
 		}else if(papel.equals(PERFIL_PROFESSOR)){
-			new ProfessorDAO().salvar(new Professor(nome, email, senha));
+			cadastrou = new ProfessorDAO().salvar(new Professor(nome, email, senha));
 			tipoDeUsuario = "professor";
 		}
 		
-		// Inicia uma sessão para um Aluno.
-		SessionUtil.setParam(SessionUtil.KEY_SESSION, novoUsuario);
-		
-		
-		try {				
-			externalContext.redirect(tipoDeUsuario+"/home.xhtml");
-		} 
-		catch (IOException e) {  }	
+		if(cadastrou){
+			// Inicia uma sessão para um Aluno.
+			SessionUtil.setParam(SessionUtil.KEY_SESSION, novoUsuario);		
+			
+			try {				
+				externalContext.redirect(tipoDeUsuario+"/home.xhtml");
+			} 
+			catch (IOException e) { 
+				Mensagem.ExibeMensagemErro("Erro ao redirecionar novo usuário.");
+			}
+		}else{
+			Mensagem.ExibeMensagemErro("Erro no novo cadastro.");
+		}
 	}
 	
 	
