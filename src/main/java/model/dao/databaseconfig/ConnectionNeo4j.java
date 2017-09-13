@@ -16,25 +16,21 @@ public class ConnectionNeo4j {
 		System.out.println("Iniciada conexao com o banco de dados.");
 	}
 	
-	public void criarDriver() {
-		
+	public void criarDriver() {		
 		try {
 			this.driver = GraphDatabase.driver("bolt://localhost", AuthTokens.basic("neo4j", "123456"));
 		} catch (Exception e) {
-			System.out.println("Erro ao criar ao estabelecer conexao.");
+			System.err.println("Erro ao criar conexão com o banco de dados.");
 		}
-
 	}
 
 	public void criarSession() {
-
 		try {
 			this.session = driver.session();
 		} catch (Exception e) {
-			System.out.println("Erro ao criar Session.");
+			System.err.println("Erro ao criar Session.");
 			e.printStackTrace();
 		}
-
 	}
 
 	public Session getSession() {

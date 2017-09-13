@@ -20,17 +20,18 @@ public class ProjetoBean implements Serializable {
 	private List<Projeto> projetosQueParticipo = null;
 	
 	
-	public ProjetoBean() { }
+	public ProjetoBean() {
+		this.todosProjetos = new ProjetoDAO().listar();
+		this.projetosQueParticipo = new AlunoDAO().getProjetosQueParticipa();
+	}
 
 	
-	public List<Projeto> getTodosProjetos() {
-		this.todosProjetos = new ProjetoDAO().listar();
+	public List<Projeto> getTodosProjetos() {		
 		return todosProjetos;
 	}	
 	
 	
 	public List<Projeto> getProjetosQueParticipo() {
-		this.projetosQueParticipo = new AlunoDAO().getProjetosQueParticipa();
 		return projetosQueParticipo;
 	}
 	
