@@ -8,6 +8,7 @@ import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 
 import model.pojo.Pessoa;
+import model.pojo.Professor;
 import model.pojo.Projeto;
 import web.SessionUtil;
 
@@ -68,7 +69,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	
 	
 	/**
-	 * Retorna uma lista com todos os projetos salvos por um usuário professor.
+	 * Retorna uma lista com todos os projetos salvos pelos professores.
 	 */
 	public List<Projeto> listar() {
 		
@@ -107,6 +108,57 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	}
 	
 
+	
+	
+	
+	/**
+	 * Retorna uma lista com todos os projetos cadastrados
+	 * por um professor específico.
+	 */
+	public List<Projeto> listarPorProfessor(Professor professor) {
+		
+		super.iniciaSessaoNeo4J();
+		
+		String email = professor.getContato().getEmail();
+		String senha = professor.getSenha();
+		
+		
+		ArrayList<Projeto> projetos = new ArrayList<Projeto>();
+		
+		StatementResult resultado = session.run("MATCH(pr:Professor)-[:COOORDENA]->(pj:Projeto) "
+				+ "WHERE pr.email = '"+email+"' AND pr.senha = '"+senha+"' return id(pj) as ID, "
+				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
+				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo, "
+				+ "pr.nome as Coordenador");
+		
+		while(resultado.hasNext()) {
+			
+			Record projetoAtual = resultado.next();
+			
+			Projeto projetoAux = new Projeto();
+			
+			projetoAux.setTitulo(projetoAtual.get("Titulo").asString());
+			projetoAux.setDataFim(projetoAtual.get("Data_Fim").asString());
+			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio").asString());
+			projetoAux.setDataPublicacao(projetoAtual.get("Publicacao").asString());
+		//	projetoAux.getFinanciamento().setValor(projetoAtual.get("Valor").asDouble());
+			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
+			projetoAux.setCategoria(projetoAtual.get("Categoria").asString());
+		//	projetoAux.setNumeroDeParticipantes(projetoAtual.get("QTD_Participantes").asInt());
+			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
+			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
+			
+			projetos.add(projetoAux);
+			
+		}
+		
+		return projetos;
+	}
+	
+	
+	
+	
 	
 	/**
 	 * Exlui um determinado projeto no banco de dados.

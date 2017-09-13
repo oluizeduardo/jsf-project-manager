@@ -28,15 +28,17 @@
 			<h:panelGrid columns="3">
 				<p:outputLabel value="Buscar projetos: " for="where"/>
 			
-				<p:selectOneMenu id="where">				
+				<p:selectOneMenu id="where" value="#{projetosProfController.tipoDeBusca}">				
 					<f:selectItem itemLabel="Cadastrados por mim" 
 								  itemValue="Cadastrados por mim"/>
 								  
 					<f:selectItem itemLabel="Todos os projetos cadastrados" 
-								  itemValue="Todos os projetos cadastrados" />							 										
+								  itemValue="Todos os projetos cadastrados" />
 				</p:selectOneMenu>
 				
-				<p:commandButton value="Buscar" icon="ui-icon-search" />
+				<p:commandButton value="Buscar" icon="ui-icon-search" 
+				actionListener="#{projetosProfController.alteraListaDeProjetos}"
+				update="table-registered-projects"/>
 				
 			</h:panelGrid>
 		</p:panel>
@@ -44,8 +46,8 @@
 		<p:spacer height="8" />
 
 		<p:panel>
-			<p:dataTable id="table-projects-registered" var="projeto"
-				value="#{projetoBean.todosProjetos}" widgetVar="projectsTable"
+			<p:dataTable id="table-registered-projects" var="projeto"
+				value="#{projetosProfController.projetos}" widgetVar="projectsTable"
 				multiViewState="true" rows="10" paginator="true"
 				paginatorPosition="bottom" resizableColumns="true" 
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
