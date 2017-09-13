@@ -74,11 +74,22 @@ public class CadastrarAlunoController {
 	 * quando o usuário editar o perfil.
 	 */
 	public void atualizarAluno() {
-		System.out.println("ATUALIZANDO ALUNO: " + aluno);
+		System.out.println("Atualizando aluno: " + aluno);
 		boolean atualizou = new AlunoDAO().atualizar(aluno);		
 		
 		if(atualizou){
 			Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+			
+			// Atualiza os dados do objeto Session.
+			// Necessário para atualizar as informações do aluno no painel do perfil.
+			Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+			pessoa.setNome(aluno.getNome());
+			pessoa.getEndereco().setCidade(aluno.getEndereco().getCidade());
+			pessoa.getContato().setEmail(aluno.getContato().getEmail());
+
+			// Desfaz a sessão atual e constroi outra com os dados atualizados.
+			SessionUtil.invalidate();
+			SessionUtil.setParam(SessionUtil.KEY_SESSION, pessoa);
 		}
 	}
 	

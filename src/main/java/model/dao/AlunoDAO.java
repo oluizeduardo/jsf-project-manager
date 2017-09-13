@@ -6,11 +6,15 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Aluno;
+import model.pojo.Pessoa;
 import model.pojo.Projeto;
+import web.SessionUtil;
 
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 	public AlunoDAO() { }
+	
+	
 	
 	public boolean salvar(Aluno aluno) {
 		
@@ -131,8 +135,10 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	public boolean atualizar(Aluno aluno) {
 		super.iniciaSessaoNeo4J();
 		
-		String email = aluno.getContato().getEmail();
-		String senha = aluno.getSenha();
+		// Retorna o objeto com os valroes do usuário logado no sistema.
+		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		String email = usuarioLogado.getContato().getEmail();
+		String senha = usuarioLogado.getSenha();
 		boolean status = false;// Status da atualização.		
 		
 		transaction = session.beginTransaction();
