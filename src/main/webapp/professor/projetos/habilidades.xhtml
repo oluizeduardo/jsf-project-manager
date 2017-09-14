@@ -11,16 +11,19 @@
 				<h:panelGrid columns="5" cellspacing="10">
 				
 					<h:outputLabel value="Descrição:" for="description-field"/>
-					<p:inputText id="description-field" style="width:250px"/>
+					<p:inputText id="description-field" style="width:250px" value="#{cadastrarProjetoController.habilidade.descricao}"/>
 		
 					<h:outputLabel value="Nível:" />
-					<p:selectOneMenu style="width:150px">
+					<p:selectOneMenu style="width:150px" value="#{cadastrarProjetoController.habilidade.nivel}">
 						<f:selectItem itemLabel="Básico" itemValue="Básico" />
 						<f:selectItem itemLabel="Médio" itemValue="Médio" />
 						<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
 					</p:selectOneMenu>
 		
-					<p:commandButton id="btnaddHability" value="+" style="width:50px;" />
+					<p:commandButton id="btnaddHability" value="+" 
+									 style="width:50px;"  update="pnList"
+									 action="#{cadastrarProjetoController.addHabilidade}" />
+									 
 					<p:tooltip id="toolTip-add-hability" for="btnaddHability"
 						value="Adicionar" trackMouse="false" />
 		
@@ -42,7 +45,7 @@
 				<p:ajax update="pnList" listener="#{cadastrarProjetoController.exluirHabilidade}"/>
 				
 				<f:setPropertyActionListener value="#{habilidade}"
-					target="#{cadastrarProjetoController.habSelecionada}" />
+					target="#{cadastrarProjetoController.habilidade}" />
 				<h:outputText value="#{habilidade.descricao} #{habilidade.nivel}" />
 			</p:commandLink>
 			<h:outputText value="#{habilidade.descricao}, (#{habilidade.nivel})"

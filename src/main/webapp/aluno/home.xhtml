@@ -107,15 +107,14 @@
 
 
 								<h:form>
-									<!-- TELA DE CONFIRMAÇÃO DE CANDIDATURA -->
-									<p:growl id="msg-confirm" showDetail="true" />
-
 									
-									<p:commandButton value="Detalhes" onclick="PF('project-details').show()"/>
+									<p:commandButton value="Detalhes" 
+													 onclick="PF('project-details').show()"
+													 actionListener="#{projetosAlunoController.defineProjeto}"/>
 									
 									<p:spacer width="10px"/>
 									
-									<p:commandButton value="Candidatar" update="msg-confirm">
+									<p:commandButton value="Candidatar">
 										<p:confirm header="Confirmação"
 											message="Confirma que deseja se candidatar a este projeto?"
 											icon="ui-icon-alert" />
@@ -153,7 +152,8 @@
 			  resizable="false" closeOnEscape="true">
 	
 		<p:panel>
-			<p:outputLabel value="Detalhes completo do projeto"/>
+			<p:outputLabel value="#{projetosAlunoController.projetoSelecionado.titulo}"/>
+			
 			<p:commandButton value="Candidatar">
 				<div align="center">
 					<p:confirm header="Confirmação"

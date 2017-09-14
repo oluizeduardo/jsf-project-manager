@@ -2,12 +2,9 @@ package controller;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
 import model.dao.ProjetoDAO;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
@@ -45,7 +42,8 @@ public class BuscarProjetosProfessorController implements Serializable {
 	public void alteraListaDeProjetos(){
 		if(tipoDeBusca.equals(TODOS_PROJETOS)){
 			this.projetos = new ProjetoDAO().listar();
-		}else{
+			
+		}else if(tipoDeBusca.equals(MEUS_PROJETOS)){
 			listaProjetosCadastradosPeloProfessor();
 		}
 	}

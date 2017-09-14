@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import model.dao.ProjetoDAO;
 import model.pojo.Habilidade;
 import model.pojo.Projeto;
 import view.Mensagem;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class CadastrarProjetoController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -22,10 +22,10 @@ public class CadastrarProjetoController implements Serializable{
 	private Projeto projeto = new Projeto();
 	
 	// Lista de habilidades exigidas neste projeto.
-	private List<Habilidade> habilidades;
+	private List<Habilidade> habilidades = null;
 	
 	// Habilidade selecionada para ser excluida da lista.
-	private Habilidade habSelecionada = new Habilidade(null, null);
+	private Habilidade habilidade = new Habilidade(null, null);
 	
 	// Data mínima para o início do projeto.
 	private Date dataMinima = new Date();
@@ -49,9 +49,7 @@ public class CadastrarProjetoController implements Serializable{
 	 * É exibido uma mensagem na tela informando o usuário sobre o status da execução.
 	 */
 	public void salvarProjeto() {
-		
-		System.err.println("ENTROU AQUI!!");
-		
+				
 		if(projeto.getTitulo().isEmpty()){
 			Mensagem.ExibeMensagemAtencao("Informe o título do projeto.");
 		}else{
@@ -86,6 +84,18 @@ public class CadastrarProjetoController implements Serializable{
 		return (ArrayList<Projeto>) (new ProjetoDAO().listar());
 	}
 
+	
+	public void addHabilidade(){
+		
+		String desc = habilidade.getDescricao();
+		String nivel = habilidade.getNivel();
+		
+		System.err.println("NOVA HABILIDADE: ("+desc+" - "+nivel+")");
+		
+		this.habilidades.add(habilidade);
+	}
+	
+	
 
 	public Projeto getProjeto() {
 		return projeto;
@@ -108,18 +118,18 @@ public class CadastrarProjetoController implements Serializable{
 	}
 
 	public void exluirHabilidade(){
-		this.habilidades.remove(habSelecionada);
-		System.out.println("REMOVIDO: "+habSelecionada.getDescricao());
+		this.habilidades.remove(habilidade);
+		System.out.println("REMOVIDO: "+habilidade.getDescricao());
 	}
 	
 	public void setHabilidades(List<Habilidade> habilidades) {
 		this.habilidades = habilidades;
 	}
-	public Habilidade getHabSelecionada() {
-		return habSelecionada;
+	public Habilidade getHabilidade() {
+		return habilidade;
 	}
-	public void setHabSelecionada(Habilidade habSelecionada) {
-		this.habSelecionada = habSelecionada;
+	public void setHabilidade(Habilidade habilidade) {
+		this.habilidade = habilidade;
 	}
 	public Date getDataMinima() {
 		return dataMinima;
