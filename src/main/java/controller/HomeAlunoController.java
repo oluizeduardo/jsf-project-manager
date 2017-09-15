@@ -79,6 +79,20 @@ public class HomeAlunoController implements Serializable {
 	
 	
 	/**
+	 * Executa esse método quando o aluno deseja se candidatar a um projeto.
+	 * 
+	 * Deve-se montar uma relação de nós entre o projeto escolhido e o aluno logado.
+	 * 
+	 * O script que faz a ligação entre os nós deve ser construído no AlunoDAO,
+	 * algo tipo: participarDeProjeto(Projeto pj).
+	 */
+	public void candidatarAoProjeto(){
+		System.out.println("Candidatar ao projeto "+projetoSelecionado.getTitulo());
+	}
+	
+	
+	
+	/**
 	 * Retorna o objeto da classe ProjetoBean que contém a lista estática de projetos. 
 	 */
 	public ProjetoBean getProjetoBean(){

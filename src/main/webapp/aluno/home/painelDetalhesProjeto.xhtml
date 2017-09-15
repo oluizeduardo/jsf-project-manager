@@ -74,11 +74,14 @@
 		
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
 						closeOnEscape="true">
-						<p:commandButton value="Sim" type="button"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
-							onclick="PF('project-details').hide()"/>
-						<p:commandButton value="Não" type="button"
-							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						<div align="center">
+							<p:commandButton value="Sim"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+								onclick="PF('project-details').hide()"
+								action="#{homeController.candidatarAoProjeto}"/>
+							<p:commandButton value="Não"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</div>
 					</p:confirmDialog>
 					<p:commandButton value="Fechar" onclick="PF('project-details').hide()"/>
 				</h:panelGrid>
