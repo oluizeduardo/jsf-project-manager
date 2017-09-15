@@ -44,6 +44,7 @@ public class HomeProfessorController {
 			userProfessor.getContato().setEmail(pessoaSession.getContato().getEmail());
 			userProfessor.setSenha(pessoaSession.getSenha());
 			userProfessor.getEndereco().setCidade(pessoaSession.getEndereco().getCidade());
+			userProfessor.setCurso(pessoaSession.getCurso());
 		}
 		
 	}

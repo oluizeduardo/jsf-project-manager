@@ -52,6 +52,7 @@ public class HomeAlunoController implements Serializable {
 			userAluno.getContato().setEmail(pessoaSession.getContato().getEmail());
 			userAluno.setSenha(pessoaSession.getSenha());
 			userAluno.getEndereco().setCidade(pessoaSession.getEndereco().getCidade());
+			userAluno.setCurso(pessoaSession.getCurso());
 		}
 		
 	}

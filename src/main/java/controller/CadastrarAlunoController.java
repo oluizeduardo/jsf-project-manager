@@ -86,6 +86,7 @@ public class CadastrarAlunoController {
 			pessoa.setNome(aluno.getNome());
 			pessoa.getEndereco().setCidade(aluno.getEndereco().getCidade());
 			pessoa.getContato().setEmail(aluno.getContato().getEmail());
+			pessoa.setCurso(aluno.getCurso());
 
 			// Desfaz a sessão atual e constroi outra com os dados atualizados.
 			SessionUtil.invalidate();
