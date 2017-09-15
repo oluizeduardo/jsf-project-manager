@@ -1,16 +1,21 @@
 package controller;
 
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
-
+import javax.faces.bean.ViewScoped;
 import model.ProjetoBean;
 import model.pojo.Aluno;
 import model.pojo.Pessoa;
+import model.pojo.Projeto;
 import web.SessionUtil;
 
 
 @ManagedBean(name = "homeController")
-public class HomeAlunoController {
-	
+@ViewScoped
+public class HomeAlunoController implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	// Lista provisória até a aplicação estar conectada ao banco de dados.
 	private ProjetoBean projetoBean;
 	
@@ -28,6 +33,9 @@ public class HomeAlunoController {
 	
 	// Usuário aluno da sessão atual.
 	private Aluno userAluno = new Aluno();
+	
+	// Projeto selecionado na lista de projetos.
+	private Projeto projetoSelecionado = new Projeto();
 	
 	
 	
@@ -58,6 +66,14 @@ public class HomeAlunoController {
 	 */
 	public void pesquisarProjetos(){
 		System.out.println("Pesquisando projetos... ("+palavraChave+", "+onde+", "+habilidade+")");
+	}
+	
+	
+	/**
+	 * Mostra no console qual projeto o usuário deseja ver detalhes. 
+	 */
+	public void verDetalhes(){
+		System.out.println("DETALHES: "+projetoSelecionado.getTitulo()+" - "+projetoSelecionado.getCoordenador().getNome());
 	}
 	
 	
@@ -95,13 +111,17 @@ public class HomeAlunoController {
 	public void setProjetoBean(ProjetoBean projetoBean) {
 		this.projetoBean = projetoBean;
 	}
-
 	public Aluno getUserAluno() {
 		return userAluno;
 	}
-
 	public void setUserAluno(Aluno userAluno) {
 		this.userAluno = userAluno;
+	}
+	public Projeto getProjetoSelecionado() {
+		return projetoSelecionado;
+	}
+	public void setProjetoSelecionado(Projeto projetoSelecionado) {
+		this.projetoSelecionado = projetoSelecionado;
 	}
 	
 	

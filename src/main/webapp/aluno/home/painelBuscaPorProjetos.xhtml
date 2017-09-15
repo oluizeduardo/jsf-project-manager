@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<!-- BUSCA POR PROJETOS -->
+	<h:form id="search-projects">
+		<h:panelGrid columns="4" cellspacing="5">
+			<p:inputText placeholder="Buscar Projetos..." 
+						 style="width:460px"
+						 value="#{homeController.palavraChave}" />
+
+			<p:selectOneMenu value="#{homeController.onde}">
+				<f:selectItem itemLabel="Onde" itemValue="Onde"
+					noSelectionOption="true" />
+				<f:selectItem itemLabel="Toda universidade"
+					itemValue="Toda Universidade" />
+				<f:selectItem itemLabel="Somente no meu curso"
+					itemValue="Somente no meu curso" />
+			</p:selectOneMenu>
+
+			<p:selectOneMenu value="#{homeController.habilidade}">
+				<f:selectItem itemLabel="Habilidade" itemValue="habilidade"
+					noSelectionOption="true" />
+				<f:selectItem itemLabel="Java" itemValue="Java" />
+				<f:selectItem itemLabel="Banco de Dados"
+					itemValue="Banco de Dados" />
+			</p:selectOneMenu>
+
+			<p:commandButton value="Buscar" 
+							 icon="ui-icon-search" 
+							 actionListener="#{homeController.pesquisarProjetos}"/>
+
+		</h:panelGrid>
+	</h:form>
+</html>
