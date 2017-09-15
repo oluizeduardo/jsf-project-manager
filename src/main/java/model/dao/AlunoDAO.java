@@ -202,9 +202,9 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String script = "MATCH(al:Aluno) "
 				+ "WHERE al.email='"+email+"' AND al.senha = '"+senha+"' "
 				+ "return al.nome as nome, al.documentoRG as rg,"
-				+ "al.documentoCPF as cpf, al.estadoCivil as esci,"
-				+ "al.matricula as mat, al.senha as senha, al.sexo as sexo,"
-				+ "al.email as email, al.site as site,"
+				+ "al.documentoCPF as cpf, al.estadoCivil as esci, "
+				+ "al.matricula as mat, al.senha as senha, al.sexo as sexo, "
+				+ "al.email as email, al.site as site, al.dataMatricula as datamat, "
 				+ "al.skype as skype, al.telefone as telefone, "
 				+ "al.dataNascimento as datanas, al.cidade as cidade,"
 				+ "al.estado as estado, al.rua as rua, al.curso as curso";
@@ -227,6 +227,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			aluno.getContato().setSkype(registro.get("skype").asString());
 			aluno.getContato().setTelefone(registro.get("telefone").asString());
 			aluno.setDataNascimento(registro.get("datanas").asString());
+			aluno.setDataMatricula(registro.get("datamat").asString());
 			aluno.getEndereco().setCidade(registro.get("cidade").asString());			
 			aluno.getEndereco().setEstado(registro.get("estado").asString());
 			aluno.getEndereco().setRua(registro.get("rua").asString());

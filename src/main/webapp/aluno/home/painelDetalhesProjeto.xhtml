@@ -6,10 +6,85 @@
 
 	<!-- PAINEL DE DETALHES DO PROJETO -->
 	<p:outputPanel id="painel-de-detalhes">
-		<h:panelGrid columns="2" columnClasses="label,value">
-			<h:outputLabel for="name" value="Name: " style="font-weight:bold" />
-			<h:outputText id="name" value="#{homeController.projetoSelecionado.titulo}" />
-		</h:panelGrid>
+	
+		<p:tabView>
+
+			<p:tab title="Detalhes">
+				<h:panelGrid columns="4" cellspacing="10">
+					<h:outputLabel for="titulo" value="Título: " style="font-weight:bold" />
+					<h:outputText id="titulo" value="#{homeController.projetoSelecionado.titulo}" />
+					
+					<h:outputLabel for="categoria" value="Categoria: " style="font-weight:bold" />
+					<h:outputText id="categoria" value="#{homeController.projetoSelecionado.categoria}" />
+					
+					<h:outputLabel for="coordenador" value="Coordenador: " style="font-weight:bold" />
+					<h:outputText id="coordenador" value="#{homeController.projetoSelecionado.coordenador.nome}" />
+				
+					<h:outputLabel for="dataPublicacao" value="Publicado em: " style="font-weight:bold" />
+					<h:outputText id="dataPublicacao" value="#{homeController.projetoSelecionado.dataPublicacao}" />
+				
+					<h:outputLabel for="dataInicio" value="Data de Início: " style="font-weight:bold" />
+					<h:outputText id="dataInicio" value="#{homeController.projetoSelecionado.dataInicio}"/>
+					
+					<h:outputLabel for="dataFim" value="Data de Término: " style="font-weight:bold" />
+					<h:outputText id="dataFim" value="#{homeController.projetoSelecionado.dataFim}"/>
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2" cellspacing="10">
+					<h:outputLabel for="descricao" value="Descrição: " style="font-weight:bold" />
+					<h:outputText id="descricao" value="#{homeController.projetoSelecionado.descricaoCurta}"/>
+				</h:panelGrid>
+				
+				<p:panel visible="#{homeController.projetoSelecionado.financiamento.existente}">
+					<h:panelGrid columns="4" cellspacing="10">
+						<h:outputLabel for="natureza" value="Natureza: " style="font-weight:bold" />
+						<h:outputText id="natureza" value="#{homeController.projetoSelecionado.financiamento.natureza}"/>
+						
+						<h:outputLabel for="valor" value="Valor: " style="font-weight:bold" />
+						<h:outputText id="valor" value="#{homeController.projetoSelecionado.financiamento.valor}"/>
+					</h:panelGrid>
+				</p:panel>
+				
+			</p:tab>
+			
+			<p:tab title="Resumo">
+				<p:textEditor style="margin-bottom:10px; width: 300px"
+					placeholder="Sem resumo cadastrado." 
+					value="#{homeController.projetoSelecionado.resumo}">
+					<f:facet name="toolbar">
+						<span class="ql-formats"> 
+							<select class="ql-font"/> 
+							<select	class="ql-size"/>
+						</span>
+					</f:facet>
+				</p:textEditor>
+			</p:tab>			
+		</p:tabView>
+		
+		<p:spacer height="10px"/>
+		
+		<p:panel>
+			<div align="center">
+				<h:panelGrid columns="3" cellspacing="10">
+					<p:commandButton value="Candidatar">
+						<p:confirm header="Confirmação"
+							message="Confirma que deseja se candidatar a este projeto?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+		
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						closeOnEscape="true">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+							onclick="PF('project-details').hide()"/>
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+					<p:commandButton value="Fechar" onclick="PF('project-details').hide()"/>
+				</h:panelGrid>
+			</div>
+		</p:panel>
+
 	</p:outputPanel>
 
 </html>
