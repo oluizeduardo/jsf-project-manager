@@ -4,9 +4,11 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.ProjetoBean;
+import model.dao.AlunoDAO;
 import model.pojo.Aluno;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
+import view.Mensagem;
 import web.SessionUtil;
 
 
@@ -37,7 +39,7 @@ public class HomeAlunoController implements Serializable {
 	// Projeto selecionado na lista de projetos.
 	private Projeto projetoSelecionado = new Projeto();
 	
-	
+	private AlunoDAO alunoDAO = new AlunoDAO();
 	
 	
 	public HomeAlunoController() { 
@@ -87,7 +89,24 @@ public class HomeAlunoController implements Serializable {
 	 * algo tipo: participarDeProjeto(Projeto pj).
 	 */
 	public void candidatarAoProjeto(){
-		System.out.println("Candidatar ao projeto "+projetoSelecionado.getTitulo());
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		
+		String email = pessoa.getContato().getEmail();
+		String password = pessoa.getSenha();
+		String nomeProjeto = projetoSelecionado.getTitulo();
+		
+		System.out.println("nome do proojeto:"+nomeProjeto);
+		
+		boolean candidatar = alunoDAO.canditarProjeto(email, password, nomeProjeto);
+		
+		if(candidatar) {
+			Mensagem.ExibeMensagem("Candidatura realizada com sucesso.");
+		}
+		
+		else {
+			Mensagem.ExibeMensagem("Não foi possível realizar a candidatura a esse projeto.");
+		}
+		
 	}
 	
 	

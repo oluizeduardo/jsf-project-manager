@@ -2,7 +2,6 @@ package model.pojo;
 
 import java.util.List;
 
-
 public class Aluno extends Pessoa {
 			
 	private List<Habilidade> habilidades;

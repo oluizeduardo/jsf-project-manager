@@ -242,4 +242,36 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		return (new ArrayList<Projeto>());
 	}
 	
+	public boolean canditarProjeto (String email, String senha, String projeto) {
+		super.iniciaSessaoNeo4J();
+		
+		boolean status = false;
+		
+		transaction = session.beginTransaction();
+		
+		String script = "MATCH (a:Aluno) where a.email='"+email+"'AND a.senha='"+senha+"'"
+				+ "MATCH (pj:Projeto) WHERE pj.titulo='"+projeto+"' CREATE (a)-[:PARTICIPA]->(pj) return a,pj";
+				
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			
+			status = true;
+		}catch(Exception ex){
+			status = false;
+			
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();
+		return status;		
+	}
+	
 }
