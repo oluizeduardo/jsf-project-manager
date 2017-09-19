@@ -67,7 +67,7 @@ public class HomeAlunoController implements Serializable {
 	 * O método deve usar como filtro de seleção a palavra que o usuário 
 	 * digitar no campo de texto e as opções que forem escolhidas nos combobox.
 	 */
-	public void pesquisarProjetos(){
+	public void pesquisarProjetos(){		
 		System.out.println("Pesquisando projetos... ("+palavraChave+", "+onde+", "+habilidade+")");
 	}
 	
