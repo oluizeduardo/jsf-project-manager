@@ -236,17 +236,34 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		return aluno;
 	}
 	
+	
+	
+	/**
+	 * Lista todos os projetos que o aluno logado está participando.
+	 * 
+	 * @param email
+	 * @param senha
+	 * @return Uma lista de objetos Projetos.
+	 */
 	public List<Projeto> getProjetosQueParticipa(String email, String senha){
 		super.iniciaSessaoNeo4J();
 		
 		ArrayList<Projeto> projetosQueParticipa = new ArrayList<Projeto>();
 		
-		StatementResult resultado = session.run("MATCH(a:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COOORDENA]-(pr:Professor) "
+		
+		String script = "MATCH(a:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COOORDENA]-(pr:Professor) "
 				+ "WHERE a.email= '"+email+"' AND a.senha = '"+senha+"' return id(pj) as ID, "
-				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
-				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
-				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo,pj.eFinanciado as ehFinanciado, "
-				+ "pr.nome as Coordenador");
+				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, "
+				+ "pj.dataInicio as Data_Inicio, "
+				+ "pj.dataPublicacao as Publicacao, "
+				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, "
+				+ "pj.numeroParticipantes as QTD_Participantes, "
+				+ "pj.resumo as Resumo, pj.eFinanciado as ehFinanciado, "
+				+ "pr.nome as Coordenador";
+		
+		
+		StatementResult resultado = session.run(script);
 		
 		while(resultado.hasNext()) {
 			
