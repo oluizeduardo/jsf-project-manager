@@ -66,8 +66,6 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	}
 
 	
-	
-	
 	/**
 	 * Retorna uma lista com todos os projetos salvos pelos professores.
 	 */
@@ -155,10 +153,6 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		return projetos;
 	}
-	
-	
-	
-	
 	
 	/**
 	 * Exlui um determinado projeto no banco de dados.

@@ -6,7 +6,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.dao.AlunoDAO;
 import model.dao.ProjetoDAO;
+import model.pojo.Pessoa;
 import model.pojo.Projeto;
+import web.SessionUtil;
 
 
 @ManagedBean
@@ -21,8 +23,13 @@ public class ProjetoBean implements Serializable {
 	
 	
 	public ProjetoBean() {
+		
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		String email = pessoa.getContato().getEmail();
+		String senha = pessoa.getSenha();
+		
 		this.todosProjetos = new ProjetoDAO().listar();
-		this.projetosQueParticipo = new AlunoDAO().getProjetosQueParticipa();
+		this.projetosQueParticipo = new AlunoDAO().getProjetosQueParticipa(email, senha);
 	}
 
 	
