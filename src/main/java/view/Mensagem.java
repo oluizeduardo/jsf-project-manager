@@ -19,7 +19,7 @@ public class Mensagem {
 	 */
 	public static void ExibeMensagem(String mensagem){		
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.addMessage(null, new FacesMessage("Alerta",mensagem));
+		facesContext.addMessage(null, new FacesMessage("",mensagem));
 	}
 
 	/**

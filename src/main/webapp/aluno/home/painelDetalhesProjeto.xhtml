@@ -6,7 +6,7 @@
 
 	<!-- PAINEL DE DETALHES DO PROJETO -->
 	<p:outputPanel id="painel-de-detalhes">
-	
+		
 		<p:tabView>
 
 			<p:tab title="Detalhes">
@@ -78,7 +78,9 @@
 							<p:commandButton value="Sim"
 								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
 								onclick="PF('project-details').hide()"
-								action="#{homeController.candidatarAoProjeto}"/>
+								action="#{homeController.candidatarAoProjeto}"
+								update="messages"/>
+								
 							<p:commandButton value="Não"
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</div>

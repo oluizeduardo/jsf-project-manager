@@ -242,7 +242,18 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		return (new ArrayList<Projeto>());
 	}
 	
-	public boolean canditarProjeto (String email, String senha, String projeto) {
+	
+	/**
+	 * Relaciona o aluno logado com o projeto em que deseja se candidatar.
+	 * 
+	 * @param email
+	 * @param senha
+	 * @param projeto
+	 * @return boolean indicando o status da candidatura.
+	 */
+	public boolean candidatar(String email, String senha, String projeto) {
+		
+		System.out.println("Candidatando ao projeto "+projeto+" EMAIL: "+email+" SENHA: "+senha);
 		super.iniciaSessaoNeo4J();
 		
 		boolean status = false;
@@ -250,7 +261,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		transaction = session.beginTransaction();
 		
 		String script = "MATCH (a:Aluno) where a.email='"+email+"'AND a.senha='"+senha+"'"
-				+ "MATCH (pj:Projeto) WHERE pj.titulo='"+projeto+"' CREATE (a)-[:PARTICIPA]->(pj) return a,pj";
+				+ "MATCH (pj:Projeto) WHERE pj.titulo='"+projeto+"' "
+				+ "CREATE (a)-[:PARTICIPA]->(pj) return a,pj";
 				
 		try{
 			// Executa o script no banco de dados.
@@ -271,7 +283,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			}
 		}
 		session.close();
-		return status;		
+		return status;
 	}
 	
 }

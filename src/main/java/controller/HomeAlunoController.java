@@ -18,7 +18,6 @@ public class HomeAlunoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// Lista provisória até a aplicação estar conectada ao banco de dados.
 	private ProjetoBean projetoBean;
 	
 	// Consultar projetos que contenham esta palavra no título ou descrição.
@@ -95,16 +94,13 @@ public class HomeAlunoController implements Serializable {
 		String password = pessoa.getSenha();
 		String nomeProjeto = projetoSelecionado.getTitulo();
 		
-		System.out.println("nome do proojeto:"+nomeProjeto);
+		boolean candidatou = alunoDAO.candidatar(email, password, nomeProjeto);
 		
-		boolean candidatar = alunoDAO.canditarProjeto(email, password, nomeProjeto);
-		
-		if(candidatar) {
-			Mensagem.ExibeMensagem("Candidatura realizada com sucesso.");
-		}
-		
+		if(candidatou) {
+			Mensagem.ExibeMensagem("Inscrito com sucesso!");
+		}		
 		else {
-			Mensagem.ExibeMensagem("Não foi possível realizar a candidatura a esse projeto.");
+			Mensagem.ExibeMensagem("Não foi possível se candidatar a esse projeto.");
 		}
 		
 	}
