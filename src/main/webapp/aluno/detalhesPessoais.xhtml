@@ -6,9 +6,6 @@
 <h:form>
 <p:panel header="Detalhes Pessoais">
 
-	<!-- Mensagem -->
-	<p:messages closable="true" />
-
 	<h:panelGrid columns="6" columnClasses="label, value" cellspacing="20">
 
 		<p:outputLabel value="Nome Completo:" for="name-field" />
@@ -37,30 +34,24 @@
 			<f:selectItems value="#{cadastrarAlunoController.estadoCivil}" />
 		</p:selectOneMenu>
 
-		<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
-	 	<p:calendar id="birthday-field"
-			value="#{cadastrarAlunoController.aluno.dataNascimento}"
-			pattern="dd-MM-yyyy" mask="true" navigator="true"
-			maxdate="#{cadastrarAlunoController.dataMaxima}" />
- 
+	 	<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
+		<p:calendar id="birthday-field"
+			value="#{cadastrarAlunoController.dataNascimento}"
+			pattern="dd-MM-yyyy" mask="true" 
+			navigator="true" maxdate="#{cadastrarAlunoController.dataMaxima}"/>
+
 		<p:outputLabel value="Matrícula:" for="id-field" />
 		<p:inputMask id="id-field" mask="99999999" 
 					 value="#{cadastrarAlunoController.aluno.matricula}">
 			<p:tooltip id="toolTip-ra" for="id-field" position="bottom"
 				value="Código de registro do aluno junto à universidade." />
 		</p:inputMask>
-
+	
 		<p:outputLabel value="Curso:" for="course-field" />
 		<p:selectOneMenu id="course-field" value="#{cadastrarAlunoController.aluno.curso}">
 			<f:selectItems value="#{listaDeCursos.cursos}" />
 		</p:selectOneMenu>
-
-		<p:outputLabel value="Data de Matrícula" for="registration_date-field" />
-		<p:calendar id="registration_date-field" pattern="dd-MM-yyyy"
-			mask="true" navigator="true" locale="br" 
-			value="#{cadastrarAlunoController.aluno.dataMatricula}"
-			maxdate="#{cadastrarAlunoController.dataMaxima}"/>
-
+		
 	</h:panelGrid>
 </p:panel>
 </h:form>

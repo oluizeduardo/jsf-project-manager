@@ -7,7 +7,6 @@ public class Aluno extends Pessoa {
 	private List<Habilidade> habilidades;
 	private List<Idioma> idiomas;
 	private List<Projeto> projetos;
-	private String dataMatricula="";
 	
 	
 	public Aluno() { 
@@ -44,15 +43,6 @@ public class Aluno extends Pessoa {
 	public void setHabilidades(List<Habilidade> habilidades) {
 		this.habilidades = habilidades;
 	}
-
-	public String getDataMatricula() {
-		return dataMatricula;
-	}
-
-	public void setDataMatricula(String dataMatricula) {
-		this.dataMatricula = dataMatricula;
-	}
-
 	public void addHabilidade(Habilidade novaHabilidade){
 		getHabilidades().add(novaHabilidade);
 	}

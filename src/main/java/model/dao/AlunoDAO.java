@@ -26,7 +26,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String script = "CREATE (a:Aluno {nome: '" + aluno.getNome() 
 		+ "', curso:'" + aluno.getCurso() 
 		+ "', papel:'" + aluno.getPapel()
-		+ "', dataMatricula:'" + aluno.getDataMatricula()
 		+ "', documentoCPF:'" + aluno.getDocumentoCPF()
 		+ "', documentoRG:'" + aluno.getDocumentoRG()
 		+ "', estadoCivil:'" + aluno.getEstadoCivil()
@@ -105,7 +104,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			alunoAux.setSenha(alunoAtual.get("Senha").asString());
 			alunoAux.getContato().setSkype(alunoAtual.get("Skype").asString());
 			alunoAux.setCurso(alunoAtual.get("Curso").asString());
-			alunoAux.setDataMatricula(alunoAtual.get("Data_Matricula").asString());
 			alunoAux.setMatricula(alunoAtual.get("Matricula").asString());
 			alunoAux.setDocumentoCPF(alunoAtual.get("CPF").asString());
 			alunoAux.setDocumentoRG(alunoAtual.get("RG").asString());
@@ -146,7 +144,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String script = "MATCH (n:Aluno) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
 				+ "SET n+= {nome: '" + aluno.getNome()
 				+ "', curso:'" + aluno.getCurso() 
-				+ "', dataMatricula:'" + aluno.getDataMatricula()
 				+ "', documentoCPF:'" + aluno.getDocumentoCPF()
 				+ "', documentoRG:'" + aluno.getDocumentoRG()
 				+ "', estadoCivil:'" + aluno.getEstadoCivil()
@@ -204,7 +201,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "return al.nome as nome, al.documentoRG as rg,"
 				+ "al.documentoCPF as cpf, al.estadoCivil as esci, "
 				+ "al.matricula as mat, al.senha as senha, al.sexo as sexo, "
-				+ "al.email as email, al.site as site, al.dataMatricula as datamat, "
+				+ "al.email as email, al.site as site, "
 				+ "al.skype as skype, al.telefone as telefone, "
 				+ "al.dataNascimento as datanas, al.cidade as cidade,"
 				+ "al.estado as estado, al.rua as rua, al.curso as curso";
@@ -227,7 +224,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			aluno.getContato().setSkype(registro.get("skype").asString());
 			aluno.getContato().setTelefone(registro.get("telefone").asString());
 			aluno.setDataNascimento(registro.get("datanas").asString());
-			aluno.setDataMatricula(registro.get("datamat").asString());
 			aluno.getEndereco().setCidade(registro.get("cidade").asString());			
 			aluno.getEndereco().setEstado(registro.get("estado").asString());
 			aluno.getEndereco().setRua(registro.get("rua").asString());
