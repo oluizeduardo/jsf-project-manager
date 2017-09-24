@@ -35,10 +35,7 @@
 		</p:selectOneMenu>
 
 	 	<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
-		<p:calendar id="birthday-field"
-			value="#{cadastrarAlunoController.dataNascimento}"
-			pattern="dd-MM-yyyy" mask="true" 
-			navigator="true" maxdate="#{cadastrarAlunoController.dataMaxima}"/>
+	 	<p:inputMask id="birthday-field" value="#{cadastrarAlunoController.aluno.dataNascimento}" mask="99/99/9999"/>
 
 		<p:outputLabel value="Matrícula:" for="id-field" />
 		<p:inputMask id="id-field" mask="99999999" 

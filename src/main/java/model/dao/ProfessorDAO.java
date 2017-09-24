@@ -132,6 +132,8 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		return status;
 	}
 
+	
+	
 	/**
 	 * Realiza uma busca completa por todos os professores cadastrados 
 	 * no banco de dados.
@@ -164,7 +166,8 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 						+ "pr.documentoCPF as cpf, pr.estadoCivil as esci,"
 						+ "pr.matricula as mat, pr.senha as senha, pr.sexo as sexo,"
 						+ "pr.titulacao as titulacao, pr.email as email, pr.site as site,"
-						+ "pr.skype as skype, pr.telefone as telefone, pr.bairro as bairro, "
+						+ "pr.skype as skype, pr.telefone as telefone, "
+						+ "pr.bairro as bairro, pr.dataAdmissao as dataadm, "
 						+ "pr.dataNascimento as datanas, pr.cidade as cidade,"
 						+ "pr.estado as estado, pr.rua as rua, pr.curso as curso";
 	
@@ -187,6 +190,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 			professor.getContato().setSkype(registro.get("skype").asString());
 			professor.getContato().setTelefone(registro.get("telefone").asString());
 			professor.setDataNascimento(registro.get("datanas").asString());
+			professor.setDataAdmissao(registro.get("dataadm").asString());
 			professor.getEndereco().setCidade(registro.get("cidade").asString());	
 			professor.getEndereco().setBairro(registro.get("bairro").asString());
 			professor.getEndereco().setEstado(registro.get("estado").asString());
@@ -198,6 +202,8 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		
 		return professor;
 	}
+	
+	
 	
 	/**
 	 * Exclui do banco de dados o registro de um professor expecífico.

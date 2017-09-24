@@ -1,6 +1,5 @@
 package controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -24,8 +23,7 @@ public class CadastrarProfessorController {
 	private List<String> estadosBrasileiros = null;
 	// Acesso á lista de estado cívil.
 	private List<String> estadoCivil = null;
-	private Date dataNascimento = null;
-	private Date dataAdmissao = null;
+
 	private Date dataMaxima = new Date();
 	
 	
@@ -61,7 +59,6 @@ public class CadastrarProfessorController {
 	public void atualizarProfessor() {
 		System.out.println("Atualizando professor: " + professor);
 		
-		converterDatasDoProfessor();
 		boolean atualizou = new ProfessorDAO().atualizar(professor);
 		
 		if(atualizou){
@@ -82,29 +79,6 @@ public class CadastrarProfessorController {
 	}
 	
 	
-	
-	
-	/**
-	 * Converte as datas do perfil do professor para o formato String.
-	 */
-	private void converterDatasDoProfessor(){		
-		
-		// Necessário para construir a máscara desejada.
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
-		/* Se o professor não informar a data de admissão e nascimento, 
-		 * cadastra no banco uma String vazia. */
-		if(dataAdmissao == null){			
-			professor.setDataAdmissao("");
-		}else{
-			professor.setDataAdmissao(sdf.format(dataAdmissao));
-		}
-		if(dataNascimento == null){
-			professor.setDataNascimento("");
-		}else{
-			professor.setDataNascimento(sdf.format(dataNascimento));
-		}
-	}
 
 	
 	/**Retona a instância do atual professor logado no sistema.*/
@@ -121,18 +95,6 @@ public class CadastrarProfessorController {
 	}
 	public List<String> getEstadoCivil() {
 		return estadoCivil;
-	}
-	public Date getDataNascimento() {
-		return dataNascimento;
-	}
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
-	public Date getDataAdmissao() {
-		return dataAdmissao;
-	}
-	public void setDataAdmissao(Date dataAdmissao) {
-		this.dataAdmissao = dataAdmissao;
 	}
 	public Date getDataMaxima() {
 		return dataMaxima;

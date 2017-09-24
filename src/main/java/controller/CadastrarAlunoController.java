@@ -1,8 +1,6 @@
 package controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -29,10 +27,6 @@ public class CadastrarAlunoController {
 	private List<String> estadoCivil = null;
 	// Acesso à lista de idiomas.
 	private List<String> idiomas = null;
-	// Necessário para resolver bug no calendário.
-	private Date dataNascimento = null;
-	// Necessário para bloqueio de datas no calendário.
-	private Date dataMaxima = new Date();
 	
 	
 	
@@ -79,9 +73,6 @@ public class CadastrarAlunoController {
 	public void atualizarAluno() {
 		System.out.println("Atualizando aluno: " + aluno);
 		
-		// Converte o padrão de data antes de enviar para o banco de dados.
-		converteDataDoAluno();
-		
 		boolean atualizou = new AlunoDAO().atualizar(aluno);		
 		
 		if(atualizou){
@@ -111,21 +102,6 @@ public class CadastrarAlunoController {
 	
 	
 	
-	/**
-	 * Converte a data informada pelo aluno.
-	 */
-	private void converteDataDoAluno(){		
-		
-		// Necessário para construir a máscara desejada.
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
-		if(dataNascimento == null){
-			aluno.setDataNascimento("");
-		}else{
-			aluno.setDataNascimento(sdf.format(dataNascimento));
-		}
-	}
-	
 	
 	
 	/**Instância do aluno logado no sistema.*/
@@ -152,18 +128,6 @@ public class CadastrarAlunoController {
 	}
 	public void setIdiomas(List<String> idiomas) {
 		this.idiomas = idiomas;
-	}
-	public Date getDataMaxima() {
-		return dataMaxima;
-	}
-	public void setDataMaxima(Date dataMaxima) {
-		this.dataMaxima = dataMaxima;
-	}
-	public Date getDataNascimento() {
-		return dataNascimento;
-	}
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
 	}
 	
 }

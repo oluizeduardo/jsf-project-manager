@@ -48,16 +48,14 @@
 		</p:selectOneMenu>		
 
 		<p:outputLabel value="Data de Nascimento:" for="birthday-field" />
-		<p:calendar id="birthday-field"
-			value="#{cadastrarProfessorController.dataNascimento}"
-			pattern="dd-MM-yyyy" mask="true" 
-			navigator="true" maxdate="#{cadastrarProfessorController.dataMaxima}"/>
+		<p:inputMask id="birthday-field" 
+					 value="#{cadastrarProfessorController.professor.dataNascimento}" 
+					 mask="99/99/9999"/>
 
 		<p:outputLabel value="Data de Admissão:" for="registration_date-field" />
-		<p:calendar id="registration_date-field" pattern="dd-MM-yyyy"
-			mask="true" navigator="true" locale="br" 
-			value="#{cadastrarProfessorController.dataAdmissao}"
-			maxdate="#{cadastrarProfessorController.dataMaxima}"/>
+		<p:inputMask id="registration_date-field" 
+					 value="#{cadastrarProfessorController.professor.dataAdmissao}" 
+					 mask="99/99/9999"/>
 			
 		<p:outputLabel value="Curso:" for="course-field" />
 		<p:selectOneMenu id="course-field" value="#{cadastrarProfessorController.professor.curso}" >
