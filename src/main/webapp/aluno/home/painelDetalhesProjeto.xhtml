@@ -24,10 +24,12 @@
 					<h:outputText id="dataPublicacao" value="#{homeController.projetoSelecionado.dataPublicacao}" />
 				
 					<h:outputLabel for="dataInicio" value="Data de Início: " style="font-weight:bold" />
-					<h:outputText id="dataInicio" value="#{homeController.projetoSelecionado.dataInicio}"/>
+					<h:outputText id="dataInicio" value="#{homeController.projetoSelecionado.dataInicio}">
+						<f:convertDateTime pattern="MM/dd/yyyy" />
+					</h:outputText>
 					
 					<h:outputLabel for="dataFim" value="Data de Término: " style="font-weight:bold" />
-					<h:outputText id="dataFim" value="#{homeController.projetoSelecionado.dataFim}"/>
+					<h:outputText id="dataFim" value="#{homeController.projetoSelecionado.dataFim}"/>			
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2" cellspacing="10">

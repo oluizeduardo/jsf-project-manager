@@ -27,9 +27,6 @@ public class CadastrarProjetoController implements Serializable{
 	// Habilidade selecionada para ser excluida da lista.
 	private Habilidade habilidade = new Habilidade(null, null);
 	
-	// Data mínima para o início do projeto.
-	private Date dataMinima = new Date();
-	
 	
 	
 	public CadastrarProjetoController() { }
@@ -130,12 +127,6 @@ public class CadastrarProjetoController implements Serializable{
 	}
 	public void setHabilidade(Habilidade habilidade) {
 		this.habilidade = habilidade;
-	}
-	public Date getDataMinima() {
-		return dataMinima;
-	}
-	public void setDataMinima(Date dataMinima) {
-		this.dataMinima = dataMinima;
 	}
 
 }
