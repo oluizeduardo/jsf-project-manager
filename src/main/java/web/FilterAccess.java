@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.pojo.Pessoa;
-import view.Mensagem;
 
 @WebFilter(urlPatterns = {"/professor/*", "/aluno/*"})
 public class FilterAccess implements Filter {

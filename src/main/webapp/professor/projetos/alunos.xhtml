@@ -20,15 +20,21 @@
 		<h:form>
 			<p:panel>
 				<h:panelGrid columns="3" cellspacing="10">
+				
 					<p:outputLabel value="Cursos Alvo:" />
 					<p:selectOneMenu id="course-field" style="width:220px;">
-						<f:selectItem itemLabel="Todos" itemValue="Todos" />
+						<f:selectItem itemLabel="Meu curso" itemValue="Meu Curso" />
+						<f:selectItem itemLabel="Todos os cursos" itemValue="Todos" />						
 						<f:selectItems value="#{listaDeCursos.cursos}" />
 					</p:selectOneMenu>
+					
 					<p:commandButton id="btnadd" 
 									 value="+" style="width:50px;" 
 									 actionListener="#{homeProfessorController.adicionaNovoCursoAlvo}" />
-					<p:tooltip id="tooltip-btnadd" for="btnadd" value="Adicionar" trackMouse="false" />
+					<p:tooltip id="tooltip-btnadd" 
+							   for="btnadd" trackMouse="false"
+							   position="bottom"
+							   value="Adicionar curso alvo"  />
 				</h:panelGrid>
 			</p:panel>
 		</h:form>		
