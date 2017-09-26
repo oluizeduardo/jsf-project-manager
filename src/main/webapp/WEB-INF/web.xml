@@ -24,5 +24,16 @@
 		<param-value>south-street</param-value>
 	</context-param>
 	   
+	<!-- Página não localizada. -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/erro.html</location>
+	</error-page>
+	
+	<!-- Erro interno do servidor. -->
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/erro.html</location>
+	</error-page>
 	 
 </web-app>
