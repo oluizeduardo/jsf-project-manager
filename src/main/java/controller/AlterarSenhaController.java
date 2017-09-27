@@ -46,7 +46,9 @@ public class AlterarSenhaController implements Serializable {
 			boolean alterouSenha = new SenhaDAO().alterarSenha(usuarioLogado, novaSenha);
 			
 			if(alterouSenha) {
-				Mensagem.ExibeMensagem("Senha alterada com sucesso!");			
+				Mensagem.ExibeMensagem("Senha alterada com sucesso!");
+				// Atualiza a senha do usuário na Session.
+				atualizaUsuarioDaSessao();
 			}else{
 				Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
 			}
@@ -55,6 +57,22 @@ public class AlterarSenhaController implements Serializable {
 		}
 	}
 
+	
+	
+	/**
+	 * Atualiza a senha do usuário que está na Session atual.
+	 */
+	private void atualizaUsuarioDaSessao(){
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		// Atualiza o usuário da sessão com a nova senha.
+		pessoa.setSenha(novaSenha);
+
+		// Desfaz a sessão atual e constroi outra com os dados atualizados.
+		SessionUtil.invalidate();
+		SessionUtil.setParam(SessionUtil.KEY_SESSION, pessoa);
+	}
+	
+	
 	
 	
 	public String getSenhaAntiga() {

@@ -45,7 +45,7 @@ public class ListaDeCursos {
 	 */
 	private void montaListaDeCursos(){
 		
-		SelectItemGroup g1 = new SelectItemGroup("Demais Cursos");
+		SelectItemGroup g1 = new SelectItemGroup("Cursos UNIVÁS");
         g1.setSelectItems(new SelectItem[] {
         		new SelectItem("Administração", "Administração"), 
         		new SelectItem("Ciências Biológicas", "Ciências Biológicas"), 
