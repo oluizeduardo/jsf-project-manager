@@ -35,5 +35,16 @@
 	    <error-code>500</error-code>
 	    <location>/erro.html</location>
 	</error-page>
-	 
+	
+	<!-- Qualquer Exception que interrompa a execução do sistema. -->
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/erro.html</location>
+	</error-page>
+	
+	<!-- Tempo de sessão. -->
+	<session-config>
+    	<session-timeout>30</session-timeout>
+  	</session-config>
+	
 </web-app>
