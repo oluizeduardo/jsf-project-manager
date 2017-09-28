@@ -20,17 +20,23 @@ public class CadastrarProjetoController implements Serializable{
 
 	// Guarda os dados do novo projeto que será cadastrado.
 	private Projeto projeto = new Projeto();
-	
 	// Lista de habilidades exigidas neste projeto.
 	private List<Habilidade> habilidades = null;
-	
 	// Habilidade selecionada para ser excluida da lista.
 	private Habilidade habilidade = new Habilidade(null, null);
+	// Acesso à lista de cursos aos quais o novo projeto se destina.
+	private List<String> cursosAlvo = new ArrayList<String>();	
+	// Curso alvo do projeto.
+	private String cursoAlvo = null;
+	// Curso alvo do projeto.
+	private String cursoSelecionado = null;
 	
 	
 	
 	public CadastrarProjetoController() { }
 
+	
+	
 	
 	/**
 	 * Retorna a data atual formatada para o padrão de leitura simples.
@@ -93,15 +99,22 @@ public class CadastrarProjetoController implements Serializable{
 	}
 	
 	
-
-	public Projeto getProjeto() {
-		return projeto;
+	/**
+	 * Adiciona um novo curso na lista dos cursos alvo do novo projeto.
+	 */
+	public void addCursoAlvo(){
+		if(cursoAlvo != null)
+			this.cursosAlvo.add(cursoAlvo);
+	}
+	
+	
+	
+	public void excluiCursoAlvo(){
+		if(cursoSelecionado != null)
+			cursosAlvo.remove(cursoSelecionado);
 	}
 
-	public void setProjeto(Projeto projeto) {
-		this.projeto = projeto;
-	}
-
+	
 	public List<Habilidade> getHabilidades() {
 		if(habilidades == null){
 			habilidades = new ArrayList<Habilidade>();
@@ -114,10 +127,12 @@ public class CadastrarProjetoController implements Serializable{
 		return habilidades;
 	}
 
-	public void exluirHabilidade(){
+	public void exluiHabilidade(){
 		this.habilidades.remove(habilidade);
 		System.out.println("REMOVIDO: "+habilidade.getDescricao());
 	}
+	
+	
 	
 	public void setHabilidades(List<Habilidade> habilidades) {
 		this.habilidades = habilidades;
@@ -128,5 +143,29 @@ public class CadastrarProjetoController implements Serializable{
 	public void setHabilidade(Habilidade habilidade) {
 		this.habilidade = habilidade;
 	}
-
+	public String getCursoAlvo() {
+		return cursoAlvo;
+	}
+	public void setCursoAlvo(String cursoAlvo) {
+		this.cursoAlvo = cursoAlvo;
+	}
+	public List<String> getCursosAlvo() {
+		return cursosAlvo;
+	}
+	public void setCursosAlvo(List<String> cursosAlvo) {
+		this.cursosAlvo = cursosAlvo;
+	}
+	public Projeto getProjeto() {
+		return projeto;
+	}
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
+	public String getCursoSelecionado() {
+		return cursoSelecionado;
+	}
+	public void setCursoSelecionado(String cursoSelecionado) {
+		this.cursoSelecionado = cursoSelecionado;
+	}
+	
 }
