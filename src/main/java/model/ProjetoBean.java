@@ -36,7 +36,9 @@ public class ProjetoBean implements Serializable {
 	public List<Projeto> getTodosProjetos() {		
 		return todosProjetos;
 	}	
-	
+	public void setTodosProjetos(List<Projeto> todosProjetos) {		
+		this.todosProjetos = todosProjetos;
+	}
 	
 	public List<Projeto> getProjetosQueParticipo() {
 		return projetosQueParticipo;

@@ -6,9 +6,9 @@
 
 	<!-- BUSCA POR PROJETOS -->
 	<h:form id="search-projects">
-		<h:panelGrid columns="4" cellspacing="5">
+		<h:panelGrid columns="5" cellspacing="5">
 			<p:inputText placeholder="Buscar Projetos..." 
-						 style="width:460px"
+						 style="width:420px"
 						 value="#{homeController.palavraChave}" />
 
 			<p:selectOneMenu value="#{homeController.onde}">
@@ -26,7 +26,14 @@
 
 			<p:commandButton value="Buscar" 
 							 icon="ui-icon-search" 
-							 actionListener="#{homeController.pesquisarProjetos}"/>
+							 actionListener="#{homeController.pesquisarProjetos}"
+							 update="pn-lista-de-projetos"
+							 title="Buscar projetos"/>
+							 
+			<p:commandButton icon="ui-icon-refresh" 
+							 title="Recarregar lista de projetos"
+							 actionListener="#{homeController.recarregarProjetos}"
+							 update="pn-lista-de-projetos"/>
 
 		</h:panelGrid>
 	</h:form>

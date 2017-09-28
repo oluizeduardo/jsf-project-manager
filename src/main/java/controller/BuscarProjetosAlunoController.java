@@ -13,15 +13,15 @@ public class BuscarProjetosAlunoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	// Projeto selecionado para ver detalhes.
 	private Projeto projetoSelecionado = null;
 	
 	
+	
+
 	public BuscarProjetosAlunoController() { }
 
-
-	public void defineProjeto(Projeto proj){
-		this.projetoSelecionado = proj;
-	}
+	
 	
 	
 	public Projeto getProjetoSelecionado() {

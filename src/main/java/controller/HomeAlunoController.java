@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.ProjetoBean;
@@ -19,6 +22,9 @@ public class HomeAlunoController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private ProjetoBean projetoBean;
+	
+	// Lista com todos os projetos cadastrados no banco de dados.
+	private List<Projeto> todosProjetos;
 	
 	// Consultar projetos que contenham esta palavra no título ou descrição.
 	private String palavraChave;
@@ -41,8 +47,12 @@ public class HomeAlunoController implements Serializable {
 	private AlunoDAO alunoDAO = new AlunoDAO();
 	
 	
+	/**
+	 * Construtor da classe.
+	 */
 	public HomeAlunoController() { 
 		this.projetoBean = new ProjetoBean();
+		this.todosProjetos = projetoBean.getTodosProjetos();
 		
 		this.pessoaSession = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
@@ -59,6 +69,8 @@ public class HomeAlunoController implements Serializable {
 	}
 	
 	
+	
+	
 	/**
 	 * Método executado quando o usuário preencher os campos da tela inicial
 	 * para buscar novos projetos.
@@ -66,9 +78,39 @@ public class HomeAlunoController implements Serializable {
 	 * O método deve usar como filtro de seleção a palavra que o usuário 
 	 * digitar no campo de texto e as opções que forem escolhidas nos combobox.
 	 */
-	public void pesquisarProjetos(){		
-		System.out.println("Pesquisando projetos... ("+palavraChave+", "+onde+", "+habilidade+")");
+	public void pesquisarProjetos(){
+	
+		// Lista de projetos localizados a partir da busca do aluno.
+		List<Projeto> projetosLocalizados = new ArrayList<Projeto>();
+		
+		for (Projeto projeto : todosProjetos) {
+			
+			String titulo = projeto.getTitulo().toLowerCase();
+			String descricao = projeto.getDescricaoCurta().toLowerCase();
+			String resumo = projeto.getResumo().toLowerCase();
+			palavraChave = palavraChave.toLowerCase();
+			
+			// Separa o projeto se encontrar a palavra-chave no título, descrição ou resumo.
+			if(titulo.contains(palavraChave) || 
+			   descricao.contains(palavraChave) ||
+			   resumo.contains(palavraChave)){
+				
+				projetosLocalizados.add(projeto);
+			}
+		}
+		projetoBean.setTodosProjetos(projetosLocalizados);
 	}
+	
+	
+	
+	/**
+	 * Recarrega a lista com todos os projetos cadastrados no sistema.
+	 */
+	public void recarregarProjetos(){
+		projetoBean.setTodosProjetos(this.todosProjetos);
+	}
+	
+	
 	
 	
 	/**

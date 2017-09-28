@@ -28,6 +28,8 @@ public class AlterarSenhaController implements Serializable {
 	private String senhaAntiga;
 	// A nova senha que se deseja utilizar.
 	private String novaSenha;
+	// Repetir a nova senha.
+	private String confirmarSenha;
 
 	
 	
@@ -49,6 +51,7 @@ public class AlterarSenhaController implements Serializable {
 				Mensagem.ExibeMensagem("Senha alterada com sucesso!");
 				// Atualiza a senha do usuário na Session.
 				atualizaUsuarioDaSessao();
+				limparCampos();
 			}else{
 				Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
 			}
@@ -73,6 +76,15 @@ public class AlterarSenhaController implements Serializable {
 	}
 	
 	
+	/**
+	 * Atribui uma String em branco para limpar os campos da tela.
+	 */
+	private void limparCampos(){
+		setSenhaAntiga("");
+		setNovaSenha("");
+		setConfirmarSenha("");
+	}
+	
 	
 	
 	public String getSenhaAntiga() {
@@ -86,9 +98,15 @@ public class AlterarSenhaController implements Serializable {
 	public String getNovaSenha() {
 		return novaSenha;
 	}
-
 	public void setNovaSenha(String novaSenha) {
 		this.novaSenha = novaSenha;
 	}
+	public String getConfirmarSenha() {
+		return confirmarSenha;
+	}
+	public void setConfirmarSenha(String confirmarSenha) {
+		this.confirmarSenha = confirmarSenha;
+	}
+	
 
 }

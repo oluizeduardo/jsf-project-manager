@@ -5,7 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 	
 	<!-- PAINEL DE PROJETOS LISTADOS -->
-	<p:dataGrid var="projeto"
+	<p:dataGrid id="pn-lista-de-projetos" var="projeto"
 		value="#{homeController.projetoBean.todosProjetos}" columns="2"
 		rows="4" paginator="true" paginatorPosition="bottom"
 		emptyMessage="Nenhum projeto localizado."
