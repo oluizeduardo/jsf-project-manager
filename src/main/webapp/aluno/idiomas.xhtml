@@ -8,13 +8,12 @@
 	<p:messages closable="true" />
 
 	<div align="center">
-	
+		
 		<h:panelGrid columns="5" cellspacing="20">
-		
-		
+				
 			<h:outputLabel value="Idioma:" />
 			<p:selectOneMenu style="width:250px"
-							 value="#{cadastrarAlunoController.lingua.descricao}">
+							 value="#{cadastrarAlunoController.descricaoLingua}">
 				<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 					noSelectionOption="true" effect="fold"/>
 				<f:selectItems value="#{cadastrarAlunoController.idiomas}" />
@@ -22,13 +21,13 @@
 
 			<h:outputLabel value="Nível:" />
 			<p:selectOneMenu style="width:150px"
-							 value="#{cadastrarAlunoController.lingua.nivel}">
+							 value="#{cadastrarAlunoController.nivelLingua}">
 				<f:selectItem itemLabel="Básico" itemValue="Básico" />
 				<f:selectItem itemLabel="Médio" itemValue="Médio" />
 				<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
 			</p:selectOneMenu>
 
-			<p:commandButton id="btnadd" value="+" 
+			<p:commandButton id="btnadd" icon="ui-icon-plus" 
 							 style="width:50px;"
 							 actionListener="#{cadastrarAlunoController.addLingua}"
 							 update="table-languages"/>
@@ -40,9 +39,7 @@
 		
 		
 		<p:dataTable id="table-languages" var="lingua"
-			value="#{cadastrarAlunoController.linguas}" 
-			widgetVar="languagesTable"
-			multiViewState="true"
+			value="#{cadastrarAlunoController.linguas}"
 			resizableColumns="true"
 			emptyMessage="Nenhuma língua definida."
 			style="width:700px">
@@ -57,12 +54,19 @@
 			</p:column>
 
 			<p:column style="width:32px;text-align: center">
-				<p:commandButton icon="ui-icon-trash" title="Excluir"
-				actionListener="#{cadastrarAlunoController.excluirLingua}"/>
+				<p:commandButton icon="ui-icon-trash" 
+								 title="Excluir"
+								 update="table-languages"
+								 action="#{cadastrarAlunoController.excluiLingua}">
+					<f:setPropertyActionListener value="#{lingua}" 
+					target="#{cadastrarAlunoController.linguaSelecionada}"/>
+				</p:commandButton>
 			</p:column>
 
 		</p:dataTable>
+		
 	</div>
+	
 </p:panel>
 
 </html>

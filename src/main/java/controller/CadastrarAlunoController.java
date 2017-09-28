@@ -28,31 +28,54 @@ public class CadastrarAlunoController {
 	private List<String> estadoCivil = null;
 	// Acesso à lista de idiomas.
 	private List<String> idiomas = null;
-	// Habilidade do aluno.
-	private Habilidade habilidade = new Habilidade();
-	// Lpingua falada pelo aluno.
-	private Habilidade lingua = new Habilidade();
+	
+	// Descrição da habilidade do aluno.
+	private String descricaoHabilidade = "";
+	// Nível de habilidade do aluno.
+	private String nivelHabilidade = "";
 	// Lista de habilidades do aluno.
 	private List<Habilidade> habilidades = null;
+	// Habilidade selecionada para ser excluida da tabela.
+	private Habilidade habilidadeSelecionada;
+	
+	// Descrição da língua falada pelo aluno.
+	private String descricaoLingua = "";
+	// Nível de fluência na língua falada pelo aluno.
+	private String nivelLingua = "";
 	// Lista de línguas faladas pelo aluno.
 	private List<Habilidade> linguas = null;
+	// Língua selecionada para ser excluida da tabela.
+	private Habilidade linguaSelecionada;
 	
 	
 	
+	
+	/**
+	 * Construtor da classe.
+	 * Carrega os dados do aluno para exibir na página de consulta de perfil.
+	 * Inicia as listas utilizadas por essa classe.
+	 */
 	public CadastrarAlunoController() {		
-		// Carrega os dados do aluno logado no sistema.
-		carregaDadosDoAluno();
-		
-		this.estadosBrasileiros = new ListaDeEstados().getList();
-		this.estadoCivil = new ListaDeEstadoCivil().getList();
-		this.idiomas = new ListaDeIdiomas().getList();
-		this.habilidades = new ArrayList<Habilidade>();
-		this.linguas = new ArrayList<Habilidade>();
+		carregaDadosDoAluno();		
+		iniciaListas();
 	}
 
 	
 	
-	
+	/**
+	 * Inicia as listas utilizadas por esta classe.
+	 */
+	private void iniciaListas() {
+		this.estadosBrasileiros = new ListaDeEstados().getList();
+		this.estadoCivil = new ListaDeEstadoCivil().getList();
+		this.idiomas = new ListaDeIdiomas().getList();
+		this.habilidades = new ArrayList<Habilidade>();
+		this.linguas = new ArrayList<Habilidade>();		
+	}
+
+
+
+
 	/**
 	 * Carrega os dados do aluno logado no sistema.
 	 * 
@@ -122,22 +145,34 @@ public class CadastrarAlunoController {
 	}
 	
 	
-	public void addHabilidade(){
-		this.habilidades.add(this.habilidade);
+	/**
+	 * Adiciona na lista uma nova habilidade cadastrada.
+	 */
+	public void addHabilidade(){		
+		this.habilidades.add(new Habilidade(descricaoHabilidade, nivelHabilidade));
+	}
+
+	/**
+	 * Exclui uma habilidade da lista de habilidades do aluno.
+	 */
+	public void excluiHabilidade(){
+		if(habilidadeSelecionada != null)
+			this.habilidades.remove(habilidadeSelecionada);
 	}
 	
-	public void excluirHabilidade(){
-		//this.habilidades.remove(habilidade);
-		System.out.println("REMOVENDO HABILIDADE...");
-	}
-	
+	/**
+	 * Adiciona uma língua na lista de línguas faladas pelo aluno.
+	 */
 	public void addLingua(){
-		this.linguas.add(this.lingua);
+		this.linguas.add(new Habilidade(descricaoLingua, nivelLingua));
 	}
 	
-	public void excluirLingua(){
-		//this.habilidades.remove(habilidade);
-		System.out.println("REMOVENDO HABILIDADE...");
+	/**
+	 * Exclui uma língua da lista de línguas faladas pelo aluno.
+	 */
+	public void excluiLingua(){
+		if(linguaSelecionada != null)
+			this.linguas.remove(linguaSelecionada);
 	}
 	
 	
@@ -178,17 +213,42 @@ public class CadastrarAlunoController {
 	public void setLinguas(List<Habilidade> linguas) {
 		this.linguas = linguas;
 	}
-	public Habilidade getHabilidade() {
-		return habilidade;
+	public String getDescricaoHabilidade() {
+		return descricaoHabilidade;
 	}
-	public void setHabilidade(Habilidade habilidade) {
-		this.habilidade = habilidade;
+	public void setDescricaoHabilidade(String descricaoHabilidade) {
+		this.descricaoHabilidade = descricaoHabilidade;
 	}
-	public Habilidade getLingua() {
-		return lingua;
+	public String getNivelHabilidade() {
+		return nivelHabilidade;
 	}
-	public void setLingua(Habilidade lingua) {
-		this.lingua = lingua;
+	public void setNivelHabilidade(String nivelHabilidade) {
+		this.nivelHabilidade = nivelHabilidade;
 	}
+	public String getDescricaoLingua() {
+		return descricaoLingua;
+	}
+	public void setDescricaoLingua(String descricaoLingua) {
+		this.descricaoLingua = descricaoLingua;
+	}
+	public String getNivelLingua() {
+		return nivelLingua;
+	}
+	public void setNivelLingua(String nivelLingua) {
+		this.nivelLingua = nivelLingua;
+	}
+	public Habilidade getHabilidadeSelecionada() {
+		return habilidadeSelecionada;
+	}
+	public void setHabilidadeSelecionada(Habilidade habilidadeSelecionada) {
+		this.habilidadeSelecionada = habilidadeSelecionada;
+	}
+	public Habilidade getLinguaSelecionada() {
+		return linguaSelecionada;
+	}
+	public void setLinguaSelecionada(Habilidade linguaSelecionada) {
+		this.linguaSelecionada = linguaSelecionada;
+	}
+	
 	
 }

@@ -13,18 +13,18 @@
 			<h:outputLabel value="Descrição:" for="description-field"/>
 			<p:inputText id="description-field" 
 						 style="width:250px"
-						 value="#{cadastrarAlunoController.habilidade.descricao}"/>
+						 value="#{cadastrarAlunoController.descricaoHabilidade}"/>
 
 			<h:outputLabel value="Nível:" />
 			<p:selectOneMenu style="width:150px"
-							 value="#{cadastrarAlunoController.habilidade.nivel}">
+							 value="#{cadastrarAlunoController.nivelHabilidade}">
 				<f:selectItem itemLabel="Básico" itemValue="Básico" />
 				<f:selectItem itemLabel="Médio" itemValue="Médio" />
 				<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
 			</p:selectOneMenu>
 
 			<p:commandButton id="btnaddHability" 
-							 value="+" style="width:50px;"
+							 icon="ui-icon-plus" style="width:50px;"
 							 actionListener="#{cadastrarAlunoController.addHabilidade}"
 							 update="table-habilities"/>
 							 
@@ -37,9 +37,7 @@
 		
 		
 		<p:dataTable id="table-habilities" var="habilidade"
-			value="#{cadastrarAlunoController.habilidades}" 
-			widgetVar="habilitiesTable"
-			multiViewState="true"
+			value="#{cadastrarAlunoController.habilidades}"
 			resizableColumns="true"
 			emptyMessage="Nenhuma habilidade definida."
 			style="width:700px">
@@ -56,7 +54,11 @@
 			<p:column style="width:32px;text-align: center">
 				<p:commandButton icon="ui-icon-trash" 
 								 title="Excluir"
-								 actionListener="#{cadastrarAlunoController.excluirHabilidade}"/>
+								 update="table-habilities"
+								 action="#{cadastrarAlunoController.excluiHabilidade}">
+					<f:setPropertyActionListener value="#{habilidade}" 
+					target="#{cadastrarAlunoController.habilidadeSelecionada}" />
+				</p:commandButton>
 			</p:column>
 
 		</p:dataTable>
