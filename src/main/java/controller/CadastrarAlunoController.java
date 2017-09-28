@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.pojo.Aluno;
+import model.pojo.Habilidade;
 import model.pojo.Pessoa;
 import view.Mensagem;
 import web.SessionUtil;
@@ -27,6 +28,14 @@ public class CadastrarAlunoController {
 	private List<String> estadoCivil = null;
 	// Acesso à lista de idiomas.
 	private List<String> idiomas = null;
+	// Habilidade do aluno.
+	private Habilidade habilidade = new Habilidade();
+	// Lpingua falada pelo aluno.
+	private Habilidade lingua = new Habilidade();
+	// Lista de habilidades do aluno.
+	private List<Habilidade> habilidades = null;
+	// Lista de línguas faladas pelo aluno.
+	private List<Habilidade> linguas = null;
 	
 	
 	
@@ -37,6 +46,8 @@ public class CadastrarAlunoController {
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
+		this.habilidades = new ArrayList<Habilidade>();
+		this.linguas = new ArrayList<Habilidade>();
 	}
 
 	
@@ -111,7 +122,23 @@ public class CadastrarAlunoController {
 	}
 	
 	
+	public void addHabilidade(){
+		this.habilidades.add(this.habilidade);
+	}
 	
+	public void excluirHabilidade(){
+		//this.habilidades.remove(habilidade);
+		System.out.println("REMOVENDO HABILIDADE...");
+	}
+	
+	public void addLingua(){
+		this.linguas.add(this.lingua);
+	}
+	
+	public void excluirLingua(){
+		//this.habilidades.remove(habilidade);
+		System.out.println("REMOVENDO HABILIDADE...");
+	}
 	
 	
 	/**Instância do aluno logado no sistema.*/
@@ -138,6 +165,30 @@ public class CadastrarAlunoController {
 	}
 	public void setIdiomas(List<String> idiomas) {
 		this.idiomas = idiomas;
+	}
+	public List<Habilidade> getHabilidades() {
+		return habilidades;
+	}
+	public void setHabilidades(List<Habilidade> habilidades) {
+		this.habilidades = habilidades;
+	}
+	public List<Habilidade> getLinguas() {
+		return linguas;
+	}
+	public void setLinguas(List<Habilidade> linguas) {
+		this.linguas = linguas;
+	}
+	public Habilidade getHabilidade() {
+		return habilidade;
+	}
+	public void setHabilidade(Habilidade habilidade) {
+		this.habilidade = habilidade;
+	}
+	public Habilidade getLingua() {
+		return lingua;
+	}
+	public void setLingua(Habilidade lingua) {
+		this.lingua = lingua;
 	}
 	
 }

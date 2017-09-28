@@ -11,26 +11,56 @@
 		<h:panelGrid columns="5" cellspacing="20">
 		
 			<h:outputLabel value="Descrição:" for="description-field"/>
-			<p:inputText id="description-field" style="width:250px"/>
+			<p:inputText id="description-field" 
+						 style="width:250px"
+						 value="#{cadastrarAlunoController.habilidade.descricao}"/>
 
 			<h:outputLabel value="Nível:" />
-			<p:selectOneMenu style="width:150px">
+			<p:selectOneMenu style="width:150px"
+							 value="#{cadastrarAlunoController.habilidade.nivel}">
 				<f:selectItem itemLabel="Básico" itemValue="Básico" />
 				<f:selectItem itemLabel="Médio" itemValue="Médio" />
 				<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
 			</p:selectOneMenu>
 
-			<p:commandButton id="btnaddHability" value="+" style="width:50px;" />
-			<p:tooltip id="toolTip-add-hability" for="btnaddHability" value="Adicionar" trackMouse="false" />
+			<p:commandButton id="btnaddHability" 
+							 value="+" style="width:50px;"
+							 actionListener="#{cadastrarAlunoController.addHabilidade}"
+							 update="table-habilities"/>
+							 
+			<p:tooltip id="toolTip-add-hability" 
+					   for="btnaddHability" 
+					   value="Adicionar" 
+					   trackMouse="false" />
 
 		</h:panelGrid>
-	</div>
+		
+		
+		<p:dataTable id="table-habilities" var="habilidade"
+			value="#{cadastrarAlunoController.habilidades}" 
+			widgetVar="habilitiesTable"
+			multiViewState="true"
+			resizableColumns="true"
+			emptyMessage="Nenhuma habilidade definida."
+			style="width:700px">
 
-	<!-- 
-					Creio que aqui caberá bem o componente DataList no modo Paginator.
-					
-					https://www.primefaces.org/showcase/ui/data/dataList.xhtml
-				 -->
+
+			<p:column headerText="Habilidade">
+				<h:outputText value="#{habilidade.descricao}" />
+			</p:column>
+			
+			<p:column headerText="Nível" style="text-align: center">
+				<h:outputText value="#{habilidade.nivel}" />
+			</p:column>
+
+			<p:column style="width:32px;text-align: center">
+				<p:commandButton icon="ui-icon-trash" 
+								 title="Excluir"
+								 actionListener="#{cadastrarAlunoController.excluirHabilidade}"/>
+			</p:column>
+
+		</p:dataTable>
+	</div>
 
 </p:panel>
 
