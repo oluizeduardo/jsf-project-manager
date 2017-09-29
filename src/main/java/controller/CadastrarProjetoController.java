@@ -21,9 +21,13 @@ public class CadastrarProjetoController implements Serializable{
 	// Guarda os dados do novo projeto que será cadastrado.
 	private Projeto projeto = new Projeto();
 	// Lista de habilidades exigidas neste projeto.
-	private List<Habilidade> habilidades = null;
+	private List<Habilidade> habilidades = new ArrayList<Habilidade>();
+	
 	// Habilidade selecionada para ser excluida da lista.
-	private Habilidade habilidade = new Habilidade(null, null);
+	private Habilidade habilidade = new Habilidade();
+	
+	// Habilidade selecionada para ser excluída da lista.
+	private Habilidade habilidadeSelecionada = null;
 	// Acesso à lista de cursos aos quais o novo projeto se destina.
 	private List<String> cursosAlvo = new ArrayList<String>();	
 	// Curso alvo do projeto.
@@ -88,14 +92,43 @@ public class CadastrarProjetoController implements Serializable{
 	}
 
 	
+	/**
+	 * Adiciona uma nova habilidade na lista de habilidades exigidas pelo projeto.
+	 */
 	public void addHabilidade(){
-		
-		String desc = habilidade.getDescricao();
+		String desc = habilidade.getDescricao().toUpperCase();
 		String nivel = habilidade.getNivel();
 		
-		System.err.println("NOVA HABILIDADE: ("+desc+" - "+nivel+")");
-		
-		this.habilidades.add(habilidade);
+		// Verifica se a descrição não está em branco.
+		if(!desc.isEmpty())
+			if(!verificaExistenciaDeHabilidade(desc))
+				this.habilidades.add(new Habilidade(desc, nivel));
+	}
+	
+	
+	/**
+	 * Verifica se na lista de habilidades já não existe a habilidade
+	 * que se deseja cadastrar.
+	 * 
+	 * @param descricao A descrição da nova habilidade
+	 * @return verdadeiro ou falso sobre a existência da nova habilidade.
+	 */
+	private boolean verificaExistenciaDeHabilidade(String descricao){		
+		for (Habilidade habilidade : habilidades) {
+			if(habilidade.getDescricao().equals(descricao)){
+				return true;
+			}
+		}		
+		return false;
+	}
+	
+	
+	/**
+	 * Exclui uma habilidade da lista de habilidades exigidas no projeto.
+	 */
+	public void excluiHabilidade(){
+		if(habilidadeSelecionada != null)
+			this.habilidades.remove(habilidadeSelecionada);
 	}
 	
 	
@@ -104,34 +137,20 @@ public class CadastrarProjetoController implements Serializable{
 	 */
 	public void addCursoAlvo(){
 		if(cursoAlvo != null)
-			this.cursosAlvo.add(cursoAlvo);
+			if(!cursosAlvo.contains(cursoAlvo))
+				this.cursosAlvo.add(cursoAlvo);
 	}
 	
 	
-	
+	/**
+	 * Exclui um curso da lista de cursos alvo do projeto.
+	 */
 	public void excluiCursoAlvo(){
 		if(cursoSelecionado != null)
 			cursosAlvo.remove(cursoSelecionado);
 	}
 
-	
-	public List<Habilidade> getHabilidades() {
-		if(habilidades == null){
-			habilidades = new ArrayList<Habilidade>();
-			habilidades.add(new Habilidade("Java", "Médio"));
-			habilidades.add(new Habilidade("Banco de dados", "Básico"));
-			habilidades.add(new Habilidade("Javascript", "Avançado"));
-			habilidades.add(new Habilidade("Engenharia de Software", "Básico"));
-			habilidades.add(new Habilidade("Python", "Básico"));
-		}		
-		return habilidades;
-	}
 
-	public void exluiHabilidade(){
-		this.habilidades.remove(habilidade);
-		System.out.println("REMOVIDO: "+habilidade.getDescricao());
-	}
-	
 	
 	
 	public void setHabilidades(List<Habilidade> habilidades) {
@@ -166,6 +185,15 @@ public class CadastrarProjetoController implements Serializable{
 	}
 	public void setCursoSelecionado(String cursoSelecionado) {
 		this.cursoSelecionado = cursoSelecionado;
+	}
+	public Habilidade getHabilidadeSelecionada() {
+		return habilidadeSelecionada;
+	}
+	public void setHabilidadeSelecionada(Habilidade habilidadeSelecionada) {
+		this.habilidadeSelecionada = habilidadeSelecionada;
+	}
+	public List<Habilidade> getHabilidades() {
+		return habilidades;
 	}
 	
 }
