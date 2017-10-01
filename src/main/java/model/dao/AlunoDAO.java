@@ -14,8 +14,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 	public AlunoDAO() { }
 	
-	
-	
 	public boolean salvar(Aluno aluno) {
 		
 		super.iniciaSessaoNeo4J();
@@ -313,6 +311,39 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		}catch(Exception ex){
 			status = false;
 			
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();
+		return status;
+	}
+	
+	public boolean addHabilidade(String email, String senha, String descricaoHabilidade, String nivelHabilidade) {
+		
+		System.out.println("Salvando a habilidade "+descricaoHabilidade+" ");
+		
+		super.iniciaSessaoNeo4J();
+		boolean status = false;
+		transaction = session.beginTransaction();
+		
+		String script = "match (a:Aluno) where a.email='"+email+"'and a.senha='"+senha+"' "
+				+ "CREATE(h:Habilidades{nomeHabilidade:'"+descricaoHabilidade+"'}) "
+				+ "CREATE(a)-[:CONHECE{nivelConhecimento:'"+nivelHabilidade+"'}]->(h) return h";
+		
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			status = true;
+			
+		}catch(Exception ex){
+			status = false;
 		}finally {
 			try {
 				transaction.close();

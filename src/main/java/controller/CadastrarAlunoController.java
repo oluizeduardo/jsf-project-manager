@@ -155,6 +155,16 @@ public class CadastrarAlunoController {
 		if(!descricaoHabilidade.isEmpty())
 			if(!verificaExistenciaDeHabilidade(descricaoHabilidade))
 				this.habilidades.add(new Habilidade(descricaoHabilidade, nivelHabilidade));
+				
+				String nome = descricaoHabilidade;
+				String nivel = nivelHabilidade;
+		
+				Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+				String email = pessoa.getContato().getEmail();
+				String senha = pessoa.getSenha();
+					
+				AlunoDAO aluno = new AlunoDAO();
+				aluno.addHabilidade(email, senha, nome, nivel );	
 	}
 
 	
