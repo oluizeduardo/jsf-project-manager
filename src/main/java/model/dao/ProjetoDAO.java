@@ -24,6 +24,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		String email = usuarioLogado.getContato().getEmail();
 		String senha = usuarioLogado.getSenha();
+		String titulo = projeto.getTitulo();
 		
 		transaction = session.beginTransaction();
 		boolean status = false;//Status do cadastro.
@@ -39,10 +40,13 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "', resumo:'" + projeto.getResumo()
 		+ "', dataFim:'" + projeto.getDataFim()
 		+ "'}),(pr)-[:COOORDENA{Desde:'"+projeto.getDataInicio()+"'}]->(pj)";
+		
+		String script2="match (pjh:ProjetoHabilidades)where pjh.projetoPai='"+titulo+"' match (pj:Projeto)where pj.titulo='"+titulo+"' create (pj)-[:EXIGE]->(pjh) return pjh,pj";
 				
 		try{
 			// Executa o script no banco de dados.
-			transaction.run(script);			
+			transaction.run(script);
+			transaction.run(script2);
 			transaction.success();
 			
 			status = true;
