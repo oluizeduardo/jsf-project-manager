@@ -357,16 +357,52 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		return status;
 	}
 	
+	public boolean criaRelacaoHabilidade(String email, String senha, String nivelHabilidade, String nomeHabilidade) {
+		
+		System.out.println("Criando relação da habilidade:" + nomeHabilidade);
+		
+		super.iniciaSessaoNeo4J();
+		boolean status = false;
+		transaction = session.beginTransaction();
+		
+		String script = "match(a:Aluno) where a.email='"+email+"' and a.senha='"+senha+"' "
+				+ "match (h:Habilidades) where h.nomeHabilidade='"+nomeHabilidade+"' "
+				+ "create (a)-[:CONHECE{nivelConhecimento:'"+nivelHabilidade+"'}]->(h) return a,h";
+		
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			status = true;
+			
+		}catch(Exception ex){
+			status = false;
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();
+		return status;
+		
+	}
+	
+	
+	
 	public boolean addLingua(String email, String senha, String descricaoLingua, String nivelLingua) {
 		
-		System.out.println("Salvando a habilidade "+descricaoLingua+" ");
+		System.out.println("Salvando a lingua "+descricaoLingua+" ");
 		
 		super.iniciaSessaoNeo4J();
 		boolean status = false;
 		transaction = session.beginTransaction();
 		
 		String script = "match (a:Aluno) where a.email='"+email+"'and a.senha='"+senha+"' "
-				+ "CREATE(h:Linguas{nomeLingua:'"+descricaoLingua+"'}) "
+				+ "CREATE(li:Linguas{nomeLingua:'"+descricaoLingua+"'}) "
 				+ "CREATE(a)-[:CONHECE{nivelConhecimento:'"+nivelLingua+"'}]->(h) return h";
 		
 		try{
@@ -388,6 +424,32 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		}
 		session.close();
 		return status;
+	}
+	
+	
+	
+	public String existeHabilidade(String email, String senha, String nomeHabilidade) {
+		
+		System.out.println("Salvando a habilidade "+nomeHabilidade+" ");
+		
+		super.iniciaSessaoNeo4J();
+		
+		String hab = "";
+
+		String script = "match(h:Habilidades) where h.nomeHabilidade='"+nomeHabilidade+"' return h.nomeHabilidade as Nome";
+		
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			Record idAtual = resultado.next();
+			String habAux = "";
+			habAux = idAtual.get("Nome").asString();
+			hab = habAux;
+		}
+		
+		System.out.println("RETORNO:" + hab);
+		
+		return hab;
 	}
 	
 }
