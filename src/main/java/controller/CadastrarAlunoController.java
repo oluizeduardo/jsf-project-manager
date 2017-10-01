@@ -199,6 +199,16 @@ public class CadastrarAlunoController {
 	public void addLingua(){
 		if(!verificaExistenciaDeLingua(descricaoLingua))
 			this.linguas.add(new Habilidade(descricaoLingua, nivelLingua));
+		
+				String nome = descricaoLingua;
+				String nivel = nivelLingua;
+
+				Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+				String email = pessoa.getContato().getEmail();
+				String senha = pessoa.getSenha();
+			
+				AlunoDAO aluno = new AlunoDAO();
+				aluno.addLingua(email, senha, nome, nivel);
 	}
 	
 	/**
