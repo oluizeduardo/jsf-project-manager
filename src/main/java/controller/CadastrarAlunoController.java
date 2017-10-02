@@ -11,6 +11,8 @@ import model.pojo.Pessoa;
 import view.Mensagem;
 import web.SessionUtil;
 import model.dao.AlunoDAO;
+import model.dao.HabilidadeDAO;
+import model.dao.IdiomaDAO;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
 import model.helperView.ListaDeIdiomas;
@@ -57,8 +59,8 @@ public class CadastrarAlunoController {
 	 * Inicia as listas utilizadas por essa classe.
 	 */
 	public CadastrarAlunoController() {		
-		carregaDadosDoAluno();		
 		iniciaListas();
+		carregaDadosDoAluno();		
 	}
 
 	
@@ -94,6 +96,9 @@ public class CadastrarAlunoController {
 			String senha = pessoa.getSenha();
 			
 			this.aluno = new AlunoDAO().buscarAluno(email, senha);
+			setHabilidades(aluno.getHabilidades());
+			setLinguasFaladasPeloAluno(aluno.getIdiomas());			
+			
 		} else {
 			this.aluno = new Aluno();
 		}		
@@ -157,9 +162,13 @@ public class CadastrarAlunoController {
 		
 		descricaoHabilidade = descricaoHabilidade.toUpperCase();
 		 		
- 		if(!descricaoHabilidade.isEmpty())
- 			if(!verificaExistenciaDeHabilidade(descricaoHabilidade))
+ 		if(!descricaoHabilidade.isEmpty()){
+ 			if(!verificaExistenciaDeHabilidade(descricaoHabilidade)){
  				this.habilidades.add(new Habilidade(descricaoHabilidade, nivelHabilidade));
+ 				aluno.setHabilidades(habilidades);
+ 				new HabilidadeDAO().atualizar(aluno);
+ 			}
+ 		}
 	}
 
 	
@@ -185,8 +194,10 @@ public class CadastrarAlunoController {
 	 * Exclui uma habilidade da lista de habilidades do aluno.
 	 */
 	public void excluiHabilidade(){
-		if(habilidadeSelecionada != null)
+		if(habilidadeSelecionada != null){
 			this.habilidades.remove(habilidadeSelecionada);
+			new HabilidadeDAO().excluiHabilidade(aluno, habilidadeSelecionada);
+		}
 	}
 	
 	
@@ -194,10 +205,12 @@ public class CadastrarAlunoController {
 	/**
 	 * Adiciona uma língua na lista de línguas faladas pelo aluno.
 	 */
-	public void addLingua(){
-		
-		if(!verificaExistenciaDeLingua(nomeIdioma))
+	public void addLingua(){		
+		if(!verificaExistenciaDeLingua(nomeIdioma)){
 			this.linguasFaladasPeloAluno.add(new Idioma(nomeIdioma, nivelDeConhecimento));
+			aluno.setIdiomas(linguasFaladasPeloAluno);
+			new IdiomaDAO().atualizar(aluno);
+		}
 	}
 	
 	
@@ -222,8 +235,10 @@ public class CadastrarAlunoController {
 	 * Exclui uma língua da lista de línguas faladas pelo aluno.
 	 */
 	public void excluiLingua(){
-		if(linguaSelecionada != null)
+		if(linguaSelecionada != null){
 			this.linguasFaladasPeloAluno.remove(linguaSelecionada);
+			new IdiomaDAO().excluiIdioma(aluno, linguaSelecionada);
+		}
 	}
 	
 	
@@ -258,10 +273,10 @@ public class CadastrarAlunoController {
 	public void setHabilidades(List<Habilidade> habilidades) {
 		this.habilidades = habilidades;
 	}
-	public List<Idioma> getLinguas() {
+	public List<Idioma> getLinguasFaladasPeloAluno() {
 		return linguasFaladasPeloAluno;
 	}
-	public void setLinguas(List<Idioma> linguas) {
+	public void setLinguasFaladasPeloAluno(List<Idioma> linguas) {
 		this.linguasFaladasPeloAluno = linguas;
 	}
 	public String getDescricaoHabilidade() {
