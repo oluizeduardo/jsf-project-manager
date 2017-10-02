@@ -2,11 +2,9 @@ package model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
-
 import model.pojo.Pessoa;
 import model.pojo.Professor;
 import model.pojo.Projeto;
@@ -26,6 +24,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		String email = usuarioLogado.getContato().getEmail();
 		String senha = usuarioLogado.getSenha();
+		String titulo = projeto.getTitulo();
 		
 		transaction = session.beginTransaction();
 		boolean status = false;//Status do cadastro.
@@ -41,10 +40,13 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "', resumo:'" + projeto.getResumo()
 		+ "', dataFim:'" + projeto.getDataFim()
 		+ "'}),(pr)-[:COOORDENA{Desde:'"+projeto.getDataInicio()+"'}]->(pj)";
+		
+		String script2="match (pjh:ProjetoHabilidades)where pjh.projetoPai='"+titulo+"' match (pj:Projeto)where pj.titulo='"+titulo+"' create (pj)-[:EXIGE]->(pjh) return pjh,pj";
 				
 		try{
 			// Executa o script no banco de dados.
-			transaction.run(script);			
+			transaction.run(script);
+			transaction.run(script2);
 			transaction.success();
 			
 			status = true;
@@ -61,7 +63,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			}
 		}
 		session.close();
-				
+		
 		return status;
 	}
 
@@ -104,10 +106,6 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		return projetos;
 	}
-	
-
-	
-	
 	
 	/**
 	 * Retorna uma lista com todos os projetos cadastrados
@@ -210,4 +208,38 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		return status;	
 	}
 	
+	public boolean addHabilidade(Projeto projeto,String nome, String nivel) {
+		
+		String titulo = projeto.getTitulo();
+		
+		System.out.println("Projeto pai" + titulo);
+		
+		System.out.println("Salvando a habilidade do projeto "+nome+ "///"+nivel+" ");
+		
+		super.iniciaSessaoNeo4J();
+		boolean status = false;
+		transaction = session.beginTransaction();
+		
+		String script = "CREATE(pjh:ProjetoHabilidades{nomeHabilidade:'"+nome+"',nivel:'"+nivel+"',projetoPai:'"+titulo+"'}) return pjh";
+
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			status = true;
+			
+		}catch(Exception ex){
+			status = false;
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();
+		return status;
+	}
 }
