@@ -164,9 +164,11 @@ public class CadastrarAlunoController {
 		 		
  		if(!descricaoHabilidade.isEmpty()){
  			if(!verificaExistenciaDeHabilidade(descricaoHabilidade)){
- 				this.habilidades.add(new Habilidade(descricaoHabilidade, nivelHabilidade));
+ 				
+ 				Habilidade novaHabilidade = new Habilidade(descricaoHabilidade, nivelHabilidade);
+ 				this.habilidades.add(novaHabilidade);
  				aluno.setHabilidades(habilidades);
- 				new HabilidadeDAO().atualizar(aluno);
+ 				new HabilidadeDAO().atualizar(aluno, novaHabilidade);
  			}
  		}
 	}

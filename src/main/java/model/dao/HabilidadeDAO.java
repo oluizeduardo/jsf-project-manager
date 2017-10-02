@@ -21,30 +21,37 @@ public class HabilidadeDAO extends DAOBase {
 	/**
 	 * Atualiza no banco de dados a lista de habilidades do aluno.
 	 */
-	public boolean atualizar(Aluno usuario) {
+	public boolean atualizar(Aluno usuario, Habilidade novaHabilidade) {
 				
 		String email = usuario.getContato().getEmail();
 		String senha = usuario.getSenha();
-		List<Habilidade> habilidades = usuario.getHabilidades();
 		
 		boolean status = false;
 		super.iniciaSessaoNeo4J();
  		transaction = session.beginTransaction();
  		
  		
- 		for (Habilidade hab : habilidades) {
-			String habilidade = hab.getDescricao();
-			String nivelDeConhecimento = hab.getNivel();
+		String habilidade = novaHabilidade.getDescricao();
+		String nivelDeConhecimento = novaHabilidade.getNivel();
 
-			String script = "MATCH (a:Aluno) WHERE a.email='"+email+"'AND a.senha='"+senha+"' "
-	 	 				+ "CREATE(h:Habilidade{nome:'"+habilidade+"'}) "
-	 	 				+ "CREATE(a)-[:CONHECE{nivel:'"+nivelDeConhecimento+"'}]->(h) "
-	 	 				+ "return h";
+		boolean existehabilidade = verificaExistenciaDeHabilidade(habilidade);
+		String scriptHabilidade;
 		
-			// Executa o script no banco de dados.
- 			transaction.run(script);			
- 			transaction.success();
- 		}
+		if(existehabilidade){
+			scriptHabilidade = "MATCH(h:Habilidade) WHERE h.nome = '"+habilidade+"'";
+		}else{
+			scriptHabilidade = "CREATE(h:Habilidade{nome:'"+habilidade+"'}) ";
+		}
+		
+		
+		String script = "MATCH (a:Aluno) WHERE a.email='"+email+"'AND a.senha='"+senha+"' "
+ 	 				+ scriptHabilidade
+ 	 				+ "CREATE(a)-[:CONHECE{nivel:'"+nivelDeConhecimento+"'}]->(h) "
+ 	 				+ "return a, h";
+	
+		// Executa o script no banco de dados.
+		transaction.run(script);			
+		transaction.success();
  		
  		try {
 			transaction.close();
@@ -67,12 +74,12 @@ public class HabilidadeDAO extends DAOBase {
 	/**
 	 * Verifica se já existe no banco de dados uma habilidade com tal descrição.
 	 * 
-	 * @param descricao O nome da habilidade
+	 * @param nome O nome da habilidade
 	 * @return verdadeiro ou false.
 	 */
-	public boolean verificaExistenciaDeHabilidade(String descricao){
+	public boolean verificaExistenciaDeHabilidade(String nome){
 		
-		String script = "MATCH (h:HABILIDADE) WHERE h.descricao = '"+descricao+"'";
+		String script = "MATCH (h:Habilidade) WHERE h.nome = '"+nome+"' return h";
 		
 		super.iniciaSessaoNeo4J();		
 		StatementResult resultado = session.run(script);
