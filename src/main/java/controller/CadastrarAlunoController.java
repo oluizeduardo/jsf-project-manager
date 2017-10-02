@@ -162,16 +162,16 @@ public class CadastrarAlunoController {
 		
 		String existeHabilidade = new AlunoDAO().existeHabilidade(email, senha, nome);
 					
-		//Não existe e cria habilidade nova
+		//Não existe a habilidade, então cria a habilidade nova e sua relação
 		if(existeHabilidade == "") {
-			System.out.println("Valor habilidade não existente:"+ existeHabilidade);
+			System.out.println("Habilidade não existente:"+ existeHabilidade);
 			AlunoDAO aluno = new AlunoDAO();
 			aluno.addHabilidade(email, senha, nome, nivel);
 		}
 		
-		//Existe habilidade cria a relação
+		//Existe habilidade? SIM, então cria a relação
 		else {
-			System.out.println("VALOR habilidade existente: " + existeHabilidade );
+			System.out.println("Habilidade existente: " + existeHabilidade );
 			String nomeHabilidade = existeHabilidade;
 			AlunoDAO aluno = new AlunoDAO();
 			aluno.criaRelacaoHabilidade(email, senha, nivel, nomeHabilidade);
@@ -187,25 +187,40 @@ public class CadastrarAlunoController {
 			this.habilidades.remove(habilidadeSelecionada);
 		
 		//Implementar
-		//MATCH (a:Aluno)-[:CONHECE]->(h:Habilidade) WHERE a.email="fabiano@gmail.com" AND a.senha="123" DETACH DELETE (h) return a
+		//MATCH (a:Aluno)-[:CONHECE]->(h:Habilidade) WHERE a.email="fabiano@gmail.com" AND a.senha="123" 
+		//DETACH DELETE (h) return a
 	}
 	
 	/**
 	 * Adiciona uma língua na lista de línguas faladas pelo aluno.
 	 */
 	public void addLingua(){
-		if(!verificaExistenciaDeLingua(descricaoLingua))
-			this.linguas.add(new Habilidade(descricaoLingua, nivelLingua));
 		
-				String nome = descricaoLingua;
-				String nivel = nivelLingua;
+		this.linguas.add(new Habilidade(descricaoLingua, nivelLingua));
+		
+		String nomeLingua = descricaoLingua;
+		String nivel = nivelLingua;
 
-				Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
-				String email = pessoa.getContato().getEmail();
-				String senha = pessoa.getSenha();
-			
-				AlunoDAO aluno = new AlunoDAO();
-				aluno.addLingua(email, senha, nome, nivel);
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		String email = pessoa.getContato().getEmail();
+		String senha = pessoa.getSenha();
+		
+		String existeLingua = new AlunoDAO().existeLingua(email, senha, nomeLingua);
+		
+		//Não existe a lingua, então cria a lingua nova e sua relação
+		if(existeLingua == "") {
+			System.out.println("Lingua não existente:"+ existeLingua);
+			AlunoDAO aluno = new AlunoDAO();
+			aluno.addLingua(email, senha, nomeLingua, nivel);
+		}
+		
+		//Existe lingua? SIM, então cria a relação
+		else {
+			System.out.println("Lingua existente: " + existeLingua );
+			String nomeLing = existeLingua;
+			AlunoDAO aluno = new AlunoDAO();
+			aluno.criaRelacaoLingua(email, senha, nivel, nomeLing);
+		}
 	}
 	
 	/**
@@ -215,25 +230,6 @@ public class CadastrarAlunoController {
 		if(linguaSelecionada != null)
 			this.linguas.remove(linguaSelecionada);
 	}
-	
-	
-	/**
-	 * Verifica se na lista de línguas já não existe a língua
-	 * que se deseja cadastrar.
-	 * 
-	 * @param descricaoLingua o nome ou descrição da nova língua.
-	 * @return verdadeiro ou falso sobre a existência da nova língua.
-	 */
-	private boolean verificaExistenciaDeLingua(String descricaoLingua){		
-		for (Habilidade lingua : linguas) {
-			if(lingua.getDescricao().equals(descricaoLingua)){
-				return true;
-			}
-		}		
-		return false;
-	}
-	
-	
 	
 	
 	/**Instância do aluno logado no sistema.*/

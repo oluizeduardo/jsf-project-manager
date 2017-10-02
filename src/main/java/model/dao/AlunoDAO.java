@@ -403,7 +403,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		String script = "match (a:Aluno) where a.email='"+email+"'and a.senha='"+senha+"' "
 				+ "CREATE(li:Linguas{nomeLingua:'"+descricaoLingua+"'}) "
-				+ "CREATE(a)-[:CONHECE{nivelConhecimento:'"+nivelLingua+"'}]->(h) return h";
+				+ "CREATE(a)-[:CONHECE{nivelConhecimento:'"+nivelLingua+"'}]->(li) return li";
 		
 		try{
 			// Executa o script no banco de dados.
@@ -424,6 +424,41 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		}
 		session.close();
 		return status;
+	}
+	
+	
+	public boolean criaRelacaoLingua(String email, String senha, String nivelLingua, String nomeLingua) {
+		
+		System.out.println("Criando relação da lingua:" + nomeLingua);
+		
+		super.iniciaSessaoNeo4J();
+		boolean status = false;
+		transaction = session.beginTransaction();
+		
+		String script = "match(a:Aluno) where a.email='"+email+"' and a.senha='"+senha+"' "
+				+ "match (li:Linguas) where li.nomeLingua='"+nomeLingua+"' "
+				+ "create (a)-[:CONHECE{nivelConhecimento:'"+nivelLingua+"'}]->(li) return a,li";
+		
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			status = true;
+			
+		}catch(Exception ex){
+			status = false;
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();
+		return status;
+		
 	}
 	
 	
@@ -450,6 +485,31 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		System.out.println("RETORNO:" + hab);
 		
 		return hab;
+	}
+	
+	
+	public String existeLingua(String email, String senha, String nomeLingua) {
+		
+		System.out.println("Salvando a habilidade "+nomeLingua+" ");
+		
+		super.iniciaSessaoNeo4J();
+		
+		String ling = "";
+
+		String script = "match(li:Linguas) where li.nomeLingua='"+nomeLingua+"' return li.nomeLingua as Nome";
+		
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			Record idAtual = resultado.next();
+			String lingAux = "";
+			lingAux = idAtual.get("Nome").asString();
+			ling = lingAux;
+		}
+		
+		System.out.println("RETORNO:" + ling);
+		
+		return ling;
 	}
 	
 }
