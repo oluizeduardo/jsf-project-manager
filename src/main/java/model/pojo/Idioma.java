@@ -3,11 +3,11 @@ package model.pojo;
 public class Idioma {
 
 	private String nomeIdioma;
-	private String nivelDeHabilidade;
+	private String nivelDeConhecimento;
 	
 	public Idioma(String nome, String nivel) {
 		this.nomeIdioma = nome;
-		this.nivelDeHabilidade = nivel;
+		this.nivelDeConhecimento = nivel;
 	}
 
 	public String getNomeIdioma() {
@@ -18,12 +18,12 @@ public class Idioma {
 		this.nomeIdioma = nomeIdioma;
 	}
 
-	public String getNivelDeHabilidade() {
-		return nivelDeHabilidade;
+	public String getNivelDeConhecimento() {
+		return nivelDeConhecimento;
 	}
 
-	public void setNivelDeHabilidade(String nivelDeHabilidade) {
-		this.nivelDeHabilidade = nivelDeHabilidade;
+	public void setNivelDeConhecimento(String nivelDeConhecimento) {
+		this.nivelDeConhecimento = nivelDeConhecimento;
 	}
 	
 	

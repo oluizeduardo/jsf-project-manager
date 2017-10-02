@@ -13,7 +13,7 @@
 				
 			<h:outputLabel value="Idioma:" />
 			<p:selectOneMenu style="width:250px"
-							 value="#{cadastrarAlunoController.descricaoLingua}">
+							 value="#{cadastrarAlunoController.nomeIdioma}">
 				<f:selectItem itemLabel="Selecione" itemValue="Selecione"
 					noSelectionOption="true" effect="fold"/>
 				<f:selectItems value="#{cadastrarAlunoController.idiomas}" />
@@ -21,7 +21,7 @@
 
 			<h:outputLabel value="Nível:" />
 			<p:selectOneMenu style="width:150px"
-							 value="#{cadastrarAlunoController.nivelLingua}">
+							 value="#{cadastrarAlunoController.nivelDeConhecimento}">
 				<f:selectItem itemLabel="Básico" itemValue="Básico" />
 				<f:selectItem itemLabel="Médio" itemValue="Médio" />
 				<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
@@ -46,11 +46,11 @@
 
 
 			<p:column headerText="Língua">
-				<h:outputText value="#{lingua.descricao}" />
+				<h:outputText value="#{lingua.nomeIdioma}" />
 			</p:column>
 			
 			<p:column headerText="Nível" style="text-align: center">
-				<h:outputText value="#{lingua.nivel}" />
+				<h:outputText value="#{lingua.nivelDeConhecimento}" />
 			</p:column>
 
 			<p:column style="width:32px;text-align: center">

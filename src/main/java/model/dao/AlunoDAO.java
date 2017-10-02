@@ -129,7 +129,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	
 	/**
-	 * Atualiza no banco de dados o registro de um aluuno.
+	 * Atualiza no banco de dados o registro de um aluno.
 	 */
 	public boolean atualizar(Aluno aluno) {
 		super.iniciaSessaoNeo4J();

@@ -6,10 +6,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.pojo.Aluno;
 import model.pojo.Habilidade;
+import model.pojo.Idioma;
 import model.pojo.Pessoa;
 import view.Mensagem;
 import web.SessionUtil;
 import model.dao.AlunoDAO;
+import model.dao.HabilidadeDAO;
+import model.dao.IdiomaDAO;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
 import model.helperView.ListaDeIdiomas;
@@ -39,13 +42,13 @@ public class CadastrarAlunoController {
 	private Habilidade habilidadeSelecionada;
 	
 	// Descrição da língua falada pelo aluno.
-	private String descricaoLingua = "";
+	private String nomeIdioma = "";
 	// Nível de fluência na língua falada pelo aluno.
-	private String nivelLingua = "";
+	private String nivelDeConhecimento = "";
 	// Lista de línguas faladas pelo aluno.
-	private List<Habilidade> linguas = null;
+	private List<Idioma> linguas = null;
 	// Língua selecionada para ser excluida da tabela.
-	private Habilidade linguaSelecionada;
+	private Idioma linguaSelecionada;
 	
 	
 	
@@ -70,7 +73,7 @@ public class CadastrarAlunoController {
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
 		this.habilidades = new ArrayList<Habilidade>();
-		this.linguas = new ArrayList<Habilidade>();		
+		this.linguas = new ArrayList<Idioma>();		
 	}
 
 
@@ -107,9 +110,11 @@ public class CadastrarAlunoController {
 	public void atualizarAluno() {
 		System.out.println("Atualizando aluno: " + aluno);
 		
-		boolean atualizou = new AlunoDAO().atualizar(aluno);		
+		boolean atualizouDados = new AlunoDAO().atualizar(aluno);		
+		boolean atualizouHabilidades = new HabilidadeDAO().atualizar(habilidades);
+		boolean atualizouIdiomas = new IdiomaDAO().atualizar(linguas);
 		
-		if(atualizou){
+		if(atualizouDados && atualizouHabilidades && atualizouIdiomas){
 			Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
 			
 			atualizaUsuarioDaSession();
@@ -191,8 +196,8 @@ public class CadastrarAlunoController {
 	 */
 	public void addLingua(){
 		
-		if(!verificaExistenciaDeLingua(descricaoLingua))
-			this.linguas.add(new Habilidade(descricaoLingua, nivelLingua));
+		if(!verificaExistenciaDeLingua(nomeIdioma))
+			this.linguas.add(new Idioma(nomeIdioma, nivelDeConhecimento));
 	}
 	
 	
@@ -200,12 +205,12 @@ public class CadastrarAlunoController {
  	 * Verifica se na lista de línguas já não existe a língua
  	 * que se deseja cadastrar.
  	 * 
- 	 * @param descricaoLingua o nome ou descrição da nova língua.
+ 	 * @param nomeLingua o nome da nova língua.
  	 * @return verdadeiro ou falso sobre a existência da nova língua.
  	 */
- 	private boolean verificaExistenciaDeLingua(String descricaoLingua){		      
- 		for (Habilidade lingua : linguas) {
- 			if(lingua.getDescricao().equals(descricaoLingua)){
+ 	private boolean verificaExistenciaDeLingua(String nomeLingua){		      
+ 		for (Idioma idioma : linguas) {
+ 			if(idioma.getNomeIdioma().equals(nomeLingua)){
  				return true;
  			}
  		}		
@@ -253,10 +258,10 @@ public class CadastrarAlunoController {
 	public void setHabilidades(List<Habilidade> habilidades) {
 		this.habilidades = habilidades;
 	}
-	public List<Habilidade> getLinguas() {
+	public List<Idioma> getLinguas() {
 		return linguas;
 	}
-	public void setLinguas(List<Habilidade> linguas) {
+	public void setLinguas(List<Idioma> linguas) {
 		this.linguas = linguas;
 	}
 	public String getDescricaoHabilidade() {
@@ -271,17 +276,17 @@ public class CadastrarAlunoController {
 	public void setNivelHabilidade(String nivelHabilidade) {
 		this.nivelHabilidade = nivelHabilidade;
 	}
-	public String getDescricaoLingua() {
-		return descricaoLingua;
+	public String getNomeIdioma() {
+		return nomeIdioma;
 	}
-	public void setDescricaoLingua(String descricaoLingua) {
-		this.descricaoLingua = descricaoLingua;
+	public void setNomeIdioma(String nomeIdioma) {
+		this.nomeIdioma = nomeIdioma;
+	}	
+	public String getNivelDeConhecimento() {
+		return nivelDeConhecimento;
 	}
-	public String getNivelLingua() {
-		return nivelLingua;
-	}
-	public void setNivelLingua(String nivelLingua) {
-		this.nivelLingua = nivelLingua;
+	public void setNivelDeConhecimento(String nivelDeConhecimento) {
+		this.nivelDeConhecimento = nivelDeConhecimento;
 	}
 	public Habilidade getHabilidadeSelecionada() {
 		return habilidadeSelecionada;
@@ -289,10 +294,10 @@ public class CadastrarAlunoController {
 	public void setHabilidadeSelecionada(Habilidade habilidadeSelecionada) {
 		this.habilidadeSelecionada = habilidadeSelecionada;
 	}
-	public Habilidade getLinguaSelecionada() {
+	public Idioma getLinguaSelecionada() {
 		return linguaSelecionada;
 	}
-	public void setLinguaSelecionada(Habilidade linguaSelecionada) {
+	public void setLinguaSelecionada(Idioma linguaSelecionada) {
 		this.linguaSelecionada = linguaSelecionada;
 	}
 	
