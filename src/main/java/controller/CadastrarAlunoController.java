@@ -151,15 +151,44 @@ public class CadastrarAlunoController {
 	public void addHabilidade(){
 		
 		descricaoHabilidade = descricaoHabilidade.toUpperCase();
+<<<<<<< HEAD
 		 		
  		if(!descricaoHabilidade.isEmpty())
  			if(!verificaExistenciaDeHabilidade(descricaoHabilidade))
  				this.habilidades.add(new Habilidade(descricaoHabilidade, nivelHabilidade));
+=======
+		this.habilidades.add(new Habilidade(descricaoHabilidade, nivelHabilidade));
+				
+		String nome = descricaoHabilidade;
+		String nivel = nivelHabilidade;
+		
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		String email = pessoa.getContato().getEmail();
+		String senha = pessoa.getSenha();
+		
+		String existeHabilidade = new AlunoDAO().existeHabilidade(email, senha, nome);
+					
+		//Não existe a habilidade, então cria a habilidade nova e sua relação
+		if(existeHabilidade == "") {
+			System.out.println("Habilidade não existente:"+ existeHabilidade);
+			AlunoDAO aluno = new AlunoDAO();
+			aluno.addHabilidade(email, senha, nome, nivel);
+		}
+		
+		//Existe habilidade? SIM, então cria a relação
+		else {
+			System.out.println("Habilidade existente: " + existeHabilidade );
+			String nomeHabilidade = existeHabilidade;
+			AlunoDAO aluno = new AlunoDAO();
+			aluno.criaRelacaoHabilidade(email, senha, nivel, nomeHabilidade);
+		}
+>>>>>>> 07447a6554378e2043834e064635e9a17ee54272
 	}
 
 	
 	
 	/**
+<<<<<<< HEAD
  	 * Verifica se na lista de habilidades já não existe a habilidade
  	 * que se deseja cadastrar.
  	 * 
@@ -177,11 +206,17 @@ public class CadastrarAlunoController {
 	
 	
 	/**
+=======
+>>>>>>> 07447a6554378e2043834e064635e9a17ee54272
 	 * Exclui uma habilidade da lista de habilidades do aluno.
 	 */
 	public void excluiHabilidade(){
 		if(habilidadeSelecionada != null)
 			this.habilidades.remove(habilidadeSelecionada);
+		
+		//Implementar
+		//MATCH (a:Aluno)-[:CONHECE]->(h:Habilidade) WHERE a.email="fabiano@gmail.com" AND a.senha="123" 
+		//DETACH DELETE (h) return a
 	}
 	
 	
@@ -191,8 +226,36 @@ public class CadastrarAlunoController {
 	 */
 	public void addLingua(){
 		
+<<<<<<< HEAD
 		if(!verificaExistenciaDeLingua(descricaoLingua))
 			this.linguas.add(new Habilidade(descricaoLingua, nivelLingua));
+=======
+		this.linguas.add(new Habilidade(descricaoLingua, nivelLingua));
+		
+		String nomeLingua = descricaoLingua;
+		String nivel = nivelLingua;
+
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		String email = pessoa.getContato().getEmail();
+		String senha = pessoa.getSenha();
+		
+		String existeLingua = new AlunoDAO().existeLingua(email, senha, nomeLingua);
+		
+		//Não existe a lingua, então cria a lingua nova e sua relação
+		if(existeLingua == "") {
+			System.out.println("Lingua não existente:"+ existeLingua);
+			AlunoDAO aluno = new AlunoDAO();
+			aluno.addLingua(email, senha, nomeLingua, nivel);
+		}
+		
+		//Existe lingua? SIM, então cria a relação
+		else {
+			System.out.println("Lingua existente: " + existeLingua );
+			String nomeLing = existeLingua;
+			AlunoDAO aluno = new AlunoDAO();
+			aluno.criaRelacaoLingua(email, senha, nivel, nomeLing);
+		}
+>>>>>>> 07447a6554378e2043834e064635e9a17ee54272
 	}
 	
 	
