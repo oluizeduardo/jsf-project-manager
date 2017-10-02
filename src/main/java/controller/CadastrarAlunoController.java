@@ -151,28 +151,29 @@ public class CadastrarAlunoController {
 	public void addHabilidade(){
 		
 		descricaoHabilidade = descricaoHabilidade.toUpperCase();
-		
-		if(!descricaoHabilidade.isEmpty())
-			if(!verificaExistenciaDeHabilidade(descricaoHabilidade))
-				this.habilidades.add(new Habilidade(descricaoHabilidade, nivelHabilidade));
+		 		
+ 		if(!descricaoHabilidade.isEmpty())
+ 			if(!verificaExistenciaDeHabilidade(descricaoHabilidade))
+ 				this.habilidades.add(new Habilidade(descricaoHabilidade, nivelHabilidade));
 	}
 
 	
+	
 	/**
-	 * Verifica se na lista de habilidades já não existe a habilidade
-	 * que se deseja cadastrar.
-	 * 
-	 * @param descricao A descrição da nova habilidade
-	 * @return verdadeiro ou falso sobre a existência da nova habilidade.
-	 */
-	private boolean verificaExistenciaDeHabilidade(String descricao){		
-		for (Habilidade habilidade : habilidades) {
-			if(habilidade.getDescricao().equals(descricao)){
-				return true;
-			}
-		}		
-		return false;
-	}
+ 	 * Verifica se na lista de habilidades já não existe a habilidade
+ 	 * que se deseja cadastrar.
+ 	 * 
+ 	 * @param descricao A descrição da nova habilidade
+ 	 * @return verdadeiro ou falso sobre a existência da nova habilidade.
+ 	 */
+ 	private boolean verificaExistenciaDeHabilidade(String descricao){		      
+ 		for (Habilidade habilidade : habilidades) {
+ 			if(habilidade.getDescricao().equals(descricao)){
+ 				return true;
+ 			}
+ 		}		
+ 		return false;
+ 	}
 	
 	
 	/**
@@ -183,13 +184,34 @@ public class CadastrarAlunoController {
 			this.habilidades.remove(habilidadeSelecionada);
 	}
 	
+	
+	
 	/**
 	 * Adiciona uma língua na lista de línguas faladas pelo aluno.
 	 */
 	public void addLingua(){
+		
 		if(!verificaExistenciaDeLingua(descricaoLingua))
 			this.linguas.add(new Habilidade(descricaoLingua, nivelLingua));
 	}
+	
+	
+	/**
+ 	 * Verifica se na lista de línguas já não existe a língua
+ 	 * que se deseja cadastrar.
+ 	 * 
+ 	 * @param descricaoLingua o nome ou descrição da nova língua.
+ 	 * @return verdadeiro ou falso sobre a existência da nova língua.
+ 	 */
+ 	private boolean verificaExistenciaDeLingua(String descricaoLingua){		      
+ 		for (Habilidade lingua : linguas) {
+ 			if(lingua.getDescricao().equals(descricaoLingua)){
+ 				return true;
+ 			}
+ 		}		
+ 		return false;
+ 	}
+	
 	
 	/**
 	 * Exclui uma língua da lista de línguas faladas pelo aluno.
@@ -198,25 +220,6 @@ public class CadastrarAlunoController {
 		if(linguaSelecionada != null)
 			this.linguas.remove(linguaSelecionada);
 	}
-	
-	
-	/**
-	 * Verifica se na lista de línguas já não existe a língua
-	 * que se deseja cadastrar.
-	 * 
-	 * @param descricaoLingua o nome ou descrição da nova língua.
-	 * @return verdadeiro ou falso sobre a existência da nova língua.
-	 */
-	private boolean verificaExistenciaDeLingua(String descricaoLingua){		
-		for (Habilidade lingua : linguas) {
-			if(lingua.getDescricao().equals(descricaoLingua)){
-				return true;
-			}
-		}		
-		return false;
-	}
-	
-	
 	
 	
 	/**Instância do aluno logado no sistema.*/

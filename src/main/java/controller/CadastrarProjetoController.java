@@ -12,6 +12,7 @@ import model.pojo.Habilidade;
 import model.pojo.Projeto;
 import view.Mensagem;
 
+
 @ManagedBean
 @ViewScoped
 public class CadastrarProjetoController implements Serializable{
@@ -95,14 +96,18 @@ public class CadastrarProjetoController implements Serializable{
 	/**
 	 * Adiciona uma nova habilidade na lista de habilidades exigidas pelo projeto.
 	 */
-	public void addHabilidade(){
+	public void addHabilidade() {
 		String desc = habilidade.getDescricao().toUpperCase();
 		String nivel = habilidade.getNivel();
-		
+
 		// Verifica se a descrição não está em branco.
-		if(!desc.isEmpty())
-			if(!verificaExistenciaDeHabilidade(desc))
+		if (!desc.isEmpty())
+			if (!verificaExistenciaDeHabilidade(desc))
 				this.habilidades.add(new Habilidade(desc, nivel));
+
+		ProjetoDAO projetoAddHabilidade = new ProjetoDAO();
+		projetoAddHabilidade.addHabilidade(projeto, desc, nivel);
+
 	}
 	
 	
