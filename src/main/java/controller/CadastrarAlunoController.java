@@ -11,8 +11,6 @@ import model.pojo.Pessoa;
 import view.Mensagem;
 import web.SessionUtil;
 import model.dao.AlunoDAO;
-import model.dao.HabilidadeDAO;
-import model.dao.IdiomaDAO;
 import model.helperView.ListaDeEstadoCivil;
 import model.helperView.ListaDeEstados;
 import model.helperView.ListaDeIdiomas;
@@ -46,7 +44,7 @@ public class CadastrarAlunoController {
 	// Nível de fluência na língua falada pelo aluno.
 	private String nivelDeConhecimento = "";
 	// Lista de línguas faladas pelo aluno.
-	private List<Idioma> linguas = null;
+	private List<Idioma> linguasFaladasPeloAluno = null;
 	// Língua selecionada para ser excluida da tabela.
 	private Idioma linguaSelecionada;
 	
@@ -73,7 +71,7 @@ public class CadastrarAlunoController {
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
 		this.idiomas = new ListaDeIdiomas().getList();
 		this.habilidades = new ArrayList<Habilidade>();
-		this.linguas = new ArrayList<Idioma>();		
+		this.linguasFaladasPeloAluno = new ArrayList<Idioma>();		
 	}
 
 
@@ -110,14 +108,16 @@ public class CadastrarAlunoController {
 	public void atualizarAluno() {
 		System.out.println("Atualizando aluno: " + aluno);
 		
-		boolean atualizouDados = new AlunoDAO().atualizar(aluno);		
-		boolean atualizouHabilidades = new HabilidadeDAO().atualizar(habilidades);
-		boolean atualizouIdiomas = new IdiomaDAO().atualizar(linguas);
+		this.aluno.setHabilidades(habilidades);
+		this.aluno.setIdiomas(linguasFaladasPeloAluno);
 		
-		if(atualizouDados && atualizouHabilidades && atualizouIdiomas){
-			Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
-			
+		boolean atualizou = new AlunoDAO().atualizar(aluno);
+		
+		if(atualizou){
 			atualizaUsuarioDaSession();
+			Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+		}else{
+			Mensagem.ExibeMensagemErro("Erro ao atualizar registro!");
 		}
 	}
 	
@@ -197,7 +197,7 @@ public class CadastrarAlunoController {
 	public void addLingua(){
 		
 		if(!verificaExistenciaDeLingua(nomeIdioma))
-			this.linguas.add(new Idioma(nomeIdioma, nivelDeConhecimento));
+			this.linguasFaladasPeloAluno.add(new Idioma(nomeIdioma, nivelDeConhecimento));
 	}
 	
 	
@@ -209,7 +209,7 @@ public class CadastrarAlunoController {
  	 * @return verdadeiro ou falso sobre a existência da nova língua.
  	 */
  	private boolean verificaExistenciaDeLingua(String nomeLingua){		      
- 		for (Idioma idioma : linguas) {
+ 		for (Idioma idioma : linguasFaladasPeloAluno) {
  			if(idioma.getNomeIdioma().equals(nomeLingua)){
  				return true;
  			}
@@ -223,7 +223,7 @@ public class CadastrarAlunoController {
 	 */
 	public void excluiLingua(){
 		if(linguaSelecionada != null)
-			this.linguas.remove(linguaSelecionada);
+			this.linguasFaladasPeloAluno.remove(linguaSelecionada);
 	}
 	
 	
@@ -259,10 +259,10 @@ public class CadastrarAlunoController {
 		this.habilidades = habilidades;
 	}
 	public List<Idioma> getLinguas() {
-		return linguas;
+		return linguasFaladasPeloAluno;
 	}
 	public void setLinguas(List<Idioma> linguas) {
-		this.linguas = linguas;
+		this.linguasFaladasPeloAluno = linguas;
 	}
 	public String getDescricaoHabilidade() {
 		return descricaoHabilidade;

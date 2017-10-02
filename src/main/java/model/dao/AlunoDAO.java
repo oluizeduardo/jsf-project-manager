@@ -6,9 +6,7 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Aluno;
-import model.pojo.Pessoa;
 import model.pojo.Projeto;
-import web.SessionUtil;
 
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
@@ -134,10 +132,9 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	public boolean atualizar(Aluno aluno) {
 		super.iniciaSessaoNeo4J();
 		
-		// Retorna o objeto com os valroes do usuário logado no sistema.
-		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
-		String email = usuarioLogado.getContato().getEmail();
-		String senha = usuarioLogado.getSenha();
+		// Dados do usuário logado no sistema.
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
 		boolean status = false;// Status da atualização.		
 		
 		transaction = session.beginTransaction();
@@ -165,20 +162,19 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			// Executa o script no banco de dados.
 			transaction.run(script);			
 			transaction.success();
-			status = true;
-		}catch(Exception ex){
-			status = false;
+			transaction.close();
+			session.close();
 			
-		}finally {
-			try {
-				transaction.close();
-			} 
-			catch (ClientException excep) {
-				transaction.failure();
-				transaction.close();
+			boolean atualizouHabilidades = new HabilidadeDAO().atualizar(aluno);
+			boolean atualizouIdiomas = new IdiomaDAO().atualizar(aluno);
+			
+			if(atualizouHabilidades && atualizouIdiomas){
+				status = true;
 			}
+			
+		}catch(Exception ex){
+			status = false;	
 		}
-		session.close();
 		
 		return status;	
 	}
