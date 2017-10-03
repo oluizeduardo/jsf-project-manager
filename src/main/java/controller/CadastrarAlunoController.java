@@ -209,9 +209,10 @@ public class CadastrarAlunoController {
 	 */
 	public void addLingua(){		
 		if(!verificaExistenciaDeLingua(nomeIdioma)){
-			this.linguasFaladasPeloAluno.add(new Idioma(nomeIdioma, nivelDeConhecimento));
+			Idioma novoIdioma = new Idioma(nomeIdioma, nivelDeConhecimento);
+			this.linguasFaladasPeloAluno.add(novoIdioma);
 			aluno.setIdiomas(linguasFaladasPeloAluno);
-			new IdiomaDAO().atualizar(aluno);
+			new IdiomaDAO().atualizar(aluno, novoIdioma);
 		}
 	}
 	

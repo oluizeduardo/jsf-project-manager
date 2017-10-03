@@ -11,40 +11,47 @@ import model.pojo.Idioma;
 
 
 public class IdiomaDAO extends DAOBase {
-
-
-	public boolean salvar(Idioma idioma){
-		return false;
-	}
+	
+	
+	public IdiomaDAO() { }
 	
 	
 	/**
 	 * Atualiza no banco de dados a lista de idiomas falados pelo aluno.
 	 */
-	public boolean atualizar(Aluno usuario) {
+	public boolean atualizar(Aluno usuario, Idioma novoIdioma) {
 		super.iniciaSessaoNeo4J();
 		
 		String email = usuario.getContato().getEmail();
 		String senha = usuario.getSenha();
-		List<Idioma> idiomas = usuario.getIdiomas();
 		
 		boolean status = false;
  		transaction = session.beginTransaction();
- 		
- 		
- 		for (Idioma idioma : idiomas) {
-				String nomeLingua = idioma.getNomeIdioma();
-				String nivelDeConhecimento = idioma.getNivelDeConhecimento();
-				
-				String script = "MATCH (a:Aluno) WHERE a.email='"+email+"'AND a.senha='"+senha+"' "
-		 				+ "CREATE(idi:Idioma{nome:'"+nomeLingua+"'}) "
-		 				+ "CREATE(a)-[:CONHECE{nivel:'"+nivelDeConhecimento+"'}]->(idi) "
-		 				+ "return idi";
-			
-				// Executa o script no banco de dados.
-	 			transaction.run(script);			
-	 			transaction.success();
-	 		}
+ 		 		
+		String nomeLingua = novoIdioma.getNomeIdioma();
+		String nivelDeConhecimento = novoIdioma.getNivelDeConhecimento();
+		
+		boolean existeIdioma = verificaExistenciaDeIdioma(nomeLingua);
+		String scriptIdioma;
+		
+		if(existeIdioma){
+			// Se existe o idioma, busca o nó.
+			scriptIdioma = "MATCH(i:Idioma) WHERE i.nome = '"+nomeLingua+"'";
+		}else{
+			// Se não, cria um novo nó para o idioma.
+			scriptIdioma = "CREATE(i:Idioma{nome:'"+nomeLingua+"'}) ";
+		}
+		
+		
+		String script = "MATCH (a:Aluno) WHERE a.email='"+email+"'AND a.senha='"+senha+"' "
+ 				+ scriptIdioma
+ 				+ "CREATE(a)-[:CONHECE{nivel:'"+nivelDeConhecimento+"'}]->(i) "
+ 				+ "return i";
+	
+		// Executa o script no banco de dados.
+		transaction.run(script);			
+		transaction.success();
+	 	
  		
  		try {
 			transaction.close();
@@ -63,6 +70,28 @@ public class IdiomaDAO extends DAOBase {
 	}
 
 
+	
+	/**
+	 * Verifica se já existe no banco de dados um idioma com tal descrição.
+	 * 
+	 * @param nome O nome da habilidade
+	 * @return verdadeiro ou false.
+	 */
+	public boolean verificaExistenciaDeIdioma(String nome){
+		
+		String script = "MATCH (i:Idioma) WHERE i.nome = '"+nome+"' return i";
+		
+		super.iniciaSessaoNeo4J();		
+		StatementResult resultado = session.run(script);
+		
+		while (resultado.hasNext()) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	
 	/**
 	 * Monta uma lista dos idiomas falados por um aluno.
