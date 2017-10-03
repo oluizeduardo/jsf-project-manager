@@ -3,7 +3,6 @@ package controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -138,13 +137,12 @@ public class CadastrarAlunoController {
 	 * Valida a data de aniversário do aluno.
 	 */
 	private boolean validaData(String datastr){
-		Date data = null;
 		String str_dataInicio = new String(datastr);
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		
 		try {
 	     	format.setLenient(false);
-	     	data = format.parse(str_dataInicio);
+	     	format.parse(str_dataInicio);
 	     	
 	     	return true;
 		} catch (ParseException e) {

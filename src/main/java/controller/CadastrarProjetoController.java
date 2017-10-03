@@ -99,15 +99,14 @@ public class CadastrarProjetoController implements Serializable{
 	 * Valida as datas de inicio e fim do projeto.
 	 */
 	private boolean validaDatas(String dataInicio, String dataFim){
-		Date data = null;
 		String str_dataInicio = new String(dataInicio);
 		String str_dataFim = new String(dataFim);
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		
 		try {
 	     	format.setLenient(false);
-	     	data = format.parse(str_dataInicio);
-	     	data = format.parse(str_dataFim);
+	     	format.parse(str_dataInicio);
+	     	format.parse(str_dataFim);
 	     	
 	     	return true;
 		} catch (ParseException e) {
