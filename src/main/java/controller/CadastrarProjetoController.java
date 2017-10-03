@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import model.dao.HabilidadeDAO;
 import model.dao.ProjetoDAO;
 import model.pojo.Habilidade;
 import model.pojo.Projeto;
@@ -77,6 +79,8 @@ public class CadastrarProjetoController implements Serializable{
 					}else{
 						
 						projeto.setDataPublicacao(getDataAtual());
+						projeto.setHabilidades(habilidades);
+						
 						boolean salvou = new ProjetoDAO().salvar(projeto);
 						
 						if(salvou){
@@ -131,13 +135,13 @@ public class CadastrarProjetoController implements Serializable{
 		String nivel = habilidade.getNivel();
 
 		// Verifica se a descrição não está em branco.
-		if (!desc.isEmpty())
-			if (!verificaExistenciaDeHabilidade(desc))
-				this.habilidades.add(new Habilidade(desc, nivel));
-
-		ProjetoDAO projetoAddHabilidade = new ProjetoDAO();
-		projetoAddHabilidade.addHabilidade(projeto, desc, nivel);
-
+		if (!desc.isEmpty()){
+			// Verifica se ainda não existe tal habilidade no banco de dados.
+			if (!verificaHabilidadeNaLista(desc)){
+				Habilidade novaHabilidade = new Habilidade(desc, nivel);				
+				this.habilidades.add(novaHabilidade);
+			}
+		}
 	}
 	
 	
@@ -148,7 +152,7 @@ public class CadastrarProjetoController implements Serializable{
 	 * @param descricao A descrição da nova habilidade
 	 * @return verdadeiro ou falso sobre a existência da nova habilidade.
 	 */
-	private boolean verificaExistenciaDeHabilidade(String descricao){		
+	private boolean verificaHabilidadeNaLista(String descricao){		
 		for (Habilidade habilidade : habilidades) {
 			if(habilidade.getDescricao().equals(descricao)){
 				return true;

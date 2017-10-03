@@ -5,10 +5,13 @@ import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
+import model.pojo.Habilidade;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
 import model.pojo.Projeto;
 import web.SessionUtil;
+
+
 
 public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 
@@ -27,9 +30,10 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		String titulo = projeto.getTitulo();
 		
 		transaction = session.beginTransaction();
-		boolean status = false;//Status do cadastro.
+		boolean executou = false;//Status do cadastro.
 		
-		String script = "MATCH (pr:Professor{email:'"+email+"',senha:'"+senha+"'}) CREATE (pj:Projeto {titulo: '" + projeto.getTitulo() 
+		String script = "MATCH (pr:Professor{email:'"+email+"',senha:'"+senha+"'}) "
+		+ "CREATE (pj:Projeto {titulo: '" + projeto.getTitulo() 
 		+ "', dataInicio:'" + projeto.getDataInicio() 
 		+ "', dataPublicacao:'" + projeto.getDataPublicacao()
 		+ "', eFinanciado:'" + projeto.getFinanciamento().isExistente()
@@ -39,32 +43,66 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "', numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
 		+ "', resumo:'" + projeto.getResumo()
 		+ "', dataFim:'" + projeto.getDataFim()
-		+ "'}),(pr)-[:COOORDENA{Desde:'"+projeto.getDataInicio()+"'}]->(pj)";
+		+ "'}),(pr)-[:COORDENA{Desde:'"+projeto.getDataInicio()+"'}]->(pj) return pj, pr";
 		
-		String script2="match (pjh:ProjetoHabilidades)where pjh.projetoPai='"+titulo+"' match (pj:Projeto)where pj.titulo='"+titulo+"' create (pj)-[:EXIGE]->(pjh) return pjh,pj";
-				
-		try{
-			// Executa o script no banco de dados.
+		try {
+			// Executa o script de criação do projeto.
 			transaction.run(script);
-			transaction.run(script2);
-			transaction.success();
+			executou = true;
+		} catch (Exception e) {
+			executou = false;
+		}
+		
+		
+		// Se conseguiu executar corretamente o script de criação do projeto.
+		if(executou){
+			List<Habilidade> habilidadesExigidas = projeto.getHabilidades();
+			HabilidadeDAO habilidadeDAO = new HabilidadeDAO();
 			
-			status = true;
-		}catch(Exception ex){
-			status = false;
+			String scriptHabilidades = "";
+			String descricaoHabilidade = "";
+			String nivelDeConhecimento = "";
 			
-		}finally {
+			// Percorre a lista de habilidades exigidas pelo projeto.
+			for (Habilidade habilidade : habilidadesExigidas) {
+				
+				descricaoHabilidade = habilidade.getDescricao();
+				nivelDeConhecimento = habilidade.getNivel();
+				
+				// Verifica se já existe tal habilidade no banco de dados.
+				if(habilidadeDAO.verificaExistenciaDeHabilidade(descricaoHabilidade)){
+					scriptHabilidades ="MATCH (h:Habilidade)"
+							+ " WHERE h.nome ='"+descricaoHabilidade+"'"
+							+ " MATCH (p:Projeto) WHERE p.titulo='"+titulo+"' "
+							+ " CREATE (p)-[:EXIGE{nivel: '"+nivelDeConhecimento+"'}]->(h) return p, h ";
+				}else{
+					scriptHabilidades ="MATCH (p:Projeto) WHERE p.titulo='"+titulo+"'"
+							+ " CREATE (h:Habilidade{nome: '"+descricaoHabilidade+"'}) "
+							+ " CREATE (p)-[:EXIGE{nivel: '"+nivelDeConhecimento+"'}]->(h) return p, h ";
+				}
+				
+				try{
+					// Executa o script no banco de dados.
+					transaction.run(scriptHabilidades);
+					transaction.success();
+				}catch(Exception ex){
+					System.err.println("Erro ao executar script no banco de dados - ProjetoDAO.salvar()");
+					executou = false;
+					continue;
+				}
+			}
+			
+			// Fecha conexões com o banco de dados.
 			try {
 				transaction.close();
 			} 
 			catch (ClientException excep) {
 				transaction.failure();
-				transaction.close();
+				System.err.println("Erro ao fechar conexão com o banco de dados - ProjetoDAO.salvar()");
 			}
-		}
-		session.close();
-		
-		return status;
+			session.close();
+		}		
+		return executou;
 	}
 
 	
@@ -77,7 +115,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		ArrayList<Projeto> projetos = new ArrayList<Projeto>();
 		
-		StatementResult resultado = session.run("MATCH(pr:Professor)-[:COOORDENA]->(pj:Projeto) return id(pj) as ID, "
+		StatementResult resultado = session.run("MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) return id(pj) as ID, "
 				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo, "
@@ -121,7 +159,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		ArrayList<Projeto> projetos = new ArrayList<Projeto>();
 		
-		StatementResult resultado = session.run("MATCH(pr:Professor)-[:COOORDENA]->(pj:Projeto) "
+		StatementResult resultado = session.run("MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
 				+ "WHERE pr.email = '"+email+"' AND pr.senha = '"+senha+"' return id(pj) as ID, "
 				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
@@ -175,7 +213,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		String script = "MATCH (pj:Projeto) WHERE pj.titulo = '" + projeto.getTitulo()
 		+ "' SET pj.titulo:'" + projeto.getTitulo()
 		+ "'pj.dataFim: '" + projeto.getDataFim()
-		+ "pj.dataInicio: '" + projeto.getDataInicio()
+		+ "'pj.dataInicio: '" + projeto.getDataInicio()
 		+ "'pj.dataPublicacao:'" + projeto.getDataPublicacao()
 		+ "'pj.eFinanciado:'" + projeto.getFinanciamento().isExistente()
 		+ "'pj.valor:'" + projeto.getFinanciamento().getValor()
@@ -208,19 +246,29 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		return status;	
 	}
 	
-	public boolean addHabilidade(Projeto projeto,String nome, String nivel) {
+	
+	
+	
+	
+	/**
+	 * Associa um novo nó Habilidade ao nó de um Projeto.
+	 */
+	public boolean addHabilidade(Projeto projeto, Habilidade habilidade) {			
 		
-		String titulo = projeto.getTitulo();
-		
-		System.out.println("Projeto pai" + titulo);
-		
-		System.out.println("Salvando a habilidade do projeto "+nome+ "///"+nivel+" ");
-		
+		boolean status = false;		
+		String tituloHabilidade = projeto.getTitulo();
+		String script;
+		String descricaoHabilidade = habilidade.getDescricao();
+		String nivelDeConhecimento = habilidade.getNivel();
+				
+		if(new HabilidadeDAO().verificaExistenciaDeHabilidade(tituloHabilidade)){
+			script = "MATCH(h:Habilidade) WHERE h.nome = '"+descricaoHabilidade+"'";
+		}else{
+			script = "CREATE(h:Habilidade{nome:'"+descricaoHabilidade+"', nivel:'"+nivelDeConhecimento+"'})";
+		}
+
 		super.iniciaSessaoNeo4J();
-		boolean status = false;
 		transaction = session.beginTransaction();
-		
-		String script = "CREATE(pjh:ProjetoHabilidades{nomeHabilidade:'"+nome+"',nivel:'"+nivel+"',projetoPai:'"+titulo+"'}) return pjh";
 
 		try{
 			// Executa o script no banco de dados.
@@ -233,13 +281,12 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		}finally {
 			try {
 				transaction.close();
+				session.close();
 			} 
 			catch (ClientException excep) {
-				transaction.failure();
-				transaction.close();
+				System.err.println("Erro ao fechar Transaction ou Session - ProjetoDAO.addHabilidade()");
 			}
-		}
-		session.close();
+		}		
 		return status;
 	}
 }
