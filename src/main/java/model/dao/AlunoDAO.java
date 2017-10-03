@@ -6,6 +6,7 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Aluno;
+import model.pojo.Habilidade;
 import model.pojo.Projeto;
 
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
@@ -124,6 +125,17 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		return alunos;
 	}
 
+	
+	
+	/**
+	 * Retorna uma lista contendo todas as habilidades de um determinado aluno.
+	 */
+	public List<Habilidade> listaHabilidadesDoAluno(String email, String senha){
+		return new HabilidadeDAO().listarHabilidadesDoAluno(email, senha);
+	}
+	
+	
+	
 	
 	
 	/**

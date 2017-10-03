@@ -23,6 +23,7 @@
 
 			<p:selectOneMenu value="#{homeController.habilidade}" style="width:150px">
 				<f:selectItem itemLabel="Habilidade" itemValue="habilidade" noSelectionOption="true" />
+				<f:selectItems value="#{homeController.habilidades}"/>
 			</p:selectOneMenu>
 
 			<p:commandButton value="Buscar" 

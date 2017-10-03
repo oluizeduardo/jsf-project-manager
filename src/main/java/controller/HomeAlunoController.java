@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import model.ProjetoBean;
 import model.dao.AlunoDAO;
 import model.pojo.Aluno;
+import model.pojo.Habilidade;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
 import view.Mensagem;
@@ -32,8 +33,11 @@ public class HomeAlunoController implements Serializable {
 	// Consulta projetos cadastrados neste grupo.
 	private String onde;
 	
-	// Buscar projetos que contenham esta habilidade.
+	// Consulta projetos com essa habilidade;
 	private String habilidade;
+	
+	// Buscar projetos que contenham esta habilidade.
+	private List<String> habilidades = new ArrayList<String>();
 	
 	// Guarda os valores do usuário que acabou de logar no sistema.
 	private Pessoa pessoaSession = null;
@@ -51,8 +55,6 @@ public class HomeAlunoController implements Serializable {
 	 * Construtor da classe.
 	 */
 	public HomeAlunoController() { 
-		this.projetoBean = new ProjetoBean();
-		this.todosProjetos = projetoBean.getTodosProjetos();
 		
 		this.pessoaSession = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
@@ -65,9 +67,26 @@ public class HomeAlunoController implements Serializable {
 			userAluno.getEndereco().setCidade(pessoaSession.getEndereco().getCidade());
 			userAluno.setCurso(pessoaSession.getCurso());
 		}
-		
+		this.projetoBean = new ProjetoBean();
+		this.todosProjetos = projetoBean.getTodosProjetos();
+		carregaListaDeHabilidades(userAluno);
 	}
 	
+	
+	
+	/**
+	 * Carrega a lista de habilidades que será exibida na caixa de combinação
+	 * na home do aluno.
+	 */
+	private void carregaListaDeHabilidades(Aluno al){
+		String email = al.getContato().getEmail();
+		String senha = al.getSenha();
+		List<Habilidade> habilidadesDoAluno = new AlunoDAO().listaHabilidadesDoAluno(email, senha);
+		
+		for (Habilidade hab : habilidadesDoAluno) {
+			this.habilidades.add(hab.getDescricao());
+		}
+	}
 	
 	
 	
@@ -172,12 +191,12 @@ public class HomeAlunoController implements Serializable {
 		this.onde = onde;
 	}
 
-	public String getHabilidade() {
-		return habilidade;
+	public List<String> getHabilidades() {
+		return habilidades;
 	}
 
-	public void setHabilidade(String habilidade) {
-		this.habilidade = habilidade;
+	public void setHabilidades(List<String> habilidades) {
+		this.habilidades = habilidades;
 	}
 	
 	public void setProjetoBean(ProjetoBean projetoBean) {
@@ -194,6 +213,12 @@ public class HomeAlunoController implements Serializable {
 	}
 	public void setProjetoSelecionado(Projeto projetoSelecionado) {
 		this.projetoSelecionado = projetoSelecionado;
+	}
+	public String getHabilidade() {
+		return habilidade;
+	}
+	public void setHabilidade(String habilidade) {
+		this.habilidade = habilidade;
 	}
 	
 	
