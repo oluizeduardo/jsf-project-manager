@@ -1,6 +1,9 @@
 package controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -116,15 +119,39 @@ public class CadastrarAlunoController {
 		this.aluno.setHabilidades(habilidades);
 		this.aluno.setIdiomas(linguasFaladasPeloAluno);
 		
-		boolean atualizou = new AlunoDAO().atualizar(aluno);
-		
-		if(atualizou){
-			atualizaUsuarioDaSession();
-			Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+		if(validaData(aluno.getDataNascimento())){
+			boolean atualizou = new AlunoDAO().atualizar(aluno);
+			
+			if(atualizou){
+				atualizaUsuarioDaSession();
+				Mensagem.ExibeMensagem("Registro atualizado com sucesso!");
+			}else{
+				Mensagem.ExibeMensagemErro("Erro ao atualizar registro!");
+			}
 		}else{
-			Mensagem.ExibeMensagemErro("Erro ao atualizar registro!");
+			Mensagem.ExibeMensagemAtencao("Informe corretamente a data de nascimento.");
 		}
 	}
+	
+	
+	/**
+	 * Valida a data de aniversário do aluno.
+	 */
+	private boolean validaData(String datastr){
+		Date data = null;
+		String str_dataInicio = new String(datastr);
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		
+		try {
+	     	format.setLenient(false);
+	     	data = format.parse(str_dataInicio);
+	     	
+	     	return true;
+		} catch (ParseException e) {
+		    return false;
+		}
+	}
+	
 	
 	
 	/**

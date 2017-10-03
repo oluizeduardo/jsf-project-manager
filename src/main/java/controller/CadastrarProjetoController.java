@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,26 +65,56 @@ public class CadastrarProjetoController implements Serializable{
 			if(projeto.getDataInicio().isEmpty() || projeto.getDataFim().isEmpty()){
 				Mensagem.ExibeMensagemAtencao("Informe corretamente a data de início e fim do projeto.");
 			}else{
-				if(projeto.getDescricaoCurta().isEmpty()){
-					Mensagem.ExibeMensagemAtencao("Descreva este projeto em até 70 caractéres.");
+				
+				String dataInicio = projeto.getDataInicio();
+				String dataFim = projeto.getDataFim();
+				
+				if(!validaDatas(dataInicio, dataFim)){
+					Mensagem.ExibeMensagemAtencao("Escreva corretamente as datas de inicio e fim do projeto.");
 				}else{
-					
-					projeto.setDataPublicacao(getDataAtual());
-					boolean salvou = new ProjetoDAO().salvar(projeto);
-					
-					if(salvou){
-						Mensagem.ExibeMensagem("Novo projeto salvo com sucesso!");
-						
-						// Reinicia o objeto para limpar os campos da tela.
-						this.projeto = new Projeto();
+					if(projeto.getDescricaoCurta().isEmpty()){
+						Mensagem.ExibeMensagemAtencao("Descreva este projeto em até 70 caractéres.");
 					}else{
-						Mensagem.ExibeMensagemErro("Houve um problema ao tentar salvar o novo projeto.");
+						
+						projeto.setDataPublicacao(getDataAtual());
+						boolean salvou = new ProjetoDAO().salvar(projeto);
+						
+						if(salvou){
+							Mensagem.ExibeMensagem("Novo projeto salvo com sucesso!");
+							
+							// Reinicia o objeto para limpar os campos da tela.
+							this.projeto = new Projeto();
+						}else{
+							Mensagem.ExibeMensagemErro("Houve um problema ao tentar salvar o novo projeto.");
+						}
 					}
 				}
 			}
 		}
 	}
 
+	
+	
+	/**
+	 * Valida as datas de inicio e fim do projeto.
+	 */
+	private boolean validaDatas(String dataInicio, String dataFim){
+		Date data = null;
+		String str_dataInicio = new String(dataInicio);
+		String str_dataFim = new String(dataFim);
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		
+		try {
+	     	format.setLenient(false);
+	     	data = format.parse(str_dataInicio);
+	     	data = format.parse(str_dataFim);
+	     	
+	     	return true;
+		} catch (ParseException e) {
+		    return false;
+		}
+	}
+	
 	
 	/**
 	 * Retorna uma lista de todos os projetos cadastrados no banco de dados.

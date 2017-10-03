@@ -102,6 +102,7 @@ public class HomeAlunoController implements Serializable {
 		// Lista de projetos localizados a partir da busca do aluno.
 		List<Projeto> projetosLocalizados = new ArrayList<Projeto>();
 		
+		// Busca na lista de todos os projetos cadastrados.
 		for (Projeto projeto : todosProjetos) {
 			
 			String titulo = projeto.getTitulo().toLowerCase();
