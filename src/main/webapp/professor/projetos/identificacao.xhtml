@@ -28,13 +28,15 @@
 	</h:panelGrid>	
 	
 	<p:panel>		
- 		<h:panelGrid columns="3" cellpadding="5">		
+ 		<h:panelGrid columns="2" cellpadding="3">		
  			<p:outputLabel value="Descrição:" for="description-field"/>		
- 			<p:inputTextarea id="description-field" rows="2" cols="75" counter="display" 		
+ 			<h:panelGrid columns="1" cellpadding="0">
+ 				<p:inputTextarea id="description-field" rows="2" cols="75" counter="contador" 		
  							 maxlength="70" counterTemplate="{0} caracteres restantes." 		
  							 autoResize="false" placeholder="Descrição curta sobre o projeto" 
  							 value="#{cadastrarProjetoController.projeto.descricaoCurta}"/>		
- 		    <h:outputText id="display" style="font-size:12" />		
+ 		    	<h:outputText id="contador" style="font-size:12" /> 				
+ 			</h:panelGrid> 			
  		</h:panelGrid>		
  	</p:panel>
 

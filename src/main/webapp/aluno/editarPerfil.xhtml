@@ -24,10 +24,12 @@
 		<p:growl id="messages" showDetail="true" />
 
 		<p:panel>
-			<p:commandButton value="Salvar Alterações" 
-							 icon="ui-icon-disk"
-							 update="messages"
-							 actionListener="#{cadastrarAlunoController.atualizarAluno}"/>
+			<div align="right">
+				<p:commandButton value="Salvar Alterações" 
+						 icon="ui-icon-disk"
+						 update="messages"
+						 actionListener="#{cadastrarAlunoController.atualizarAluno}"/>
+			</div>
 		</p:panel>
 		<p:spacer height="8"/>
 

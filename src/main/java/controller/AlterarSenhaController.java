@@ -25,7 +25,7 @@ public class AlterarSenhaController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	// A mesma senha que foi usada para acessar o sistema.
-	private String senhaAntiga;
+	private String senhaAtual;
 	// A nova senha que se deseja utilizar.
 	private String novaSenha;
 	// Repetir a nova senha.
@@ -43,7 +43,7 @@ public class AlterarSenhaController implements Serializable {
 		// Retorna os dados da pessoa logada nos sistema.
 		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
-		if(senhaAntiga.equals(usuarioLogado.getSenha())) {
+		if(senhaAtual.equals(usuarioLogado.getSenha())) {
 			
 			boolean alterouSenha = new SenhaDAO().alterarSenha(usuarioLogado, novaSenha);
 			
@@ -51,7 +51,6 @@ public class AlterarSenhaController implements Serializable {
 				Mensagem.ExibeMensagem("Senha alterada com sucesso!");
 				// Atualiza a senha do usuário na Session.
 				atualizaUsuarioDaSessao();
-				limparCampos();
 			}else{
 				Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
 			}
@@ -76,23 +75,14 @@ public class AlterarSenhaController implements Serializable {
 	}
 	
 	
-	/**
-	 * Atribui uma String em branco para limpar os campos da tela.
-	 */
-	private void limparCampos(){
-		setSenhaAntiga("");
-		setNovaSenha("");
-		setConfirmarSenha("");
-	}
 	
 	
-	
-	public String getSenhaAntiga() {
-		return senhaAntiga;
+	public String getSenhaAtual() {
+		return senhaAtual;
 	}
 
-	public void setSenhaAntiga(String senhaAntiga) {
-		this.senhaAntiga = senhaAntiga;
+	public void setSenhaAtual(String senhaAtual) {
+		this.senhaAtual = senhaAtual;
 	}
 
 	public String getNovaSenha() {

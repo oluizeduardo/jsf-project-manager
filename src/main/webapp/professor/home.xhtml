@@ -52,11 +52,11 @@
 				<p:tabView style="margin:10px">
 
 					<!-- CADASTRO DE NOVOS PROJETOS -->
-					<p:tab title="Projetos Para Alunos">
+					<p:tab title="Projetos para alunos">
 
 						<p:panel>
 							<div align="right">
-								<p:commandButton value="Salvar Novo Projeto" icon="ui-icon-disk"
+								<p:commandButton value="Salvar Projeto" icon="ui-icon-disk"
 								actionListener="#{cadastrarProjetoController.salvarProjeto}" ajax="false" update="mensagem"/>
 							</div>													
 						</p:panel>
@@ -91,7 +91,7 @@
 					</p:tab>
 
 					<!-- BUSCA POR ALUNOS -->
-					<p:tab id="search-students" title="Alunos Para Projetos">
+					<p:tab id="search-students" title="Alunos para projetos">
 						<ui:include src="buscaPorAlunos.xhtml"/>
 					</p:tab>
 				</p:tabView>

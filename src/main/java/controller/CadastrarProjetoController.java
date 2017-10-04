@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
-import model.dao.HabilidadeDAO;
 import model.dao.ProjetoDAO;
 import model.pojo.Habilidade;
 import model.pojo.Projeto;

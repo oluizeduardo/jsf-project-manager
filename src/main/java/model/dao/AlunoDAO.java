@@ -265,7 +265,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		ArrayList<Projeto> projetosQueParticipa = new ArrayList<Projeto>();
 		
 		
-		String script = "MATCH(a:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COOORDENA]-(pr:Professor) "
+		String script = "MATCH(a:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COORDENA]-(pr:Professor) "
 				+ "WHERE a.email= '"+email+"' AND a.senha = '"+senha+"' return id(pj) as ID, "
 				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "

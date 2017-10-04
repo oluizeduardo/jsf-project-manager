@@ -26,11 +26,11 @@
 		<h:form id="alterar-senha">
 			<div align="center">
 				<p:panel>
-					<h:panelGrid columns="1" cellspacing="5" id="pn-senhas">
+					<h:panelGrid columns="1" cellspacing="5">
 		
-						<p:outputLabel value="Senha Antiga:" for="old-password" />
+						<p:outputLabel value="Senha Atual:" for="old-password" />
 						<p:password id="old-password" 
-									value="#{alterarSenhaController.senhaAntiga}"									
+									value="#{alterarSenhaController.senhaAtual}"									
 									onfocus="true"/>
 			
 						<p:outputLabel value="Nova Senha:" for="new-password" />
@@ -54,7 +54,7 @@
 				<p:commandButton value="Alterar Senha" 
 								 icon="ui-icon-disk" 
 								 actionListener="#{alterarSenhaController.alterarSenha}"
-								 update="pn-senhas"/>
+								 update="messages"/>
 			</div>
 		</h:form>
 	
