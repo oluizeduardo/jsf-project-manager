@@ -259,10 +259,12 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * @param senha
 	 * @return Uma lista de objetos Projetos.
 	 */
-	public List<Projeto> getProjetosQueParticipa(String email, String senha){
+	public List<Projeto> getProjetosQueParticipa(Aluno aluno){
 		super.iniciaSessaoNeo4J();
 		
 		ArrayList<Projeto> projetosQueParticipa = new ArrayList<Projeto>();
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
 		
 		
 		String script = "MATCH(a:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COORDENA]-(pr:Professor) "
@@ -296,6 +298,54 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		return projetosQueParticipa;
 	}
+	
+	
+	
+	
+	public List<Projeto> getProjetosRecomendados(Aluno aluno, List<Projeto> todosProjetos){
+		super.iniciaSessaoNeo4J();
+				
+		List<Projeto> projetosRecomendados = new ArrayList<Projeto>();
+		
+		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto)-[:EXIGE]->"
+					  + "(h:Habilidade)<-[:CONHECE]-(a:Aluno) "
+					  + "WHERE not((a)-[:PARTICIPA]-(pj)) "
+					  + "return a.nome as Aluno, "
+					  + "pr.nome as Coordenador, "
+					  + "pj.categoria as Categoria, "
+					  + "pj.dataPublicacao as Publicacao, "
+					  + "pj.dataInicio as DataInicio, "
+					  + "pj.dataFim as DataFim, "
+					  + "pj.descricaoCurta as Descricao, "
+					  + "pj.resumo as Resumo, "
+					  + "pj.titulo as Titulo";
+		
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			
+			Record projetoLocalizado = resultado.next();
+			
+			Projeto projeto = new Projeto();
+			
+			projeto.setTitulo(projetoLocalizado.get("Titulo").asString());
+			projeto.setCategoria(projetoLocalizado.get("Categoria").asString());
+			projeto.setDataPublicacao(projetoLocalizado.get("Publicacao").asString());
+			projeto.setDataInicio(projetoLocalizado.get("DataInicio").asString());
+			projeto.setDataFim(projetoLocalizado.get("DataFim").asString());
+			projeto.setDescricaoCurta(projetoLocalizado.get("Descricao").asString());
+			projeto.setResumo(projetoLocalizado.get("Resumo").asString());			
+			projeto.getCoordenador().setNome(projetoLocalizado.get("Coordenador").asString());
+
+			projetosRecomendados.add(projeto);		
+		}
+		session.close();
+		
+		return projetosRecomendados;
+	}
+	
+	
+	
 	
 	
 	/**

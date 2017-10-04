@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.dao.AlunoDAO;
 import model.dao.ProjetoDAO;
+import model.pojo.Aluno;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
 import web.SessionUtil;
@@ -20,6 +21,7 @@ public class ProjetoBean implements Serializable {
 	
 	private List<Projeto> todosProjetos = null;
 	private List<Projeto> projetosQueParticipo = null;
+	private List<Projeto> projetosRecomendados = null;
 	
 	
 	public ProjetoBean() {
@@ -28,8 +30,12 @@ public class ProjetoBean implements Serializable {
 		String email = pessoa.getContato().getEmail();
 		String senha = pessoa.getSenha();
 		
+		AlunoDAO alunoDAO = new AlunoDAO();
+		
+		Aluno aluno = alunoDAO.buscarAluno(email, senha);
 		this.todosProjetos = new ProjetoDAO().listar();
-		this.projetosQueParticipo = new AlunoDAO().getProjetosQueParticipa(email, senha);
+		this.projetosQueParticipo = alunoDAO.getProjetosQueParticipa(aluno);
+		this.projetosRecomendados = alunoDAO.getProjetosRecomendados(aluno, todosProjetos);
 	}
 
 	
@@ -39,9 +45,14 @@ public class ProjetoBean implements Serializable {
 	public void setTodosProjetos(List<Projeto> todosProjetos) {		
 		this.todosProjetos = todosProjetos;
 	}
-	
 	public List<Projeto> getProjetosQueParticipo() {
 		return projetosQueParticipo;
+	}
+	public List<Projeto> getProjetosRecomendados() {
+		return projetosRecomendados;
+	}
+	public void setProjetosRecomendados(List<Projeto> projetosRecomendados) {
+		this.projetosRecomendados = projetosRecomendados;
 	}
 	
 }
