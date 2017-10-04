@@ -12,6 +12,10 @@ import model.pojo.Projeto;
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 
 	
+	// LIsta de projetos recomendados ao aluno.
+	private List<Projeto> projetosRecomendados = null;
+	
+	
 	
 	public AlunoDAO() { }
 
@@ -303,6 +307,31 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	
 	/**
+ 	 * Verifica se na lista de projetos recomendados já não existe
+ 	 * tal projeto.
+ 	 * Necessário para não sugir ao usuário o mesmo projeto mais de uma vez.
+ 	 * 
+ 	 * Compara os projetos por título e nome do coordenador.
+ 	 * 
+ 	 * @param projeto O projeto que se deseja verificar a existência na lista.
+ 	 * @return verdadeiro ou falso sobre a existência do projeto.
+ 	 */
+ 	private boolean verificaExistenciaDeProjetoNaLista(Projeto projeto){		      
+ 		for (Projeto proj : projetosRecomendados) {
+			if(proj.getTitulo().equals(projeto.getTitulo())){				
+				if(proj.getCoordenador().getNome().equals(projeto.getCoordenador().getNome())){
+					return true;
+				}
+			}
+		}
+ 		return false;
+ 	}
+	
+	
+	
+	
+	
+	/**
 	 * Retorna uma lista de projetos recomendados para o aluno.
 	 * A busca por projetos é feita baseado nas habilidades que o aluno tem
 	 * em comum com as habilidades exigidas nos projetos.
@@ -314,11 +343,14 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	public List<Projeto> getProjetosRecomendados(Aluno aluno, List<Projeto> todosProjetos){
 		super.iniciaSessaoNeo4J();
 				
-		List<Projeto> projetosRecomendados = new ArrayList<Projeto>();
+		this.projetosRecomendados = new ArrayList<Projeto>();
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
 		
 		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto)-[:EXIGE]->"
 					  + "(h:Habilidade)<-[:CONHECE]-(a:Aluno) "
 					  + "WHERE not((a)-[:PARTICIPA]-(pj)) "
+					  + "AND a.email='"+email+"' AND a.senha='"+senha+"' "
 					  + "return a.nome as Aluno, "
 					  + "pr.nome as Coordenador, "
 					  + "pj.categoria as Categoria, "
@@ -346,7 +378,9 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			projeto.setResumo(projetoLocalizado.get("Resumo").asString());			
 			projeto.getCoordenador().setNome(projetoLocalizado.get("Coordenador").asString());
 
-			projetosRecomendados.add(projeto);		
+			if(!verificaExistenciaDeProjetoNaLista(projeto)){
+				projetosRecomendados.add(projeto);
+			}					
 		}
 		session.close();
 		
