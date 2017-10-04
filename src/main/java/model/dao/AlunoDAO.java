@@ -302,6 +302,15 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	
 	
+	/**
+	 * Retorna uma lista de projetos recomendados para o aluno.
+	 * A busca por projetos é feita baseado nas habilidades que o aluno tem
+	 * em comum com as habilidades exigidas nos projetos.
+	 * 
+	 * @param aluno
+	 * @param todosProjetos
+	 * @return Lista de projetos recomendados ao aluno.
+	 */
 	public List<Projeto> getProjetosRecomendados(Aluno aluno, List<Projeto> todosProjetos){
 		super.iniciaSessaoNeo4J();
 				
@@ -346,27 +355,57 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	
 	
+	/**
+	 * Verifica no banco de dados se o aluno já participa do projeto.
+	 * 
+	 * @param aluno
+	 * @param projeto
+	 * @return verdadeiro ou falso.
+	 */
+	public boolean verificaParticipacaoEmProjeto(Aluno aluno, Projeto projeto){
+
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
+		String tituloProjeto = projeto.getTitulo();
+		
+		String script = "MATCH(a:Aluno)-[:PARTICIPA]->(p:Projeto) "
+					+ "WHERE a.email='"+email+"' "
+					+ "AND a.senha='"+senha+"' "
+					+ "AND p.titulo='"+tituloProjeto+"' "
+					+ "return a, p";
+		
+		super.iniciaSessaoNeo4J();
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			return true;
+		}		
+		return false;
+	}
+	
+	
+	
 	
 	
 	/**
 	 * Relaciona o aluno logado com o projeto em que deseja se candidatar.
 	 * 
-	 * @param email
-	 * @param senha
+	 * @param aluno
 	 * @param projeto
 	 * @return boolean indicando o status da candidatura.
 	 */
-	public boolean candidatar(String email, String senha, String projeto) {
+	public boolean candidatar(Aluno aluno, Projeto projeto) {
 		
-		System.out.println("Candidatando ao projeto "+projeto+" EMAIL: "+email+" SENHA: "+senha);
-		super.iniciaSessaoNeo4J();
-		
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
+		String tituloProjeto = projeto.getTitulo();
 		boolean status = false;
 		
+		super.iniciaSessaoNeo4J();
 		transaction = session.beginTransaction();
 		
 		String script = "MATCH (a:Aluno) where a.email='"+email+"'AND a.senha='"+senha+"'"
-				+ "MATCH (pj:Projeto) WHERE pj.titulo='"+projeto+"' "
+				+ "MATCH (pj:Projeto) WHERE pj.titulo='"+tituloProjeto+"' "
 				+ "CREATE (a)-[:PARTICIPA]->(pj) return a,pj";
 				
 		try{

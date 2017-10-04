@@ -31,32 +31,32 @@
 							target="#{homeController.projetoSelecionado}" />
 					</p:commandButton>
 					
-					<p:spacer width="10px" />
+					<p:spacer width="10px"/>
 					
-					<p:commandButton value="Candidatar"
-									action="#{homeController.candidatarAoProjeto}">
+					<p:commandButton value="Candidatar" action="#{homeController.candidatarAoProjeto}" update="messages">
+						<f:setPropertyActionListener target="#{homeController.projetoSelecionado}" value="#{projeto}"/>				        
+				    	<p:confirm header="Confirmation" message="Confirma que deseja se candidatar a este projeto?"/>
+				    </p:commandButton>
+				 
+				    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				    </p:confirmDialog>
+					
+					
+					<!--
+					<p:commandButton value="Candidatar">
 						<f:setPropertyActionListener value="#{projeto}"
 							target="#{homeController.projetoSelecionado}" />
 							
+							<p:confirm header="Confirmação"/>
+							 
 							<p:confirm header="Confirmação"
-							message="Confirma que deseja se candidatar a este projeto?"
+							message=" que deseja se candidatar a este projeto?"
 							icon="ui-icon-alert" />
+							 
 					</p:commandButton>
-		
-		 
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
-						closeOnEscape="true">
-						<div align="center">
-							<p:commandButton value="Sim"
-								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
-								action="#{homeController.candidatarAoProjeto}" 
-								update="messages" />
-								
-							<p:commandButton value="Não" type="button"
-											 styleClass="ui-confirmdialog-no" 
-											 icon="ui-icon-close" /> 
-						</div>
-					</p:confirmDialog>
+					-->
 					
 				</h:form>
 			</h:panelGrid>

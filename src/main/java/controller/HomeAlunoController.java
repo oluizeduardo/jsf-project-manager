@@ -150,21 +150,28 @@ public class HomeAlunoController implements Serializable {
 	 * algo tipo: participarDeProjeto(Projeto pj).
 	 */
 	public void candidatarAoProjeto(){
-		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
-		String email = pessoa.getContato().getEmail();
-		String password = pessoa.getSenha();
-		String nomeProjeto = projetoSelecionado.getTitulo();
+		Pessoa usuario = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		Aluno aluno = new Aluno(usuario.getNome(), usuario.getContato().getEmail(), usuario.getSenha());
 		
-		boolean candidatou = alunoDAO.candidatar(email, password, nomeProjeto);
+		// Verifica se o aluno já participa do projeto.
+		boolean participa = alunoDAO.verificaParticipacaoEmProjeto(aluno, projetoSelecionado);
 		
-		if(candidatou) {
-			Mensagem.ExibeMensagem("Inscrito com sucesso!");
-		}		
-		else {
-			Mensagem.ExibeMensagem("Não foi possível se candidatar a esse projeto.");
+		System.out.println("PARTICIPA DO PROJETO: "+participa);
+		
+		if(participa){
+			Mensagem.ExibeMensagemAtencao("Você já faz parte desse projeto.");			
+		}else{
+			boolean candidatou = alunoDAO.candidatar(aluno, projetoSelecionado);
+			
+			if(candidatou) {
+				System.out.println("SUCESSO!!!");
+				Mensagem.ExibeMensagem("Inscrito com sucesso!");
+			}		
+			else {
+				Mensagem.ExibeMensagemErro("Não foi possível se candidatar a esse projeto.");
+			}
 		}
-		
 	}
 	
 	
