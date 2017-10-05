@@ -195,7 +195,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 			professor.getEndereco().setBairro(registro.get("bairro").asString());
 			professor.getEndereco().setEstado(registro.get("estado").asString());
 			professor.getEndereco().setRua(registro.get("rua").asString());
-			professor.setCurso(registro.get("curso").asString());	
+		//	professor.setCurso(registro.get("curso").asString());	
 		}
 
 		session.close();

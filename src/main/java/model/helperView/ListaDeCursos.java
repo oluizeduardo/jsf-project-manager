@@ -52,7 +52,6 @@ public class ListaDeCursos {
         		new SelectItem("Contabilidade", "Contabilidade"),
         		new SelectItem("Educação Física", "Educação Física"),
         		new SelectItem("Engenharia de Produção", "Engenharia de Produção"), 
-        		new SelectItem("Ciências Biológicas", "Ciências Biológicas"), 
         		new SelectItem("Enfermagem", "Enfermagem"),
         		new SelectItem("Farmácia", "Farmácia"),
         		new SelectItem("Fisioterapia", "Fisioterapia"), 

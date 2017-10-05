@@ -45,7 +45,7 @@ public class LoginDAO extends DAOBase {
 			pessoa.setMatricula(registro.get("matricula").asString());			
 			pessoa.getEndereco().setBairro(registro.get("bairro").asString());
 			pessoa.getEndereco().setEstado(registro.get("estado").asString());
-			pessoa.setCurso(registro.get("curso").asString());
+	//		pessoa.setCurso(registro.get("curso").asString());
 			pessoa.getContato().setSite(registro.get("site").asString());
 			pessoa.getContato().setSkype(registro.get("skype").asString());
 			pessoa.getContato().setTelefone(registro.get("tel").asString());

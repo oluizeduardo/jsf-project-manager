@@ -32,7 +32,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		boolean status = false;//Status do cadastro.
 		
 		String script = "CREATE (a:Aluno {nome: '" + aluno.getNome() 
-		+ "', curso:'" + aluno.getCurso() 
 		+ "', papel:'" + aluno.getPapel()
 		+ "', documentoCPF:'" + aluno.getDocumentoCPF()
 		+ "', documentoRG:'" + aluno.getDocumentoRG()
@@ -50,7 +49,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		+ "', estado:'" + aluno.getEndereco().getEstado()
 		+ "', rua:'" + aluno.getEndereco().getRua() + "'})";
 		
-		
+
 		try{
 			// Executa o script no banco de dados.
 			transaction.run(script);			
@@ -69,11 +68,26 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				transaction.close();
 			}
 		}
-		session.close();
 				
 		return status;
 	}
 
+	
+	
+	/**
+	 * Busca no banco de dados a existência de um curso.
+	 * @return verdadeiro ou falso.
+	 */
+	private boolean existeCurso(String curso){		
+		super.iniciaSessaoNeo4J();
+		StatementResult resultado = session.run("MATCH (c:Curso) WHERE c.nome = '"+curso+"' return c");
+		
+		while (resultado.hasNext()) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	
 	/**
@@ -112,7 +126,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			alunoAux.setEstadoCivil(alunoAtual.get("Estado_Civil").asString());
 			alunoAux.setSenha(alunoAtual.get("Senha").asString());
 			alunoAux.getContato().setSkype(alunoAtual.get("Skype").asString());
-			alunoAux.setCurso(alunoAtual.get("Curso").asString());
+	//		alunoAux.setCurso(alunoAtual.get("Curso").asString());
 			alunoAux.setMatricula(alunoAtual.get("Matricula").asString());
 			alunoAux.setDocumentoCPF(alunoAtual.get("CPF").asString());
 			alunoAux.setDocumentoRG(alunoAtual.get("RG").asString());
@@ -162,12 +176,12 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String email = aluno.getContato().getEmail();
 		String senha = aluno.getSenha();
 		boolean status = false;// Status da atualização.		
+		String script1="", script2 = "";
 		
 		transaction = session.beginTransaction();
 		
-		String script = "MATCH (n:Aluno) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
-				+ "SET n+= {nome: '" + aluno.getNome()
-				+ "', curso:'" + aluno.getCurso() 
+		script1 = "MATCH (a:Aluno) WHERE a.email = '" +email+ "'AND a.senha ='" +senha+ "' "
+				+ "SET a+= {nome: '" + aluno.getNome()
 				+ "', documentoCPF:'" + aluno.getDocumentoCPF()
 				+ "', documentoRG:'" + aluno.getDocumentoRG()
 				+ "', estadoCivil:'" + aluno.getEstadoCivil()
@@ -182,24 +196,89 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "', bairro:'" + aluno.getEndereco().getBairro()
 				+ "', cidade:'" + aluno.getEndereco().getCidade() 
 				+ "', estado:'" + aluno.getEndereco().getEstado()
-				+ "', rua:'" + aluno.getEndereco().getRua() + "'} RETURN n";
-				
+				+ "', rua:'" + aluno.getEndereco().getRua() + "'} return a";
+		
+		String curso = aluno.getCurso().getNome();
+		
+		System.err.println("Chegou aqui Curso: "+curso);
+		
+		if(existeCurso(curso)){
+			System.err.println("Existe o curso.");
+			script2 = "MATCH (a:Aluno)-[r:CURSA]->(:Curso) "
+					+ "WHERE a.nome='"+aluno.getNome()+"' DELETE r WITH "
+					+ "MATCH (c:Curso) WHERE c.nome = '"+curso+"' "
+					+ "CREATE (a)-[:CURSA]->(c) return a, c";
+		}
+		
+		
+//		if(removeAlunoDoCurso(aluno)){
+//			System.err.println("Excluido do curso.");
+//		}
+		
+//		if(existeCurso(curso)){
+//			script2 = "MATCH (a:Aluno)-[r:CURSA]->(:Curso) "
+//					+ "WHERE a.nome='"+aluno.getNome()+"' DELETE r "
+//					+ "MATCH (c:Curso) WHERE c.nome = '"+curso+"' "
+//					+ "CREATE (a)-[:CURSA]->(c) return a, c";
+//		}else{
+//			script2 = "MATCH (a:Aluno) WHERE a.nome='"+aluno.getNome()+"' "
+//					+ "CREATE (c:Curso{nome:'"+curso+"'}) "
+//					+ "CREATE (a)-[:CURSA]->(c) return a, c";
+//		}
+		
 		try{
 			// Executa o script no banco de dados.
-			transaction.run(script);			
+			transaction.run(script1);
+			transaction.run(script2);
 			transaction.success();
 			transaction.close();
-			session.close();
 			
 			status = true;
 
 		}catch(Exception ex){
 			status = false;	
+			ex.printStackTrace();
 		}
 		
 		return status;	
 	}
 
+	
+	
+	/**
+	 * Remove o aluno de qualquer curso que ele esteja cursando.
+	 * 
+	 * @param aluno
+	 * @return Status da exclusão.
+	 */
+	private boolean removeAlunoDoCurso(Aluno aluno){
+		super.iniciaSessaoNeo4J();
+		transaction = session.beginTransaction();
+		boolean status = false;
+		
+		String script = "MATCH (a:Aluno)-[c:CURSA]->(:Curso) DELETE c";
+		
+		try{
+			transaction.run(script);			
+			transaction.success();			
+			status = true;
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+			status = false;
+			
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		return status;
+	}
+	
 	
 	
 	/**
@@ -245,7 +324,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			aluno.getEndereco().setCidade(registro.get("cidade").asString());			
 			aluno.getEndereco().setEstado(registro.get("estado").asString());
 			aluno.getEndereco().setRua(registro.get("rua").asString());
-			aluno.setCurso(registro.get("curso").asString());
+//			aluno.setCurso(registro.get("curso").asString());
 		}	
 		
 		aluno.setHabilidades(new HabilidadeDAO().listarHabilidadesDoAluno(email, senha));

@@ -17,7 +17,7 @@ public class Pessoa {
 	private Endereco endereco = new Endereco();
 	private Contato contato = new Contato();
 	private String senha="";
-	private String curso="";
+	private Curso curso = new Curso();
 	
 	public Pessoa() { }
 	
@@ -99,10 +99,10 @@ public class Pessoa {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public String getCurso() {
+	public Curso getCurso() {
 		return curso;
 	}
-	public void setCurso(String curso) {
+	public void setCurso(Curso curso) {
 		this.curso = curso;
 	}
 	
