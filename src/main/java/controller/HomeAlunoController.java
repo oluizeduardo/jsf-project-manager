@@ -3,7 +3,6 @@ package controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.ProjetoBean;
@@ -28,13 +27,13 @@ public class HomeAlunoController implements Serializable {
 	private List<Projeto> todosProjetos;
 	
 	// Consultar projetos que contenham esta palavra no título ou descrição.
-	private String palavraChave;
+	private String palavraChave = "";
 	
 	// Consulta projetos cadastrados neste grupo.
-	private String onde;
+	private String onde = "";
 	
 	// Consulta projetos com essa habilidade;
-	private String habilidade;
+	private String habilidade = "";
 	
 	// Buscar projetos que contenham esta habilidade.
 	private List<String> habilidades = new ArrayList<String>();
@@ -98,27 +97,50 @@ public class HomeAlunoController implements Serializable {
 	 * digitar no campo de texto e as opções que forem escolhidas nos combobox.
 	 */
 	public void pesquisarProjetos(){
-	
-		// Lista de projetos localizados a partir da busca do aluno.
-		List<Projeto> projetosLocalizados = new ArrayList<Projeto>();
 		
-		// Busca na lista de todos os projetos cadastrados.
-		for (Projeto projeto : todosProjetos) {
+		// Verifica se existe chave para buscar projetos.
+		// Necessário para não fazer buscas desnecessárias no banco de dados.
+		if((!palavraChave.equals("")) || (!onde.equals("Onde")) || (!habilidade.equals("Habilidade"))){
 			
-			String titulo = projeto.getTitulo().toLowerCase();
-			String descricao = projeto.getDescricaoCurta().toLowerCase();
-			String resumo = projeto.getResumo().toLowerCase();
-			palavraChave = palavraChave.toLowerCase();
+			// Lista de projetos localizados a partir da busca do aluno.
+			List<Projeto> projetosLocalizados = new ArrayList<Projeto>();
 			
-			// Separa o projeto se encontrar a palavra-chave no título, descrição ou resumo.
-			if(titulo.contains(palavraChave) || 
-			   descricao.contains(palavraChave) ||
-			   resumo.contains(palavraChave)){
+			// Busca na lista de todos os projetos cadastrados.
+			for (Projeto projeto : todosProjetos) {
 				
-				projetosLocalizados.add(projeto);
+				// Se a palavra chave não estiver vazia.
+				if(!palavraChave.isEmpty()){
+					String titulo = projeto.getTitulo().toLowerCase();
+					String descricao = projeto.getDescricaoCurta().toLowerCase();
+					String resumo = projeto.getResumo().toLowerCase();
+
+					palavraChave = palavraChave.toLowerCase();
+
+					// Separa o projeto se encontrar a palavra-chave no título, descrição ou resumo.
+					if(titulo.contains(palavraChave) || 
+					   descricao.contains(palavraChave) ||
+					   resumo.contains(palavraChave)){
+						
+						projetosLocalizados.add(projeto);					
+					}
+				}else{
+					// Busca por habilidade selecionada.
+					if(!habilidade.equals("Habilidade")){						
+						
+						// Lista de habilidades exigidas pelo projeto.
+						List<Habilidade> habilidadesExigidas = projeto.getHabilidades();
+						
+						// Percorre a lista de habilidades buscando uma semelhante a habilidade selecionada.
+						for (Habilidade h : habilidadesExigidas) {
+							if(h.getDescricao().equals(habilidade)){
+								projetosLocalizados.add(projeto);
+							}
+						}
+					}
+				}
 			}
+			projetoBean.setTodosProjetos(projetosLocalizados);
 		}
-		projetoBean.setTodosProjetos(projetosLocalizados);
 	}
 	
 	

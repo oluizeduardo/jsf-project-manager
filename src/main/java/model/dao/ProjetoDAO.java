@@ -114,12 +114,15 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		super.iniciaSessaoNeo4J();
 		
 		ArrayList<Projeto> projetos = new ArrayList<Projeto>();
+		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
+				+ "return id(pj) as ID, "
+				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, "
+				+ "pj.dataInicio as Data_Inicio, pj.dataPublicacao as Publicacao, "
+				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
+				+ "pj.resumo as Resumo, pr.nome as Coordenador";
 		
-		StatementResult resultado = session.run("MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) return id(pj) as ID, "
-				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
-				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
-				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo, "
-				+ "pr.nome as Coordenador");
+		StatementResult resultado = session.run(script);
 		
 		while(resultado.hasNext()) {
 			
@@ -138,12 +141,50 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
 			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
 			
+			// Busca a lista de habilidades exigidas por esse projeto.
+			projetoAux.setHabilidades(buscaHabilidadesDoProjeto(projetoAux));
+			
 			projetos.add(projetoAux);
 			
 		}
 		
 		return projetos;
 	}
+	
+	
+	/**
+	 * Retorna uma lista de habilidades exigidas por um determinado projeto.
+	 * 
+	 * @param projeto
+	 * @return Lista de habilidades.
+	 */
+	private List<Habilidade> buscaHabilidadesDoProjeto(Projeto projeto){
+		
+		List<Habilidade> habilidadesDoProjeto = new ArrayList<Habilidade>();
+		String titulo = projeto.getTitulo();
+		String coordenador = projeto.getCoordenador().getNome();
+		
+		String script = "MATCH (pro:Professor)-[:COORDENA]->(p:Projeto)-[e:EXIGE]->(h:Habilidade) "
+				+ "WHERE p.titulo='"+titulo+"' AND pro.nome='"+coordenador+"' "
+				+ "return h.nome as Habilidade, e.nivel as Nivel";
+	
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			
+			Record registro = resultado.next();			
+			Habilidade habilidade = new Habilidade();
+			
+			habilidade.setDescricao(registro.get("Habilidade").asString());
+			habilidade.setNivel(registro.get("Nivel").asString());
+			
+			habilidadesDoProjeto.add(habilidade);
+		}
+			
+		return habilidadesDoProjeto;
+	}
+	
+	
 	
 	/**
 	 * Retorna uma lista com todos os projetos cadastrados
