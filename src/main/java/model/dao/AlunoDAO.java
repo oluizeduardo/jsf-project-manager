@@ -6,6 +6,7 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Aluno;
+import model.pojo.Curso;
 import model.pojo.Habilidade;
 import model.pojo.Projeto;
 
@@ -23,6 +24,9 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	/**
 	 * Salva no banco de dados o registro de um aluno.
+	 * 
+	 * O nó deve ser criado mesmo com as propriedades em branco,
+	 * as mesmas serão preenchidas quando o aluno atualizar o perfil.
 	 */
 	public boolean salvar(Aluno aluno) {
 		
@@ -75,7 +79,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	
 	/**
-	 * Busca no banco de dados a existência de um curso.
+	 * Busca no banco de dados a existência de um determinado curso.
 	 * @return verdadeiro ou falso.
 	 */
 	private boolean existeCurso(String curso){		
@@ -99,11 +103,13 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 		
-		String script = "MATCH (a:Aluno) RETURN ID (a) as id, a.nome as Nome, "
+		String script = "MATCH (a:Aluno)-[:CURSA]->(c:Curso) "
+				+ "RETURN ID (a) as id, a.nome as Nome, "
+				+ "c.nome as Curso, "
 				+ "a.cidade as Cidade, a.estado as Estado, "
 				+ "a.telefone as Telefone, a.site as Site, "
 				+ "a.estadoCivil as Estado_Civil, a.senha as Senha, "
-				+ "a.skype as Skype, a.curso as Curso, "
+				+ "a.skype as Skype, "
 				+ "a.dataMatricula as Data_Matricula, a.matricula as Matricula, "
 				+ "a.documentoCPF as CPF, a.documentoRG as RG, a.sexo as Sexo, "
 				+ "a.dataNascimento as Data_Nascimento, "
@@ -126,7 +132,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			alunoAux.setEstadoCivil(alunoAtual.get("Estado_Civil").asString());
 			alunoAux.setSenha(alunoAtual.get("Senha").asString());
 			alunoAux.getContato().setSkype(alunoAtual.get("Skype").asString());
-	//		alunoAux.setCurso(alunoAtual.get("Curso").asString());
+			alunoAux.setCurso(new Curso(alunoAtual.get("Curso").asString()));
 			alunoAux.setMatricula(alunoAtual.get("Matricula").asString());
 			alunoAux.setDocumentoCPF(alunoAtual.get("CPF").asString());
 			alunoAux.setDocumentoRG(alunoAtual.get("RG").asString());
@@ -160,8 +166,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * Exclui do banco de dados o registro de um aluno.
 	 */
 	public boolean excluir(Aluno aluno) {
-		super.iniciaSessaoNeo4J();		
-		transaction = session.beginTransaction();
+//		super.iniciaSessaoNeo4J();		
+//		transaction = session.beginTransaction();
 		return false;
 	}
 	
@@ -200,31 +206,22 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		String curso = aluno.getCurso().getNome();
 		
-		System.err.println("Chegou aqui Curso: "+curso);
-		
+		// Se existe o curso, buca o nó para gerar associação.
 		if(existeCurso(curso)){
-			System.err.println("Existe o curso.");
-			script2 = "MATCH (a:Aluno)-[r:CURSA]->(:Curso) "
-					+ "WHERE a.nome='"+aluno.getNome()+"' DELETE r WITH "
+			script2 = "MATCH (a:Aluno) WHERE a.nome='"+aluno.getNome()+"' "
 					+ "MATCH (c:Curso) WHERE c.nome = '"+curso+"' "
+					+ "CREATE (a)-[:CURSA]->(c) return a, c";
+		
+		// Se não existir, um novo nó deve ser criado e associado ao aluno.
+		}else{
+			script2 = "MATCH (a:Aluno) WHERE a.nome='"+aluno.getNome()+"' "
+					+ "CREATE (c:Curso{nome:'"+curso+"'}) "
 					+ "CREATE (a)-[:CURSA]->(c) return a, c";
 		}
 		
-		
-//		if(removeAlunoDoCurso(aluno)){
-//			System.err.println("Excluido do curso.");
-//		}
-		
-//		if(existeCurso(curso)){
-//			script2 = "MATCH (a:Aluno)-[r:CURSA]->(:Curso) "
-//					+ "WHERE a.nome='"+aluno.getNome()+"' DELETE r "
-//					+ "MATCH (c:Curso) WHERE c.nome = '"+curso+"' "
-//					+ "CREATE (a)-[:CURSA]->(c) return a, c";
-//		}else{
-//			script2 = "MATCH (a:Aluno) WHERE a.nome='"+aluno.getNome()+"' "
-//					+ "CREATE (c:Curso{nome:'"+curso+"'}) "
-//					+ "CREATE (a)-[:CURSA]->(c) return a, c";
-//		}
+		// Remove o aluno de qualquer curso que ele já esteja.
+		// O aluno não pode estar crsando mais de um curso ao mesmo tempo.
+		removeAlunoDoCurso(aluno);
 		
 		try{
 			// Executa o script no banco de dados.
@@ -238,8 +235,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		}catch(Exception ex){
 			status = false;	
 			ex.printStackTrace();
-		}
-		
+		}		
 		return status;	
 	}
 
@@ -247,6 +243,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	/**
 	 * Remove o aluno de qualquer curso que ele esteja cursando.
+	 * O aluno não pode estar crsando mais de um curso ao mesmo tempo.
 	 * 
 	 * @param aluno
 	 * @return Status da exclusão.
@@ -293,7 +290,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		super.iniciaSessaoNeo4J();
 		Aluno aluno = null;
 		
-		String script = "MATCH(al:Aluno) "
+		String script = "MATCH(al:Aluno)-[:CURSA]->(c:Curso) "
 				+ "WHERE al.email='"+email+"' AND al.senha = '"+senha+"' "
 				+ "return al.nome as nome, al.documentoRG as rg,"
 				+ "al.documentoCPF as cpf, al.estadoCivil as esci, "
@@ -301,7 +298,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "al.email as email, al.site as site, "
 				+ "al.skype as skype, al.telefone as telefone, "
 				+ "al.dataNascimento as datanas, al.cidade as cidade,"
-				+ "al.estado as estado, al.rua as rua, al.curso as curso";
+				+ "al.estado as estado, al.rua as rua, c.nome as curso";
 		
 		StatementResult resultado = session.run(script);
 		
@@ -324,7 +321,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			aluno.getEndereco().setCidade(registro.get("cidade").asString());			
 			aluno.getEndereco().setEstado(registro.get("estado").asString());
 			aluno.getEndereco().setRua(registro.get("rua").asString());
-//			aluno.setCurso(registro.get("curso").asString());
+			aluno.setCurso(new Curso(registro.get("curso").asString()));
 		}	
 		
 		aluno.setHabilidades(new HabilidadeDAO().listarHabilidadesDoAluno(email, senha));
@@ -351,15 +348,17 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		
 		String script = "MATCH(a:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COORDENA]-(pr:Professor) "
-				+ "WHERE a.email= '"+email+"' AND a.senha = '"+senha+"' return id(pj) as ID, "
-				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, "
-				+ "pj.dataInicio as Data_Inicio, "
+				+ "WHERE a.email= '"+email+"' AND a.senha = '"+senha+"' return "
+				+ "pj.titulo as Titulo, "
 				+ "pj.dataPublicacao as Publicacao, "
-				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, "
-				+ "pj.numeroParticipantes as QTD_Participantes, "
-				+ "pj.resumo as Resumo, pj.eFinanciado as ehFinanciado, "
-				+ "pr.nome as Coordenador";
+				+ "pr.nome as Coordenador, "
+				+ "pj.dataFim as Data_Fim, "
+				+ "pj.dataInicio as Data_Inicio, "				
+				+ "toFloat(pj.valor) as Valor, "
+				+ "pj.descricaoCurta as Descricao, "				
+				+ "toInteger(pj.numeroParticipantes) as QTD_Participantes, "
+				+ "pj.resumo as Resumo, pj.eFinanciado as ehFinanciado";
 		
 		
 		StatementResult resultado = session.run(script);
@@ -374,6 +373,14 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			projetoAux.setDataPublicacao(projetoAtual.get("Publicacao").asString());
 			projetoAux.setCategoria(projetoAtual.get("Categoria").asString());
 			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
+			projetoAux.setDataFim(projetoAtual.get("Data_Fim").asString());
+			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio").asString());
+			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
+			projetoAux.getFinanciamento().setValor(projetoAtual.get("Valor").asFloat());
+			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
+			projetoAux.setNumeroDeParticipantes(projetoAtual.get("QTD_Participantes").asInt());
+			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
+			projetoAux.getFinanciamento().setExistente(projetoAtual.get("ehFinanciado").asBoolean());
 			
 			projetosQueParticipa.add(projetoAux);
 			

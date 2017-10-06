@@ -9,13 +9,13 @@ public class Financiamento {
 	private String natureza;
 	
 	// O valor do auxílio, bolsa.
-	private Double valor;
+	private Float valor;
 	
 	
 	public Financiamento() { }
 	
 	
-	public Financiamento(boolean existente, String natureza, Double valor) {
+	public Financiamento(boolean existente, String natureza, Float valor) {
 		this.existente = existente;
 		this.natureza = natureza;
 		this.valor = valor;
@@ -42,12 +42,12 @@ public class Financiamento {
 	}
 
 
-	public Double getValor() {
+	public Float getValor() {
 		return valor;
 	}
 
 
-	public void setValor(Double valor) {
+	public void setValor(Float valor) {
 		this.valor = valor;
 	}
 	

@@ -58,7 +58,7 @@
 					 mask="99/99/9999"/>
 			
 		<p:outputLabel value="Curso:" for="course-field" />
-		<p:selectOneMenu id="course-field" value="#{cadastrarProfessorController.professor.curso}" >
+		<p:selectOneMenu id="course-field" value="#{cadastrarProfessorController.professor.curso.nome}" >
 			<f:selectItems value="#{listaDeCursos.cursos}" />
 		</p:selectOneMenu>
 			

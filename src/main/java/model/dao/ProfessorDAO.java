@@ -5,6 +5,7 @@ import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 
+import model.pojo.Curso;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
 import web.SessionUtil;
@@ -27,13 +28,13 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		String email = usuarioLogado.getContato().getEmail();
 		String senha = usuarioLogado.getSenha();
+		String script="", script2="";
 		
 		transaction = session.beginTransaction();
 		
-		String script = "MATCH (n:Professor) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
+		script = "MATCH (n:Professor) WHERE n.email = '" +email+ "'AND n.senha ='" +senha+ "' "
 				+ "SET n+= {nome: '" + professor.getNome()
 				+ "', documentoCPF:'" + professor.getDocumentoCPF()
-				+ "', curso:'" + professor.getCurso()
 				+ "', documentoRG:'" + professor.getDocumentoRG()
 				+ "', estadoCivil:'" + professor.getEstadoCivil()
 				+ "', matricula:'" + professor.getMatricula()
@@ -52,9 +53,35 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 				+ "', estado:'" + professor.getEndereco().getEstado()
 				+ "', rua:'" + professor.getEndereco().getRua() + "'} RETURN n";
 		
+		
+		String curso = professor.getCurso().getNome();
+		
+		// Se existe o curso, buca o nó para gerar associação.
+		if(existeCurso(curso)){
+			script2 = "MATCH (p:Professor) WHERE p.nome='"+professor.getNome()+"' "
+					+ "AND p.email='"+professor.getContato().getEmail()+"' "
+					+ "AND p.senha='"+professor.getSenha()+"' "
+					+ "MATCH (c:Curso) WHERE c.nome = '"+curso+"' "
+					+ "CREATE (p)-[:LECIONA]->(c) return p, c";
+		
+		// Se não existir, um novo nó deve ser criado e associado ao aluno.
+		}else{
+			script2 = "MATCH (p:Professor) WHERE p.nome='"+professor.getNome()+"' "
+					+ "AND p.email='"+professor.getContato().getEmail()+"' "
+					+ "AND p.senha='"+professor.getSenha()+"' "
+					+ "CREATE (c:Curso{nome:'"+curso+"'}) "
+					+ "CREATE (p)-[:LECIONA]->(c) return p, c";
+		}
+		
+		// Remove o aluno de qualquer curso que ele já esteja.
+		// O aluno não pode estar crsando mais de um curso ao mesmo tempo.
+		removeProfessorDoCurso(professor);
+		
+		
 		try{
 			// Executa o script no banco de dados.
-			transaction.run(script);			
+			transaction.run(script);
+			transaction.run(script2);	
 			transaction.success();
 			status = true;
 		}catch(Exception ex){
@@ -75,6 +102,57 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 	}
 	
 	
+	/**
+	 * Remove o professor de qualquer curso no qual ele esteja lecionando.
+	 * 
+	 * @param professor
+	 * @return Status da exclusão.
+	 */
+	private boolean removeProfessorDoCurso(Professor professor){
+		super.iniciaSessaoNeo4J();
+		transaction = session.beginTransaction();
+		boolean status = false;
+		
+		String script = "MATCH (a:Professor)-[le:LECIONA]->(:Curso) DELETE le";
+		
+		try{
+			transaction.run(script);			
+			transaction.success();			
+			status = true;
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+			status = false;
+			
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		return status;
+	}
+	
+	
+	
+	/**
+	 * Busca no banco de dados a existência de um determinado curso.
+	 * @return verdadeiro ou falso.
+	 */
+	private boolean existeCurso(String curso){		
+		super.iniciaSessaoNeo4J();
+		StatementResult resultado = session.run("MATCH (c:Curso) WHERE c.nome = '"+curso+"' return c");
+		
+		while (resultado.hasNext()) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 	
 	/**
 	 * Salva no banco de dados os dados de um Professor.
@@ -91,7 +169,6 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		String script = "CREATE (pr:Professor {nome: '" + professor.getNome()
 				+ "', papel:'" + professor.getPapel()
 				+ "', documentoCPF:'" + professor.getDocumentoCPF() 
-				+ "', curso:'" + professor.getCurso() 
 				+ "', documentoRG:'" + professor.getDocumentoRG()
 				+ "', estadoCivil:'" + professor.getEstadoCivil()
 				+ "', matricula:'" + professor.getMatricula()
@@ -169,7 +246,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 						+ "pr.skype as skype, pr.telefone as telefone, "
 						+ "pr.bairro as bairro, pr.dataAdmissao as dataadm, "
 						+ "pr.dataNascimento as datanas, pr.cidade as cidade,"
-						+ "pr.estado as estado, pr.rua as rua, pr.curso as curso";
+						+ "pr.estado as estado, pr.rua as rua";
 	
 		StatementResult resultado = session.run(script);
 		
@@ -195,13 +272,43 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 			professor.getEndereco().setBairro(registro.get("bairro").asString());
 			professor.getEndereco().setEstado(registro.get("estado").asString());
 			professor.getEndereco().setRua(registro.get("rua").asString());
-		//	professor.setCurso(registro.get("curso").asString());	
+			
+			Curso curso = new Curso(buscaNomeDoCurso(professor));
+			professor.setCurso(curso);	
 		}
 
 		session.close();
 		
 		return professor;
 	}
+	
+	
+	
+	/**
+	 * Retorna o nome do curso do professor, caso ele esteja lecionando
+	 * em um curso.
+	 * @return O nome do curso.
+	 */
+	private String buscaNomeDoCurso(Professor professor){
+		super.iniciaSessaoNeo4J();		
+		
+		String email = professor.getContato().getEmail();
+		String senha = professor.getSenha();
+		String nomeDoCurso="";
+		
+		String script = "MATCH(pr:Professor)-[:LECIONA]->(c:Curso) "
+						+ "WHERE pr.email='"+email+"' AND pr.senha = '"+senha+"' "
+						+ "return c.nome as Curso";
+	
+		StatementResult resultado = session.run(script);
+		
+		while (resultado.hasNext()) {
+			Record registro = resultado.next();
+			nomeDoCurso = registro.get("Curso").asString();	
+		}
+		return nomeDoCurso;
+	}
+	
 	
 	
 	
