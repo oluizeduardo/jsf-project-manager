@@ -9,6 +9,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.dao.ProjetoDAO;
+import model.pojo.Curso;
 import model.pojo.Habilidade;
 import model.pojo.Projeto;
 import view.Mensagem;
@@ -78,6 +79,7 @@ public class CadastrarProjetoController implements Serializable{
 						
 						projeto.setDataPublicacao(getDataAtual());
 						projeto.setHabilidades(habilidades);
+						projeto.setCursosEnvolvidos(geraListaDeCursosEnvolvidos());
 						
 						boolean salvou = new ProjetoDAO().salvar(projeto);
 						
@@ -95,6 +97,20 @@ public class CadastrarProjetoController implements Serializable{
 		}
 	}
 
+	
+	
+	/**
+	 * O método realiza uma adaptação da lista de String para uma lista de objetos Curso.
+	 * @return Uma lista de Cursos.
+	 */
+	private List<Curso> geraListaDeCursosEnvolvidos(){
+		List<Curso> cursosEnvolvidos = new ArrayList<Curso>();
+		for (String curso : cursosAlvo) {
+			cursosEnvolvidos.add(new Curso(curso));
+		}
+		return cursosEnvolvidos;
+	}
+	
 	
 	
 	/**

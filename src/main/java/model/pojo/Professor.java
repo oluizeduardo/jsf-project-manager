@@ -14,8 +14,8 @@ public class Professor extends Pessoa {
 	}
 
 	
-	public Professor(String nome, String email, String senha) { 
-		super(nome, email, senha);
+	public Professor(String nome, String curso, String email, String senha) { 
+		super(nome, curso, email, senha);
 		setPapel("Professor");
 		
 	}

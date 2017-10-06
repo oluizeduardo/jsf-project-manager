@@ -51,7 +51,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		+ "', bairro:'" + aluno.getEndereco().getBairro()
 		+ "', cidade:'" + aluno.getEndereco().getCidade()
 		+ "', estado:'" + aluno.getEndereco().getEstado()
-		+ "', rua:'" + aluno.getEndereco().getRua() + "'})";
+		+ "', rua:'" + aluno.getEndereco().getRua() + "'})-"
+		+ "[:CURSA]->(c:Curso{'"+aluno.getCurso().getNome()+"'})";
 		
 
 		try{
@@ -380,7 +381,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
 			projetoAux.setNumeroDeParticipantes(projetoAtual.get("QTD_Participantes").asInt());
 			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
-			projetoAux.getFinanciamento().setExistente(projetoAtual.get("ehFinanciado").asBoolean());
+		//	projetoAux.getFinanciamento().setExistente(projetoAtual.get("ehFinanciado").asBoolean());
 			
 			projetosQueParticipa.add(projetoAux);
 			

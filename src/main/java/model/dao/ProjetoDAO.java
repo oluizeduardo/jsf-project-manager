@@ -5,6 +5,8 @@ import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
+
+import model.pojo.Curso;
 import model.pojo.Habilidade;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
@@ -92,6 +94,36 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				}
 			}
 			
+			
+			//=============== CURSOS ENVOLVIDOS ============================
+			
+			List<Curso> cursosEnvolvidos = projeto.getCursosEnvolvidos();
+			
+			for (Curso curso : cursosEnvolvidos) {
+				if(existeCurso(curso.getNome())){
+					script = "MATCH(c:Curso) WHERE c.nome = '"+curso.getNome()+"' "
+						   + "MATCH (p:Projeto) WHERE p.titulo='"+titulo+"' "
+						   + "CREATE (p)-[:DESTINADO_A]->(c)";
+				}else{
+					script = "MATCH (p:Projeto) WHERE p.titulo='"+titulo+"' "
+						   + "CREATE(c:Curso{nome:'"+curso.getNome()+"'}),"
+						   + "(p)-[:DESTINADO_A]->(c) ";
+				}
+				
+				try{
+					// Executa o script no banco de dados.
+					transaction.run(script);
+					transaction.success();
+				}catch(Exception ex){
+					System.err.println("Erro ao executar script no banco de dados - ProjetoDAO.salvar()");
+					executou = false;
+					continue;
+				}
+			}
+			
+			
+			
+			
 			// Fecha conexões com o banco de dados.
 			try {
 				transaction.close();
@@ -105,6 +137,21 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		return executou;
 	}
 
+	
+	/**
+	 * Busca no banco de dados a existência de um determinado curso.
+	 * @return verdadeiro ou falso.
+	 */
+	private boolean existeCurso(String curso){		
+		super.iniciaSessaoNeo4J();
+		StatementResult resultado = session.run("MATCH (c:Curso) WHERE c.nome = '"+curso+"' return c");
+		
+		while (resultado.hasNext()) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Retorna uma lista com todos os projetos salvos pelos professores.

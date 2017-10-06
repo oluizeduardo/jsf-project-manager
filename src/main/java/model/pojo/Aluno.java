@@ -14,8 +14,8 @@ public class Aluno extends Pessoa {
 	}
 	
 	
-	public Aluno(String nome, String email, String senha) { 
-		super(nome, email, senha);
+	public Aluno(String nome, String curso, String email, String senha) { 
+		super(nome, curso, email, senha);
 		setPapel("Aluno");
 	}	
 	

@@ -23,15 +23,14 @@
 		<h:outputText value="#{aluno.curso.nome}" />
 	</p:column>
 
-	<p:column headerText="Cidade"
-		filterBy="#{aluno.endereco.cidade}"
-		sortBy="#{aluno.endereco.cidade}" filterMatchMode="startsWith"
-		style="text-align:center; width:150px">
-		<h:outputText value="#{aluno.endereco.cidade}" />
+	<p:column headerText="Indicado para projeto" 
+		filterMatchMode="startsWith"
+		style="text-align:center;">
+		<h:outputText value="" />
 	</p:column>
 
 	<p:column style="width:32px">
-		<p:commandButton icon="ui-icon-search" title="Visualizar" />
+		<p:commandButton icon="ui-icon-search" title="Ver detalhes" />
 	</p:column>
 
 </p:dataTable>

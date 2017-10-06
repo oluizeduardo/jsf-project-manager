@@ -48,7 +48,7 @@ public class NovoUsuarioController {
 		String email = novoUsuario.getContato().getEmail();
 		String senha = novoUsuario.getSenha();
 		String papel = novoUsuario.getPapel();//Papel: Aluno ou Professor.
-		
+		String curso = novoUsuario.getCurso().getNome();
 		
 		String tipoDeUsuario = "";// "aluno" ou "professor".
 		boolean cadastrou = false;// status do cadastro.
@@ -58,11 +58,11 @@ public class NovoUsuarioController {
 				
 		// Verifica que tipo de usuário quer fazer o cadastro.
 		if(papel.equals(PERFIL_ALUNO)){
-			cadastrou = new AlunoDAO().salvar(new Aluno(nome, email, senha));
+			cadastrou = new AlunoDAO().salvar(new Aluno(nome, curso, email, senha));
 			tipoDeUsuario = "aluno";
 			
 		}else if(papel.equals(PERFIL_PROFESSOR)){
-			cadastrou = new ProfessorDAO().salvar(new Professor(nome, email, senha));
+			cadastrou = new ProfessorDAO().salvar(new Professor(nome, curso, email, senha));
 			tipoDeUsuario = "professor";
 		}
 		

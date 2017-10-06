@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -23,8 +22,6 @@ public class CadastrarProfessorController {
 	private List<String> estadosBrasileiros = null;
 	// Acesso á lista de estado cívil.
 	private List<String> estadoCivil = null;
-
-	private Date dataMaxima = new Date();
 	
 	
 	public CadastrarProfessorController() {
@@ -95,12 +92,6 @@ public class CadastrarProfessorController {
 	}
 	public List<String> getEstadoCivil() {
 		return estadoCivil;
-	}
-	public Date getDataMaxima() {
-		return dataMaxima;
-	}
-	public void setDataMaxima(Date dataMaxima) {
-		this.dataMaxima = dataMaxima;
 	}
 	
 }

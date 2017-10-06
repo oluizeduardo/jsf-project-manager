@@ -41,6 +41,15 @@
 					<f:selectItem itemLabel="Professor" itemValue="Professor" />
 				</p:selectOneMenu>
 
+				<p:selectOneMenu id="course"
+								 style="width:320px" 
+								 value="#{novoUsuarioController.novoUsuario.curso.nome}"
+								 required="true"
+								 requiredMessage="Informe o seu curso.">
+					<f:selectItem itemLabel="Curso" itemValue="Curso" noSelectionOption="true" />
+					<f:selectItems value="#{listaDeCursos.cursos}" />
+				</p:selectOneMenu>
+
 				<p:password id="password1-field" feedback="true" required="true"
 					requiredMessage="Informe uma senha." weakLabel="Senha fraca"
 					goodLabel="Senha boa" strongLabel="Senha forte"

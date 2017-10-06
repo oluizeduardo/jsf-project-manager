@@ -1,9 +1,14 @@
 package model.pojo;
 
+import java.io.Serializable;
+
 import org.neo4j.driver.v1.Value;
 
 
-public class Pessoa {
+public class Pessoa implements Serializable {
+	
+
+	private static final long serialVersionUID = 1L;
 	
 	private Value id;
 	private String papel;// Aluno ou Professor.
@@ -21,8 +26,9 @@ public class Pessoa {
 	
 	public Pessoa() { }
 	
-	public Pessoa(String nome, String email, String senha){
+	public Pessoa(String nome, String curso, String email, String senha){
 		this.nome = nome;
+		this.curso.setNome(curso);
 		this.contato.setEmail(email);
 		this.senha = senha;
 	}
