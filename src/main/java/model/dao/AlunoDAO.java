@@ -52,7 +52,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		+ "', cidade:'" + aluno.getEndereco().getCidade()
 		+ "', estado:'" + aluno.getEndereco().getEstado()
 		+ "', rua:'" + aluno.getEndereco().getRua() + "'})-"
-		+ "[:CURSA]->(c:Curso{'"+aluno.getCurso().getNome()+"'})";
+		+ "[:CURSA]->(c:Curso{nome:'"+aluno.getCurso().getNome()+"'})";
 		
 
 		try{

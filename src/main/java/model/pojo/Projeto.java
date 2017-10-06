@@ -23,11 +23,11 @@ public class Projeto {
 	
 	// Identificação
 	private String categoria = TRABALHO_ACADEMICO;// Item default no cadastro de novo projeto.
-	private String titulo;
-	private String descricaoCurta;
-	private String dataInicio;
-	private String dataFim;
-	private String dataPublicacao;
+	private String titulo="";
+	private String descricaoCurta="";
+	private String dataInicio="";
+	private String dataFim="";
+	private String dataPublicacao="";
 	
 	// Administração
 	private Professor coordenador = new Professor();
@@ -39,13 +39,13 @@ public class Projeto {
 	private Integer numeroDeParticipantes;
 	
 	// Resumo
-	private String resumo;
+	private String resumo="";
 	
 	// Equipe
 	private List<Aluno> alunos;
 	
 	// Status do Projeto
-	private String status;//Em andamento, Finalizado, Cancelado, etc.
+	private String status="";//Em andamento, Finalizado, Cancelado, etc.
 	
 	// Lista de possíveis categorias de um projeto.
 	private List<String> categorias;

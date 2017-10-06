@@ -12,94 +12,107 @@
 
 <h:body>
 
-	<h:form id="form-register-new-project">
+	<!-- BARRA DE MENU -->
+	<ui:include src="barraDeMenu.xhtml" />
 
-		<!-- BARRA DE MENU -->
-		<ui:include src="barraDeMenu.xhtml" />
+	<!-- MENSAGEM -->
+	<p:growl id="mensagem" showDetail="true" closable="true" />
 
-		<!-- MENSAGEM -->
-		<p:growl id="mensagem" showDetail="true" closable="true"/>
+	<p:layout id="layout">
 
-		<p:layout id="layout">
+		<!-- PAINEL DE PERFIL -->
+		<p:layoutUnit position="west" size="250" id="layoutUnit-painelPerfil">
+			<h:panelGrid columns="1" width="200" style="margin:10px;">
 
-			<!-- PAINEL DE PERFIL -->
-			<p:layoutUnit position="west" size="250">
-				<h:panelGrid columns="1" width="200" style="margin:10px;">
+				<p:panel style="height:180px; width:205px;">
+					<h:graphicImage value="/resources/images/user_default.png"
+						height="170" width="170" />
+				</p:panel>
 
-					<p:panel style="height:180px; width:205px;">
-						<h:graphicImage value="/resources/images/user_default.png" height="170"	width="170" />
-					</p:panel>
-					
-					<p:outputLabel value="#{homeProfessorController.userProfessor.nome}"
-						style="font-size:30px;font-weight: bold;" />
-					
-					<p:spacer height="10px"/>
-					
-					<p:outputLabel value="- #{homeProfessorController.userProfessor.endereco.cidade}" 
-									style="font-size:16px;"/>									
-					<p:outputLabel value="- #{homeProfessorController.userProfessor.contato.email}"
-									style="font-size:16px"/>
-					<p:outputLabel value="- #{homeProfessorController.userProfessor.curso.nome}"
-									style="font-size:16px"/>
+				<p:outputLabel value="#{homeProfessorController.userProfessor.nome}"
+					style="font-size:30px;font-weight: bold;" />
 
-				</h:panelGrid>
-			</p:layoutUnit>
+				<p:spacer height="10px" />
 
+				<p:outputLabel
+					value="- #{homeProfessorController.userProfessor.endereco.cidade}"
+					style="font-size:16px;" />
+				<p:outputLabel
+					value="- #{homeProfessorController.userProfessor.contato.email}"
+					style="font-size:16px" />
+				<p:outputLabel
+					value="- #{homeProfessorController.userProfessor.curso.nome}"
+					style="font-size:16px" />
+
+			</h:panelGrid>
+		</p:layoutUnit>
 
 
-			<p:layoutUnit position="center">
+		<p:layoutUnit position="center" id="layoutUnit-painelNovoProjeto">
+			<p:tabView style="margin:10px" id="Tabview-novoProjeto">
 
-				<p:tabView style="margin:10px">
+				<!-- CADASTRO DE NOVOS PROJETOS -->
+				<p:tab title="Projetos para alunos" id="projetosParaAlunos">
 
-					<!-- CADASTRO DE NOVOS PROJETOS -->
-					<p:tab title="Projetos para alunos">
-
+					<h:form id="form-novoProjeto">
 						<p:panel>
 							<div align="right">
+
 								<p:commandButton value="Salvar Projeto" icon="ui-icon-disk"
-								actionListener="#{cadastrarProjetoController.salvarProjeto}" ajax="false" update="mensagem"/>
-							</div>													
+									id="btnSalvarNovoProjeto"
+									actionListener="#{cadastrarProjetoController.salvarProjeto}"
+									ajax="false" update="mensagem" />
+
+							</div>
 						</p:panel>
-						
-						<p:spacer height="8"/>
-						
-						
+
+						<p:spacer height="8" />
+
 						<!-- PAINEL DE ABAS HORIZONTAIS -->
 						<p:accordionPanel multiple="false" id="horizontal-panel">
-						
+
 							<p:tab title="Identificação">
-								<ui:include src="projetos/identificacao.xhtml"/>							
+								<ui:include src="projetos/identificacao.xhtml" />
 							</p:tab>
-							
+
 							<p:tab title="Financiamento">
-								<ui:include src="projetos/financiamento.xhtml"/>
+								<ui:include src="projetos/financiamento.xhtml" />
 							</p:tab>
-							
+
 							<p:tab title="Alunos">
-								<ui:include src="projetos/alunos.xhtml"/>
+								<ui:include src="projetos/alunos.xhtml" />
 							</p:tab>
-							
+
 							<p:tab title="Habilidades">
-								<ui:include src="projetos/habilidades.xhtml"/>
+								<ui:include src="projetos/habilidades.xhtml" />
 							</p:tab>
-							
+
 							<p:tab title="Resumo">
-								<ui:include src="projetos/resumo.xhtml"/>
+								<ui:include src="projetos/resumo.xhtml" />
 							</p:tab>
-							
+
 						</p:accordionPanel>
-					</p:tab>
+					</h:form>
+				</p:tab>
 
-					<!-- BUSCA POR ALUNOS -->
-					<p:tab id="search-students" title="Alunos para projetos">
-						<ui:include src="buscaPorAlunos.xhtml"/>
-					</p:tab>
-				</p:tabView>
+				<!-- BUSCA POR ALUNOS -->
+				<p:tab id="search-students" title="Alunos para projetos">
+					<ui:include src="buscaPorAlunos.xhtml"/>
+				</p:tab>
+				
+			</p:tabView>
+		</p:layoutUnit>
+	</p:layout>
+	
+	<!-- DETALHES DO ALUNO -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+		header="Detalhes do Aluno" widgetVar="student-details"
+		resizable="false" closeOnEscape="true">
 
-			</p:layoutUnit>
+		<p:panel>
+			<h:outputLabel value="Detalhes completos sobre o aluno" />
+		</p:panel>
 
-		</p:layout>
-	</h:form>
-
+	</p:dialog>
 </h:body>
 </html>

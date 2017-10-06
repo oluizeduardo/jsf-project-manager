@@ -4,35 +4,37 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-<p:dataTable id="table-students" var="aluno"
-	value="#{buscarAlunosController.alunos}" widgetVar="studentsTable"
-	multiViewState="true" rows="10" paginator="true"
-	paginatorPosition="bottom" resizableColumns="true"
-	paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
-	emptyMessage="Nenhum aluno localizado.">
+<h:body>
+	<p:dataTable id="table-students" var="aluno"
+		value="#{buscarAlunosController.alunos}" widgetVar="studentsTable"
+		multiViewState="true" rows="10" paginator="true"
+		paginatorPosition="bottom" resizableColumns="true"
+		paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+		emptyMessage="Nenhum aluno localizado.">
 
 
-	<p:column headerText="Nome" filterBy="#{aluno.nome}"
-		sortBy="#{aluno.nome}" filterMatchMode="startsWith">
-		<h:outputText value="#{aluno.nome}" />
-	</p:column>
+		<p:column headerText="Nome" filterBy="#{aluno.nome}"
+			sortBy="#{aluno.nome}" filterMatchMode="startsWith">
+			<h:outputText value="#{aluno.nome}" />
+		</p:column>
 
-	<p:column headerText="Curso" filterBy="#{aluno.curso.nome}"
-		sortBy="#{aluno.curso.nome}" filterMatchMode="startsWith"
-		style="text-align: center">
-		<h:outputText value="#{aluno.curso.nome}" />
-	</p:column>
+		<p:column headerText="Curso" filterBy="#{aluno.curso.nome}"
+			sortBy="#{aluno.curso.nome}" filterMatchMode="startsWith"
+			style="text-align: center">
+			<h:outputText value="#{aluno.curso.nome}" />
+		</p:column>
 
-	<p:column headerText="Indicado para projeto" 
-		filterMatchMode="startsWith"
-		style="text-align:center;">
-		<h:outputText value="" />
-	</p:column>
+		<p:column headerText="Indicado para projeto"
+			filterMatchMode="startsWith" style="text-align:center;">
+			<h:outputText value="" />
+		</p:column>
 
-	<p:column style="width:32px">
-		<p:commandButton icon="ui-icon-search" title="Ver detalhes" />
-	</p:column>
+		<p:column style="width:32px">
+			<p:commandButton icon="ui-icon-search" title="Ver Detalhes"
+				onclick="PF('student-details').show()" />
+		</p:column>
 
-</p:dataTable>
+	</p:dataTable>
+</h:body>
 
 </html>

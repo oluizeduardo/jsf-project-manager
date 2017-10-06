@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Todos Alunos Cadastrados</title>
+	<style>
+		body {
+			background-color: #C1E1A6;
+		}
+	</style>
+</h:head>
+
+<h:body>
+
+	<h:form id="registered-projects">
+
+		<!-- BARRA DE MENU -->
+		<ui:include src="barraDeMenu.xhtml" />
+
+		<!-- MENSAGEM -->
+		<p:growl id="messages"/>
+
+		<p:panel>
+			<p:dataTable id="table-registered-projects" var="aluno"
+				value="#{buscarAlunosController.alunos}" widgetVar="projectsTable"
+				multiViewState="true" rows="10" paginator="true"
+				paginatorPosition="bottom" resizableColumns="true" 
+				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+				emptyMessage="Nenhum aluno localizado.">
+
+
+				<p:column headerText="Nome" filterBy="#{aluno.nome}"
+					sortBy="#{aluno.nome}" filterMatchMode="startsWith">
+					<h:outputText value="#{aluno.nome}" />
+				</p:column>
+				
+				<p:column headerText="Curso" filterBy="#{aluno.curso.nome}"
+					sortBy="#{aluno.curso.nome}" filterMatchMode="startsWith"
+					style="text-align: center">
+					<h:outputText value="#{aluno.curso.nome}" />
+				</p:column>
+				
+				<p:column headerText="Cidade" filterBy="#{aluno.endereco.cidade}"
+					sortBy="#{aluno.endereco.cidade}" filterMatchMode="startsWith"
+					style="text-align: center">
+					<h:outputText value="#{aluno.endereco.cidade}" />
+				</p:column>
+				
+				<p:column headerText="Email" filterBy="#{aluno.contato.email}"
+					sortBy="#{aluno.contato.email}" filterMatchMode="startsWith"
+					style="text-align: center">
+					<h:outputText value="#{aluno.contato.email}" />
+				</p:column>
+
+				<p:column style="width:32px;text-align: center">
+					<p:commandButton icon="ui-icon-search" title="Visualizar" onclick="PF('student-details').show()"/>
+				</p:column>
+
+			</p:dataTable>
+
+		</p:panel>
+		
+		<p:spacer height="8"/>
+		
+		<p:panel>
+			<h:outputText value="Lista de todos os alunos cadastrados." 
+					  style="font-size: 15px; font-style:italic" />
+		</p:panel>
+
+	</h:form>
+
+	<!-- DETALHES DO ALUNO -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+		header="Detalhes do Aluno" widgetVar="student-details"
+		resizable="false" closeOnEscape="true">
+
+		<p:panel>
+			<h:outputLabel value="Detalhes completos sobre o aluno"/>
+		</p:panel>
+
+	</p:dialog>
+
+</h:body>
+
+</html>
