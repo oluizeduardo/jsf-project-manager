@@ -1,9 +1,12 @@
 package model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
+
+import model.pojo.Curso;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
 import web.SessionUtil;
@@ -229,8 +232,26 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 	 * Retorna uma lista de objetos Professor.
 	 */
 	public List<Professor> listar() {
-		//TODO Implementar a busca por professores.
-		return null;
+		
+		String script = "MATCH(p:Professor)-[:LECIONA]->(c:Curso) "
+				+ "RETURN p.nome as Professor, c.nome as Curso, p.email as Email";
+		
+		super.iniciaSessaoNeo4J();
+		StatementResult resultado = session.run(script);
+		Professor professor=null;
+		List<Professor> todosProfessores = new ArrayList<Professor>();
+		
+		while (resultado.hasNext()) {
+			professor = new Professor();
+			Record registro = resultado.next();
+			
+			professor.setNome(registro.get("Professor").asString());
+			professor.getContato().setEmail(registro.get("Email").asString());
+			professor.setCurso(new Curso(registro.get("Curso").asString()));
+			
+			todosProfessores.add(professor);
+		}		
+		return todosProfessores;
 	}
 	
 	

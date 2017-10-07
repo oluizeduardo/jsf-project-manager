@@ -15,23 +15,22 @@
 
 <h:body>
 
-	<h:form id="registered-projects">
+	<!-- BARRA DE MENU -->
+	<ui:include src="barraDeMenu.xhtml" />
 
-		<!-- BARRA DE MENU -->
-		<ui:include src="barraDeMenu.xhtml" />
+	<!-- MENSAGEM -->
+	<p:growl id="messages" />
 
-		<!-- MENSAGEM -->
-		<p:growl id="messages" />
-
-		<p:panel>
+	<p:panel>
+		<h:form id="tabela-projetos-cadastrados">
 			<p:dataTable id="table-projects-registered" var="projeto"
 				value="#{projetoBean.todosProjetos}" widgetVar="projectsTable"
 				multiViewState="true" rows="10" paginator="true" 
 				paginatorPosition="bottom" resizableColumns="true"
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
 				emptyMessage="Nenhum projeto localizado.">
-
-
+	
+	
 				<p:column headerText="Título" filterBy="#{projeto.titulo}"
 					sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
 					<h:outputText value="#{projeto.titulo}" />
@@ -42,13 +41,13 @@
 					style="text-align: center">
 					<h:outputText value="#{projeto.categoria}" />
 				</p:column>
-
+	
 				<p:column headerText="Coordenador" filterBy="#{projeto.coordenador.nome}"
 					sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
 					style="text-align: center">
 					<h:outputText value="#{projeto.coordenador.nome}" />
 				</p:column>
-
+	
 				<p:column headerText="Publicado em"
 					filterBy="#{projeto.dataPublicacao}"
 					sortBy="#{projeto.dataPublicacao}" 
@@ -56,16 +55,22 @@
 					style="text-align:center; width:150px">
 					<h:outputText value="#{projeto.dataPublicacao}" />
 				</p:column>
-
+	
 				<p:column style="width:32px;text-align: center">
 					<p:commandButton icon="ui-icon-search" title="Visualizar"/>
 				</p:column>
-
+	
 			</p:dataTable>
+		</h:form>
+	</p:panel>
+	
+	<p:spacer height="8" />
 
-		</p:panel>
-
-	</h:form>
+	<p:panel>
+		<h:outputText
+			value="*Todos projetos cadastradas."
+			style="font-size: 15px; font-style:italic" />
+	</p:panel>
 
 </h:body>
 

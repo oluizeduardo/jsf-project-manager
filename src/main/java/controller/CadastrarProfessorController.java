@@ -76,16 +76,15 @@ public class CadastrarProfessorController {
 	
 	
 
+	/**Define uma nova instância para o professor.*/
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
 	
 	/**Retona a instância do atual professor logado no sistema.*/
 	public Professor getProfessor() {
 		return professor;
 	}
-
-	public void setAluno(Professor prof) {
-		this.professor = prof;
-	}
-	
 	public List<String> getEstadosBrasileiros() {
 		return estadosBrasileiros;
 	}

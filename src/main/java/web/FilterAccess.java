@@ -37,7 +37,7 @@ public class FilterAccess implements Filter {
 			
 			String uri = req.getRequestURI();
 			
-			if(uri.contains("aluno")){
+			if(uri.contains("/aluno/")){
 				//Professor tentando acessar página de aluno.
 				if(!usuario.getPapel().equals("Aluno")){
 					// Redireciona para a home do aluno.			
@@ -47,7 +47,7 @@ public class FilterAccess implements Filter {
 					chain.doFilter(request, response);
 				}
 			}else{
-				if(uri.contains("professor")){
+				if(uri.contains("/professor/")){
 					//Aluno tentando acessar página de professor.
 					if(!usuario.getPapel().equals("Professor")){
 						// Redireciona para a home do aluno.			

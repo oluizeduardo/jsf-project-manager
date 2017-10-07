@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Lista de Professores</title>
+	<style>
+body {
+	background-color: #C1E1A6;
+}
+</style>
+</h:head>
+
+<h:body>
+	<!-- BARRA DE MENU -->
+	<ui:include src="barraDeMenu.xhtml" />
+
+	<!-- MENSAGEM -->
+	<p:growl id="messages" />
+
+	<p:panel>
+
+		<!-- TABELA COM O CONTATO DE TODOS PROFESSORES -->
+		<p:dataTable id="professores" var="professor"
+			value="#{buscaProfessorController.todosProfessores}"
+			widgetVar="tabelaProfessores" multiViewState="true" rows="15"
+			paginator="true" paginatorPosition="bottom" resizableColumns="true"
+			paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+			emptyMessage="Nenhum professor localizado.">
+
+
+			<p:column headerText="Professor" filterBy="#{professor.nome}"
+				sortBy="#{professor.nome}" filterMatchMode="startsWith"
+				style="text-align: center">
+				<h:outputText value="#{professor.nome}" />
+			</p:column>
+
+			<p:column headerText="Curso" filterBy="#{professor.curso.nome}"
+				sortBy="#{professor.curso.nome}" filterMatchMode="startsWith"
+				style="text-align: center">
+				<h:outputText value="#{professor.curso.nome}" />
+			</p:column>
+
+			<p:column headerText="Email" filterBy="#{professor.contato.email}"
+				sortBy="#{professor.contato.email}" filterMatchMode="startsWith"
+				style="text-align: center">
+				<h:outputText value="#{professor.contato.email}" />
+			</p:column>
+
+		</p:dataTable>
+	</p:panel>
+</h:body>
+
+</html>

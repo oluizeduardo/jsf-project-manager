@@ -7,64 +7,63 @@
 <h:head>
 	<title>Projetos Recomendados</title>
 	<style>
-		body {
-			background-color: #C1E1A6;
-		}
-	</style>
+body {
+	background-color: #C1E1A6;
+}
+</style>
 </h:head>
 
 <h:body>
 
-	<h:form id="registered-projects">
+	<!-- BARRA DE MENU -->
+	<ui:include src="barraDeMenu.xhtml" />
 
-		<!-- BARRA DE MENU -->
-		<ui:include src="barraDeMenu.xhtml" />
-
-		<!-- MENSAGEM -->
-		<p:growl id="messages" />		
+	<!-- MENSAGEM -->
+	<p:growl id="messages" />
 
 		<p:panel>
-			<p:dataTable id="tabela-projetos-recomendados" var="projeto"
-				value="#{projetoBean.projetosRecomendados}" widgetVar="projectsTable"
-				multiViewState="true" rows="10" paginator="true" 
-				paginatorPosition="bottom" resizableColumns="true"
-				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
-				emptyMessage="Nenhum novo projeto foi localizado com as suas características.">
-
-
-				<p:column headerText="Título" filterBy="#{projeto.titulo}"
-					sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
-					<h:outputText value="#{projeto.titulo}" />
-				</p:column>
-				
-				<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
-					sortBy="#{projeto.categoria}" filterMatchMode="startsWith"
-					style="text-align: center">
-					<h:outputText value="#{projeto.categoria}" />
-				</p:column>
-
-				<p:column headerText="Coordenador" filterBy="#{projeto.coordenador.nome}"
-					sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
-					style="text-align: center">
-					<h:outputText value="#{projeto.coordenador.nome}" />
-				</p:column>
-
-				<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-search" title="Visualizar"/>
-				</p:column>
-
-			</p:dataTable>
-
+			<h:form id="tabela-projetos-recomendados">
+				<p:dataTable id="tabela-projetos-recomendados" var="projeto"
+					value="#{projetoBean.projetosRecomendados}" widgetVar="projectsTable"
+					multiViewState="true" rows="10" paginator="true"
+					paginatorPosition="bottom" resizableColumns="true"
+					paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+					emptyMessage="Nenhum novo projeto foi localizado com as suas características.">
+		
+		
+					<p:column headerText="Título" filterBy="#{projeto.titulo}"
+						sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
+						<h:outputText value="#{projeto.titulo}" />
+					</p:column>
+		
+					<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
+						sortBy="#{projeto.categoria}" filterMatchMode="startsWith"
+						style="text-align: center">
+						<h:outputText value="#{projeto.categoria}" />
+					</p:column>
+		
+					<p:column headerText="Coordenador"
+						filterBy="#{projeto.coordenador.nome}"
+						sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
+						style="text-align: center">
+						<h:outputText value="#{projeto.coordenador.nome}" />
+					</p:column>
+		
+					<p:column style="width:32px;text-align: center">
+						<p:commandButton icon="ui-icon-search" title="Visualizar" />
+					</p:column>
+		
+				</p:dataTable>
+			</h:form>
 		</p:panel>
-		
-		<p:spacer height="8"/>
-		
-		<p:panel>
-			<h:outputText value="*Os projetos são sugeridos com base nas habilidades cadastradas." 
-						  style="font-size: 15px; font-style:italic" />
-		</p:panel>
-		
-	</h:form>
+
+	<p:spacer height="8" />
+
+	<p:panel>
+		<h:outputText
+			value="*Projetos sugeridos com base nas habilidades cadastradas."
+			style="font-size: 15px; font-style:italic" />
+	</p:panel>
 
 </h:body>
 
