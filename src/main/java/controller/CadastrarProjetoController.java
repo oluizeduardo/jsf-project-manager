@@ -11,8 +11,10 @@ import javax.faces.bean.ViewScoped;
 import model.dao.ProjetoDAO;
 import model.pojo.Curso;
 import model.pojo.Habilidade;
+import model.pojo.Pessoa;
 import model.pojo.Projeto;
 import view.Mensagem;
+import web.SessionUtil;
 
 
 @ManagedBean
@@ -77,9 +79,12 @@ public class CadastrarProjetoController implements Serializable{
 						Mensagem.ExibeMensagemAtencao("Descreva este projeto em até 70 caractéres.");
 					}else{
 						
+						// Retorna os dados do professor logado.
+						Pessoa professorLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 						projeto.setDataPublicacao(getDataAtual());
 						projeto.setHabilidades(habilidades);
 						projeto.setCursosEnvolvidos(geraListaDeCursosEnvolvidos());
+						projeto.setCoordenador(professorLogado);
 						
 						boolean salvou = new ProjetoDAO().salvar(projeto);
 						
@@ -88,6 +93,7 @@ public class CadastrarProjetoController implements Serializable{
 							
 							// Reinicia o objeto para limpar os campos da tela.
 							this.projeto = new Projeto();
+							reiniciaListas();
 						}else{
 							Mensagem.ExibeMensagemErro("Houve um problema ao tentar salvar o novo projeto.");
 						}
@@ -97,6 +103,14 @@ public class CadastrarProjetoController implements Serializable{
 		}
 	}
 
+	
+	/**
+	 * Remove todos os registros das listas utilizadas no cadastro de novo projeto.
+	 */
+	private void reiniciaListas(){
+		habilidades = new ArrayList<Habilidade>();
+		cursosAlvo = new ArrayList<String>();
+	}
 	
 	
 	/**

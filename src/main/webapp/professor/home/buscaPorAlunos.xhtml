@@ -5,12 +5,20 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:body>
+	<p:panel>
+		<div align="right">
+			<p:commandButton value="Atualizar" icon="ui-icon-refresh" 
+				actionListener="#{buscarAlunosController.atualizaListaDeIndicados}"
+				update="table-students" title="Atualizar tabela"/>
+		</div>		
+	</p:panel>
+
 	<p:dataTable id="table-students" var="aluno"
 		value="#{buscarAlunosController.alunosIndicados}" widgetVar="courseTable"
 		multiViewState="true" rows="10" paginator="true"
 		paginatorPosition="bottom" resizableColumns="true"
 		paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
-		emptyMessage="Nenhum aluno indicado para nenhum dos seus projetos">
+		emptyMessage="Nenhum aluno indicado para os seus projetos">
 
 
 		<p:column headerText="Nome" filterBy="#{aluno.nome}"

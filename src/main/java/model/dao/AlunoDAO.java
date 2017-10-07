@@ -102,7 +102,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * @param donoDoProjeto
 	 * @return
 	 */
-	public List<Aluno> getListaDeAlunosIndicados(Pessoa donoDoProjeto){
+	public List<Aluno> getAlunosIndicadosParaProfessor(Pessoa donoDoProjeto){
 		List<Aluno> alunosindicados = new ArrayList<Aluno>();
 		String email = donoDoProjeto.getContato().getEmail();
 		String senha = donoDoProjeto.getSenha();

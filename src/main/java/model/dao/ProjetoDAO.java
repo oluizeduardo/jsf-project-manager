@@ -5,13 +5,10 @@ import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
-
 import model.pojo.Curso;
 import model.pojo.Habilidade;
-import model.pojo.Pessoa;
 import model.pojo.Professor;
 import model.pojo.Projeto;
-import web.SessionUtil;
 
 
 
@@ -26,9 +23,8 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	public boolean salvar(Projeto projeto) {
 		super.iniciaSessaoNeo4J();
 		
-		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
-		String email = usuarioLogado.getContato().getEmail();
-		String senha = usuarioLogado.getSenha();
+		String email = projeto.getCoordenador().getContato().getEmail();
+		String senha = projeto.getCoordenador().getSenha();
 		String titulo = projeto.getTitulo();
 		
 		transaction = session.beginTransaction();
@@ -78,9 +74,9 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 							+ " MATCH (p:Projeto) WHERE p.titulo='"+titulo+"' "
 							+ " CREATE (p)-[:EXIGE{nivel: '"+nivelDeConhecimento+"'}]->(h) return p, h ";
 				}else{
-					scriptHabilidades ="MATCH (p:Projeto) WHERE p.titulo='"+titulo+"'"
-							+ " CREATE (h:Habilidade{nome: '"+descricaoHabilidade+"'}) "
-							+ " CREATE (p)-[:EXIGE{nivel: '"+nivelDeConhecimento+"'}]->(h) return p, h ";
+					scriptHabilidades ="MATCH (p:Projeto) WHERE p.titulo='"+titulo+"' "
+							+ "CREATE (h:Habilidade{nome: '"+descricaoHabilidade+"'}), "
+							+ "(p)-[:EXIGE{nivel: '"+nivelDeConhecimento+"'}]->(h) return p, h ";
 				}
 				
 				try{

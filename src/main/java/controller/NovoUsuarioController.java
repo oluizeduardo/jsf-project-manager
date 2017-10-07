@@ -4,9 +4,7 @@ import java.io.IOException;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-
 import model.dao.AlunoDAO;
 import model.dao.ProfessorDAO;
 import model.pojo.Aluno;
@@ -51,10 +49,7 @@ public class NovoUsuarioController {
 		String curso = novoUsuario.getCurso().getNome();
 		
 		String tipoDeUsuario = "";// "aluno" ou "professor".
-		boolean cadastrou = false;// status do cadastro.
-		
-		// Pega o ojeto ExternalContext para fazer o redirecionamento de página.
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();		
+		boolean cadastrou = false;// status do cadastro.		
 				
 		// Verifica que tipo de usuário quer fazer o cadastro.
 		if(papel.equals(PERFIL_ALUNO)){
@@ -70,13 +65,17 @@ public class NovoUsuarioController {
 			// Inicia uma sessão para um Aluno.
 			SessionUtil.setParam(SessionUtil.KEY_SESSION, novoUsuario);		
 			
-			try {				
-				externalContext.redirect(tipoDeUsuario+"/home.xhtml");
+			try {	
+				// Redireciona para o home do novo usuário.
+				FacesContext.getCurrentInstance().getExternalContext().redirect(tipoDeUsuario+"/home.xhtml");
 			} 
 			catch (IOException e) { 
+				System.out.println("Erro ao redirecionar para a home do novo usuário - "
+						+ "NovoUsuarioController.salvarNovoUsuario()");
 				Mensagem.ExibeMensagemErro("Erro ao redirecionar novo usuário.");
 			}
 		}else{
+			System.out.println("Erro no novo cadastro - NovoUsuarioController.salvarNovoUsuario()");
 			Mensagem.ExibeMensagemErro("Erro no novo cadastro.");
 		}
 	}

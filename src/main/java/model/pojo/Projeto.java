@@ -30,7 +30,7 @@ public class Projeto {
 	private String dataPublicacao="";
 	
 	// Administração
-	private Professor coordenador = new Professor();
+	private Pessoa coordenador = new Professor();
 	private Financiamento financiamento = new Financiamento();
 	
 	// Cursos e Habilidades
@@ -126,12 +126,12 @@ public class Projeto {
 	}
 
 
-	public Professor getCoordenador() {
+	public Pessoa getCoordenador() {
 		return coordenador;
 	}
 
 
-	public void setCoordenador(Professor coordenador) {
+	public void setCoordenador(Pessoa coordenador) {
 		this.coordenador = coordenador;
 	}
 

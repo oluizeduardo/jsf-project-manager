@@ -21,19 +21,27 @@ public class BuscarAlunosController implements Serializable {
 	private List<Aluno> alunos;
 	// Lista de alunos indicados para um professor.
 	private List<Aluno> alunosIndicados = new ArrayList<Aluno>();
+	// Objeto com métodos de acesso ao banco de dados.
+	private AlunoDAO alunoDAO = null;
 	
 	
-	public BuscarAlunosController() { 
-		
-		// Retorna os dados do professor logado.
-		Pessoa donoDoProjeto = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
-		
-		AlunoDAO alunoDAO = new AlunoDAO();
+	public BuscarAlunosController() { 	
+		this.alunoDAO = new AlunoDAO();
 		this.alunos = alunoDAO.listar();
-		this.alunosIndicados = alunoDAO.getListaDeAlunosIndicados(donoDoProjeto);
+		atualizaListaDeIndicados();
 	}
 
 
+	/**
+	 * Preenche a lista de alunos indicados para o projeto.
+	 */
+	public void atualizaListaDeIndicados(){
+		// Retorna os dados do professor logado.
+		Pessoa donoDoProjeto = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		// Retorna uma lista de alunos indicados para trabalharem com o professor.
+		this.alunosIndicados = alunoDAO.getAlunosIndicadosParaProfessor(donoDoProjeto);
+	}
+	
 	
 	
 	public List<Aluno> getAlunos() {

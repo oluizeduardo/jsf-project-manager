@@ -25,11 +25,11 @@ public class AlterarSenhaController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	// A mesma senha que foi usada para acessar o sistema.
-	private String senhaAtual;
+	private String senhaAtual="";
 	// A nova senha que se deseja utilizar.
-	private String novaSenha;
+	private String novaSenha="";
 	// Repetir a nova senha.
-	private String confirmarSenha;
+	private String confirmaSenha="";
 
 	
 	
@@ -40,22 +40,29 @@ public class AlterarSenhaController implements Serializable {
 	 * Executado quando o usuário deseja alterar a senha de acesso ao sistema.
 	 */
 	public void alterarSenha(){		
-		// Retorna os dados da pessoa logada nos sistema.
-		Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		
-		if(senhaAtual.equals(usuarioLogado.getSenha())) {
+		// Verifica campos vazios.
+		if(senhaAtual.equals("") || novaSenha.equals("") || confirmaSenha.equals("")){
+			System.err.println("ATUAL: "+senhaAtual+" NOVA: "+novaSenha+" CONFIRMA: "+confirmaSenha);
+			Mensagem.ExibeMensagemAtencao("Preencha corretamente todos os campos.");
+		}else{
+			// Retorna os dados da pessoa logada nos sistema.
+			Pessoa usuarioLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 			
-			boolean alterouSenha = new SenhaDAO().alterarSenha(usuarioLogado, novaSenha);
-			
-			if(alterouSenha) {
-				Mensagem.ExibeMensagem("Senha alterada com sucesso!");
-				// Atualiza a senha do usuário na Session.
-				atualizaUsuarioDaSessao();
-			}else{
-				Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
+			if(senhaAtual.equals(usuarioLogado.getSenha())) {
+				
+				boolean alterouSenha = new SenhaDAO().alterarSenha(usuarioLogado, novaSenha);
+				
+				if(alterouSenha) {
+					Mensagem.ExibeMensagem("Senha alterada com sucesso!");
+					// Atualiza a senha do usuário na Session.
+					atualizaUsuarioDaSessao();
+				}else{
+					Mensagem.ExibeMensagemErro("Erro na alteração de senha!");
+				}
+			}else {
+				Mensagem.ExibeMensagemErro("A senha digitada não corresponde com a senha usada no login!");
 			}
-		}else {
-			Mensagem.ExibeMensagemErro("A senha digitada não corresponde com a senha usada no login!");
 		}
 	}
 
@@ -91,11 +98,11 @@ public class AlterarSenhaController implements Serializable {
 	public void setNovaSenha(String novaSenha) {
 		this.novaSenha = novaSenha;
 	}
-	public String getConfirmarSenha() {
-		return confirmarSenha;
+	public String getConfirmaSenha() {
+		return confirmaSenha;
 	}
-	public void setConfirmarSenha(String confirmarSenha) {
-		this.confirmarSenha = confirmarSenha;
+	public void setConfirmaSenha(String confirmarSenha) {
+		this.confirmaSenha = confirmarSenha;
 	}
 	
 

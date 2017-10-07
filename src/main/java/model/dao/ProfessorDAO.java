@@ -165,7 +165,8 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		transaction = session.beginTransaction();
 		boolean status = false;//Status do cadastro.
 		
-		String script = "CREATE (pr:Professor {nome: '" + professor.getNome()
+		String script="";
+		String scriptCriaProfessor = "CREATE (pr:Professor {nome: '" + professor.getNome()
 				+ "', papel:'" + professor.getPapel()
 				+ "', documentoCPF:'" + professor.getDocumentoCPF() 
 				+ "', documentoRG:'" + professor.getDocumentoRG()
@@ -184,15 +185,18 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 				+ "', bairro:'" + professor.getEndereco().getBairro()
 				+ "', cidade:'" + professor.getEndereco().getCidade()
 				+ "', estado:'" + professor.getEndereco().getEstado()
-				+ "', rua:'" + professor.getEndereco().getRua() + "'}), ";
+				+ "', rua:'" + professor.getEndereco().getRua() + "'})";
 		
 		String curso = professor.getCurso().getNome();
 		if(existeCurso(curso)){
-			script += "MATCH(c:Curso) WHERE c.nome = '"+curso+"', CREATE(pr)-[:LECIONA]->(c) RETURN pr, c";			
+			String scriptBuscaCurso = " MATCH(c:Curso) WHERE c.nome = '"+curso+"' ";
+			String scriptCriaRelacao = "CREATE(pr)-[:LECIONA]->(c) RETURN pr, c";
+			script = scriptBuscaCurso + scriptCriaProfessor + scriptCriaRelacao;
 		}else{
-			script += " (c:Curso{nome: '"+curso+"'}), (pr)-[:LECIONA]->(c)";
+			script = scriptCriaProfessor + ", (c:Curso{nome: '"+curso+"'}), (pr)-[:LECIONA]->(c)";
 		}
 		
+		System.out.println(script);
 		
 		try{
 			// Executa o script no banco de dados.
