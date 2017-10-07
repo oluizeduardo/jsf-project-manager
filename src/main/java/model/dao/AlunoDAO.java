@@ -107,12 +107,11 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String email = donoDoProjeto.getContato().getEmail();
 		String senha = donoDoProjeto.getSenha();
 		
-		String script = "MATCH (c:Curso)<-[:CURSA]-(a:Aluno)-[:CONHECE]->(:Habilidade)<-"
-					  + "[:EXIGE]-(p:Projeto)<-[:COORDENA]-(pro:Professor) "
-					  + "WHERE not((a)-[:PARTICIPA]->(pro)) AND "
-					  + "pro.email='"+email+"' AND pro.senha='"+senha+"' "
-					  + "RETURN a.nome as Aluno, c.nome as Curso, "
-					  + "p.titulo as Projeto";
+		String script = "MATCH (pro:Professor)-[:COORDENA]->(p:Projeto)-[:EXIGE]->"
+				+ "(h:Habilidade)<-[:CONHECE]-(a:Aluno)-[:CURSA]->(c:Curso) "
+				+ "WHERE not((a)-[:PARTICIPA]->(p)) AND pro.email='"+email+"' "
+				+ "AND pro.senha='"+senha+"' RETURN a.nome as Aluno, c.nome as Curso, "
+				+ "p.titulo as Projeto";
 		
 		super.iniciaSessaoNeo4J();		
 		StatementResult resultado = session.run(script);
