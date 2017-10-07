@@ -8,6 +8,7 @@ import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Aluno;
 import model.pojo.Curso;
 import model.pojo.Habilidade;
+import model.pojo.Pessoa;
 import model.pojo.Projeto;
 
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
@@ -89,6 +90,65 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		while (resultado.hasNext()) {
 			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
+	/**
+	 * Retorna uma lista de alunos indicados para trabalhar nos projetos de um determinado professor.
+	 * @param donoDoProjeto
+	 * @return
+	 */
+	public List<Aluno> getListaDeAlunosIndicados(Pessoa donoDoProjeto){
+		List<Aluno> alunosindicados = new ArrayList<Aluno>();
+		String email = donoDoProjeto.getContato().getEmail();
+		String senha = donoDoProjeto.getSenha();
+		
+		String script = "MATCH (c:Curso)<-[:CURSA]-(a:Aluno)-[:CONHECE]->(:Habilidade)<-"
+					  + "[:EXIGE]-(p:Projeto)<-[:COORDENA]-(pro:Professor) "
+					  + "WHERE not((a)-[:PARTICIPA]->(pro)) AND "
+					  + "pro.email='"+email+"' AND pro.senha='"+senha+"' "
+					  + "RETURN a.nome as Aluno, c.nome as Curso, "
+					  + "p.titulo as Projeto";
+		
+		super.iniciaSessaoNeo4J();		
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			
+			Record registro = resultado.next();
+			Aluno alunoindicado = new Aluno();
+			alunoindicado.setNome(registro.get("Aluno").asString());
+			alunoindicado.setCurso(new Curso(registro.get("Curso").asString()));
+			
+			Projeto projetoIndicado = new Projeto();
+			projetoIndicado.setTitulo(registro.get("Projeto").asString());
+			alunoindicado.setProjetoIndicado(projetoIndicado);
+			
+			if(!verificaIndicacaoDeAlunoParaProjeto(alunosindicados, alunoindicado)){
+				alunosindicados.add(alunoindicado);
+			}
+		}
+		return alunosindicados;
+	}
+	
+	
+	/**
+	 * Verifica na lista de alunos selecionados se já não existe um determinado aluno
+	 * indicado para um determinado projeto.
+	 * 
+	 * @param indicados Lista dos alunos indicados.
+	 * @param indicado Aluno indicado.
+	 * @return true ou false.
+	 */
+	private boolean verificaIndicacaoDeAlunoParaProjeto(List<Aluno> indicados, Aluno indicado){
+		for (Aluno aluno : indicados) {
+			if(aluno.equals(indicado) ){
+				return true;
+			}
 		}
 		return false;
 	}

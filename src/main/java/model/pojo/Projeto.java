@@ -54,8 +54,8 @@ public class Projeto {
 	public Projeto() { }
 	
 	
-	public Projeto(String categorias, String titulo, String descricao, Professor coordenador, String dataPublicacao) {
-		this.categoria = categorias;
+	public Projeto(String categoria, String titulo, String descricao, Professor coordenador, String dataPublicacao) {
+		this.categoria = categoria;
 		this.titulo = titulo;
 		this.descricaoCurta = descricao;
 		this.coordenador = coordenador;

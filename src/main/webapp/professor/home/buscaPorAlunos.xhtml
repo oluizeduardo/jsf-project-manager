@@ -6,11 +6,11 @@
 
 <h:body>
 	<p:dataTable id="table-students" var="aluno"
-		value="#{buscarAlunosController.alunos}" widgetVar="studentsTable"
+		value="#{buscarAlunosController.alunosIndicados}" widgetVar="courseTable"
 		multiViewState="true" rows="10" paginator="true"
 		paginatorPosition="bottom" resizableColumns="true"
 		paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
-		emptyMessage="Nenhum aluno localizado.">
+		emptyMessage="Nenhum aluno indicado para nenhum dos seus projetos">
 
 
 		<p:column headerText="Nome" filterBy="#{aluno.nome}"
@@ -24,9 +24,11 @@
 			<h:outputText value="#{aluno.curso.nome}" />
 		</p:column>
 
-		<p:column headerText="Indicado para projeto"
-			filterMatchMode="startsWith" style="text-align:center;">
-			<h:outputText value="" />
+		<p:column headerText="Indicado para o projeto" 
+				  filterBy="#{aluno.projetoIndicado.titulo}"
+				  sortBy="#{aluno.projetoIndicado.titulo}"
+				  filterMatchMode="startsWith" style="text-align:center;">
+			<h:outputText value="#{aluno.projetoIndicado.titulo}" />
 		</p:column>
 
 		<p:column style="width:32px">

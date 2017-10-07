@@ -30,9 +30,8 @@ public class CadastrarProfessorController {
 			
 		this.estadosBrasileiros = new ListaDeEstados().getList();
 		this.estadoCivil = new ListaDeEstadoCivil().getList();
-	}
+	}	
 	
-
 	
 	/**
 	 * Carrega os dados do professor logado no sistema.

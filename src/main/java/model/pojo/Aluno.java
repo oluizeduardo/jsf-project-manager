@@ -3,10 +3,13 @@ package model.pojo;
 import java.util.List;
 
 public class Aluno extends Pessoa {
-			
+
+	private static final long serialVersionUID = 1L;
+	
+	
 	private List<Habilidade> habilidades;
 	private List<Idioma> idiomas;
-	private List<Projeto> projetos;
+	private Projeto projetoIndicado = new Projeto();
 	
 	
 	public Aluno() { 
@@ -18,14 +21,6 @@ public class Aluno extends Pessoa {
 		super(nome, curso, email, senha);
 		setPapel("Aluno");
 	}	
-	
-	public List<Projeto> getProjetos() {
-		return projetos;
-	}
-
-	public void setProjetos(List<Projeto> projetos) {
-		this.projetos = projetos;
-	}
 
 	public List<Idioma> getIdiomas() {
 		return idiomas;
@@ -45,6 +40,12 @@ public class Aluno extends Pessoa {
 	}
 	public void addHabilidade(Habilidade novaHabilidade){
 		getHabilidades().add(novaHabilidade);
+	}
+	public Projeto getProjetoIndicado() {
+		return projetoIndicado;
+	}
+	public void setProjetoIndicado(Projeto projetoIndicado) {
+		this.projetoIndicado = projetoIndicado;
 	}
 	
 }
