@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<!-- PAINEL DE PERFIL -->
+	<p:layoutUnit position="west" size="250">
+		<h:panelGrid columns="1" width="200" style="margin:10px;">
+
+
+			<!-- PAINEL DA FOTO -->
+			<p:panel style="height:180px; width:205px;">
+				<h:graphicImage value="/resources/images/user_default.png" height="170" width="170" />
+			</p:panel>
+
+			<p:outputLabel value="#{homeProfessorController.userProfessor.nome}"
+						   style="font-size:30px;font-weight:bold;" />
+
+			<p:spacer height="10px"/>
+			
+			<h:panelGrid columns="2">
+				<h:graphicImage value="/resources/images/icons/icon-home.png" height="15" width="15"/>
+				<p:outputLabel value=" #{homeProfessorController.userProfessor.endereco.cidade}" 
+							   style="font-size:16px;" title="Cidade"/>
+				<h:graphicImage value="/resources/images/icons/icon-email.png" height="15" width="15"/>
+				<p:outputLabel value=" #{homeProfessorController.userProfessor.contato.email}"
+							   style="font-size:16px;" title="Email"/>
+				<h:graphicImage value="/resources/images/icons/icon-class.png" height="15" width="20"/>
+				<p:outputLabel value=" #{homeProfessorController.userProfessor.curso.nome}"
+							   style="font-size:16px;" title="Curso"/>
+			</h:panelGrid>
+			
+			
+		</h:panelGrid>
+	</p:layoutUnit>
+
+</html>
