@@ -331,7 +331,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		transaction = session.beginTransaction();
 		boolean status = false;
 		
-		String script = "MATCH (a:Aluno)-[c:CURSA]->(:Curso) DELETE c";
+		String script = "MATCH (a:Aluno{nome: '"+aluno.getNome()+"'})-[c:CURSA]->(:Curso) DELETE c";
 		
 		try{
 			transaction.run(script);			

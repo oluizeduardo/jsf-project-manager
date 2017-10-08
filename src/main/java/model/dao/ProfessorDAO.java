@@ -115,7 +115,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		transaction = session.beginTransaction();
 		boolean status = false;
 		
-		String script = "MATCH (a:Professor)-[le:LECIONA]->(:Curso) DELETE le";
+		String script = "MATCH (a:Professor{nome:'"+professor.getNome()+"'})-[le:LECIONA]->(:Curso) DELETE le";
 		
 		try{
 			transaction.run(script);			
