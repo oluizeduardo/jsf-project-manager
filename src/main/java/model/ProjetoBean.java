@@ -9,6 +9,7 @@ import model.dao.ProjetoDAO;
 import model.pojo.Aluno;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
+import model.pojo.ProjetoRecomendado;
 import web.SessionUtil;
 
 
@@ -21,7 +22,7 @@ public class ProjetoBean implements Serializable {
 	
 	private List<Projeto> todosProjetos = null;
 	private List<Projeto> projetosQueParticipo = null;
-	private List<Projeto> projetosRecomendados = null;
+	private List<ProjetoRecomendado> projetosRecomendados = null;
 	
 	
 	public ProjetoBean() {
@@ -48,10 +49,10 @@ public class ProjetoBean implements Serializable {
 	public List<Projeto> getProjetosQueParticipo() {
 		return projetosQueParticipo;
 	}
-	public List<Projeto> getProjetosRecomendados() {
+	public List<ProjetoRecomendado> getProjetosRecomendados() {
 		return projetosRecomendados;
 	}
-	public void setProjetosRecomendados(List<Projeto> projetosRecomendados) {
+	public void setProjetosRecomendados(List<ProjetoRecomendado> projetosRecomendados) {
 		this.projetosRecomendados = projetosRecomendados;
 	}
 	

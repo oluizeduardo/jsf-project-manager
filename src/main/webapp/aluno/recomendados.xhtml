@@ -31,7 +31,7 @@ body {
 					emptyMessage="Nenhum novo projeto foi localizado com as suas características.">
 		
 		
-					<p:column headerText="Título" filterBy="#{projeto.titulo}"
+					<p:column headerText="Projeto" filterBy="#{projeto.titulo}"
 						sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
 						<h:outputText value="#{projeto.titulo}" />
 					</p:column>
@@ -42,11 +42,18 @@ body {
 						<h:outputText value="#{projeto.categoria}" />
 					</p:column>
 		
-					<p:column headerText="Coordenador"
+					<p:column headerText="Prof. Coordenador"
 						filterBy="#{projeto.coordenador.nome}"
 						sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
 						style="text-align: center">
 						<h:outputText value="#{projeto.coordenador.nome}" />
+					</p:column>
+					
+					<p:column headerText="Habilidades em comum"
+						filterBy="#{projeto.str_habilidadesComuns}"
+						sortBy="#{projeto.str_habilidadesComuns}" filterMatchMode="contains"
+						style="text-align: center">
+						<h:outputText value="#{projeto.str_habilidadesComuns}" />
 					</p:column>
 		
 					<p:column style="width:32px;text-align: center">

@@ -10,12 +10,13 @@ import model.pojo.Curso;
 import model.pojo.Habilidade;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
+import model.pojo.ProjetoRecomendado;
 
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 
 	
 	// LIsta de projetos recomendados ao aluno.
-	private List<Projeto> projetosRecomendados = null;
+	private List<ProjetoRecomendado> projetosRecomendados = null;
 	
 	
 	
@@ -348,7 +349,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	public Aluno buscarAluno(String email, String senha) {
 		
 		super.iniciaSessaoNeo4J();
-		Aluno aluno = null;
+		Aluno aluno = new Aluno();;
 		
 		String script = "MATCH(al:Aluno)-[:CURSA]->(c:Curso) "
 				+ "WHERE al.email='"+email+"' AND al.senha = '"+senha+"' "
@@ -362,8 +363,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		StatementResult resultado = session.run(script);
 		
-		while (resultado.hasNext()) {
-			aluno = new Aluno();
+		if(resultado.hasNext()) {
 			Record registro = resultado.next();
 			
 			aluno.setNome(registro.get("nome").asString());
@@ -382,11 +382,11 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			aluno.getEndereco().setEstado(registro.get("estado").asString());
 			aluno.getEndereco().setRua(registro.get("rua").asString());
 			aluno.setCurso(new Curso(registro.get("curso").asString()));
+			
+			aluno.setHabilidades(new HabilidadeDAO().listarHabilidadesDoAluno(email, senha));
+			aluno.setIdiomas(new IdiomaDAO().listarIdiomasDoAluno(email, senha));
 		}	
-		
-		aluno.setHabilidades(new HabilidadeDAO().listarHabilidadesDoAluno(email, senha));
-		aluno.setIdiomas(new IdiomaDAO().listarIdiomasDoAluno(email, senha));
-		
+
 		return aluno;
 	}
 	
@@ -460,17 +460,19 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
  	 * Compara os projetos por título e nome do coordenador.
  	 * 
  	 * @param projeto O projeto que se deseja verificar a existência na lista.
- 	 * @return verdadeiro ou falso sobre a existência do projeto.
+ 	 * @return A posição do objeto caso ele seja encontrado na lista.
+ 	 * Retorna -1 se nada for encontrado.
  	 */
- 	private boolean verificaExistenciaDeProjetoNaLista(Projeto projeto){		      
- 		for (Projeto proj : projetosRecomendados) {
-			if(proj.getTitulo().equals(projeto.getTitulo())){				
+ 	private int verificaExistenciaDeProjetoNaLista(Projeto projeto){		      
+ 		for (int i=0; i < projetosRecomendados.size();i++) {
+			Projeto proj = projetosRecomendados.get( i );
+ 			if(proj.getTitulo().equals(projeto.getTitulo())){				
 				if(proj.getCoordenador().getNome().equals(projeto.getCoordenador().getNome())){
-					return true;
+					return i;
 				}
 			}
 		}
- 		return false;
+ 		return -1;
  	}
 	
 	
@@ -486,14 +488,14 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * @param todosProjetos
 	 * @return Lista de projetos recomendados ao aluno.
 	 */
-	public List<Projeto> getProjetosRecomendados(Aluno aluno, List<Projeto> todosProjetos){
+	public List<ProjetoRecomendado> getProjetosRecomendados(Aluno aluno, List<Projeto> todosProjetos){
 		super.iniciaSessaoNeo4J();
 				
-		this.projetosRecomendados = new ArrayList<Projeto>();
+		this.projetosRecomendados = new ArrayList<ProjetoRecomendado>();
 		String email = aluno.getContato().getEmail();
 		String senha = aluno.getSenha();
 		
-		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto)-[:EXIGE]->"
+		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto)-[ex:EXIGE]->"
 					  + "(h:Habilidade)<-[:CONHECE]-(a:Aluno) "
 					  + "WHERE not((a)-[:PARTICIPA]-(pj)) "
 					  + "AND a.email='"+email+"' AND a.senha='"+senha+"' "
@@ -505,7 +507,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 					  + "pj.dataFim as DataFim, "
 					  + "pj.descricaoCurta as Descricao, "
 					  + "pj.resumo as Resumo, "
-					  + "pj.titulo as Titulo";
+					  + "pj.titulo as Titulo,"
+					  + "h.nome as Habilidade, ex.nivel";
 		
 		StatementResult resultado = session.run(script);
 		
@@ -513,7 +516,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			
 			Record projetoLocalizado = resultado.next();
 			
-			Projeto projeto = new Projeto();
+			ProjetoRecomendado projeto = new ProjetoRecomendado();
 			
 			projeto.setTitulo(projetoLocalizado.get("Titulo").asString());
 			projeto.setCategoria(projetoLocalizado.get("Categoria").asString());
@@ -523,10 +526,22 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			projeto.setDescricaoCurta(projetoLocalizado.get("Descricao").asString());
 			projeto.setResumo(projetoLocalizado.get("Resumo").asString());			
 			projeto.getCoordenador().setNome(projetoLocalizado.get("Coordenador").asString());
-
-			if(!verificaExistenciaDeProjetoNaLista(projeto)){
+			
+			String hab = projetoLocalizado.get("Habilidade").asString();
+			String nivel = projetoLocalizado.get("Nivel").asString();
+			Habilidade novaHabilidadeComum = new Habilidade(hab, nivel);
+			
+			// Verifica se na lista de recomendados já existe o projeto.
+			int indiceDoProjeto = verificaExistenciaDeProjetoNaLista(projeto);
+			
+			// Se for < 0 é porque não existe, então add novo projeto.
+			if(indiceDoProjeto < 0){
+				projeto.addHabilidadeEmComum(novaHabilidadeComum);
 				projetosRecomendados.add(projeto);
-			}					
+			}else{
+				ProjetoRecomendado p = projetosRecomendados.get(indiceDoProjeto);
+				p.addHabilidadeEmComum(novaHabilidadeComum);
+			}
 		}
 		session.close();
 		
