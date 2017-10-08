@@ -16,41 +16,56 @@
 
 <h:body>
 
-	<h:form id="relatorios">
+	<!-- MENSAGEM -->
+	<p:growl id="growl" showDetail="true" />
+
+	<!-- BARRA DE MENU -->
+	<ui:include src="barraDeMenu.xhtml" />
+
 	
-		<!-- MENSAGEM -->
-		<p:growl id="growl" showDetail="true" />
+	<p:layout>
 
-		<!-- BARRA DE MENU -->
-		<ui:include src="barraDeMenu.xhtml" />
+		<!-- PAINEL DE PERFIL -->
+		<ui:include src="home/painelPerfil.xhtml" />
 
-		<p:panel>
-			<div align="center">
-				<h:panelGrid columns="2" cellspacing="10">
-					<h:panelGrid columns="1">
-					
-						<p:selectOneMenu id="course-field" style="width:370px">
-							<f:selectItems value="#{listaDeCursos.cursos}" />
-						</p:selectOneMenu>
+		<!-- PAINEL DE PROJETOS -->
+		<p:layoutUnit position="center">
 
-						<p:panel style="width:400px">
-							<p:chart type="bar" model="#{relatoriosController.barModel}" style="height:250px" />
+			<!-- PAINEL BASE -->
+			<p:panel style="height:510px; margin:10px">
+
+				<div align="center">
+					<h:panelGrid columns="2" cellspacing="30">
+
+						<p:panel style="width:450px">
+							<h:panelGrid columns="1" cellpadding="5">
+								<p:selectOneMenu id="course-field" style="width:370px">
+									<f:selectItems value="#{listaDeCursos.cursos}" />
+								</p:selectOneMenu>
+
+								<p:panel style="width:400px">
+									<p:chart type="bar" model="#{relatoriosController.barModel}"
+										style="height:250px" />
+								</p:panel>
+							</h:panelGrid>
+						</p:panel>
+
+
+						<p:panel style="width:450px; height:345px">
+							<div align="center">
+								<p:chart type="bar"
+									model="#{relatoriosController.horizontalBarModel}"
+									style="height:300px; width:400px" />
+							</div>
 						</p:panel>
 					</h:panelGrid>
-					
-					<p:panel style="width:450px">
-						<p:chart type="bar" model="#{relatoriosController.barModel}" style="height:285px" />
-					</p:panel>
-				</h:panelGrid>
-			</div>
-		</p:panel>
-		
-		<p:spacer width="8px"/>
-		
-		<p:panel style="height:200px">
-		
-		</p:panel>
-	</h:form>
+				</div>
+
+			</p:panel>
+
+		</p:layoutUnit>
+
+	</p:layout>
 
 </h:body>
 </html>

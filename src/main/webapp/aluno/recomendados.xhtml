@@ -32,20 +32,21 @@ body {
 		
 		
 					<p:column headerText="Projeto" filterBy="#{projeto.titulo}"
-						sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
+						sortBy="#{projeto.titulo}" filterMatchMode="startsWith"
+						style="width:400px">
 						<h:outputText value="#{projeto.titulo}" />
 					</p:column>
 		
 					<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
 						sortBy="#{projeto.categoria}" filterMatchMode="startsWith"
-						style="text-align: center">
+						style="text-align: center; width:200px">
 						<h:outputText value="#{projeto.categoria}" />
 					</p:column>
 		
 					<p:column headerText="Prof. Coordenador"
 						filterBy="#{projeto.coordenador.nome}"
 						sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
-						style="text-align: center">
+						style="text-align: center; width:220px">
 						<h:outputText value="#{projeto.coordenador.nome}" />
 					</p:column>
 					
@@ -68,7 +69,7 @@ body {
 
 	<p:panel>
 		<h:outputText
-			value="*Projetos sugeridos com base nas habilidades cadastradas."
+			value="Projetos recomendados com base nas habilidades cadastradas."
 			style="font-size: 15px; font-style:italic" />
 	</p:panel>
 
