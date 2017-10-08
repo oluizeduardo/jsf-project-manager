@@ -10,74 +10,112 @@ import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.HorizontalBarChartModel;
 import model.dao.RelatorioDAO;
+import model.pojo.Pessoa;
+import web.SessionUtil;
 
 @ManagedBean
 @ViewScoped
 public class RelatoriosController {
 
-	// Modelo do gráfico.
+	// Modelo do gráfico vertical.
 	private BarChartModel barModel;
+	// Modelo do gráfico horizontal.
 	private HorizontalBarChartModel horizontalBarModel;
-    
+	// Objeto de acesso aos dados.
+	private RelatorioDAO relatorioDAO = new RelatorioDAO();
+    // Curso selecionado para consultar as habilidades mais comuns.
+	private String cursoSelecionado = null;
+	
+	
 	
     public RelatoriosController() {
-        createBarModel();
+    	
+    	this.cursoSelecionado = getCursoDoProfessorLogado();
+    	
+        createVerticalBarModel();
         createHorizontalBarModel();
     }
- 
+
     
-    public HorizontalBarChartModel getHorizontalBarModel() {
-        return horizontalBarModel;
-    }
-    public BarChartModel getBarModel() {
-        return barModel;
-    }
- 
     
-    private BarChartModel initBarModel() {
-        BarChartModel model = new BarChartModel();
-        model.setAnimate(true);
-        model.setShadow(false);
-        
+    /**
+     * Retorna o nome do curso do professor logado no sistema.
+     */
+    private String getCursoDoProfessorLogado() {
+    	Pessoa profLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+    	return profLogado.getCurso().getNome();
+	}
+
+
+
+	/**
+     * Cria um gráfico de barras verticais mostrando quais são as habilidades
+     * mais comuns de um determinado curso.
+     */
+    public void createVerticalBarModel(){
+        barModel = new BarChartModel();
+                
+        List<Map<String, Object>> lista = relatorioDAO.buscaHabilidadesMaisComuns(cursoSelecionado);
+
         ChartSeries chart = new ChartSeries();
-        chart.setLabel("Sistemas de Informação");
-        chart.set("Java", 60);
-        chart.set("Banco de Dados", 45);
-        chart.set("Android", 10);
- 
-        model.addSeries(chart);
-         
-        return model;
-    }
-     
-     
-    private void createBarModel() {
-        barModel = initBarModel();         
+        chart.setLabel(cursoSelecionado);
+        int maiorQtde=0;
+        
+        
+        if(lista.isEmpty()){
+        	chart.set("Nenhuma habilidade localizada para "+cursoSelecionado, 0);
+        }else{
+        	for (Map<String, Object> map : lista) {
+    			String habilidade = (String) map.get("Habilidade");
+    			Integer qtdeProjetos = (Integer) map.get("Qtde");
+    			chart.set(habilidade, qtdeProjetos);
+    			
+    			if(qtdeProjetos > maiorQtde)
+    				maiorQtde = qtdeProjetos;
+    		}
+        }
+        
+       
+        barModel.addSeries(chart);
+        barModel.setAnimate(true);
+        barModel.setShadow(false);
         barModel.setLegendPosition("ne");
-    } 
+        
+        Axis yAxis = barModel.getAxis(AxisType.Y);
+        yAxis.setMin(new Integer(0));
+        yAxis.setMax(new Integer(maiorQtde+2));
+        yAxis.setTickCount((maiorQtde + 1));       
+    }
+
     
     
+    /**
+     * Cria um gráfico de barras horizontais mostrando os professores
+     * que mais cadastraram projetos no sistema.
+     */
     private void createHorizontalBarModel() {
         horizontalBarModel = new HorizontalBarChartModel();
- 
-        List<Map<String, Object>> lista = new RelatorioDAO().buscaQtdeDeProjetosPorProfessor();
+        List<Map<String, Object>> lista = relatorioDAO.buscaQtdeDeProjetosPorProfessor();
         
         ChartSeries serie = new ChartSeries();
         serie.setLabel("Professores");
         
         int maiorQtde = 0;
         
-        for (Map<String, Object> map : lista) {
-			String nome = (String) map.get("Nome");
-			Integer qtdeProjetos = (Integer) map.get("Qtde");
-			serie.set(nome, qtdeProjetos);
-			
-			if(qtdeProjetos > maiorQtde)
-				maiorQtde = qtdeProjetos;
-		}
+        if(lista.isEmpty()){
+        	serie.set("Ninguém cadastrou ainda", 0);
+        }else{
+        	for (Map<String, Object> map : lista) {
+    			String nome = (String) map.get("Nome");
+    			Integer qtdeProjetos = (Integer) map.get("Qtde");
+    			serie.set(nome, qtdeProjetos);
+    			
+    			if(qtdeProjetos > maiorQtde)
+    				maiorQtde = qtdeProjetos;
+    		}
+        }        
 
-        horizontalBarModel.addSeries(serie);
-         
+        horizontalBarModel.addSeries(serie);         
         horizontalBarModel.setTitle("Número de Projetos Cadastrados pelos Professores");
         horizontalBarModel.setStacked(true);
         horizontalBarModel.setAnimate(true);
@@ -88,5 +126,19 @@ public class RelatoriosController {
         xAxis.setMax(new Integer(maiorQtde+2));
         xAxis.setTickCount((maiorQtde + 1));
     }
+    
+    
+    public HorizontalBarChartModel getHorizontalBarModel() {
+        return horizontalBarModel;
+    }
+    public BarChartModel getBarModel() {
+        return barModel;
+    }
+	public String getCursoSelecionado() {
+		return cursoSelecionado;
+	}
+	public void setCursoSelecionado(String cursoSelecionado) {
+		this.cursoSelecionado = cursoSelecionado;
+	}
 
 }

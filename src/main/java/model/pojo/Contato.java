@@ -1,7 +1,10 @@
 package model.pojo;
 
-public class Contato {
+import java.io.Serializable;
 
+public class Contato implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String email="";
 	private String skype="";
 	private String site="";
