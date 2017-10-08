@@ -53,13 +53,30 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		+ "', bairro:'" + aluno.getEndereco().getBairro()
 		+ "', cidade:'" + aluno.getEndereco().getCidade()
 		+ "', estado:'" + aluno.getEndereco().getEstado()
-		+ "', rua:'" + aluno.getEndereco().getRua() + "'})-"
-		+ "[:CURSA]->(c:Curso{nome:'"+aluno.getCurso().getNome()+"'})";
+		+ "', rua:'" + aluno.getEndereco().getRua() + "'}) RETURN a";
 		
 
+		String curso = aluno.getCurso().getNome();
+		String script2="";
+		
+		// Se existe o curso, buca o nó para gerar associação.
+		if(existeCurso(curso)){
+			script2 = "MATCH (a:Aluno) WHERE a.nome='"+aluno.getNome()+"' "
+					+ "MATCH (c:Curso) WHERE c.nome = '"+curso+"' "
+					+ "CREATE (a)-[:CURSA]->(c) return a, c";
+		
+		// Se não existir, um novo nó deve ser criado e associado ao aluno.
+		}else{
+			script2 = "MATCH (a:Aluno) WHERE a.nome='"+aluno.getNome()+"' "
+					+ "CREATE (c:Curso{nome:'"+curso+"'}) "
+					+ "CREATE (a)-[:CURSA]->(c) return a, c";
+		}
+		
+		
 		try{
 			// Executa o script no banco de dados.
-			transaction.run(script);			
+			transaction.run(script);
+			transaction.run(script2);
 			transaction.success();
 			
 			status = true;
