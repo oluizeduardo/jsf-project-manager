@@ -9,7 +9,7 @@ import model.dao.ProfessorDAO;
 import model.pojo.Professor;
 
 @ManagedBean
-public class BuscaProfessorController implements Serializable {
+public class BuscarProfessorController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -18,7 +18,7 @@ public class BuscaProfessorController implements Serializable {
 	private List<Professor> todosProfessores = null;
 	
 	
-	public BuscaProfessorController() {
+	public BuscarProfessorController() {
 		this.todosProfessores = new ProfessorDAO().listar();
 	}
 	

@@ -140,10 +140,12 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			Aluno alunoindicado = new Aluno();
 			alunoindicado.setNome(registro.get("Aluno").asString());
 			alunoindicado.setCurso(new Curso(registro.get("Curso").asString()));
+			// TODO: implementar o restante da busca por aluno indicado.
 			
 			Projeto projetoIndicado = new Projeto();
 			projetoIndicado.setTitulo(registro.get("Projeto").asString());
 			alunoindicado.setProjetoIndicado(projetoIndicado);
+			// TODO: implementar o restante da busca por projeto indicado.
 			
 			if(!verificaIndicacaoDeAlunoParaProjeto(alunosindicados, alunoindicado)){
 				alunosindicados.add(alunoindicado);
@@ -162,9 +164,17 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * @return true ou false.
 	 */
 	private boolean verificaIndicacaoDeAlunoParaProjeto(List<Aluno> indicados, Aluno indicado){
-		for (Aluno aluno : indicados) {
-			if(aluno.equals(indicado) ){
-				return true;
+		String nomeDoAlunoIndicado = indicado.getNome();
+		String cursoDoAlunoIndicado = indicado.getCurso().getNome();
+		String tituloProjetoindicado = indicado.getProjetoIndicado().getTitulo();
+		
+		for (Aluno aluno : indicados) {			
+			if(aluno.getNome().equals(nomeDoAlunoIndicado)){
+				if(aluno.getCurso().getNome().equals(cursoDoAlunoIndicado)){
+					if(aluno.getProjetoIndicado().getTitulo().equals(tituloProjetoindicado)){
+						return true;
+					}
+				}
 			}
 		}
 		return false;
