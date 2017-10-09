@@ -56,7 +56,6 @@ public class ListaDeCursos {
         		new SelectItem("Farmácia", "Farmácia"),
         		new SelectItem("Fisioterapia", "Fisioterapia"), 
         		new SelectItem("Gastronomia", "Gastronomia"),
-        		new SelectItem("Educação Física", "Educação Física"),
         		new SelectItem("Gestão de Produção Industrial", "Gestão de Produção Industrial"), 
         		new SelectItem("Gestão de Recursos Humanos", "Gestão de Recursos Humanos"), 
         		new SelectItem("História", "História"),

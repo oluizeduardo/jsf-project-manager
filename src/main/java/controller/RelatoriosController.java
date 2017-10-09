@@ -65,7 +65,9 @@ public class RelatoriosController {
         if(lista.isEmpty()){
         	chart.set("Nenhuma habilidade localizada para "+cursoSelecionado, 0);
         }else{
-        	for (Map<String, Object> map : lista) {
+        	// Coloca até 5 habilidades no gráfico.
+        	for (int i=0; i < lista.size() && i < 5; i++) {
+        		Map<String, Object> map = lista.get( i );
     			String habilidade = (String) map.get("Habilidade");
     			Integer qtdeProjetos = (Integer) map.get("Qtde");
     			chart.set(habilidade, qtdeProjetos);
@@ -75,7 +77,7 @@ public class RelatoriosController {
     		}
         }
         
-       
+        barModel.setShowPointLabels(true);
         barModel.addSeries(chart);
         barModel.setAnimate(true);
         barModel.setShadow(false);
@@ -105,7 +107,8 @@ public class RelatoriosController {
         if(lista.isEmpty()){
         	serie.set("Ninguém cadastrou ainda", 0);
         }else{
-        	for (Map<String, Object> map : lista) {
+        	for (int i=0; i < lista.size() && i < 10; i++) {
+        		Map<String, Object> map = lista.get( i );
     			String nome = (String) map.get("Nome");
     			Integer qtdeProjetos = (Integer) map.get("Qtde");
     			serie.set(nome, qtdeProjetos);
@@ -120,6 +123,7 @@ public class RelatoriosController {
         horizontalBarModel.setStacked(true);
         horizontalBarModel.setAnimate(true);
         horizontalBarModel.setShadow(false);
+        horizontalBarModel.setShowPointLabels(true);
          
         Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
         xAxis.setMin(new Integer(0));
