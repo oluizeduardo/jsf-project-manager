@@ -42,8 +42,7 @@ public class AlterarSenhaController implements Serializable {
 	public void alterarSenha(){		
 		
 		// Verifica campos vazios.
-		if(senhaAtual.equals("") || novaSenha.equals("") || confirmaSenha.equals("")){
-			System.err.println("ATUAL: "+senhaAtual+" NOVA: "+novaSenha+" CONFIRMA: "+confirmaSenha);
+		if(senhaAtual.equals("") || novaSenha.equals("") || confirmaSenha.equals("")){			
 			Mensagem.ExibeMensagemAtencao("Preencha corretamente todos os campos.");
 		}else{
 			// Retorna os dados da pessoa logada nos sistema.

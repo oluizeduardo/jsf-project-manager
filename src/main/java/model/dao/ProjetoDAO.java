@@ -131,6 +131,8 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	}
 
 	
+	
+	
 	/**
 	 * Busca no banco de dados a existência de um determinado curso.
 	 * @return verdadeiro ou falso.
@@ -146,21 +148,19 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	}
 	
 	
+	
+	
 	/**
-	 * Retorna uma lista com todos os projetos salvos pelos professores.
+	 * Busca por projetos no banco de dados.
+	 * A busca é feita baseada no script passado no parâmetro do método.
+	 * 
+	 * @param script O esquema de busca.
+	 * @return Uma lista de objetos Projeto.
 	 */
-	public List<Projeto> listar() {
-		
+	public List<Projeto> buscaProjetos(String script){
 		super.iniciaSessaoNeo4J();
 		
-		ArrayList<Projeto> projetos = new ArrayList<Projeto>();
-		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
-				+ "return id(pj) as ID, "
-				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, "
-				+ "pj.dataInicio as Data_Inicio, pj.dataPublicacao as Publicacao, "
-				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
-				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
-				+ "pj.resumo as Resumo, pr.nome as Coordenador";
+		ArrayList<Projeto> projetosLocalizados = new ArrayList<Projeto>();
 		
 		StatementResult resultado = session.run(script);
 		
@@ -174,21 +174,39 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			projetoAux.setDataFim(projetoAtual.get("Data_Fim").asString());
 			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio").asString());
 			projetoAux.setDataPublicacao(projetoAtual.get("Publicacao").asString());
-		//	projetoAux.getFinanciamento().setValor(projetoAtual.get("Valor").asFloat());
+		//	projetoAux.getFinanciamento().setValor(new Float(projetoAtual.get("Valor").asDouble()));
 			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
 			projetoAux.setCategoria(projetoAtual.get("Categoria").asString());
-	//		projetoAux.setNumeroDeParticipantes(projetoAtual.get("QTD_Participantes").asInt());
+		//	projetoAux.setNumeroDeParticipantes(new Integer(projetoAtual.get("QTD_Participantes").asInt()));
 			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
 			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
 			
 			// Busca a lista de habilidades exigidas por esse projeto.
 			projetoAux.setHabilidades(buscaHabilidadesDoProjeto(projetoAux));
 			
-			projetos.add(projetoAux);
-			
-		}
+			projetosLocalizados.add(projetoAux);			
+		}		
+		return projetosLocalizados;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Retorna uma lista com todos os projetos salvos pelos professores.
+	 */
+	public List<Projeto> listar() {
 		
-		return projetos;
+		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
+				+ "return id(pj) as ID, "
+				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, "
+				+ "pj.dataInicio as Data_Inicio, pj.dataPublicacao as Publicacao, "
+				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
+				+ "pj.resumo as Resumo, pr.nome as Coordenador";		
+		
+		return buscaProjetos(script);
 	}
 	
 	
@@ -231,45 +249,21 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	 * por um professor específico.
 	 */
 	public List<Projeto> listarPorProfessor(Professor professor) {
-		
-		super.iniciaSessaoNeo4J();
-		
+				
 		String email = professor.getContato().getEmail();
 		String senha = professor.getSenha();
-		
-		
-		ArrayList<Projeto> projetos = new ArrayList<Projeto>();
-		
-		StatementResult resultado = session.run("MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
-				+ "WHERE pr.email = '"+email+"' AND pr.senha = '"+senha+"' return id(pj) as ID, "
+				
+		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
+				+ "WHERE pr.email = '"+email+"' AND pr.senha = '"+senha+"' RETURN "
 				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo, "
-				+ "pr.nome as Coordenador");
-		
-		while(resultado.hasNext()) {
-			
-			Record projetoAtual = resultado.next();
-			
-			Projeto projetoAux = new Projeto();
-			
-			projetoAux.setTitulo(projetoAtual.get("Titulo").asString());
-			projetoAux.setDataFim(projetoAtual.get("Data_Fim").asString());
-			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio").asString());
-			projetoAux.setDataPublicacao(projetoAtual.get("Publicacao").asString());
-	//		projetoAux.getFinanciamento().setValor(projetoAtual.get("Valor").asFloat());
-			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
-			projetoAux.setCategoria(projetoAtual.get("Categoria").asString());
-	//		projetoAux.setNumeroDeParticipantes(projetoAtual.get("QTD_Participantes").asInt());
-			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
-			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
-			
-			projetos.add(projetoAux);
-			
-		}
-		
-		return projetos;
+				+ "pr.nome as Coordenador";
+
+		return buscaProjetos(script);
 	}
+	
+	
 	
 	/**
 	 * Exlui um determinado projeto no banco de dados.
@@ -370,4 +364,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		}		
 		return status;
 	}
+	
+	
+	
 }

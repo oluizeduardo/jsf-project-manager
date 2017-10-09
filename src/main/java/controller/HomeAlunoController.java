@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.ProjetoBean;
 import model.dao.AlunoDAO;
+import model.dao.ProjetoDAO;
 import model.pojo.Aluno;
 import model.pojo.Habilidade;
 import model.pojo.Pessoa;
@@ -93,95 +94,41 @@ public class HomeAlunoController implements Serializable {
 	 * Método executado quando o usuário preencher os campos da tela inicial
 	 * para buscar novos projetos.
 	 * 
-	 * O método deve usar como filtro de seleção a palavra que o usuário 
-	 * digitar no campo de texto e as opções que forem escolhidas nos combobox.
+	 * O método verifica qual(is) o(s) filtro(s) que o usuário deseja utilizar
+	 * e adapta o script para a busca de projetos no banco de dados.
 	 */
-	public void pesquisarProjetos(){
+	public void pesquisarProjetos(){		
+		
+		ProjetoDAO projetoDAO = new ProjetoDAO();
+		String script = "MATCH (pr:Professor)-[:COORDENA]->(pj:Projeto)";
+		String cursoDoAluno = userAluno.getCurso().getNome();
 				
-		// Caso o usuário faça uma busca em branco, retorna para ele todos os projetos cadastrados.
-		List<Projeto> projetosLocalizados = todosProjetos;
-		
-		// Busca por palavra chave.
-		if(!palavraChave.isEmpty()){
-			projetosLocalizados = buscaPorPalavraChave(todosProjetos);
+		if (onde.equals(cursoDoAluno)) {
+			script += "-[:DESTINADO_A]->(c:Curso{nome: '" + cursoDoAluno + "'})";
 		}
-		
-		// Busca por habilidade.
+
 		if(!habilidade.equals("Habilidade")){
-			if(!palavraChave.isEmpty()){
-				projetosLocalizados = buscaPorHabilidade(projetosLocalizados);
-			}else{
-				projetosLocalizados = buscaPorHabilidade(todosProjetos);
-			}
+			script += ", (pj)-[:EXIGE]->(h:Habilidade{nome:'"+habilidade+"'})";
 		}
+		
+		if (!palavraChave.isEmpty()) {
+			script += " WHERE toLower(pj.titulo) CONTAINS " + "toLower('" + palavraChave
+					+ "') OR toLower(pj.descricaoCurta) " + "CONTAINS toLower('" + palavraChave
+					+ "') OR toLower(pj.resumo) " + "CONTAINS toLower('" + palavraChave + "') ";
+		}
+
+		script += " RETURN pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
+				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
+				+ "pj.resumo as Resumo, pr.nome as Coordenador";
+
+		List<Projeto> projetosLocalizados = projetoDAO.buscaProjetos(script);
 		projetoBean.setTodosProjetos(projetosLocalizados);
+		
+		System.err.println(script);
 	}
 	
-	
-	
-	/**
-	 * Busca em uma lista os projetos que contenham a palavra chave no título,
-	 * descrição ou resumo.
-	 * 
-	 * A palavra chave é informada pelo usuário no campo de texto na home do aluno.
-	 * 
-	 * @param projetos Lista utilizada para buscar os projetos.
-	 * @return Lista de projetos selecionados.
-	 */
-	private List<Projeto> buscaPorPalavraChave(List<Projeto> projetos){
-		
-		List<Projeto> projetosLocalizados = new ArrayList<Projeto>();
-		String titulo, descricao, resumo;
-		
-		// Busca na lista de todos os projetos cadastrados.
-		for (Projeto projeto : projetos) {
-			
-			titulo = projeto.getTitulo().toLowerCase();
-			descricao = projeto.getDescricaoCurta().toLowerCase();
-			resumo = projeto.getResumo().toLowerCase();
 
-			palavraChave = palavraChave.toLowerCase();
-
-			// Separa o projeto se encontrar a palavra-chave no título, descrição ou resumo.
-			if(titulo.contains(palavraChave) || 
-			   descricao.contains(palavraChave) ||
-			   resumo.contains(palavraChave)){
-				
-				projetosLocalizados.add(projeto);					
-			}
-		}
-		return projetosLocalizados;
-	}
-	
-	
-	
-	/**
-	 * Busca projetos pela habilidade informada.
-	 * 
-	 * @param projetos
-	 * @return Lista de projetos localizados.
-	 */
-	private List<Projeto> buscaPorHabilidade(List<Projeto> projetos){
-		List<Projeto> projetosLocalizados = new ArrayList<Projeto>();
-		
-		// Busca na lista de todos os projetos cadastrados.
-		for (Projeto projeto : projetos) {
-			
-			// Lista de habilidades exigidas pelo projeto.
-			List<Habilidade> habilidadesExigidas = projeto.getHabilidades();
-			
-			// Percorre a lista de habilidades buscando uma semelhante a habilidade selecionada.
-			for (Habilidade h : habilidadesExigidas) {
-				if(h.getDescricao().equals(habilidade)){
-					projetosLocalizados.add(projeto);
-				}
-			}
-		}
-		return projetosLocalizados;
-	}
-	
-	
-	
 	
 	/**
 	 * Recarrega a lista com todos os projetos cadastrados no sistema.
