@@ -20,8 +20,8 @@
 			<p:outputLabel value="Cursos Alvo:" />
 			<p:selectOneMenu id="course-field" style="width:220px;"
 				value="#{cadastrarProjetoController.cursoAlvo}">
-				<f:selectItem itemLabel="Meu curso" itemValue="Meu Curso" />
-				<f:selectItem itemLabel="Todos os cursos" itemValue="Todos os cursos" />
+				<f:selectItem itemLabel="Meu curso" itemValue="#{homeProfessorController.userProfessor.curso.nome}" />
+				<f:selectItem itemLabel="Todos os cursos" itemValue="Todos" />
 				<f:selectItems value="#{listaDeCursos.cursos}" />
 			</p:selectOneMenu>
 

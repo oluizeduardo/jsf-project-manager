@@ -9,6 +9,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.dao.ProjetoDAO;
+import model.helperView.ListaDeCursos;
 import model.pojo.Curso;
 import model.pojo.Habilidade;
 import model.pojo.Pessoa;
@@ -203,9 +204,19 @@ public class CadastrarProjetoController implements Serializable{
 	 * Adiciona um novo curso na lista dos cursos alvo do novo projeto.
 	 */
 	public void addCursoAlvo(){
-		if(cursoAlvo != null)
-			if(!cursosAlvo.contains(cursoAlvo))
-				this.cursosAlvo.add(cursoAlvo);
+		if(cursoAlvo != null){
+			if(cursoAlvo.equals("Todos")){
+				List<String> todosCursos = new ListaDeCursos().getListaDeCursosString();
+				for (String curso : todosCursos) {
+					if(!cursosAlvo.contains(curso)){
+						this.cursosAlvo.add(curso);
+					}
+				}				
+			}else{
+				if(!cursosAlvo.contains(cursoAlvo))
+					this.cursosAlvo.add(cursoAlvo);
+			}
+		}	
 	}
 	
 	

@@ -67,27 +67,38 @@ public class ListaDeCursos {
         		new SelectItem("Sistemas de Informação", "Sistemas de Informação")});      
          
         cursos = new ArrayList<SelectItem>();
-        cursos.add(g1);
-		
-		
-//		cursos.add("Administração");
-//		cursos.add("Ciências Biológicas");
-//		cursos.add("Contabilidade");
-//		cursos.add("Educação Física");
-//		cursos.add("Engenharia de Produção");
-//		cursos.add("Enfermagem");
-//		cursos.add("Farmácia");
-//		cursos.add("Fisioterapia");
-//		cursos.add("Gastronomia");
-//		cursos.add("Gestão de Produção Industrial");
-//		cursos.add("Gestão de Recursos Humanos");
-//		cursos.add("História");
-//		cursos.add("Medicina");	
-//		cursos.add("Nutrição");
-//		cursos.add("Pedagogia");
-//		cursos.add("Psicologia");
-//		cursos.add("Publicidade");			
-//		cursos.add("Sistemas de Informação");		
+        cursos.add(g1);		
 	}
 
+	
+	
+	/**
+	 * Retorna uma lista String com os cursos da UNIVÁS.
+	 * @return
+	 */
+	public List<String> getListaDeCursosString(){
+		List<String> cursos = new ArrayList<String>();
+		
+		cursos.add("Administração");
+		cursos.add("Ciências Biológicas");
+		cursos.add("Contabilidade");
+		cursos.add("Educação Física");
+		cursos.add("Engenharia de Produção");
+		cursos.add("Enfermagem");
+		cursos.add("Farmácia");
+		cursos.add("Fisioterapia");
+		cursos.add("Gastronomia");
+		cursos.add("Gestão de Produção Industrial");
+		cursos.add("Gestão de Recursos Humanos");
+		cursos.add("História");
+		cursos.add("Medicina");	
+		cursos.add("Nutrição");
+		cursos.add("Pedagogia");
+		cursos.add("Psicologia");
+		cursos.add("Publicidade");			
+		cursos.add("Sistemas de Informação");
+		
+		return cursos;
+	}
+	
 }
