@@ -578,6 +578,37 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	
 	/**
+	 * Verifica se o aluno já manifestou interesse em um projeto.
+	 * 
+	 * @param aluno
+	 * @param projeto
+	 * @return verdadeiro ou falso.
+	 */
+	public boolean verificaInteresseEmProjeto(Aluno aluno, Projeto projeto){
+
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
+		String tituloProjeto = projeto.getTitulo();
+		
+		String script = "MATCH(a:Aluno)-[:TEM_INTERESSE_EM]->(p:Projeto) "
+					+ "WHERE a.email='"+email+"' "
+					+ "AND a.senha='"+senha+"' "
+					+ "AND p.titulo='"+tituloProjeto+"' "
+					+ "return a, p";
+		
+		super.iniciaSessaoNeo4J();
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			return true;
+		}		
+		return false;
+	}
+	
+	
+	
+	
+	/**
 	 * Verifica no banco de dados se o aluno já participa do projeto.
 	 * 
 	 * @param aluno
@@ -607,8 +638,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	
 	
-	
-	
 	/**
 	 * Relaciona o aluno logado com o projeto em que deseja se candidatar.
 	 * 
@@ -628,7 +657,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		String script = "MATCH (a:Aluno) where a.email='"+email+"'AND a.senha='"+senha+"'"
 				+ "MATCH (pj:Projeto) WHERE pj.titulo='"+tituloProjeto+"' "
-				+ "CREATE (a)-[:PARTICIPA]->(pj) return a,pj";
+				+ "CREATE (a)-[:TEM_INTERESSE_EM]->(pj) RETURN a, pj";
 				
 		try{
 			// Executa o script no banco de dados.

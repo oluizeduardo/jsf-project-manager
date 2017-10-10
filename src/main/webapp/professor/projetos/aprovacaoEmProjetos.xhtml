@@ -7,23 +7,43 @@
 
 <h:body>
 	
-	<!-- PAINEL DE PROJETOS LISTADOS -->
-	<p:dataGrid id="pn-lista-de-projetos" var="notificacao"
-		value="#{homeProfessorController.notificacoes}" columns="1"
-		rows="5" paginator="true" paginatorPosition="bottom"
-		emptyMessage="Nenhuma notificação"
-		paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}">
-	
-		<p:panel id="pnProjeto" style="margin:5px">			
-			<h:outputText value="#{notificacao.mensagem}"/>
-		
-			<div align="right">						
-				<p:commandButton title="Aceitar" icon="ui-icon-check"/>
-				<p:spacer height="10"/>
-				<p:commandButton title="Recusar" icon="ui-icon-close"/>					
-			</div>
-		</p:panel>		
-	</p:dataGrid>
-	
+	<h:form id="form-notificacoes">
+		<!-- PAINEL DE PROJETOS LISTADOS -->
+		<p:dataGrid id="pn-lista-de-notificacoes" var="notificacao"
+			value="#{homeProfessorController.notificacoes}" columns="1" rows="5"
+			paginator="true" paginatorPosition="bottom"
+			emptyMessage="Nenhuma solicitação"
+			paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}">
+
+			<p:panel id="pnNotificacao" style="margin:3px">
+				<div align="left">
+					<h:outputText value="#{notificacao.mensagem}"
+						style="font-size:14px" />
+				</div>
+				<div align="right">
+					<h:panelGrid columns="2">
+						<p:commandButton title="Aceitar" icon="ui-icon-check"
+							update="pn-lista-de-notificacoes"
+							action="#{homeProfessorController.aprovaParticipacaoEmProjeto}">
+							<f:setPropertyActionListener value="#{notificacao}"
+								target="#{homeProfessorController.notificacaoSelecionada}" />
+						</p:commandButton>
+
+						<p:commandButton title="Recusar" icon="ui-icon-close"
+							update="pn-lista-de-notificacoes"
+							action="#{homeProfessorController.recusaParticipacaoEmProjeto}">
+							<f:setPropertyActionListener value="#{notificacao}"
+								target="#{homeProfessorController.notificacaoSelecionada}" />
+						</p:commandButton>
+					</h:panelGrid>
+				</div>
+			</p:panel>
+		</p:dataGrid>
+	</h:form>
+	<p:panel>
+		<div align="center">
+			<p:commandButton value="Fechar" onclick="PF('notificacoes').hide()" update="barraDeMenu"/>
+		</div>
+	</p:panel>
 </h:body>
 </html>

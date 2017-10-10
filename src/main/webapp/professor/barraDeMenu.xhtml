@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	
-	<p:menubar>
+	<p:menubar id="barraDeMenu">
 		<p:menuitem value="Início" icon="ui-icon-home" url="home.xhtml"/>
 	
 		<p:submenu label="Perfil" icon="ui-icon-person">
@@ -21,9 +21,9 @@
 		<p:menuitem value="Relatórios" icon="ui-icon-calculator" url="relatorios.xhtml"/>
 	
 		<f:facet name="options">
-			<p:commandButton value="Aprovações (#{homeProfessorController.qtdeNotificacoes})" 
-							 title="Aprovar solicitação de participação em projetos"
-							 onclick="PF('aprovacao').show()"/>
+			<p:commandButton value="Notificações (#{homeProfessorController.qtdeNotificacoes})" 
+							 title="Solicitações de participação em projetos"
+							 onclick="PF('notificacoes').show()"/>
 			<p:spacer height="10"/>
 			<p:commandButton value="Sair" icon="ui-icon-extlink" actionListener="#{barraDeMenu.logout}" title="Sair da aplicação"/>		
 		</f:facet>		
@@ -32,8 +32,8 @@
 	
 	<!-- PAINEL DE APROVAÇÃO DE CANDIDATURA EM PROJETOS. -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-		header="Aprovação em Projetos" widgetVar="aprovacao"
-		resizable="false" closeOnEscape="true">
+		header="Solicitações de Participação em Projetos" widgetVar="notificacoes"
+		resizable="false" closable="false">
 
 		<!-- PAINEL COM OS PROJETOS LISTADOS -->
 		<ui:include src="projetos/aprovacaoEmProjetos.xhtml" />

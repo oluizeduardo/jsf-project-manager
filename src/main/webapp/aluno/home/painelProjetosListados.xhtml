@@ -16,8 +16,8 @@
 				 style="widht:300px; margin:5px">
 	
 			<h:panelGrid columns="2">
-				<p:graphicImage value="/resources/images/document-black.png" 
-								height="50" width="50" />
+				<p:graphicImage value="/resources/images/documents/#{projeto.nomeIcone}.png" 
+								height="50" width="50" title="#{projeto.categoria}"/>
 				<h:outputText value="#{projeto.descricaoCurta}" />
 				<h:outputText value="Publicado em: #{projeto.dataPublicacao}"
 					style="font-size:12px" />

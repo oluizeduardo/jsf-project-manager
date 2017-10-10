@@ -15,14 +15,13 @@
 
 <h:body>
 
+	<!-- BARRA DE MENU -->
+	<ui:include src="barraDeMenu.xhtml" />
+
+	<!-- MENSAGEM -->
+	<p:growl id="messages"/>
+	
 	<h:form id="registered-projects">
-
-		<!-- BARRA DE MENU -->
-		<ui:include src="barraDeMenu.xhtml" />
-
-		<!-- MENSAGEM -->
-		<p:growl id="messages"/>
-
 		<p:panel>
 			<p:dataTable id="table-registered-projects" var="aluno"
 				value="#{buscarAlunosController.alunos}" widgetVar="projectsTable"

@@ -50,8 +50,13 @@ public class Projeto {
 	// Lista de possíveis categorias de um projeto.
 	private List<String> categorias;
 	
+	// Nome do ícone que aparecerá no card do projeto na home do aluno.
+	private String nomeIcone="";
+	
+	
 	
 	public Projeto() { }
+	
 	
 	
 	public Projeto(String categoria, String titulo, String descricao, Professor coordenador, String dataPublicacao) {
@@ -218,9 +223,14 @@ public class Projeto {
 	public Integer getNumeroDeParticipantes() {
 		return numeroDeParticipantes;
 	}
-
 	public void setNumeroDeParticipantes(Integer numeroDeParticipantes) {
 		this.numeroDeParticipantes = numeroDeParticipantes;
+	}
+	public String getNomeIcone() {
+		return nomeIcone;
+	}
+	public void setNomeIcone(String nomeIcone) {
+		this.nomeIcone = nomeIcone;
 	}
 	
 }

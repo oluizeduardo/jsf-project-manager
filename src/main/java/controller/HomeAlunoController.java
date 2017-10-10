@@ -170,14 +170,20 @@ public class HomeAlunoController implements Serializable {
 		
 		// Verifica se o aluno já participa do projeto.
 		boolean participa = alunoDAO.verificaParticipacaoEmProjeto(aluno, projetoSelecionado);
-				
+		
+		// Verifica se o aluno já manifestou intresse pelo projeto.
+		boolean jaTemInteresse = alunoDAO.verificaInteresseEmProjeto(aluno, projetoSelecionado);
+		
 		if(participa){
 			Mensagem.ExibeMensagemAtencao("Você já faz parte desse projeto.");			
+		
+		}else if(jaTemInteresse){
+			Mensagem.ExibeMensagemAtencao("Você já manifestou interesse por esse projeto. Aguarde aprovação.");			
 		}else{
 			boolean candidatou = alunoDAO.candidatar(aluno, projetoSelecionado);
 			
 			if(candidatou) {
-				Mensagem.ExibeMensagem("Inscrito com sucesso!");
+				Mensagem.ExibeMensagem("Solicitação enviada ao coordenador do projeto. Aguardando aprovação.");
 			}		
 			else {
 				Mensagem.ExibeMensagemErro("Não foi possível se candidatar a esse projeto.");

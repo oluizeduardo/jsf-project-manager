@@ -184,6 +184,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			
 			// Busca a lista de habilidades exigidas por esse projeto.
 			projetoAux.setHabilidades(buscaHabilidadesDoProjeto(projetoAux));
+			projetoAux.setNomeIcone(getNomeIconePorCategoria(projetoAux.getCategoria()));
 			
 			projetosLocalizados.add(projetoAux);			
 		}		
@@ -191,6 +192,31 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	}
 	
 	
+	
+	/**
+	 * Retorna o nome do ícone que aparecerá no card do projeto baseado na categoria 
+	 * do projeto.
+	 * 
+	 * @param categoriaProjeto
+	 * @return O nome do ícone.
+	 */
+	private String getNomeIconePorCategoria(String categoriaProjeto){
+		if(categoriaProjeto.equals(Projeto.ESTAGIO)){
+			return "doc-black";
+		}else if(categoriaProjeto.equals(Projeto.EVENTO_EXTERNO)){
+			return "doc-blue";
+		}else if(categoriaProjeto.equals(Projeto.EVENTO_INTERNO)){
+			return "doc-green";
+		}else if(categoriaProjeto.equals(Projeto.INICIACAO_CIENTIFICA)){
+			return "doc-orange";
+		}else if(categoriaProjeto.equals(Projeto.PROJETO_DE_EXTENSAO)){
+			return "doc-purple";
+		}else if(categoriaProjeto.equals(Projeto.TRABALHO_ACADEMICO)){
+			return "doc-red";
+		}else{
+			return "doc-black";
+		}
+	}
 	
 	
 	
@@ -271,7 +297,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	 */
 	public boolean excluir(Projeto obj) {
 		super.iniciaSessaoNeo4J();
-		// TODO Auto-generated method stub
+		// TODO Exclui do banco de dados um projeto do professor.
 		// Primeiro deve excluir o relacionamento: MATCH p=()-[r:COOORDENA]->() DELETE r
 		return false;
 	}
@@ -368,17 +394,24 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	
 	
 	
-	
+	/**
+	 * Retorna uma lista de notificações com base nos alunos que têm interesse
+	 * nos projetos de um determinado professor.
+	 * 
+	 * @param professor O coordenador dos projetos.
+	 * @return Uma lista de notificações.
+	 */
 	public List<Notificacao> getNotificacoesDeInteresseEmProjetos(Professor professor){
 		List<Notificacao> lista = new ArrayList<Notificacao>();
 		
 		String email = professor.getContato().getEmail();
 		String senha = professor.getSenha();
 		
-		String script = "MATCH(c:Curso)<-[:CURSA]-(a:Aluno)-[:PARTICIPA]->"
+		String script = "MATCH(c:Curso)<-[:CURSA]-(a:Aluno)-[:TEM_INTERESSE_EM]->"
 				+ "(p:Projeto)<-[:COORDENA]-(pr:Professor) "
 				+ "WHERE pr.email='"+email+"' AND pr.senha='"+senha+"'"
-				+ "RETURN a.nome as NomeAluno, p.titulo as Projeto, c.nome as Curso";
+				+ "RETURN a.nome as NomeAluno, p.titulo as Projeto, "
+				+ "c.nome as Curso, ID(p) as ProjetoID, ID(a) as AlunoID";
 		
 		iniciaSessaoNeo4J();
 		StatementResult resultado = session.run(script);
@@ -388,14 +421,86 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			String nomeAlunoInteressado = registro.get("NomeAluno").asString();
 			String projetoDeInteresse = registro.get("Projeto").asString();
 			String cursoDoAluno = registro.get("Curso").asString();
-			String msg = nomeAlunoInteressado+" do curso de "+cursoDoAluno+" se interessa pelo projeto \""+projetoDeInteresse+"\"";
+			int idAluno = registro.get("AlunoID").asInt();
+			int idProjeto = registro.get("ProjetoID").asInt();
+			String msg = nomeAlunoInteressado+" do curso de "+cursoDoAluno
+					+" se interessa pelo seu projeto \""+projetoDeInteresse+"\"";
 			
-			lista.add(new Notificacao(msg));
+			lista.add(new Notificacao(msg, idProjeto, idAluno));
 		}
-
 		return lista;
 	}
 	
+	
+	
+	/**
+	 * Monta no banco de dados uma relação de "PARTICIPA" entre aluno e projeto.
+	 * @param alunoID
+	 * @param projetoID
+	 */
+	public void inscreveAlunoEmProjeto(int alunoID, int projetoID){
+		
+		String script ="MATCH(a:Aluno)-[i:TEM_INTERESSE_EM]->(p:Projeto) "
+				+ "WHERE id(a)="+alunoID+" AND ID(p)="+projetoID+"  DELETE i "
+				+ "CREATE(a)-[r:PARTICIPA]->(p) RETURN a, r, p";
+		
+		super.iniciaSessaoNeo4J();
+		transaction = session.beginTransaction();
+
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			
+		}catch(Exception ex){
+			System.err.println("Erro ao executar script - ProjetoDAO.inscreveAlunoEmProjeto()");
+			System.err.println(ex.getMessage());
+		}finally {
+			try {
+				transaction.close();
+				session.close();
+			} 
+			catch (ClientException excep) {
+				System.err.println("Erro ao fechar Transaction ou Session - ProjetoDAO.inscreveAlunoEmProjeto()");
+				System.err.println(excep.getMessage());
+			}
+		}		
+	}
+	
+	
+	
+	/**
+	 * Recusa o interesse do aluno em um projeto do professor.
+	 * Apaga a relação de "TEM_INTERESSE_EM".
+	 * 
+	 * @param alunoID
+	 * @param projetoID
+	 */
+	public void recusaAlunoEmProjeto(int alunoID, int projetoID){
+		
+		String script ="MATCH(a:Aluno)-[i:TEM_INTERESSE_EM]->(p:Projeto) "
+				+ "WHERE id(a)="+alunoID+" AND ID(p)="+projetoID+"  DELETE i RETURN a, p";
+		
+		super.iniciaSessaoNeo4J();
+		transaction = session.beginTransaction();
+
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			
+		}catch(Exception ex){
+			System.err.println("Erro ao executar script - ProjetoDAO.recusaAlunoEmProjeto()");
+		}finally {
+			try {
+				transaction.close();
+				session.close();
+			} 
+			catch (ClientException excep) {
+				System.err.println("Erro ao fechar Transaction ou Session - ProjetoDAO.recusaAlunoEmProjeto()");
+			}
+		}		
+	}
 	
 	
 }

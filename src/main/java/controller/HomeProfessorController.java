@@ -26,6 +26,10 @@ public class HomeProfessorController implements Serializable {
 	private List<Notificacao> notificacoes = null;
 	// Quantidade de notificações.
 	private int qtdeNotificacoes = 0;
+	// A notificação selecionada no painel de aprovação de candidatura.
+	private Notificacao notificacaoSelecionada=new Notificacao();
+	// Objeto de acesso aos registros de projetos no banco de dados.
+	private ProjetoDAO projetoDAO = new ProjetoDAO();
 	
 	
 
@@ -58,10 +62,37 @@ public class HomeProfessorController implements Serializable {
 	}
 	
 	
+	/**
+	 * Aceita o interesse do aluno em participar do projeto do professor.
+	 */
+	public void aprovaParticipacaoEmProjeto(){
+		int projetoID = notificacaoSelecionada.getProjetoID();
+		int alunoID = notificacaoSelecionada.getAlunoID();
+		
+		this.projetoDAO.inscreveAlunoEmProjeto(alunoID, projetoID);
+		
+		notificacoes.remove(notificacaoSelecionada);
+		qtdeNotificacoes = notificacoes.size();
+	}
+	
+	
+	/**
+	 * Recusa o interesse do aluno em participar do projeto do professor.
+	 */
+	public void recusaParticipacaoEmProjeto(){
+		int projetoID = notificacaoSelecionada.getProjetoID();
+		int alunoID = notificacaoSelecionada.getAlunoID();
+		
+		this.projetoDAO.recusaAlunoEmProjeto(alunoID, projetoID);
+		
+		notificacoes.remove(notificacaoSelecionada);
+		qtdeNotificacoes = notificacoes.size();
+	}
+	
+	
 	public Professor getUserProfessor() {
 		return userProfessor;
 	}
-
 	public void setUserProfessor(Professor userProfessor) {
 		this.userProfessor = userProfessor;
 	}
@@ -77,4 +108,10 @@ public class HomeProfessorController implements Serializable {
 	public void setQtdeNotificacoes(int qtdeNotificacoes) {
 		this.qtdeNotificacoes = qtdeNotificacoes;
 	}
+	public Notificacao getNotificacaoSelecionada() {
+		return notificacaoSelecionada;
+	}
+	public void setNotificacaoSelecionada(Notificacao notificacaoSelecionada) {
+		this.notificacaoSelecionada = notificacaoSelecionada;
+	}	
 }
