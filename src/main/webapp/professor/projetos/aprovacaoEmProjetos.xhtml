@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:body>
+	
+	<!-- PAINEL DE PROJETOS LISTADOS -->
+	<p:dataGrid id="pn-lista-de-projetos" var="notificacao"
+		value="#{homeProfessorController.notificacoes}" columns="1"
+		rows="5" paginator="true" paginatorPosition="bottom"
+		emptyMessage="Nenhuma notificação"
+		paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}">
+	
+		<p:panel id="pnProjeto" style="margin:5px">			
+			<h:outputText value="#{notificacao.mensagem}"/>
+		
+			<div align="right">						
+				<p:commandButton title="Aceitar" icon="ui-icon-check"/>
+				<p:spacer height="10"/>
+				<p:commandButton title="Recusar" icon="ui-icon-close"/>					
+			</div>
+		</p:panel>		
+	</p:dataGrid>
+	
+</h:body>
+</html>

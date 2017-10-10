@@ -7,6 +7,7 @@ import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import model.pojo.Curso;
 import model.pojo.Habilidade;
+import model.pojo.Notificacao;
 import model.pojo.Professor;
 import model.pojo.Projeto;
 
@@ -363,6 +364,36 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			}
 		}		
 		return status;
+	}
+	
+	
+	
+	
+	public List<Notificacao> getNotificacoesDeInteresseEmProjetos(Professor professor){
+		List<Notificacao> lista = new ArrayList<Notificacao>();
+		
+		String email = professor.getContato().getEmail();
+		String senha = professor.getSenha();
+		
+		String script = "MATCH(c:Curso)<-[:CURSA]-(a:Aluno)-[:PARTICIPA]->"
+				+ "(p:Projeto)<-[:COORDENA]-(pr:Professor) "
+				+ "WHERE pr.email='"+email+"' AND pr.senha='"+senha+"'"
+				+ "RETURN a.nome as NomeAluno, p.titulo as Projeto, c.nome as Curso";
+		
+		iniciaSessaoNeo4J();
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			Record registro = resultado.next();
+			String nomeAlunoInteressado = registro.get("NomeAluno").asString();
+			String projetoDeInteresse = registro.get("Projeto").asString();
+			String cursoDoAluno = registro.get("Curso").asString();
+			String msg = nomeAlunoInteressado+" do curso de "+cursoDoAluno+" se interessa pelo projeto \""+projetoDeInteresse+"\"";
+			
+			lista.add(new Notificacao(msg));
+		}
+
+		return lista;
 	}
 	
 	

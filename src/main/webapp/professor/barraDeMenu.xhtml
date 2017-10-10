@@ -21,8 +21,22 @@
 		<p:menuitem value="Relatórios" icon="ui-icon-calculator" url="relatorios.xhtml"/>
 	
 		<f:facet name="options">
+			<p:commandButton value="Aprovações (#{homeProfessorController.qtdeNotificacoes})" 
+							 title="Aprovar solicitação de participação em projetos"
+							 onclick="PF('aprovacao').show()"/>
+			<p:spacer height="10"/>
 			<p:commandButton value="Sair" icon="ui-icon-extlink" actionListener="#{barraDeMenu.logout}" title="Sair da aplicação"/>		
 		</f:facet>		
 	</p:menubar>
 	<p:spacer height="8"/>	
+	
+	<!-- PAINEL DE APROVAÇÃO DE CANDIDATURA EM PROJETOS. -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+		header="Aprovação em Projetos" widgetVar="aprovacao"
+		resizable="false" closeOnEscape="true">
+
+		<!-- PAINEL COM OS PROJETOS LISTADOS -->
+		<ui:include src="projetos/aprovacaoEmProjetos.xhtml" />
+
+	</p:dialog>
 </html>

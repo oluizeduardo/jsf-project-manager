@@ -47,8 +47,9 @@ public class HomeAlunoController implements Serializable {
 	
 	// Projeto selecionado na lista de projetos.
 	private Projeto projetoSelecionado = new Projeto();
-	
+	// Objeto de acesso aos dados.
 	private AlunoDAO alunoDAO = new AlunoDAO();
+	
 	
 	
 	/**
@@ -72,7 +73,7 @@ public class HomeAlunoController implements Serializable {
 		carregaListaDeHabilidades(userAluno);
 	}
 	
-	
+
 	
 	/**
 	 * Carrega a lista de habilidades que será exibida na caixa de combinação
@@ -238,6 +239,5 @@ public class HomeAlunoController implements Serializable {
 	public void setHabilidade(String habilidade) {
 		this.habilidade = habilidade;
 	}
-	
 	
 }
