@@ -49,11 +49,11 @@
 					<h:outputText value="#{projeto.coordenador.nome}" />
 				</p:column>
 	
-				<p:column headerText="Publicado em"
-					filterBy="#{projeto.dataPublicacao}"
-					sortBy="#{projeto.dataPublicacao}" filterMatchMode="startsWith"
+				<p:column headerText="Status"
+					filterBy="#{projeto.status}"
+					sortBy="#{projeto.status}" filterMatchMode="startsWith"
 					style="width:150px; text-align: center">
-					<h:outputText value="#{projeto.dataPublicacao}" />
+					<h:outputText value="#{projeto.status}" />
 				</p:column>
 	
 				<p:column style="width:32px;text-align: center">

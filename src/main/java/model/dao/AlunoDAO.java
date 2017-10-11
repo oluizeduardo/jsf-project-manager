@@ -1,6 +1,9 @@
 package model.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
@@ -443,7 +446,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "				
 				+ "toFloat(pj.valor) as Valor, "
-				+ "pj.descricaoCurta as Descricao, "				
+				+ "pj.descricaoCurta as Descricao, "			
 				+ "toInteger(pj.numeroParticipantes) as QTD_Participantes, "
 				+ "pj.resumo as Resumo, pj.eFinanciado as ehFinanciado";
 		
@@ -469,6 +472,9 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
 		//	projetoAux.getFinanciamento().setExistente(projetoAtual.get("ehFinanciado").asBoolean());
 			
+			// Define o status atual do projeto.
+			getStatusProjeto(projetoAux);
+			
 			projetosQueParticipa.add(projetoAux);
 			
 		}
@@ -476,6 +482,41 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		return projetosQueParticipa;
 	}
 	
+	
+	
+	/**
+	 * Retorna a data atual formatada para o padrão de leitura simples.
+	 */
+	private String getDataAtual() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(new Date());
+	}
+	
+	
+	
+	/**
+	 * Define o status atual do projeto.
+	 * 
+	 * @param projeto O projeto analisado.
+	 */
+	private void getStatusProjeto(Projeto projeto) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");   
+	    try {   
+	       Date dataInicio = sdf.parse(projeto.getDataInicio());   
+	       Date dataFim    = sdf.parse(projeto.getDataFim());   
+	       Date dataAtual  = sdf.parse(getDataAtual());
+	       		       
+	       if(dataAtual.getTime() < dataInicio.getTime()){
+	    	   projeto.setStatus("Aguardando Inicio");
+	       }else if(dataAtual.getTime() > dataFim.getTime()){
+	    	   projeto.setStatus("Finalizado");
+	       }else{
+	    	   projeto.setStatus("Em Execução");
+	       }
+	    }catch(ParseException px){
+	    	  System.err.println("ERRO NA CONVERSÃO DE DATAS.");
+	    }
+	}
 	
 	
 	
@@ -577,8 +618,9 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			projeto.setDataInicio(projetoLocalizado.get("DataInicio").asString());
 			projeto.setDataFim(projetoLocalizado.get("DataFim").asString());
 			projeto.setDescricaoCurta(projetoLocalizado.get("Descricao").asString());
-			projeto.setResumo(projetoLocalizado.get("Resumo").asString());			
+			projeto.setResumo(projetoLocalizado.get("Resumo").asString());				
 			projeto.getCoordenador().setNome(projetoLocalizado.get("Coordenador").asString());
+			getStatusProjeto(projeto);
 			
 			String hab = projetoLocalizado.get("Habilidade").asString();
 			String nivel = projetoLocalizado.get("Nivel").asString();

@@ -1,6 +1,9 @@
 package model.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
@@ -172,8 +175,9 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			Projeto projetoAux = new Projeto();
 			
 			projetoAux.setTitulo(projetoAtual.get("Titulo").asString());
-			projetoAux.setDataFim(projetoAtual.get("Data_Fim").asString());
 			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio").asString());
+			projetoAux.setDataFim(projetoAtual.get("Data_Fim").asString());
+			projetoAux.setStatus(projetoAtual.get("Status").asString());
 			projetoAux.setDataPublicacao(projetoAtual.get("Publicacao").asString());
 		//	projetoAux.getFinanciamento().setValor(new Float(projetoAtual.get("Valor").asDouble()));
 			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
@@ -182,13 +186,52 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
 			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
 			
+			// Define o status atual do projeto.
+			getStatusProjeto(projetoAux);
+			
 			// Busca a lista de habilidades exigidas por esse projeto.
 			projetoAux.setHabilidades(buscaHabilidadesDoProjeto(projetoAux));
 			projetoAux.setNomeIcone(getNomeIconePorCategoria(projetoAux.getCategoria()));
 			
-			projetosLocalizados.add(projetoAux);			
+			projetosLocalizados.add(projetoAux);
 		}		
 		return projetosLocalizados;
+	}
+	
+	
+	
+	/**
+	 * Define o status atual do projeto.
+	 * 
+	 * @param projeto O projeto analisado.
+	 */
+	private void getStatusProjeto(Projeto projeto) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");   
+	    try {   
+	       Date dataInicio = sdf.parse(projeto.getDataInicio());   
+	       Date dataFim    = sdf.parse(projeto.getDataFim());   
+	       Date dataAtual  = sdf.parse(getDataAtual());
+	       		       
+	       if(dataAtual.getTime() < dataInicio.getTime()){
+	    	   projeto.setStatus("Aguardando Inicio");
+	       }else if(dataAtual.getTime() > dataFim.getTime()){
+	    	   projeto.setStatus("Finalizado");
+	       }else{
+	    	   projeto.setStatus("Em Execução");
+	       }
+	    }catch(ParseException px){
+	    	  System.err.println("ERRO NA CONVERSÃO DE DATAS.");
+	    }
+	}
+
+	
+
+	/**
+	 * Retorna a data atual formatada para o padrão de leitura simples.
+	 */
+	private String getDataAtual() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(new Date());
 	}
 	
 	
@@ -231,7 +274,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataInicio as Data_Inicio, pj.dataPublicacao as Publicacao, "
 				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
-				+ "pj.resumo as Resumo, pr.nome as Coordenador";		
+				+ "pj.resumo as Resumo, pr.nome as Coordenador, pj.status as Status";		
 		
 		return buscaProjetos(script);
 	}
@@ -285,7 +328,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo, "
-				+ "pr.nome as Coordenador";
+				+ "pr.nome as Coordenador, pj.status as Status";
 
 		return buscaProjetos(script);
 	}
