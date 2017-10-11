@@ -508,8 +508,10 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	
 	/**
 	 * Retorna uma lista de projetos recomendados para o aluno.
-	 * A busca por projetos é feita baseado nas habilidades que o aluno tem
+	 * A busca por projetos é feita da seguinte forma:
+	 * 1) baseado nas habilidades que o aluno tem
 	 * em comum com as habilidades exigidas nos projetos.
+	 * 2) baseado na experiência que o aluno teve em outros projetos.
 	 * 
 	 * @param aluno
 	 * @param todosProjetos
@@ -522,20 +524,44 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String email = aluno.getContato().getEmail();
 		String senha = aluno.getSenha();
 		
-		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto)-[ex:EXIGE]->"
-					  + "(h:Habilidade)<-[:CONHECE]-(a:Aluno) "
-					  + "WHERE not((a)-[:PARTICIPA]-(pj)) "
-					  + "AND a.email='"+email+"' AND a.senha='"+senha+"' "
-					  + "return a.nome as Aluno, "
-					  + "pr.nome as Coordenador, "
-					  + "pj.categoria as Categoria, "
-					  + "pj.dataPublicacao as Publicacao, "
-					  + "pj.dataInicio as DataInicio, "
-					  + "pj.dataFim as DataFim, "
-					  + "pj.descricaoCurta as Descricao, "
-					  + "pj.resumo as Resumo, "
-					  + "pj.titulo as Titulo,"
-					  + "h.nome as Habilidade, ex.nivel";
+		/* Busque um professor que coordena um projeto que exija uma habilidade
+		 * exigida pelo projeto que eu participo, onde eu ainda não faça parte desse projeto.
+		 * 
+		 * Retorne os dados dessa busca e una com os dados da próxima busca:
+		 *
+		 * Busque o professor que coordena um projeto, que exija uma habilidade 
+		 * conhecida por mim
+		 */
+		String script = "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
+				+ "[ex:EXIGE]->(h:Habilidade)<-"
+				+ "[:EXIGE]-(p2:Projeto)<-[:PARTICIPA]-"
+				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
+				+ "WHERE NOT((eu)-[:PARTICIPA]->(pr)) "
+				+ "RETURN "
+				+ "pr.nome as Coordenador, "
+				+ "p.categoria as Categoria, "
+				+ "p.dataPublicacao as Publicacao, "
+			    + "p.dataInicio as DataInicio, "
+			    + "p.dataFim as DataFim, "
+				+ "p.descricaoCurta as Descricao, "
+				+ "p.resumo as Resumo, "
+				+ "p.titulo as Titulo, "
+				+ "h.nome as Habilidade, ex.nivel as Nivel"
+				+ " UNION ALL "
+				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
+				+ "[ex:EXIGE]->(h:Habilidade)<-[:CONHECE]-"
+				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
+				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
+				+ "RETURN "
+				+ "pr.nome as Coordenador, "
+				+ "p.categoria as Categoria, "
+				+ "p.dataPublicacao as Publicacao, "
+			    + "p.dataInicio as DataInicio, "
+			    + "p.dataFim as DataFim, "
+				+ "p.descricaoCurta as Descricao, "
+				+ "p.resumo as Resumo, "
+				+ "p.titulo as Titulo, "
+				+ "h.nome as Habilidade, ex.nivel as Nivel";
 		
 		StatementResult resultado = session.run(script);
 		
