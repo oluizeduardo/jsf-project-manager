@@ -38,7 +38,7 @@
 	
 	<!-- Tempo de sessão. -->	
 	<session-config>
-    	<session-timeout>30</session-timeout>
+    	<session-timeout>40</session-timeout>
   	</session-config>
 	
 	<!-- Resolver problema com Exceptions. -->

@@ -32,7 +32,7 @@ public class FilterAccess implements Filter {
 			System.err.println("=> Acesso negado!!! Nenhum usuário logado. <=");
 			
 			// Redireciona o usuário para a página de login.			
-			resp.sendRedirect("../login.xhtml");
+			resp.sendRedirect("../erro-sessao.html");
 		}else{
 			
 			String uri = req.getRequestURI();

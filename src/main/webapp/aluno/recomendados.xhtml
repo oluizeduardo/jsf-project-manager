@@ -58,8 +58,8 @@ body {
 					</p:column>
 		
 					<p:column style="width:32px;text-align: center">
-						<p:commandButton icon="ui-icon-search" title="Visualizar" />
-					</p:column>
+					<p:commandButton icon="ui-icon-search" title="Visualizar" onclick="PF('projects').show()"/>
+				</p:column>
 		
 				</p:dataTable>
 			</h:form>
@@ -73,6 +73,20 @@ body {
 			style="font-size: 15px; font-style:italic" />
 	</p:panel>
 
+	
+	<!-- DETALHES DO PROJETO RECOMENDADO -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+		header="Detalhes do Projeto" widgetVar="projects" 
+		resizable="false" closeOnEscape="true">
+
+		<p:panel>
+			<h:outputLabel
+				value="Detalhes completos do projeto." />
+		</p:panel>
+
+	</p:dialog>
+	
+	
 </h:body>
 
 </html>

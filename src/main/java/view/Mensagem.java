@@ -19,15 +19,17 @@ public class Mensagem {
 	 */
 	public static void ExibeMensagem(String mensagem){		
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.addMessage(null, new FacesMessage("",mensagem));
+		if(facesContext != null)
+			facesContext.addMessage(null, new FacesMessage("",mensagem));
 	}
 
 	/**
 	 * Exibe uma mensagem de atenção na tela onde é chamado.
 	 */
 	public static void ExibeMensagemAtencao(String mensagem){		
-		FacesContext facesContext = FacesContext.getCurrentInstance();		
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção:", mensagem));
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		if(facesContext != null)
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção:", mensagem));
 	}
 	
 	/**
@@ -35,7 +37,8 @@ public class Mensagem {
 	 */
 	public static void ExibeMensagemErro(String mensagem){		
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", mensagem));
+		if(facesContext != null)
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", mensagem));
 	}
 	
 }

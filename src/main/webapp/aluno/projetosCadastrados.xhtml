@@ -56,7 +56,7 @@
 				</p:column>
 	
 				<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-search" title="Visualizar"/>
+					<p:commandButton icon="ui-icon-search" title="Visualizar" onclick="PF('registered-projects').show()"/>
 				</p:column>
 	
 			</p:dataTable>
@@ -70,6 +70,19 @@
 			value="Todos projetos cadastradas."
 			style="font-size: 15px; font-style:italic" />
 	</p:panel>
+	
+	
+	<!-- DETALHES DO PROJETO CADASTRADO -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+		header="Detalhes do Projeto" widgetVar="registered-projects" 
+		resizable="false" closeOnEscape="true">
+
+		<p:panel>
+			<h:outputLabel
+				value="Detalhes completos do projeto." />
+		</p:panel>
+
+	</p:dialog>
 
 </h:body>
 

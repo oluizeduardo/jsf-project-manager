@@ -11,7 +11,7 @@ public class SessionUtil {
 
 	
 	/**Nome da chave utilizada para associar com um valor na Session.*/
-	public static final String KEY_SESSION = "user-logged"; 
+	public static final String KEY_SESSION = "usuario-logado"; 
 	
 	
 	/**
