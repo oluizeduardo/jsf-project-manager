@@ -19,51 +19,52 @@ body {
 	<ui:include src="barraDeMenu.xhtml" />
 
 	<!-- MENSAGEM -->
-	<p:growl id="messages" />
+	<p:growl id="messages" showDetail="true"/>
 
-		<p:panel>
-			<h:form id="tabela-projetos-recomendados">
-				<p:dataTable id="tabela-projetos-recomendados" var="projeto"
-					value="#{projetoBean.projetosRecomendados}" widgetVar="projectsTable"
-					multiViewState="true" rows="10" paginator="true"
-					paginatorPosition="bottom" resizableColumns="true"
-					paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
-					emptyMessage="Nenhum novo projeto foi localizado com as suas características.">
-		
-		
-					<p:column headerText="Projeto" filterBy="#{projeto.titulo}"
-						sortBy="#{projeto.titulo}" filterMatchMode="startsWith"
-						style="width:400px">
-						<h:outputText value="#{projeto.titulo}" />
-					</p:column>
-		
-					<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
-						sortBy="#{projeto.categoria}" filterMatchMode="startsWith"
-						style="text-align: center; width:200px">
-						<h:outputText value="#{projeto.categoria}" />
-					</p:column>
-		
-					<p:column headerText="Prof. Coordenador"
-						filterBy="#{projeto.coordenador.nome}"
-						sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
-						style="text-align: center; width:220px">
-						<h:outputText value="#{projeto.coordenador.nome}" />
-					</p:column>
-					
-					<p:column headerText="Habilidades em comum"
-						filterBy="#{projeto.str_habilidadesComuns}"
-						sortBy="#{projeto.str_habilidadesComuns}" filterMatchMode="contains"
-						style="text-align: center">
-						<h:outputText value="#{projeto.str_habilidadesComuns}" />
-					</p:column>
-		
-					<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-search" title="Visualizar" onclick="PF('projects').show()"/>
+	<p:panel>
+		<h:form id="tabela-projetos-recomendados">
+			<p:dataTable id="tabela-projetos-recomendados" var="projeto"
+				value="#{projetoBean.projetosRecomendados}"
+				widgetVar="projectsTable" multiViewState="true" rows="10"
+				paginator="true" paginatorPosition="bottom" resizableColumns="true"
+				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+				emptyMessage="Nenhum novo projeto foi localizado com as suas características.">
+
+
+				<p:column headerText="Projeto" filterBy="#{projeto.titulo}"
+					sortBy="#{projeto.titulo}" filterMatchMode="startsWith"
+					style="width:400px">
+					<h:outputText value="#{projeto.titulo}" />
 				</p:column>
-		
-				</p:dataTable>
-			</h:form>
-		</p:panel>
+
+				<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
+					sortBy="#{projeto.categoria}" filterMatchMode="startsWith"
+					style="text-align: center; width:200px">
+					<h:outputText value="#{projeto.categoria}" />
+				</p:column>
+
+				<p:column headerText="Prof. Coordenador"
+					filterBy="#{projeto.coordenador.nome}"
+					sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
+					style="text-align: center; width:220px">
+					<h:outputText value="#{projeto.coordenador.nome}" />
+				</p:column>
+
+				<p:column headerText="Habilidades em comum"
+					filterBy="#{projeto.str_habilidadesComuns}"
+					sortBy="#{projeto.str_habilidadesComuns}"
+					filterMatchMode="contains" style="text-align: center">
+					<h:outputText value="#{projeto.str_habilidadesComuns}" />
+				</p:column>
+
+				<p:column style="width:32px;text-align: center">
+					<p:commandButton icon="ui-icon-search" title="Visualizar" oncomplete="PF('project-details').show()" update="painel-de-detalhes">
+						<f:setPropertyActionListener value="#{projeto}"	target="#{projetoBean.projetoSelecionado}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:panel>
 
 	<p:spacer height="8" />
 
@@ -76,17 +77,12 @@ body {
 	
 	<!-- DETALHES DO PROJETO RECOMENDADO -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-		header="Detalhes do Projeto" widgetVar="projects" 
-		resizable="false" closeOnEscape="true">
+			  header="Detalhes do Projeto Recomendado" widgetVar="project-details" 
+			  resizable="false" closeOnEscape="true">
 
-		<p:panel>
-			<h:outputLabel
-				value="Detalhes completos do projeto." />
-		</p:panel>
+		<ui:include src="painelDetalhesProjeto.xhtml"/>
 
 	</p:dialog>
-	
-	
 </h:body>
 
 </html>

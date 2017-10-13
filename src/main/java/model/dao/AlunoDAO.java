@@ -577,7 +577,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "[ex:EXIGE]->(h:Habilidade)<-"
 				+ "[:EXIGE]-(p2:Projeto)<-[:PARTICIPA]-"
 				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
-				+ "WHERE NOT((eu)-[:PARTICIPA]->(pr)) "
+				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
 				+ "RETURN "
 				+ "pr.nome as Coordenador, "
 				+ "p.categoria as Categoria, "
@@ -590,8 +590,9 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "h.nome as Habilidade, ex.nivel as Nivel"
 				+ " UNION ALL "
 				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
-				+ "[ex:EXIGE]->(h:Habilidade)<-[:CONHECE]-"
-				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
+				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
+				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}), "
+				+ "(p)-[ex:EXIGE]->(h:Habilidade) "
 				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
 				+ "RETURN "
 				+ "pr.nome as Coordenador, "
@@ -602,7 +603,22 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.descricaoCurta as Descricao, "
 				+ "p.resumo as Resumo, "
 				+ "p.titulo as Titulo, "
-				+ "h.nome as Habilidade, ex.nivel as Nivel";
+				+ "h.nome as Habilidade, ex.nivel as Nivel "
+				+ " UNION ALL "
+				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
+				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
+				+ "(eu:Aluno{email:'"+email+"',senha:'"+senha+"'}) "
+				+ "WHERE NOT((p)-[]->(:Habilidade)) AND NOT((eu)-[:PARTICIPA]->(p))"
+				+ "RETURN "
+				+ "pr.nome as Coordenador, "
+				+ "p.categoria as Categoria, "
+				+ "p.dataPublicacao as Publicacao, "
+			    + "p.dataInicio as DataInicio, "
+			    + "p.dataFim as DataFim, "
+				+ "p.descricaoCurta as Descricao, "
+				+ "p.resumo as Resumo, "
+				+ "p.titulo as Titulo, "
+				+ "toUpper(c.nome) as Habilidade, 'Básico' as Nivel ";
 		
 		StatementResult resultado = session.run(script);
 		
@@ -635,13 +651,37 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				projetosRecomendados.add(projeto);
 			}else{
 				ProjetoRecomendado p = projetosRecomendados.get(indiceDoProjeto);
-				p.addHabilidadeEmComum(novaHabilidadeComum);
+				
+				// Verifica se na lista de habilidades em comum já não tem uma determinada habilidade.
+				// A lista de habilidades em comum de um projeto recomendado aparecerá na tabela para o aluno.
+				if(!verificaExistenciaDeHabilidadeComum(p.getHabilidadesEmComum(), novaHabilidadeComum)){
+					p.addHabilidadeEmComum(novaHabilidadeComum);
+				}
 			}
 		}
 		session.close();
 		
 		return projetosRecomendados;
 	}
+	
+	
+	
+	/**
+	 * Verifica a existência de uma habilidade na lista de habilidades em comum. 
+	 * 
+	 * @param habilidades Lista de Habilidades.
+	 * @param habilidadeComum habilidade buscada na lista.
+	 * @return true ou false.
+	 */
+	private boolean verificaExistenciaDeHabilidadeComum(List<Habilidade> habilidades, Habilidade habilidadeComum){
+		for (Habilidade habilidade : habilidades) {
+			if(habilidade.getDescricao().equals(habilidadeComum.getDescricao())){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	
 	

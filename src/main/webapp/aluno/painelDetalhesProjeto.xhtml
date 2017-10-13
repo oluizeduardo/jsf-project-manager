@@ -10,49 +10,74 @@
 		<p:tabView>
 
 			<p:tab title="Detalhes">
+
 				<h:panelGrid columns="4" cellspacing="10">
 					<h:outputLabel for="titulo" value="Título: " style="font-weight:bold" />
-					<h:outputText id="titulo" value="#{homeController.projetoSelecionado.titulo}" />
+					<h:outputText id="titulo" value="#{projetoBean.projetoSelecionado.titulo}" />
 					
 					<h:outputLabel for="categoria" value="Categoria: " style="font-weight:bold" />
-					<h:outputText id="categoria" value="#{homeController.projetoSelecionado.categoria}" />
+					<h:outputText id="categoria" value="#{projetoBean.projetoSelecionado.categoria}" />
 					
 					<h:outputLabel for="coordenador" value="Coordenador: " style="font-weight:bold" />
-					<h:outputText id="coordenador" value="#{homeController.projetoSelecionado.coordenador.nome}" />
+					<h:outputText id="coordenador" value="#{projetoBean.projetoSelecionado.coordenador.nome}" />
 				
 					<h:outputLabel for="status" value="Status: " style="font-weight:bold" />
-					<h:outputText id="status" value="#{homeController.projetoSelecionado.status}"/>
+					<h:outputText id="status" value="#{projetoBean.projetoSelecionado.status}"/>
 				
 					<h:outputLabel for="dataInicio" value="Data de Início: " style="font-weight:bold" />
-					<h:outputText id="dataInicio" value="#{homeController.projetoSelecionado.dataInicio}">
+					<h:outputText id="dataInicio" value="#{projetoBean.projetoSelecionado.dataInicio}">
 						<f:convertDateTime pattern="MM/dd/yyyy" />
 					</h:outputText>
 					
 					<h:outputLabel for="dataFim" value="Data de Término: " style="font-weight:bold" />
-					<h:outputText id="dataFim" value="#{homeController.projetoSelecionado.dataFim}"/>			
+					<h:outputText id="dataFim" value="#{projetoBean.projetoSelecionado.dataFim}"/>
+										
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2" cellspacing="10">
 					<h:outputLabel for="descricao" value="Descrição: " style="font-weight:bold" />
-					<h:outputText id="descricao" value="#{homeController.projetoSelecionado.descricaoCurta}"/>
+					<h:outputText id="descricao" value="#{projetoBean.projetoSelecionado.descricaoCurta}"/>
 				</h:panelGrid>
 				
-				<p:panel visible="#{homeController.projetoSelecionado.financiamento.existente}">
+				<p:panel header="Financiamento" visible="#{homeController.projetoSelecionado.financiamento.existente}">
 					<h:panelGrid columns="4" cellspacing="10">
 						<h:outputLabel for="natureza" value="Natureza: " style="font-weight:bold" />
-						<h:outputText id="natureza" value="#{homeController.projetoSelecionado.financiamento.natureza}"/>
+						<h:outputText id="natureza" value="#{projetoBean.projetoSelecionado.financiamento.natureza}"/>
 						
 						<h:outputLabel for="valor" value="Valor: " style="font-weight:bold" />
-						<h:outputText id="valor" value="#{homeController.projetoSelecionado.financiamento.valor}"/>
+						<h:outputText id="valor" value="#{projetoBean.projetoSelecionado.financiamento.valor}"/>
 					</h:panelGrid>
 				</p:panel>
+			</p:tab>
+			
+			<p:tab title="Habilidades">
+				<h:outputLabel value="Habilidades exigidas: " style="font-weight:bold" />
+				<p/>
+				<p:dataTable id="table-habilities" var="habilidade"
+					value="#{projetoBean.projetoSelecionado.habilidades}"
+					resizableColumns="true"
+					emptyMessage="Nenhuma habilidade definida."
+					style="width:700px">
 				
+					<p:column headerText="Habilidade" style="text-align: center">
+						<h:outputText value="#{habilidade.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Nível" style="text-align: center">
+						<h:outputText value="#{habilidade.nivel}" />
+					</p:column>		
+				</p:dataTable>
+				
+				<p/>
+				
+				<h:outputLabel for="hab-comum" value="Habilidades em comum: " style="font-weight:bold" />
+				<h:outputText id="hab-comum" value="#{projetoBean.projetoSelecionado.str_habilidadesComuns}"/>
 			</p:tab>
 			
 			<p:tab title="Resumo">
-				<p:textEditor style="margin-bottom:10px; width:650px"
+				<p:textEditor style="margin-bottom:10px; width: 700px"
 					placeholder="Sem resumo cadastrado." 
-					value="#{homeController.projetoSelecionado.resumo}">
+					value="#{projetoBean.projetoSelecionado.resumo}">
 					<f:facet name="toolbar">
 						<span class="ql-formats"> 
 							<select class="ql-font"/> 

@@ -23,6 +23,7 @@ public class ProjetoBean implements Serializable {
 	private List<Projeto> todosProjetos = null;
 	private List<Projeto> projetosQueParticipo = null;
 	private List<ProjetoRecomendado> projetosRecomendados = null;
+	private ProjetoRecomendado projetoSelecionado = new ProjetoRecomendado();
 	
 	
 	public ProjetoBean() {
@@ -54,6 +55,12 @@ public class ProjetoBean implements Serializable {
 	}
 	public void setProjetosRecomendados(List<ProjetoRecomendado> projetosRecomendados) {
 		this.projetosRecomendados = projetosRecomendados;
+	}
+	public ProjetoRecomendado getProjetoSelecionado() {
+		return projetoSelecionado;
+	}
+	public void setProjetoSelecionado(ProjetoRecomendado projetoSelecionado) {
+		this.projetoSelecionado = projetoSelecionado;
 	}
 	
 }
