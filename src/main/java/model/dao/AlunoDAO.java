@@ -18,7 +18,7 @@ import model.pojo.ProjetoRecomendado;
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 
 	
-	// LIsta de projetos recomendados ao aluno.
+	// Lista de projetos recomendados ao aluno.
 	private List<ProjetoRecomendado> projetosRecomendados = null;
 	
 	

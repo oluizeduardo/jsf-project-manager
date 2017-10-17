@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:body>
+	
+	<h:form id="form-notificacoes">
+		<!-- PAINEL DE NOTIFICAÇÕES -->
+		<p:dataGrid id="pn-lista-de-notificacoes" var="notificacao"
+			value="#{homeController.notificacoes}" columns="1" rows="4"
+			paginator="true" paginatorPosition="bottom"
+			emptyMessage="Nenhuma nova participação aprovada"
+			paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+			style="width:700px">
+
+			<p:panel id="pnNotificacao" style="margin:3px">
+				<div align="left">
+					<h:outputText value="#{notificacao.mensagem}"
+						style="font-size:14px" />
+				</div>
+			</p:panel>
+		</p:dataGrid>
+	</h:form>
+	<p:panel>
+		<div align="center">
+			<p:commandButton value="Fechar" 
+							 onclick="PF('notificacoes').hide()" 
+							 actionListener="#{homeController.atualizaMensagensLidas}"
+							 update="barraDeMenu"/>
+		</div>
+	</p:panel>
+</h:body>
+</html>

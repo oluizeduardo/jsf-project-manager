@@ -8,6 +8,8 @@ import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
+
+import model.pojo.Aluno;
 import model.pojo.Curso;
 import model.pojo.Habilidade;
 import model.pojo.Notificacao;
@@ -477,6 +479,83 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	
 	
 	/**
+	 * Retorna uma lista de notificações com base nos alunos que tiveram 
+	 * a solicitação de participação em um projeto aprovada pelo professor.
+	 * 
+	 * @param aluno O aluno do qual se deseja buscar as notificações.
+	 * @return Uma lista de notificações.
+	 */
+	public List<Notificacao> getNotificacoesDeParticipacaoEmProjetos(Aluno aluno) {
+
+		List<Notificacao> lista = new ArrayList<Notificacao>();
+		
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
+		
+		String script = "MATCH(p:Professor)-[:COORDENA]->(pr:Projeto)<-"
+				+ "[par:PARTICIPA{msglida: false}]-"
+				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
+				+ "RETURN p.nome as Coordenador, pr.titulo as Projeto, p.sexo as Sexo";
+		
+		iniciaSessaoNeo4J();
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			Record registro = resultado.next();
+			String coordenador = registro.get("Coordenador").asString();
+			String projeto = registro.get("Projeto").asString();
+			String sexo = registro.get("Sexo").asString();
+			String sexomsg = sexo.equals("Feminino") ? "A professora" : "O professor";
+			
+			String msg = sexomsg+" "+coordenador+" aprovou sua participação no projeto "+projeto+".";
+			
+			lista.add(new Notificacao(msg));
+		}
+		return lista;
+	}
+	
+	
+	
+	
+	/**
+	 * Atualiza no banco de dados os projetos que o aluno faz parte e que já tiveram 
+	 * a notificação de aprovação de participação lida.
+	 * 
+	 * @param aluno
+	 */
+	public void atualizaMensagemDeParticipacaoLida(Aluno aluno){
+		
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
+		
+		String script="MATCH k=(eu:Aluno{email:'"+email+"', senha:'"+senha+"'})-"
+				+ "[par:PARTICIPA]->(p:Projeto) SET par.msglida = NULL return k";
+		
+		super.iniciaSessaoNeo4J();
+		transaction = session.beginTransaction();
+
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			
+		}catch(Exception ex){
+			System.err.println("Erro ao executar script! - ProjetoDAO.atualizaMensagemDeParticipacaoLida()");
+		}finally {
+			try {
+				transaction.close();
+				session.close();
+			} 
+			catch (ClientException excep) {
+				System.err.println("Erro ao fechar Transaction ou Session - ProjetoDAO.atualizaMensagemDeParticipacaoLida()");
+			}
+		}
+	}
+	
+	
+	
+	
+	/**
 	 * Monta no banco de dados uma relação de "PARTICIPA" entre aluno e projeto.
 	 * @param alunoID
 	 * @param projetoID
@@ -485,7 +564,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		String script ="MATCH(a:Aluno)-[i:TEM_INTERESSE_EM]->(p:Projeto) "
 				+ "WHERE id(a)="+alunoID+" AND ID(p)="+projetoID+"  DELETE i "
-				+ "CREATE(a)-[r:PARTICIPA]->(p) RETURN a, r, p";
+				+ "CREATE(a)-[r:PARTICIPA{msglida:false}]->(p) RETURN a, r, p";
 		
 		super.iniciaSessaoNeo4J();
 		transaction = session.beginTransaction();
@@ -544,6 +623,9 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			}
 		}		
 	}
+
+
+	
 	
 	
 }

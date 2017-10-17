@@ -10,6 +10,7 @@ import model.dao.AlunoDAO;
 import model.dao.ProjetoDAO;
 import model.pojo.Aluno;
 import model.pojo.Habilidade;
+import model.pojo.Notificacao;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
 import view.Mensagem;
@@ -47,8 +48,16 @@ public class HomeAlunoController implements Serializable {
 	
 	// Projeto selecionado na lista de projetos.
 	private Projeto projetoSelecionado = new Projeto();
+	
 	// Objeto de acesso aos dados.
 	private AlunoDAO alunoDAO = new AlunoDAO();
+	
+	// Lista de notificações do aluno.
+	private List<Notificacao> notificacoes = null;
+	
+	// Número total de notificações não lidas pelo aluno.
+	private int qtdeNotificacoes =0;
+	
 	
 	
 	
@@ -71,6 +80,19 @@ public class HomeAlunoController implements Serializable {
 		this.projetoBean = new ProjetoBean();
 		this.todosProjetos = projetoBean.getTodosProjetos();
 		carregaListaDeHabilidades(userAluno);
+		carregaListaDeNotificacoes();
+	}
+	
+	
+	
+	/**
+	 * Carrega a lista de notificações e atualiza a quantidade
+	 * de notificações que será exibida no botão na barra de menu 
+	 * do aluno.
+	 */
+	private void carregaListaDeNotificacoes(){
+		this.notificacoes = new ProjetoDAO().getNotificacoesDeParticipacaoEmProjetos(userAluno);
+		this.qtdeNotificacoes = notificacoes.size();
 	}
 	
 
@@ -87,6 +109,17 @@ public class HomeAlunoController implements Serializable {
 		for (Habilidade hab : habilidadesDoAluno) {
 			this.habilidades.add(hab.getDescricao());
 		}
+	}
+	
+	
+	
+	/**
+	 * Atualiza as relações entre aluno e projeto para que não exiba mais
+	 * notificações de aprovação de participação para o aluno.
+	 */
+	public void atualizaMensagensLidas(){
+		new ProjetoDAO().atualizaMensagemDeParticipacaoLida(userAluno);
+		carregaListaDeNotificacoes();
 	}
 	
 	
@@ -244,6 +277,18 @@ public class HomeAlunoController implements Serializable {
 	}
 	public void setHabilidade(String habilidade) {
 		this.habilidade = habilidade;
+	}
+	public int getQtdeNotificacoes() {
+		return qtdeNotificacoes;
+	}
+	public void setQtdeNotificacoes(int qtdeNotificacoes) {
+		this.qtdeNotificacoes = qtdeNotificacoes;
+	}
+	public List<Notificacao> getNotificacoes() {
+		return notificacoes;
+	}
+	public void setNotificacoes(List<Notificacao> notificacoes) {
+		this.notificacoes = notificacoes;
 	}
 	
 }
