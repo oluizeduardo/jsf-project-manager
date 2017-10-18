@@ -14,6 +14,7 @@ import model.pojo.Habilidade;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
 import model.pojo.ProjetoRecomendado;
+import web.SessionUtil;
 
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 
@@ -269,9 +270,16 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	public boolean atualizar(Aluno aluno) {
 		super.iniciaSessaoNeo4J();
 		
+		/*Apesar de estar trazendo o objeto Aluno para dentro desse método,
+		 * o usuário pode ter alterado o email do próprio objeto, impedindo 
+		 * o script de usar o email como chave de filtro para atualização,
+		 * devido a isso é necessário pegar os dados que foram usados para 
+		 * entrar no sistema (email e senha), ambos presentes no objeto Session.*/
+		Pessoa pessoa = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		
 		// Dados do usuário logado no sistema.
-		String email = aluno.getContato().getEmail();
-		String senha = aluno.getSenha();
+		String email = pessoa.getContato().getEmail();
+		String senha = pessoa.getSenha();
 		boolean status = false;// Status da atualização.		
 		String script1="", script2 = "";
 		

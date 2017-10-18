@@ -26,7 +26,7 @@ import model.helperView.ListaDeIdiomas;
 public class CadastrarAlunoController {
 
 	// Instância do aluno logado no sistema.
-	private Aluno aluno = null;
+	private Aluno aluno = new Aluno();
 	// Acesso à lista de estados brasileiros.
 	private List<String> estadosBrasileiros = null;
 	// Acesso à lista de estado cívil.
@@ -116,7 +116,7 @@ public class CadastrarAlunoController {
 		System.out.println("Atualizando aluno: " + aluno);
 		
 		this.aluno.setHabilidades(habilidades);
-		this.aluno.setIdiomas(linguasFaladasPeloAluno);
+		this.aluno.setIdiomas(linguasFaladasPeloAluno);		
 		
 		if(validaData(aluno.getDataNascimento())){
 			boolean atualizou = new AlunoDAO().atualizar(aluno);
