@@ -568,9 +568,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		String script="MATCH k=(eu:Aluno{email:'"+email+"', senha:'"+senha+"'})-"
 				+ "[par:PARTICIPA]->(p:Projeto) WHERE ID(p)="+projetoID
 				+ " SET par.msglida = NULL return k";
-		
-		System.err.println(script);
-		
+				
 		super.iniciaSessaoNeo4J();
 		transaction = session.beginTransaction();
 

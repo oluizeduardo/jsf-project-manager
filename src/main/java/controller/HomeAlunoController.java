@@ -95,7 +95,6 @@ public class HomeAlunoController implements Serializable {
 	public void removeNotificacao(){
 		if(notificacaoSelecionada != null){
 			int projetoID = notificacaoSelecionada.getProjetoID();
-			System.out.println("ID DO PROJETO: "+projetoID);
 			new ProjetoDAO().atualizaMensagemDeParticipacaoLida(userAluno, projetoID);
 			this.notificacoes.remove(notificacaoSelecionada);
 			this.qtdeNotificacoes = notificacoes.size();
