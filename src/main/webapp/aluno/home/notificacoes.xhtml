@@ -21,14 +21,22 @@
 					<h:outputText value="#{notificacao.mensagem}"
 						style="font-size:14px" />
 				</div>
+
+				<div align="right">
+					<p:commandButton title="OK" icon="ui-icon-check"
+						update="pn-lista-de-notificacoes"
+						action="#{homeController.removeNotificacao}">
+						<f:setPropertyActionListener value="#{notificacao}"
+							target="#{homeController.notificacaoSelecionada}" />
+					</p:commandButton>
+				</div>
 			</p:panel>
 		</p:dataGrid>
 	</h:form>
 	<p:panel>
 		<div align="center">
 			<p:commandButton value="Fechar" 
-							 onclick="PF('notificacoes').hide()" 
-							 actionListener="#{homeController.atualizaMensagensLidas}"
+							 onclick="PF('notificacoes').hide()"
 							 update="barraDeMenu"/>
 		</div>
 	</p:panel>

@@ -524,8 +524,12 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		String script = "MATCH(p:Professor)-[:COORDENA]->(pr:Projeto)<-"
 				+ "[par:PARTICIPA{msglida: false}]-"
-				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
-				+ "RETURN p.nome as Coordenador, pr.titulo as Projeto, p.sexo as Sexo";
+				+ "(aluno:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
+				+ "RETURN p.nome as Coordenador, "
+				+ "pr.titulo as Projeto, "
+				+ "p.sexo as Sexo, "
+				+ "ID(aluno) as IDAluno, "
+				+ "ID(pr) as IDProjeto";
 		
 		iniciaSessaoNeo4J();
 		StatementResult resultado = session.run(script);
@@ -536,10 +540,12 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			String projeto = registro.get("Projeto").asString();
 			String sexo = registro.get("Sexo").asString();
 			String sexomsg = sexo.equals("Feminino") ? "A professora" : "O professor";
+			int idAluno = registro.get("IDAluno").asInt();
+			int idProjeto = registro.get("IDProjeto").asInt();
 			
 			String msg = sexomsg+" "+coordenador+" aprovou sua participação no projeto "+projeto+".";
 			
-			lista.add(new Notificacao(msg));
+			lista.add(new Notificacao(msg, idProjeto, idAluno));
 		}
 		return lista;
 	}
@@ -552,14 +558,18 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	 * a notificação de aprovação de participação lida.
 	 * 
 	 * @param aluno
+	 * @param projetoID
 	 */
-	public void atualizaMensagemDeParticipacaoLida(Aluno aluno){
+	public void atualizaMensagemDeParticipacaoLida(Aluno aluno, int projetoID){
 		
 		String email = aluno.getContato().getEmail();
 		String senha = aluno.getSenha();
 		
 		String script="MATCH k=(eu:Aluno{email:'"+email+"', senha:'"+senha+"'})-"
-				+ "[par:PARTICIPA]->(p:Projeto) SET par.msglida = NULL return k";
+				+ "[par:PARTICIPA]->(p:Projeto) WHERE ID(p)="+projetoID
+				+ " SET par.msglida = NULL return k";
+		
+		System.err.println(script);
 		
 		super.iniciaSessaoNeo4J();
 		transaction = session.beginTransaction();

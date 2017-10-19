@@ -55,6 +55,9 @@ public class HomeAlunoController implements Serializable {
 	// Lista de notificações do aluno.
 	private List<Notificacao> notificacoes = null;
 	
+	// Notificação selecionada para ser excluída.
+	private Notificacao notificacaoSelecionada = new Notificacao();
+	
 	// Número total de notificações não lidas pelo aluno.
 	private int qtdeNotificacoes =0;
 	
@@ -86,6 +89,22 @@ public class HomeAlunoController implements Serializable {
 	
 	
 	/**
+	 * Remove uma determinada notificação da lista de notificações.
+	 * Atualiza a variável com a quantidade de notificações.
+	 */
+	public void removeNotificacao(){
+		if(notificacaoSelecionada != null){
+			int projetoID = notificacaoSelecionada.getProjetoID();
+			System.out.println("ID DO PROJETO: "+projetoID);
+			new ProjetoDAO().atualizaMensagemDeParticipacaoLida(userAluno, projetoID);
+			this.notificacoes.remove(notificacaoSelecionada);
+			this.qtdeNotificacoes = notificacoes.size();
+		}
+	}
+	
+	
+	
+	/**
 	 * Carrega a lista de notificações e atualiza a quantidade
 	 * de notificações que será exibida no botão na barra de menu 
 	 * do aluno.
@@ -111,16 +130,6 @@ public class HomeAlunoController implements Serializable {
 		}
 	}
 	
-	
-	
-	/**
-	 * Atualiza as relações entre aluno e projeto para que não exiba mais
-	 * notificações de aprovação de participação para o aluno.
-	 */
-	public void atualizaMensagensLidas(){
-		new ProjetoDAO().atualizaMensagemDeParticipacaoLida(userAluno);
-		carregaListaDeNotificacoes();
-	}
 	
 	
 	
@@ -289,6 +298,12 @@ public class HomeAlunoController implements Serializable {
 	}
 	public void setNotificacoes(List<Notificacao> notificacoes) {
 		this.notificacoes = notificacoes;
+	}
+	public Notificacao getNotificacaoSelecionada() {
+		return notificacaoSelecionada;
+	}
+	public void setNotificacaoSelecionada(Notificacao notificacaoSelecionada) {
+		this.notificacaoSelecionada = notificacaoSelecionada;
 	}
 	
 }
