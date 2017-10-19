@@ -64,7 +64,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 					+ "AND p.email='"+professor.getContato().getEmail()+"' "
 					+ "AND p.senha='"+professor.getSenha()+"' "
 					+ "MATCH (c:Curso) WHERE c.nome = '"+curso+"' "
-					+ "CREATE (p)-[:LECIONA]->(c) return p, c";
+					+ "CREATE (p)-[:LECIONA_EM]->(c) return p, c";
 		
 		// Se não existir, um novo nó deve ser criado e associado ao aluno.
 		}else{
@@ -115,7 +115,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		transaction = session.beginTransaction();
 		boolean status = false;
 		
-		String script = "MATCH (a:Professor{nome:'"+professor.getNome()+"'})-[le:LECIONA]->(:Curso) DELETE le";
+		String script = "MATCH (a:Professor{nome:'"+professor.getNome()+"'})-[le:LECIONA_EM]->(:Curso) DELETE le";
 		
 		try{
 			transaction.run(script);			
@@ -146,7 +146,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 	 */
 	private boolean existeCurso(String curso){		
 		super.iniciaSessaoNeo4J();
-		StatementResult resultado = session.run("MATCH (c:Curso) WHERE c.nome = '"+curso+"' return c");
+		StatementResult resultado = session.run("MATCH (c:Curso) WHERE c.nome = '"+curso+"' RETURN c");
 		
 		while (resultado.hasNext()) {
 			return true;
@@ -193,10 +193,10 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		String curso = professor.getCurso().getNome();
 		if(existeCurso(curso)){
 			String scriptBuscaCurso = " MATCH(c:Curso) WHERE c.nome = '"+curso+"' ";
-			String scriptCriaRelacao = "CREATE(pr)-[:LECIONA]->(c) RETURN pr, c";
+			String scriptCriaRelacao = "CREATE(pr)-[:LECIONA_EM]->(c) RETURN pr, c";
 			script = scriptBuscaCurso + scriptCriaProfessor + scriptCriaRelacao;
 		}else{
-			script = scriptCriaProfessor + ", (c:Curso{nome: '"+curso+"'}), (pr)-[:LECIONA]->(c)";
+			script = scriptCriaProfessor + ", (c:Curso{nome: '"+curso+"'}), (pr)-[:LECIONA_EM]->(c)";
 		}
 		
 		System.out.println(script);
@@ -233,7 +233,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 	 */
 	public List<Professor> listar() {
 		
-		String script = "MATCH(p:Professor)-[:LECIONA]->(c:Curso) "
+		String script = "MATCH(p:Professor)-[:LECIONA_EM]->(c:Curso) "
 				+ "RETURN p.nome as Professor, c.nome as Curso, p.email as Email";
 		
 		super.iniciaSessaoNeo4J();
@@ -268,7 +268,7 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 		//transaction = session.beginTransaction();
 		Professor professor = null;		
 		
-		String script = "MATCH(pr:Professor)-[:LECIONA]->(c:Curso) "
+		String script = "MATCH(pr:Professor)-[:LECIONA_EM]->(c:Curso) "
 						+ "WHERE pr.email='"+email+"' AND pr.senha = '"+senha+"' "
 						+ "return pr.nome as nome, pr.documentoRG as rg,"
 						+ "pr.documentoCPF as cpf, pr.estadoCivil as esci,"

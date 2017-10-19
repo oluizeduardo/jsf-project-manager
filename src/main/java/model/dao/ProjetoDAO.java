@@ -71,18 +71,21 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			for (Habilidade habilidade : habilidadesExigidas) {
 				
 				descricaoHabilidade = habilidade.getDescricao();
+				// Nível de conhecimento em String (Básico, Médio, Avançado)
 				nivelDeConhecimento = habilidade.getNivel();
+				// Nível de habilidade em int (1, 2, 3)
+				int nivel = converteNivelDeConhecimento(nivelDeConhecimento);
 				
 				// Verifica se já existe tal habilidade no banco de dados.
 				if(habilidadeDAO.verificaExistenciaDeHabilidade(descricaoHabilidade)){
 					scriptHabilidades ="MATCH (h:Habilidade)"
 							+ " WHERE h.nome ='"+descricaoHabilidade+"'"
 							+ " MATCH (p:Projeto) WHERE p.titulo='"+titulo+"' "
-							+ " CREATE (p)-[:EXIGE{nivel: '"+nivelDeConhecimento+"'}]->(h) return p, h ";
+							+ " CREATE (p)-[:EXIGE{descricao: '"+nivelDeConhecimento+"', nivel: "+nivel+"}]->(h) return p, h ";
 				}else{
 					scriptHabilidades ="MATCH (p:Projeto) WHERE p.titulo='"+titulo+"' "
 							+ "CREATE (h:Habilidade{nome: '"+descricaoHabilidade+"'}), "
-							+ "(p)-[:EXIGE{nivel: '"+nivelDeConhecimento+"'}]->(h) return p, h ";
+							+ "(p)-[:EXIGE{descricao: '"+nivelDeConhecimento+"', nivel:"+nivel+"}]->(h) return p, h ";
 				}
 				
 				try{
@@ -136,6 +139,33 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		return executou;
 	}
 
+	
+	
+	
+	/**
+	 * Converte o nível de conhecimento. Para cada nível descrito em uma String
+	 * existe um nível dado em int.
+	 * 
+	 * Esse valor do nível de conhecimento dado em int é fundamental para as
+	 * buscas no banco de dados baseado em nível de conhecimento em uma
+	 * determinada habilidade.
+	 * 
+	 * Básico=1, Médio=2, Avançado=3.
+	 * 
+	 * @param nivelStr A descrição do bível em String.
+	 * @return Um int indicando o níel da habilidade.
+	 */
+	private int converteNivelDeConhecimento(String nivelStr){
+		if(nivelStr.equals("Avançado")){
+			return 3;
+		}else if(nivelStr.equals("Médio")){
+			return 2;
+		}else{
+			return 1;
+		}
+	}
+	
+	
 	
 	
 	
@@ -296,7 +326,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		String script = "MATCH (pro:Professor)-[:COORDENA]->(p:Projeto)-[e:EXIGE]->(h:Habilidade) "
 				+ "WHERE p.titulo='"+titulo+"' AND pro.nome='"+coordenador+"' "
-				+ "return h.nome as Habilidade, e.nivel as Nivel";
+				+ "return h.nome as Habilidade, e.descricao as DescNivel";
 	
 		StatementResult resultado = session.run(script);
 		
@@ -306,7 +336,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			Habilidade habilidade = new Habilidade();
 			
 			habilidade.setDescricao(registro.get("Habilidade").asString());
-			habilidade.setNivel(registro.get("Nivel").asString());
+			habilidade.setNivel(registro.get("DescNivel").asString());
 			
 			habilidadesDoProjeto.add(habilidade);
 		}

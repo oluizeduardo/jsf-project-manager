@@ -83,10 +83,12 @@ public class RelatoriosController {
         barModel.setShadow(false);
         barModel.setLegendPosition("ne");
         
+        for(;(maiorQtde+2)%2!=0;maiorQtde++);
+        
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setMin(new Integer(0));
         yAxis.setMax(new Integer(maiorQtde+2));
-        yAxis.setTickCount((maiorQtde + 1));       
+        yAxis.setTickCount(3);       
     }
 
     
@@ -128,7 +130,7 @@ public class RelatoriosController {
         Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
         xAxis.setMin(new Integer(0));
         xAxis.setMax(new Integer(maiorQtde+2));
-        xAxis.setTickCount((maiorQtde + 1));
+        xAxis.setTickCount(3);
     }
     
     

@@ -42,10 +42,11 @@ public class IdiomaDAO extends DAOBase {
 			scriptIdioma = "CREATE(i:Idioma{nome:'"+nomeLingua+"'}) ";
 		}
 		
+		int nivel = converteNivelDeConhecimento(nivelDeConhecimento);
 		
 		String script = "MATCH (a:Aluno) WHERE a.email='"+email+"'AND a.senha='"+senha+"' "
  				+ scriptIdioma
- 				+ "CREATE(a)-[:CONHECE{nivel:'"+nivelDeConhecimento+"'}]->(i) "
+ 				+ "CREATE(a)-[:CONHECE{descricao:'"+nivelDeConhecimento+"', nivel:"+nivel+"}]->(i) "
  				+ "return i";
 	
 		// Executa o script no banco de dados.
@@ -69,6 +70,31 @@ public class IdiomaDAO extends DAOBase {
 		return status;
 	}
 
+	
+	
+	/**
+	 * Converte o nível de conhecimento. Para cada nível descrito em uma String
+	 * existe um nível dado em int.
+	 * 
+	 * Esse valor do nível de conhecimento dado em int é fundamental para as
+	 * buscas no banco de dados baseado em nível de conhecimento em uma
+	 * determinada habilidade.
+	 * 
+	 * Básico=1, Médio=2, Avançado=3.
+	 * 
+	 * @param nivelStr A descrição do bível em String.
+	 * @return Um int indicando o níel da habilidade.
+	 */
+	private int converteNivelDeConhecimento(String nivelStr){
+		if(nivelStr.equals("Avançado")){
+			return 3;
+		}else if(nivelStr.equals("Médio")){
+			return 2;
+		}else{
+			return 1;
+		}
+	}
+	
 
 	
 	/**
@@ -104,7 +130,7 @@ public class IdiomaDAO extends DAOBase {
 		
 		String script = "MATCH (al:Aluno)-[c:CONHECE]->(idi:Idioma)  "
 				+ "WHERE al.email = '"+email+"' AND al.senha = '"+senha+"' "
-				+ "RETURN idi.nome as lingua, c.nivel as nivel";
+				+ "RETURN idi.nome as lingua, c.descricao as DescNivel";
 		
 		super.iniciaSessaoNeo4J();
 		
@@ -114,7 +140,7 @@ public class IdiomaDAO extends DAOBase {
 			
 			Record registro = resultado.next();
 			String lingua = registro.get("lingua").asString();
-			String nivelDeConhecimento = registro.get("nivel").asString();
+			String nivelDeConhecimento = registro.get("DescNivel").asString();
 			
 			idiomasFalados.add(new Idioma(lingua, nivelDeConhecimento));		
 		}

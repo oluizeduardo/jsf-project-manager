@@ -581,10 +581,56 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		 * Busque o professor que coordena um projeto, que exija uma habilidade 
 		 * conhecida por mim
 		 */
+//		String script = "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
+//				+ "[ex:EXIGE]->(h:Habilidade)<-"
+//				+ "[:EXIGE]-(p2:Projeto)<-[:PARTICIPA]-"
+//				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
+//				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
+//				+ "RETURN "
+//				+ "pr.nome as Coordenador, "
+//				+ "p.categoria as Categoria, "
+//				+ "p.dataPublicacao as Publicacao, "
+//			    + "p.dataInicio as DataInicio, "
+//			    + "p.dataFim as DataFim, "
+//				+ "p.descricaoCurta as Descricao, "
+//				+ "p.resumo as Resumo, "
+//				+ "p.titulo as Titulo, "
+//				+ "h.nome as Habilidade, ex.descricao as DescNivel"
+//				+ " UNION ALL "
+//				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
+//				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
+//				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}), "
+//				+ "(p)-[ex:EXIGE]->(h:Habilidade) "
+//				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
+//				+ "RETURN "
+//				+ "pr.nome as Coordenador, "
+//				+ "p.categoria as Categoria, "
+//				+ "p.dataPublicacao as Publicacao, "
+//			    + "p.dataInicio as DataInicio, "
+//			    + "p.dataFim as DataFim, "
+//				+ "p.descricaoCurta as Descricao, "
+//				+ "p.resumo as Resumo, "
+//				+ "p.titulo as Titulo, "
+//				+ "h.nome as Habilidade, ex.descricao as DescNivel "
+//				+ " UNION ALL "
+//				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
+//				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
+//				+ "(eu:Aluno{email:'"+email+"',senha:'"+senha+"'}) "
+//				+ "WHERE NOT((p)-[]->(:Habilidade)) AND NOT((eu)-[:PARTICIPA]->(p))"
+//				+ "RETURN "
+//				+ "pr.nome as Coordenador, "
+//				+ "p.categoria as Categoria, "
+//				+ "p.dataPublicacao as Publicacao, "
+//			    + "p.dataInicio as DataInicio, "
+//			    + "p.dataFim as DataFim, "
+//				+ "p.descricaoCurta as Descricao, "
+//				+ "p.resumo as Resumo, "
+//				+ "p.titulo as Titulo, "
+//				+ "toUpper(c.nome) as Habilidade, 'Básico' as DescNivel ";
+		
 		String script = "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
-				+ "[ex:EXIGE]->(h:Habilidade)<-"
-				+ "[:EXIGE]-(p2:Projeto)<-[:PARTICIPA]-"
-				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
+				+ "[ex:EXIGE]->(h:Habilidade)<-[:EXIGE]-(p2:Projeto)<-"
+				+ "[:PARTICIPA]-(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
 				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
 				+ "RETURN "
 				+ "pr.nome as Coordenador, "
@@ -595,13 +641,14 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.descricaoCurta as Descricao, "
 				+ "p.resumo as Resumo, "
 				+ "p.titulo as Titulo, "
-				+ "h.nome as Habilidade, ex.nivel as Nivel"
-				+ " UNION ALL "
+				+ "h.nome as Habilidade, ex.descricao as DescNivel "				
+				+ "UNION ALL "
 				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
 				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
 				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}), "
-				+ "(p)-[ex:EXIGE]->(h:Habilidade) "
-				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
+				+ "(p)-[ex:EXIGE]->(h:Habilidade)<-[co:CONHECE]-(eu) "
+				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) AND "
+				+ "ex.nivel <= co.nivel "
 				+ "RETURN "
 				+ "pr.nome as Coordenador, "
 				+ "p.categoria as Categoria, "
@@ -611,12 +658,13 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.descricaoCurta as Descricao, "
 				+ "p.resumo as Resumo, "
 				+ "p.titulo as Titulo, "
-				+ "h.nome as Habilidade, ex.nivel as Nivel "
-				+ " UNION ALL "
+				+ "h.nome as Habilidade, ex.descricao as DescNivel "
+				+ "UNION ALL "
 				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
 				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
-				+ "(eu:Aluno{email:'"+email+"',senha:'"+senha+"'}) "
-				+ "WHERE NOT((p)-[]->(:Habilidade)) AND NOT((eu)-[:PARTICIPA]->(p))"
+				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
+				+ "WHERE NOT((p)-[:EXIGE]->(:Habilidade)<-[:CONHECE]-(eu)) "
+				+ "AND NOT((eu)-[:PARTICIPA]->(p)) "
 				+ "RETURN "
 				+ "pr.nome as Coordenador, "
 				+ "p.categoria as Categoria, "
@@ -626,8 +674,24 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.descricaoCurta as Descricao, "
 				+ "p.resumo as Resumo, "
 				+ "p.titulo as Titulo, "
-				+ "toUpper(c.nome) as Habilidade, 'Básico' as Nivel ";
-		
+				+ "toUpper(c.nome) as Habilidade, 'Básico' as DescNivel "				
+				+ "UNION ALL "
+				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
+				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
+				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
+				+ "WHERE NOT((p)-[:EXIGE]->(:Habilidade)) "
+				+ "AND NOT((eu)-[:PARTICIPA]->(p)) "
+				+ "RETURN "
+				+ "pr.nome as Coordenador, "
+				+ "p.categoria as Categoria, "
+				+ "p.dataPublicacao as Publicacao, "
+			    + "p.dataInicio as DataInicio, "
+			    + "p.dataFim as DataFim, "
+				+ "p.descricaoCurta as Descricao, "
+				+ "p.resumo as Resumo, "
+				+ "p.titulo as Titulo, "
+				+ "toUpper(c.nome) as Habilidade, 'Básico' as DescNivel";
+				
 		StatementResult resultado = session.run(script);
 		
 		while(resultado.hasNext()) {
@@ -647,7 +711,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			getStatusProjeto(projeto);
 			
 			String hab = projetoLocalizado.get("Habilidade").asString();
-			String nivel = projetoLocalizado.get("Nivel").asString();
+			String nivel = projetoLocalizado.get("DescNivel").asString();
 			Habilidade novaHabilidadeComum = new Habilidade(hab, nivel);
 			
 			// Verifica se na lista de recomendados já existe o projeto.
@@ -671,6 +735,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		
 		return projetosRecomendados;
 	}
+	
+	
 	
 	
 	

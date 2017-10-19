@@ -13,9 +13,6 @@ import model.pojo.Habilidade;
 public class HabilidadeDAO extends DAOBase {
 
 
-	public boolean salvar(Habilidade hab){
-		return false;
-	}
 	
 	
 	/**
@@ -32,7 +29,7 @@ public class HabilidadeDAO extends DAOBase {
  		
  		
 		String habilidade = novaHabilidade.getDescricao();
-		String nivelDeConhecimento = novaHabilidade.getNivel();
+		String conhecimento = novaHabilidade.getNivel();
 
 		boolean existehabilidade = verificaExistenciaDeHabilidade(habilidade);
 		String scriptHabilidade;
@@ -44,9 +41,11 @@ public class HabilidadeDAO extends DAOBase {
 		}
 		
 		
+		int nivel = converteNivelDeConhecimento(conhecimento);
+		
 		String script = "MATCH (a:Aluno) WHERE a.email='"+email+"'AND a.senha='"+senha+"' "
  	 				+ scriptHabilidade
- 	 				+ "CREATE(a)-[:CONHECE{nivel:'"+nivelDeConhecimento+"'}]->(h) "
+ 	 				+ "CREATE(a)-[:CONHECE{descricao:'"+conhecimento+"', nivel: "+nivel+"}]->(h) "
  	 				+ "return a, h";
 	
 		// Executa o script no banco de dados.
@@ -67,6 +66,32 @@ public class HabilidadeDAO extends DAOBase {
 		}
 				
 		return status;
+	}
+	
+	
+	
+	
+	/**
+	 * Converte o nível de conhecimento. Para cada nível descrito em uma String
+	 * existe um nível dado em int.
+	 * 
+	 * Esse valor do nível de conhecimento dado em int é fundamental para as
+	 * buscas no banco de dados baseado em nível de conhecimento em uma
+	 * determinada habilidade.
+	 * 
+	 * Básico=1, Médio=2, Avançado=3.
+	 * 
+	 * @param nivelStr A descrição do bível em String.
+	 * @return Um int indicando o níel da habilidade.
+	 */
+	private int converteNivelDeConhecimento(String nivelStr){
+		if(nivelStr.equals("Avançado")){
+			return 3;
+		}else if(nivelStr.equals("Médio")){
+			return 2;
+		}else{
+			return 1;
+		}
 	}
 	
 	
@@ -102,7 +127,7 @@ public class HabilidadeDAO extends DAOBase {
 		
 		String script = "MATCH (al:Aluno)-[c:CONHECE]->(h:Habilidade)  "
 				+ "WHERE al.email = '"+email+"' AND al.senha = '"+senha+"' "
-				+ "RETURN h.nome as habilidade, c.nivel as nivel";
+				+ "RETURN h.nome as habilidade, c.descricao as DescNivel";
 		
 		super.iniciaSessaoNeo4J();		
 		StatementResult resultado = session.run(script);
@@ -111,7 +136,7 @@ public class HabilidadeDAO extends DAOBase {
 			
 			Record registro = resultado.next();
 			String habilidade = registro.get("habilidade").asString();
-			String nivelDeConhecimento = registro.get("nivel").asString();
+			String nivelDeConhecimento = registro.get("DescNivel").asString();
 			
 			habilidades.add(new Habilidade(habilidade, nivelDeConhecimento));
 		}			
