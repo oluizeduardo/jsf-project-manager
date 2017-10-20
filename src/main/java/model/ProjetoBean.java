@@ -10,6 +10,7 @@ import model.pojo.Aluno;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
 import model.pojo.ProjetoRecomendado;
+import view.Mensagem;
 import web.SessionUtil;
 
 
@@ -23,7 +24,7 @@ public class ProjetoBean implements Serializable {
 	private List<Projeto> todosProjetos = null;
 	private List<Projeto> projetosQueParticipo = null;
 	private List<ProjetoRecomendado> projetosRecomendados = null;
-	private ProjetoRecomendado projetoSelecionado = new ProjetoRecomendado();
+	private Projeto projetoSelecionado = new ProjetoRecomendado();
 	
 	
 	public ProjetoBean() {
@@ -41,6 +42,50 @@ public class ProjetoBean implements Serializable {
 	}
 
 	
+	/**
+	 * Executa esse método quando o aluno deseja se candidatar a um projeto.
+	 * 
+	 * Deve-se montar uma relação de nós entre o projeto escolhido e o aluno logado.
+	 * 
+	 * O script que faz a ligação entre os nós deve ser construído no AlunoDAO,
+	 * algo tipo: participarDeProjeto(Projeto pj).
+	 */
+	public void candidatarAoProjeto(){
+		
+		Pessoa usuario = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		AlunoDAO alunoDAO = new AlunoDAO();
+		
+		String nome = usuario.getNome();
+		String email = usuario.getContato().getEmail();
+		String senha = usuario.getSenha();
+		String curso = usuario.getCurso().getNome();
+		
+		Aluno aluno = new Aluno(nome, curso, email, senha);
+		
+		// Verifica se o aluno já participa do projeto.
+		boolean participa = alunoDAO.verificaParticipacaoEmProjeto(aluno, projetoSelecionado);
+		
+		// Verifica se o aluno já manifestou intresse pelo projeto.
+		boolean jaTemInteresse = alunoDAO.verificaInteresseEmProjeto(aluno, projetoSelecionado);
+		
+		if(participa){
+			Mensagem.ExibeMensagemAtencao("Você já faz parte desse projeto.");			
+		
+		}else if(jaTemInteresse){
+			Mensagem.ExibeMensagemAtencao("Você já manifestou interesse por esse projeto. Aguarde aprovação.");			
+		}else{
+			boolean candidatou = alunoDAO.candidatar(aluno, projetoSelecionado);
+			
+			if(candidatou) {
+				Mensagem.ExibeMensagem("Solicitação enviada ao coordenador do projeto. Aguardando aprovação.");
+			}		
+			else {
+				Mensagem.ExibeMensagemErro("Não foi possível se candidatar a esse projeto.");
+			}
+		}
+	}
+	
+	
 	public List<Projeto> getTodosProjetos() {		
 		return todosProjetos;
 	}	
@@ -56,7 +101,7 @@ public class ProjetoBean implements Serializable {
 	public void setProjetosRecomendados(List<ProjetoRecomendado> projetosRecomendados) {
 		this.projetosRecomendados = projetosRecomendados;
 	}
-	public ProjetoRecomendado getProjetoSelecionado() {
+	public Projeto getProjetoSelecionado() {
 		return projetoSelecionado;
 	}
 	public void setProjetoSelecionado(ProjetoRecomendado projetoSelecionado) {
