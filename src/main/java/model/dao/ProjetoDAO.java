@@ -318,7 +318,9 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	 * @param projeto
 	 * @return Lista de habilidades.
 	 */
-	private List<Habilidade> buscaHabilidadesDoProjeto(Projeto projeto){
+	public List<Habilidade> buscaHabilidadesDoProjeto(Projeto projeto){
+		
+		iniciaSessaoNeo4J();
 		
 		List<Habilidade> habilidadesDoProjeto = new ArrayList<Habilidade>();
 		String titulo = projeto.getTitulo();
@@ -338,9 +340,8 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			habilidade.setDescricao(registro.get("Habilidade").asString());
 			habilidade.setNivel(registro.get("DescNivel").asString());
 			
-			habilidadesDoProjeto.add(habilidade);
+			habilidadesDoProjeto.add(habilidade);		
 		}
-			
 		return habilidadesDoProjeto;
 	}
 	

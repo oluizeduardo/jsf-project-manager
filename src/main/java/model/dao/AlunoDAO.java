@@ -566,7 +566,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * @param todosProjetos
 	 * @return Lista de projetos recomendados ao aluno.
 	 */
-	public List<ProjetoRecomendado> getProjetosRecomendados(Aluno aluno, List<Projeto> todosProjetos){
+	public List<ProjetoRecomendado> getProjetosRecomendados(Aluno aluno){
 		super.iniciaSessaoNeo4J();
 				
 		this.projetosRecomendados = new ArrayList<ProjetoRecomendado>();
@@ -581,53 +581,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		 * Busque o professor que coordena um projeto, que exija uma habilidade 
 		 * conhecida por mim
 		 */
-//		String script = "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
-//				+ "[ex:EXIGE]->(h:Habilidade)<-"
-//				+ "[:EXIGE]-(p2:Projeto)<-[:PARTICIPA]-"
-//				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
-//				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
-//				+ "RETURN "
-//				+ "pr.nome as Coordenador, "
-//				+ "p.categoria as Categoria, "
-//				+ "p.dataPublicacao as Publicacao, "
-//			    + "p.dataInicio as DataInicio, "
-//			    + "p.dataFim as DataFim, "
-//				+ "p.descricaoCurta as Descricao, "
-//				+ "p.resumo as Resumo, "
-//				+ "p.titulo as Titulo, "
-//				+ "h.nome as Habilidade, ex.descricao as DescNivel"
-//				+ " UNION ALL "
-//				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
-//				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
-//				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}), "
-//				+ "(p)-[ex:EXIGE]->(h:Habilidade) "
-//				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
-//				+ "RETURN "
-//				+ "pr.nome as Coordenador, "
-//				+ "p.categoria as Categoria, "
-//				+ "p.dataPublicacao as Publicacao, "
-//			    + "p.dataInicio as DataInicio, "
-//			    + "p.dataFim as DataFim, "
-//				+ "p.descricaoCurta as Descricao, "
-//				+ "p.resumo as Resumo, "
-//				+ "p.titulo as Titulo, "
-//				+ "h.nome as Habilidade, ex.descricao as DescNivel "
-//				+ " UNION ALL "
-//				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
-//				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
-//				+ "(eu:Aluno{email:'"+email+"',senha:'"+senha+"'}) "
-//				+ "WHERE NOT((p)-[]->(:Habilidade)) AND NOT((eu)-[:PARTICIPA]->(p))"
-//				+ "RETURN "
-//				+ "pr.nome as Coordenador, "
-//				+ "p.categoria as Categoria, "
-//				+ "p.dataPublicacao as Publicacao, "
-//			    + "p.dataInicio as DataInicio, "
-//			    + "p.dataFim as DataFim, "
-//				+ "p.descricaoCurta as Descricao, "
-//				+ "p.resumo as Resumo, "
-//				+ "p.titulo as Titulo, "
-//				+ "toUpper(c.nome) as Habilidade, 'Básico' as DescNivel ";
-		
 		String script = "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
 				+ "[ex:EXIGE]->(h:Habilidade)<-[:EXIGE]-(p2:Projeto)<-"
 				+ "[:PARTICIPA]-(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
@@ -712,22 +665,28 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			
 			String hab = projetoLocalizado.get("Habilidade").asString();
 			String nivel = projetoLocalizado.get("DescNivel").asString();
-			Habilidade novaHabilidadeComum = new Habilidade(hab, nivel);
-			
+			Habilidade novaHabilidade = new Habilidade(hab, nivel);
+
 			// Verifica se na lista de recomendados já existe o projeto.
 			int indiceDoProjeto = verificaExistenciaDeProjetoNaLista(projeto);
 			
 			// Se for < 0 é porque não existe, então add novo projeto.
 			if(indiceDoProjeto < 0){
-				projeto.addHabilidadeEmComum(novaHabilidadeComum);
-				projetosRecomendados.add(projeto);
+				
+				// Adiciona habilidade encontrada em comum com as habs do aluno.
+				projeto.addHabilidadeEmComum(novaHabilidade);
+				
+				// Busca todas as habilidades exigidas por esse projeto.
+				projeto.setHabilidades(new ProjetoDAO().buscaHabilidadesDoProjeto(projeto));
+				
+				projetosRecomendados.add(projeto);							
 			}else{
-				ProjetoRecomendado p = projetosRecomendados.get(indiceDoProjeto);
+				ProjetoRecomendado p = projetosRecomendados.get(indiceDoProjeto);				
 				
 				// Verifica se na lista de habilidades em comum já não tem uma determinada habilidade.
 				// A lista de habilidades em comum de um projeto recomendado aparecerá na tabela para o aluno.
-				if(!verificaExistenciaDeHabilidadeComum(p.getHabilidadesEmComum(), novaHabilidadeComum)){
-					p.addHabilidadeEmComum(novaHabilidadeComum);
+				if(!verificaExistenciaDeHabilidadeComum(p.getHabilidadesEmComum(), novaHabilidade)){
+					p.addHabilidadeEmComum(novaHabilidade);
 				}
 			}
 		}

@@ -37,7 +37,7 @@ public class ProjetoBean implements Serializable {
 		Aluno aluno = alunoDAO.buscarAluno(email, senha);
 		this.todosProjetos = new ProjetoDAO().listar();
 		this.projetosQueParticipo = alunoDAO.getProjetosQueParticipa(aluno);
-		this.projetosRecomendados = alunoDAO.getProjetosRecomendados(aluno, todosProjetos);
+		this.projetosRecomendados = alunoDAO.getProjetosRecomendados(aluno);
 	}
 
 	

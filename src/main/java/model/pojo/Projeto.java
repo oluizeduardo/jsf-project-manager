@@ -35,7 +35,7 @@ public class Projeto {
 	
 	// Cursos e Habilidades
 	private List<Curso> cursosEnvolvidos;
-	private List<Habilidade> habilidades;
+	private List<Habilidade> habilidades = new ArrayList<Habilidade>();
 	private Integer numeroDeParticipantes;
 	
 	// Resumo
