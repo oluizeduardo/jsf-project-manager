@@ -77,12 +77,19 @@
 					<h:outputText value="#{projeto.status}" />
 				</p:column>
 
-				<p:column style="width:32px;text-align: center">
+				<p:column style="width:32px;text-align: center" exportable="false">
 					<p:commandButton icon="ui-icon-search" title="Visualizar"
 						onclick="PF('project-details').show()" />
 				</p:column>
 
 			</p:dataTable>
+			
+			<p/>
+			
+			<p:commandButton value="Exportar dados da tabela" icon="ui-icon-document" title="Exportar para PDF" ajax="false">		        
+		        <p:dataExporter type="pdf" target="table-registered-projects" fileName="projetos-cadastrados"/>
+		    </p:commandButton>
+			
 		</p:panel>
 	</h:form>	
 	

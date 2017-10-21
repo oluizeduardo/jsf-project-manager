@@ -38,16 +38,6 @@
 					<h:outputLabel for="descricao" value="Descrição: " style="font-weight:bold" />
 					<h:outputText id="descricao" value="#{projetoBean.projetoSelecionado.descricaoCurta}"/>
 				</h:panelGrid>
-				
-				<p:panel header="Financiamento" visible="#{homeController.projetoSelecionado.financiamento.existente}">
-					<h:panelGrid columns="4" cellspacing="10">
-						<h:outputLabel for="natureza" value="Natureza: " style="font-weight:bold" />
-						<h:outputText id="natureza" value="#{projetoBean.projetoSelecionado.financiamento.natureza}"/>
-						
-						<h:outputLabel for="valor" value="Valor: " style="font-weight:bold" />
-						<h:outputText id="valor" value="#{projetoBean.projetoSelecionado.financiamento.valor}"/>
-					</h:panelGrid>
-				</p:panel>
 			</p:tab>
 			
 			<p:tab title="Habilidades">
@@ -112,7 +102,7 @@
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</div>
 					</p:confirmDialog>
-					<p:commandButton value="Fechar" onclick="PF('project-details').hide()"/>
+					<p:commandButton value="Fechar" onclick="PF('detalhe-projeto').hide()"/>
 				</h:panelGrid>
 			</div>
 		</p:panel>

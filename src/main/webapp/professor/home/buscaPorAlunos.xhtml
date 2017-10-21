@@ -5,46 +5,54 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:body>
-	<p:panel>
-		<div align="right">
-			<p:commandButton value="Atualizar" icon="ui-icon-refresh" 
-				actionListener="#{buscarAlunosController.atualizaListaDeIndicados}"
-				update="table-students" title="Atualizar tabela"/>
-		</div>		
-	</p:panel>
-
-	<p:dataTable id="table-students" var="aluno"
-		value="#{buscarAlunosController.alunosIndicados}" widgetVar="courseTable"
-		multiViewState="true" rows="10" paginator="true"
-		paginatorPosition="bottom" resizableColumns="true"
-		paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
-		emptyMessage="Nenhum aluno indicado para os seus projetos">
-
-
-		<p:column headerText="Nome" filterBy="#{aluno.nome}"
-			sortBy="#{aluno.nome}" filterMatchMode="startsWith">
-			<h:outputText value="#{aluno.nome}" />
-		</p:column>
-
-		<p:column headerText="Curso" filterBy="#{aluno.curso.nome}"
-			sortBy="#{aluno.curso.nome}" filterMatchMode="startsWith"
-			style="text-align: center">
-			<h:outputText value="#{aluno.curso.nome}" />
-		</p:column>
-
-		<p:column headerText="Indicado para o projeto" 
-				  filterBy="#{aluno.projetoIndicado.titulo}"
-				  sortBy="#{aluno.projetoIndicado.titulo}"
-				  filterMatchMode="startsWith" style="text-align:center;">
-			<h:outputText value="#{aluno.projetoIndicado.titulo}" />
-		</p:column>
-
-		<p:column style="width:32px">
-			<p:commandButton icon="ui-icon-search" title="Ver Detalhes"
-				onclick="PF('student-details').show()" />
-		</p:column>
-
-	</p:dataTable>
+	<h:form>
+		<p:panel>		
+			<div align="right">
+				<p:commandButton value="Exportar dados da tabela" icon="ui-icon-document" title="Exportar para PDF" ajax="false">		        
+			        <p:dataExporter type="pdf" target="table-students" fileName="alunos-recomendados"/>
+			    </p:commandButton>
+			    
+			    <p:spacer width="10"/>
+			
+				<p:commandButton value="Atualizar" icon="ui-icon-refresh" 
+					actionListener="#{buscarAlunosController.atualizaListaDeIndicados}"
+					update="table-students" title="Atualizar tabela"/>				
+			</div>		
+		</p:panel>
+	
+		<p:dataTable id="table-students" var="aluno"
+			value="#{buscarAlunosController.alunosIndicados}" widgetVar="courseTable"
+			multiViewState="true" rows="10" paginator="true"
+			paginatorPosition="bottom" resizableColumns="true"
+			paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+			emptyMessage="Nenhum aluno indicado para os seus projetos">
+	
+	
+			<p:column headerText="Nome" filterBy="#{aluno.nome}"
+				sortBy="#{aluno.nome}" filterMatchMode="startsWith">
+				<h:outputText value="#{aluno.nome}" />
+			</p:column>
+	
+			<p:column headerText="Curso" filterBy="#{aluno.curso.nome}"
+				sortBy="#{aluno.curso.nome}" filterMatchMode="startsWith"
+				style="text-align: center">
+				<h:outputText value="#{aluno.curso.nome}" />
+			</p:column>
+	
+			<p:column headerText="Indicado para o projeto" 
+					  filterBy="#{aluno.projetoIndicado.titulo}"
+					  sortBy="#{aluno.projetoIndicado.titulo}"
+					  filterMatchMode="startsWith" style="text-align:center;">
+				<h:outputText value="#{aluno.projetoIndicado.titulo}" />
+			</p:column>
+	
+			<p:column style="width:32px">
+				<p:commandButton icon="ui-icon-search" title="Ver Detalhes"
+					onclick="PF('student-details').show()" />
+			</p:column>
+	
+		</p:dataTable>
+	</h:form>
 </h:body>
 
 </html>

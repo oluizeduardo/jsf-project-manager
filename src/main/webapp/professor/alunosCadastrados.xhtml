@@ -23,8 +23,8 @@
 	
 	<h:form id="registered-projects">
 		<p:panel>
-			<p:dataTable id="table-registered-projects" var="aluno"
-				value="#{buscarAlunosController.alunos}" widgetVar="projectsTable"
+			<p:dataTable id="table-registered-students" var="aluno"
+				value="#{buscarAlunosController.alunos}" widgetVar="studentsTable"
 				multiViewState="true" rows="10" paginator="true"
 				paginatorPosition="bottom" resizableColumns="true" 
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
@@ -54,11 +54,17 @@
 					<h:outputText value="#{aluno.contato.email}" />
 				</p:column>
 
-				<p:column style="width:32px;text-align: center">
+				<p:column style="width:32px;text-align: center" exportable="false">
 					<p:commandButton icon="ui-icon-search" title="Visualizar" onclick="PF('student-details').show()"/>
 				</p:column>
 
 			</p:dataTable>
+			
+			<p/>
+			
+			<p:commandButton value="Exportar dados da tabela" icon="ui-icon-document" title="Exportar para PDF" ajax="false">		        
+		        <p:dataExporter type="pdf" target="table-registered-students" fileName="alunos-cadastrados"/>
+		    </p:commandButton>
 
 		</p:panel>
 		

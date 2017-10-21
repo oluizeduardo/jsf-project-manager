@@ -22,14 +22,14 @@ body {
 	<p:growl id="messages" showDetail="true"/>
 
 	<p:panel>
-		<h:form id="tabela-projetos-recomendados">
+		<h:form id="form-projetos-recomendados">
+			 
 			<p:dataTable id="tabela-projetos-recomendados" var="projeto"
 				value="#{projetoBean.projetosRecomendados}"
 				widgetVar="projectsTable" multiViewState="true" rows="10"
 				paginator="true" paginatorPosition="bottom" resizableColumns="true"
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
 				emptyMessage="Nenhum novo projeto foi localizado com as suas características.">
-
 
 				<p:column headerText="Projeto" filterBy="#{projeto.titulo}"
 					sortBy="#{projeto.titulo}" filterMatchMode="startsWith"
@@ -57,12 +57,19 @@ body {
 					<h:outputText value="#{projeto.str_habilidadesComuns}" />
 				</p:column>
 
-				<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-search" title="Visualizar" oncomplete="PF('project-details').show()" update="painel-de-detalhes">
+				<p:column style="width:32px;text-align: center" exportable="false">
+					<p:commandButton icon="ui-icon-search" title="Visualizar" oncomplete="PF('detalhe-projeto').show()" update="painel-de-detalhes">
 						<f:setPropertyActionListener value="#{projeto}"	target="#{projetoBean.projetoSelecionado}" />
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
+			
+			<p/>
+			
+		    <p:commandButton value="Exportar dados da tabela" icon="ui-icon-document" title="Exportar para PDF" ajax="false">		        
+		        <p:dataExporter type="pdf" target="tabela-projetos-recomendados" fileName="projetos-recomendados"/>
+		    </p:commandButton>
+
 		</h:form>
 	</p:panel>
 
@@ -77,7 +84,7 @@ body {
 	
 	<!-- DETALHES DO PROJETO RECOMENDADO -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-			  header="Detalhes do Projeto Recomendado" widgetVar="project-details" 
+			  header="Detalhes do Projeto Recomendado" widgetVar="detalhe-projeto" 
 			  resizable="false" closeOnEscape="true">
 
 		<ui:include src="painelDetalhesProjeto.xhtml"/>

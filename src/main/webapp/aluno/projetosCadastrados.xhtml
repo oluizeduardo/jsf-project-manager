@@ -55,11 +55,20 @@
 					<h:outputText value="#{projeto.status}" />
 				</p:column>
 	
-				<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-search" title="Visualizar" onclick="PF('registered-projects').show()"/>
+				<p:column style="width:32px;text-align: center" exportable="false">
+					<p:commandButton icon="ui-icon-search" title="Visualizar" onclick="PF('detalhe-projeto').show()">
+						<f:setPropertyActionListener value="#{projeto}"	target="#{projetoBean.projetoSelecionado}" />
+					</p:commandButton>
 				</p:column>
 	
 			</p:dataTable>
+			
+			<p/>
+			
+			<p:commandButton value="Exportar dados da tabela" icon="ui-icon-document" title="Exportar para PDF" ajax="false">		        
+		        <p:dataExporter type="pdf" target="table-projects-registered" fileName="todos-projetos-cadastrados"/>
+		    </p:commandButton>
+			
 		</h:form>
 	</p:panel>
 	
@@ -72,12 +81,11 @@
 	
 	<!-- DETALHES DO PROJETO CADASTRADO -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-		header="Detalhes do Projeto" widgetVar="registered-projects" 
+		header="Detalhes do Projeto" widgetVar="detalhe-projeto" 
 		resizable="false" closeOnEscape="true">
 
 		<p:panel>
-			<h:outputLabel
-				value="Detalhes completos do projeto." />
+			<ui:include src="painelDetalhesProjeto.xhtml"/>
 		</p:panel>
 
 	</p:dialog>
