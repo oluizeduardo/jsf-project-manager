@@ -13,14 +13,14 @@ import model.pojo.Curso;
 import model.pojo.Habilidade;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
-import model.pojo.ProjetoRecomendado;
+import model.pojo.ProjetoComDetalhesComum;
 import web.SessionUtil;
 
 public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 
 	
 	// Lista de projetos recomendados ao aluno.
-	private List<ProjetoRecomendado> projetosRecomendados = null;
+	private List<ProjetoComDetalhesComum> projetosRecomendados = null;
 	
 	
 	
@@ -523,11 +523,11 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	       Date dataAtual  = sdf.parse(getDataAtual());
 	       		       
 	       if(dataAtual.getTime() < dataInicio.getTime()){
-	    	   projeto.setStatus("Aguardando Inicio");
+	    	   projeto.setStatus(Projeto.AGUARDANDO);
 	       }else if(dataAtual.getTime() > dataFim.getTime()){
-	    	   projeto.setStatus("Finalizado");
+	    	   projeto.setStatus(Projeto.FINALIZADO);
 	       }else{
-	    	   projeto.setStatus("Em Execução");
+	    	   projeto.setStatus(Projeto.EM_EXECUCAO);
 	       }
 	    }catch(ParseException px){
 	    	  System.err.println("ERRO NA CONVERSÃO DE DATAS.");
@@ -574,10 +574,10 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * @param todosProjetos
 	 * @return Lista de projetos recomendados ao aluno.
 	 */
-	public List<ProjetoRecomendado> getProjetosRecomendados(Aluno aluno){
+	public List<ProjetoComDetalhesComum> getProjetosRecomendados(Aluno aluno){
 		super.iniciaSessaoNeo4J();
 				
-		this.projetosRecomendados = new ArrayList<ProjetoRecomendado>();
+		this.projetosRecomendados = new ArrayList<ProjetoComDetalhesComum>();
 		String email = aluno.getContato().getEmail();
 		String senha = aluno.getSenha();
 		
@@ -663,7 +663,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			
 			Record projetoLocalizado = resultado.next();
 			
-			ProjetoRecomendado projeto = new ProjetoRecomendado();
+			ProjetoComDetalhesComum projeto = new ProjetoComDetalhesComum();
 			
 			projeto.setTitulo(projetoLocalizado.get("Titulo").asString());
 			projeto.setCategoria(projetoLocalizado.get("Categoria").asString());
@@ -680,26 +680,31 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			String nivel = projetoLocalizado.get("DescNivel").asString();
 			Habilidade novaHabilidade = new Habilidade(hab, nivel);
 
-			// Verifica se na lista de recomendados já existe o projeto.
-			int indiceDoProjeto = verificaExistenciaDeProjetoNaLista(projeto);
 			
-			// Se for < 0 é porque não existe, então add novo projeto.
-			if(indiceDoProjeto < 0){
+			// Só sugere projetos com o status diferente de finalizado.
+			if(!projeto.getStatus().equals(Projeto.FINALIZADO)){
 				
-				// Adiciona habilidade encontrada em comum com as habs do aluno.
-				projeto.addHabilidadeEmComum(novaHabilidade);
+				// Verifica se na lista de recomendados já existe o projeto.
+				int indiceDoProjeto = verificaExistenciaDeProjetoNaLista(projeto);
 				
-				// Busca todas as habilidades exigidas por esse projeto.
-				projeto.setHabilidades(new ProjetoDAO().buscaHabilidadesDoProjeto(projeto));
-				
-				projetosRecomendados.add(projeto);							
-			}else{
-				ProjetoRecomendado p = projetosRecomendados.get(indiceDoProjeto);				
-				
-				// Verifica se na lista de habilidades em comum já não tem uma determinada habilidade.
-				// A lista de habilidades em comum de um projeto recomendado aparecerá na tabela para o aluno.
-				if(!verificaExistenciaDeHabilidadeComum(p.getHabilidadesEmComum(), novaHabilidade)){
-					p.addHabilidadeEmComum(novaHabilidade);
+				// Se for < 0 é porque não existe, então add novo projeto.
+				if(indiceDoProjeto < 0){
+					
+					// Adiciona habilidade encontrada em comum com as habs do aluno.
+					projeto.addHabilidadeEmComum(novaHabilidade);
+					
+					// Busca todas as habilidades exigidas por esse projeto.
+					projeto.setHabilidades(new ProjetoDAO().buscaHabilidadesDoProjeto(projeto));
+					
+					projetosRecomendados.add(projeto);							
+				}else{
+					ProjetoComDetalhesComum p = projetosRecomendados.get(indiceDoProjeto);				
+					
+					// Verifica se na lista de habilidades em comum já não tem uma determinada habilidade.
+					// A lista de habilidades em comum de um projeto recomendado aparecerá na tabela para o aluno.
+					if(!verificaExistenciaDeHabilidadeComum(p.getHabilidadesEmComum(), novaHabilidade)){
+						p.addHabilidadeEmComum(novaHabilidade);
+					}
 				}
 			}
 		}

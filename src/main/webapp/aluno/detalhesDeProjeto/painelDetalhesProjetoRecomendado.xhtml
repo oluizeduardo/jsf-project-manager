@@ -13,30 +13,30 @@
 
 				<h:panelGrid columns="4" cellspacing="10">
 					<h:outputLabel for="titulo" value="Título: " style="font-weight:bold" />
-					<h:outputText id="titulo" value="#{projetoBean.projetoSelecionado.titulo}" />
+					<h:outputText id="titulo" value="#{projetoBean.projetoRecomendadoSelecionado.titulo}" />
 					
 					<h:outputLabel for="categoria" value="Categoria: " style="font-weight:bold" />
-					<h:outputText id="categoria" value="#{projetoBean.projetoSelecionado.categoria}" />
+					<h:outputText id="categoria" value="#{projetoBean.projetoRecomendadoSelecionado.categoria}" />
 					
 					<h:outputLabel for="coordenador" value="Coordenador: " style="font-weight:bold" />
-					<h:outputText id="coordenador" value="#{projetoBean.projetoSelecionado.coordenador.nome}" />
+					<h:outputText id="coordenador" value="#{projetoBean.projetoRecomendadoSelecionado.coordenador.nome}" />
 				
 					<h:outputLabel for="status" value="Status: " style="font-weight:bold" />
-					<h:outputText id="status" value="#{projetoBean.projetoSelecionado.status}"/>
+					<h:outputText id="status" value="#{projetoBean.projetoRecomendadoSelecionado.status}"/>
 				
 					<h:outputLabel for="dataInicio" value="Data de Início: " style="font-weight:bold" />
-					<h:outputText id="dataInicio" value="#{projetoBean.projetoSelecionado.dataInicio}">
+					<h:outputText id="dataInicio" value="#{projetoBean.projetoRecomendadoSelecionado.dataInicio}">
 						<f:convertDateTime pattern="MM/dd/yyyy" />
 					</h:outputText>
 					
 					<h:outputLabel for="dataFim" value="Data de Término: " style="font-weight:bold" />
-					<h:outputText id="dataFim" value="#{projetoBean.projetoSelecionado.dataFim}"/>
+					<h:outputText id="dataFim" value="#{projetoBean.projetoRecomendadoSelecionado.dataFim}"/>
 										
 				</h:panelGrid>
 				
 				<h:panelGrid columns="2" cellspacing="10">
 					<h:outputLabel for="descricao" value="Descrição: " style="font-weight:bold" />
-					<h:outputText id="descricao" value="#{projetoBean.projetoSelecionado.descricaoCurta}"/>
+					<h:outputText id="descricao" value="#{projetoBean.projetoRecomendadoSelecionado.descricaoCurta}"/>
 				</h:panelGrid>
 			</p:tab>
 			
@@ -44,7 +44,7 @@
 				<h:outputLabel value="Habilidades exigidas: " style="font-weight:bold" />
 				<p/>
 				<p:dataTable id="table-habilities" var="habilidade"
-					value="#{projetoBean.projetoSelecionado.habilidades}"
+					value="#{projetoBean.projetoRecomendadoSelecionado.habilidades}"
 					resizableColumns="true"
 					emptyMessage="Nenhuma habilidade exigida."
 					style="width:700px">
@@ -61,13 +61,13 @@
 				<p/>
 				
 				<h:outputLabel for="hab-comum" value="Habilidades em comum: " style="font-weight:bold" />
-				<h:outputText id="hab-comum" value="#{projetoBean.projetoSelecionado.str_habilidadesComuns}"/>
+				<h:outputText id="hab-comum" value="#{projetoBean.projetoRecomendadoSelecionado.str_habilidadesComuns}"/>
 			</p:tab>
 			
 			<p:tab title="Resumo">
 				<p:textEditor style="margin-bottom:10px; width: 700px"
 					placeholder="Sem resumo cadastrado." 
-					value="#{projetoBean.projetoSelecionado.resumo}">
+					value="#{projetoBean.projetoRecomendadoSelecionado.resumo}">
 					<f:facet name="toolbar">
 						<span class="ql-formats"> 
 							<select class="ql-font"/> 
@@ -83,7 +83,7 @@
 		<p:panel>
 			<div align="center">
 				<h:panelGrid columns="3" cellspacing="10">
-					<p:commandButton value="Candidatar">
+					<p:commandButton value="Candidatar" disabled="#{projetoBean.projetoRecomendadoDisponivel}">
 						<p:confirm header="Confirmação"
 							message="Confirma que deseja se candidatar a este projeto?"
 							icon="ui-icon-alert" />
@@ -94,8 +94,8 @@
 						<div align="center">
 							<p:commandButton value="Sim"
 								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
-								onclick="PF('project-details').hide()"
-								action="#{projetoBean.candidatarAoProjeto}"
+								onclick="PF('detalhe-projeto').hide()"
+								action="#{projetoBean.candidatarAoProjetoRecomendado}"
 								update="messages"/>
 								
 							<p:commandButton value="Não"

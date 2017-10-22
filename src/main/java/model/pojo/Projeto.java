@@ -20,6 +20,11 @@ public class Projeto {
 	public static final String EVENTO_EXTERNO = "Evento Externo";
 	public static final String TRABALHO_ACADEMICO = "Trabalho Acadêmico";
 	
+	// Possíveis status do projeto.
+	public static final String FINALIZADO = "Finalizado";
+	public static final String EM_EXECUCAO = "Em Execução";
+	public static final String CANCELADO = "Cancelado";
+	public static final String AGUARDANDO = "Aguardando Início";
 	
 	// Identificação
 	private String categoria = TRABALHO_ACADEMICO;// Item default no cadastro de novo projeto.
@@ -43,7 +48,7 @@ public class Projeto {
 	
 	// Equipe
 	private List<Aluno> alunos;
-	
+
 	// Status do Projeto
 	private String status="";//Em andamento, Finalizado, Cancelado, etc.
 	

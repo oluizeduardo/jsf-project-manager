@@ -20,18 +20,17 @@
 	<ui:include src="barraDeMenu.xhtml" />
 
 	<!-- MENSAGEM -->
-	<p:growl id="messages" />
+	<p:growl id="messages" showDetail="true"/>
 
-	<h:form id="tabela-projetos-cadastrados" style="margin:0px">
-		<p:panel>		
-			<p:dataTable id="table-projects-registered" var="projeto"
-				value="#{projetoBean.todosProjetos}" widgetVar="projectsTable"
-				multiViewState="true" rows="10" paginator="true" 
-				paginatorPosition="bottom" resizableColumns="true"
+	<h:form id="form-projetos-cadastrados" style="margin:0px">
+		<p:panel>			 
+			<p:dataTable id="tabela-projetos-cadastrados" var="projeto"
+				value="#{projetoBean.todosProjetos}"
+				widgetVar="projectsTable" multiViewState="true" rows="10"
+				paginator="true" paginatorPosition="bottom" resizableColumns="true"
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
-				emptyMessage="Nenhum projeto localizado.">
-	
-	
+				emptyMessage="Nenhum projetolocalizado.">
+
 				<p:column headerText="Título" filterBy="#{projeto.titulo}"
 					sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
 					<h:outputText value="#{projeto.titulo}" />
@@ -59,52 +58,50 @@
 					style="width:150px; text-align: center">
 					<h:outputText value="#{projeto.status}" />
 				</p:column>
-	
+
 				<p:column style="width:32px;text-align: center" exportable="false">
 					<p:commandButton icon="ui-icon-search" 
 									 title="Visualizar" 
-									 onclick="PF('detalhe-projeto').show()">
-						<f:setPropertyActionListener value="#{projeto}"	target="#{projetoBean.projetoSelecionado}" />
+									 oncomplete="PF('detalhe-projeto').show()" 
+									 update="painel-de-detalhes">
+						<f:setPropertyActionListener value="#{projeto}"	
+									 target="#{projetoBean.projetoNormalSelecionado}" />
 					</p:commandButton>
 				</p:column>
-	
 			</p:dataTable>
 			
 			<p/>
 			
-			<p:commandButton value="Exportar dados da tabela" 
-							 icon="ui-icon-document" 
-							 title="Exportar para PDF" 
-							 ajax="false"
-							 disabled="#{projetoBean.todosProjetosVazio}">		        
-		        <p:dataExporter type="pdf" target="table-projects-registered" 
-		        				fileName="todos-projetos-cadastrados" 
+		    <p:commandButton value="Exportar dados da tabela" 
+		    				 icon="ui-icon-document" 
+		    				 title="Exportar para PDF" 
+		    				 ajax="false" disabled="#{projetoBean.todosProjetosVazio}">	        
+		        <p:dataExporter type="pdf" target="tabela-projetos-cadastrados" 
+		        				fileName="projetos-cadastrados"
 		        				encoding="iso-8859-1"
-		        				pageOnly="true"
 		        				preProcessor="#{formatadorPDF.criaPDFProjetosCadastrados}"/>
 		    </p:commandButton>
-			
+
 		</p:panel>
 	</h:form>
-	
-	<p:spacer height="8" />
 
-	<p:panel>
-		<h:outputText value="Todos projetos cadastradas." style="font-size: 15px; font-style:italic" />
+	<p:spacer height="8px"/>
+
+	<p:panel style="padding:0">
+		<h:outputText
+			value="Todos projetos cadastrados."
+			style="font-size: 15px; font-style:italic" />
 	</p:panel>
-	
-	
-	<!-- DETALHES DO PROJETO CADASTRADO -->
-	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-		header="Detalhes do Projeto" widgetVar="detalhe-projeto" 
-		resizable="false" closeOnEscape="true">
 
-		<p:panel>
-			<ui:include src="painelDetalhesProjeto.xhtml"/>
-		</p:panel>
+	
+	<!-- DETALHES DO PROJETO -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+			  header="Detalhes do Projeto" widgetVar="detalhe-projeto" 
+			  resizable="false" closeOnEscape="true">
+
+		<ui:include src="detalhesDeProjeto/painelDetalhesProjetoCadastrado.xhtml"/>
 
 	</p:dialog>
-
 </h:body>
 
 </html>

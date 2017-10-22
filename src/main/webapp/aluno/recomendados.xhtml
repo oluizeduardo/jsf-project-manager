@@ -23,8 +23,7 @@
 	<p:growl id="messages" showDetail="true"/>
 
 	<h:form id="form-projetos-recomendados" style="margin:0px">
-		<p:panel>		
-			 
+		<p:panel>			 
 			<p:dataTable id="tabela-projetos-recomendados" var="projeto"
 				value="#{projetoBean.projetosRecomendados}"
 				widgetVar="projectsTable" multiViewState="true" rows="10"
@@ -64,8 +63,12 @@
 				</p:column>
 
 				<p:column style="width:32px;text-align: center" exportable="false">
-					<p:commandButton icon="ui-icon-search" title="Visualizar" oncomplete="PF('detalhe-projeto').show()" update="painel-de-detalhes">
-						<f:setPropertyActionListener value="#{projeto}"	target="#{projetoBean.projetoSelecionado}" />
+					<p:commandButton icon="ui-icon-search" 
+									 title="Visualizar" 
+									 oncomplete="PF('detalhe-projeto').show()" 
+									 update="painel-de-detalhes">
+						<f:setPropertyActionListener value="#{projeto}"	
+									 target="#{projetoBean.projetoRecomendadoSelecionado}" />
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
@@ -99,7 +102,7 @@
 			  header="Detalhes do Projeto Recomendado" widgetVar="detalhe-projeto" 
 			  resizable="false" closeOnEscape="true">
 
-		<ui:include src="painelDetalhesProjeto.xhtml"/>
+		<ui:include src="detalhesDeProjeto/painelDetalhesProjetoRecomendado.xhtml"/>
 
 	</p:dialog>
 </h:body>

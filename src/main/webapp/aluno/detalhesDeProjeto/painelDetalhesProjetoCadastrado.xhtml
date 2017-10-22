@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<!-- PAINEL DE DETALHES DO PROJETO -->
+	<p:outputPanel id="painel-de-detalhes" style="width:750px">
+		
+		<p:tabView>
+
+			<p:tab title="Detalhes">
+
+				<h:panelGrid columns="4" cellspacing="10">
+					<h:outputLabel for="titulo" value="Título: " style="font-weight:bold" />
+					<h:outputText id="titulo" value="#{projetoBean.projetoNormalSelecionado.titulo}" />
+					
+					<h:outputLabel for="categoria" value="Categoria: " style="font-weight:bold" />
+					<h:outputText id="categoria" value="#{projetoBean.projetoNormalSelecionado.categoria}" />
+					
+					<h:outputLabel for="coordenador" value="Coordenador: " style="font-weight:bold" />
+					<h:outputText id="coordenador" value="#{projetoBean.projetoNormalSelecionado.coordenador.nome}" />
+				
+					<h:outputLabel for="status" value="Status: " style="font-weight:bold" />
+					<h:outputText id="status" value="#{projetoBean.projetoNormalSelecionado.status}"/>
+				
+					<h:outputLabel for="dataInicio" value="Data de Início: " style="font-weight:bold" />
+					<h:outputText id="dataInicio" value="#{projetoBean.projetoNormalSelecionado.dataInicio}">
+						<f:convertDateTime pattern="MM/dd/yyyy" />
+					</h:outputText>
+					
+					<h:outputLabel for="dataFim" value="Data de Término: " style="font-weight:bold" />
+					<h:outputText id="dataFim" value="#{projetoBean.projetoNormalSelecionado.dataFim}"/>
+										
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2" cellspacing="10">
+					<h:outputLabel for="descricao" value="Descrição: " style="font-weight:bold" />
+					<h:outputText id="descricao" value="#{projetoBean.projetoNormalSelecionado.descricaoCurta}"/>
+				</h:panelGrid>
+			</p:tab>						
+			
+			<p:tab title="Resumo">
+				<p:textEditor style="margin-bottom:10px; width: 700px"
+					placeholder="Sem resumo cadastrado." 
+					value="#{projetoBean.projetoNormalSelecionado.resumo}">
+					<f:facet name="toolbar">
+						<span class="ql-formats"> 
+							<select class="ql-font"/> 
+							<select	class="ql-size"/>
+						</span>
+					</f:facet>
+				</p:textEditor>
+			</p:tab>			
+		</p:tabView>
+		
+		<p:spacer height="10px"/>
+		
+		<p:panel>
+			<div align="center">
+				<h:panelGrid columns="3" cellspacing="10">
+					<p:commandButton value="Candidatar" disabled="#{projetoBean.projetoNormalDisponivel}">
+						<p:confirm header="Confirmação"
+							message="Confirma que deseja se candidatar a este projeto?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+		
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						closeOnEscape="true">
+						<div align="center">
+							<p:commandButton value="Sim"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+								onclick="PF('detalhe-projeto').hide()"
+								action="#{projetoBean.candidatarAoProjeto}"
+								update="messages"/>
+								
+							<p:commandButton value="Não"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</div>
+					</p:confirmDialog>
+					<p:commandButton value="Fechar" onclick="PF('detalhe-projeto').hide()"/>
+				</h:panelGrid>
+			</div>
+		</p:panel>
+
+	</p:outputPanel>
+
+</html>

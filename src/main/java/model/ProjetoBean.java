@@ -9,7 +9,7 @@ import model.dao.ProjetoDAO;
 import model.pojo.Aluno;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
-import model.pojo.ProjetoRecomendado;
+import model.pojo.ProjetoComDetalhesComum;
 import view.Mensagem;
 import web.SessionUtil;
 
@@ -21,10 +21,16 @@ public class ProjetoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	
+	// Lista com todos os projetos cadastrados.
 	private List<Projeto> todosProjetos = null;
+	// Lista de projetos que o aluno participa.
 	private List<Projeto> projetosQueParticipo = null;
-	private List<ProjetoRecomendado> projetosRecomendados = null;
-	private Projeto projetoSelecionado = new ProjetoRecomendado();
+	// Lista de projetos recomendados ao aluno.
+	private List<ProjetoComDetalhesComum> projetosRecomendados = null;
+	// Projeto com detalhes. Usado na tabela de projetos sugeridos ao aluno.
+	private ProjetoComDetalhesComum projetoRecomendadoSelecionado = new ProjetoComDetalhesComum();
+	// Projeto normal, sem detalhes.
+	private Projeto projetoNormalSelecionado = new Projeto();
 	
 	// Diz se a lista de projetos recomendados está vazia.
 	private boolean recomendadosVazio = true; 
@@ -32,6 +38,11 @@ public class ProjetoBean implements Serializable {
 	private boolean todosProjetosVazio = true;
 	// Diz se a lista de projetos que participo está vazia.
 	private boolean projetosQueParticipoVazio = true;
+	
+	// Diz se o projeto recomendado está disponível para novas candidaturas.
+	private boolean projetoRecomendadoDisponivel = true;
+	// Diz se o projeto está disponível para novas candidaturas.
+	private boolean projetoNormalDisponivel = true;
 	
 	
 	
@@ -71,18 +82,18 @@ public class ProjetoBean implements Serializable {
 		Aluno aluno = new Aluno(nome, curso, email, senha);
 		
 		// Verifica se o aluno já participa do projeto.
-		boolean participa = alunoDAO.verificaParticipacaoEmProjeto(aluno, projetoSelecionado);
+		boolean participa = alunoDAO.verificaParticipacaoEmProjeto(aluno, projetoNormalSelecionado);
 		
 		// Verifica se o aluno já manifestou intresse pelo projeto.
-		boolean jaTemInteresse = alunoDAO.verificaInteresseEmProjeto(aluno, projetoSelecionado);
-		
+		boolean jaTemInteresse = alunoDAO.verificaInteresseEmProjeto(aluno, projetoNormalSelecionado);
+				
 		if(participa){
 			Mensagem.ExibeMensagemAtencao("Você já faz parte desse projeto.");			
 		
 		}else if(jaTemInteresse){
 			Mensagem.ExibeMensagemAtencao("Você já manifestou interesse por esse projeto. Aguarde aprovação.");			
 		}else{
-			boolean candidatou = alunoDAO.candidatar(aluno, projetoSelecionado);
+			boolean candidatou = alunoDAO.candidatar(aluno, projetoNormalSelecionado);
 			
 			if(candidatou) {
 				Mensagem.ExibeMensagem("Solicitação enviada ao coordenador do projeto. Aguardando aprovação.");
@@ -92,6 +103,57 @@ public class ProjetoBean implements Serializable {
 			}
 		}
 	}
+	
+
+	
+	
+	
+	/**
+	 * Executa esse método quando o aluno deseja se candidatar a um projeto
+	 * recomendado a ele.
+	 * 
+	 * Deve-se montar uma relação de nós entre o projeto escolhido e o aluno logado.
+	 * 
+	 * O script que faz a ligação entre os nós deve ser construído no AlunoDAO,
+	 * algo tipo: participarDeProjeto(Projeto pj).
+	 */
+	public void candidatarAoProjetoRecomendado(){
+		
+		Pessoa usuario = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		AlunoDAO alunoDAO = new AlunoDAO();
+		
+		String nome = usuario.getNome();
+		String email = usuario.getContato().getEmail();
+		String senha = usuario.getSenha();
+		String curso = usuario.getCurso().getNome();
+		
+		Aluno aluno = new Aluno(nome, curso, email, senha);
+		
+		// Verifica se o aluno já participa do projeto.
+		boolean participa = alunoDAO.verificaParticipacaoEmProjeto(aluno, projetoRecomendadoSelecionado);
+		
+		// Verifica se o aluno já manifestou intresse pelo projeto.
+		boolean jaTemInteresse = alunoDAO.verificaInteresseEmProjeto(aluno, projetoRecomendadoSelecionado);
+		
+		if(participa){
+			Mensagem.ExibeMensagemAtencao("Você já faz parte desse projeto.");			
+		
+		}else if(jaTemInteresse){
+			Mensagem.ExibeMensagemAtencao("Você já manifestou interesse por esse projeto. Aguarde aprovação.");			
+		}else{
+			boolean candidatou = alunoDAO.candidatar(aluno, projetoRecomendadoSelecionado);
+			
+			if(candidatou) {
+				Mensagem.ExibeMensagem("Solicitação enviada ao coordenador do projeto. Aguardando aprovação.");
+			}		
+			else {
+				Mensagem.ExibeMensagemErro("Não foi possível se candidatar a esse projeto.");
+			}
+		}
+	}
+	
+	
+	
 	
 	
 	/**
@@ -128,17 +190,39 @@ public class ProjetoBean implements Serializable {
 	public List<Projeto> getProjetosQueParticipo() {
 		return projetosQueParticipo;
 	}
-	public List<ProjetoRecomendado> getProjetosRecomendados() {
+	public List<ProjetoComDetalhesComum> getProjetosRecomendados() {
 		return projetosRecomendados;
 	}
-	public void setProjetosRecomendados(List<ProjetoRecomendado> projetosRecomendados) {
+	public void setProjetosRecomendados(List<ProjetoComDetalhesComum> projetosRecomendados) {
 		this.projetosRecomendados = projetosRecomendados;
 	}
-	public Projeto getProjetoSelecionado() {
-		return projetoSelecionado;
+	public ProjetoComDetalhesComum getProjetoRecomendadoSelecionado() {
+		return projetoRecomendadoSelecionado;
 	}
-	public void setProjetoSelecionado(ProjetoRecomendado projetoSelecionado) {
-		this.projetoSelecionado = projetoSelecionado;
+	public void setProjetoRecomendadoSelecionado(ProjetoComDetalhesComum projetoSelecionado) {
+		this.projetoRecomendadoSelecionado = projetoSelecionado;
+	}
+	public Projeto getProjetoNormalSelecionado() {
+		return projetoNormalSelecionado;
+	}
+	public void setProjetoNormalSelecionado(Projeto projetoNormalSelecionado) {
+		this.projetoNormalSelecionado = projetoNormalSelecionado;
+	}
+	/**
+	 * Verifica se o projeto recomendado selecionado não está finalizado.
+	 * O aluno não pode se candidatar a um projeto que já está finalizado.
+	 */
+	public boolean isProjetoRecomendadoDisponivel() {
+		this.projetoRecomendadoDisponivel = (projetoRecomendadoSelecionado.getStatus().equals(Projeto.FINALIZADO));
+		return projetoRecomendadoDisponivel;
+	}
+	/**
+	 * Verifica se o projeto selecionado não está finalizado.
+	 * O aluno não pode se candidatar a um projeto que já está finalizado.
+	 */
+	public boolean isProjetoNormalDisponivel() {
+		this.projetoNormalDisponivel = (projetoNormalSelecionado.getStatus().equals(Projeto.FINALIZADO));
+		return projetoNormalDisponivel;
 	}
 	
 }

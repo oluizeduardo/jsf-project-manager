@@ -3,7 +3,7 @@ package model.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjetoRecomendado extends Projeto {
+public class ProjetoComDetalhesComum extends Projeto {
 
 	// Informa em uma única String as habilidades em comum com um projeto.
 	private List<Habilidade> habilidadesEmComum = null;
@@ -11,7 +11,7 @@ public class ProjetoRecomendado extends Projeto {
 	private String str_habilidadesComuns="";
 	
 	
-	public ProjetoRecomendado() { 
+	public ProjetoComDetalhesComum() { 
 		this.habilidadesEmComum = new ArrayList<Habilidade>();
 	}
 
