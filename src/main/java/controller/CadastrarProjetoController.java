@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import model.CalendarioFormatado;
 import model.dao.ProjetoDAO;
 import model.helperView.ListaDeCursos;
 import model.pojo.Curso;
@@ -45,16 +45,7 @@ public class CadastrarProjetoController implements Serializable{
 	
 	public CadastrarProjetoController() { }
 
-	
-	
-	
-	/**
-	 * Retorna a data atual formatada para o padrão de leitura simples.
-	 */
-	private String getDataAtual() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		return sdf.format(new Date());
-	}
+
 
 	
 	/**
@@ -82,7 +73,7 @@ public class CadastrarProjetoController implements Serializable{
 						
 						// Retorna os dados do professor logado.
 						Pessoa professorLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
-						projeto.setDataPublicacao(getDataAtual());
+						projeto.setDataPublicacao(CalendarioFormatado.getDataAtual());
 						projeto.setHabilidades(habilidades);
 						projeto.setCursosEnvolvidos(geraListaDeCursosEnvolvidos());
 						projeto.setCoordenador(professorLogado);

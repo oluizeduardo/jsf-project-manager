@@ -16,7 +16,7 @@
 			        <p:dataExporter type="pdf" target="table-students" 
 			        				fileName="alunos-recomendados"
 			        				encoding="iso-8859-1"
-		        						pageOnly="true"/>
+		        					preProcessor="#{formatadorPDF.preProcessPDF}"/>
 			    </p:commandButton>
 			    
 			    <p:spacer width="10"/>
