@@ -24,6 +24,12 @@ public class BuscarAlunosController implements Serializable {
 	// Objeto com métodos de acesso ao banco de dados.
 	private AlunoDAO alunoDAO = null;
 	
+	// Diz se a lista de alunos cadastrados está vazia.
+	private boolean alunosVazio = true;
+	// Diz se a lista de alunos indicados está vazia.
+	private boolean alunosIndicadosVazio = true;
+	
+	
 	
 	public BuscarAlunosController() { 	
 		this.alunoDAO = new AlunoDAO();
@@ -43,6 +49,22 @@ public class BuscarAlunosController implements Serializable {
 	}
 	
 	
+	
+	/**
+	 * Diz se a lista de alunos cadastrados está vazia.
+	 */
+	public boolean isAlunosVazio(){
+		this.alunosVazio = (this.alunos.size() < 1);
+		return alunosVazio;
+	}
+	
+	/**
+	 * Diz se a lista de alunos indicados para os projetos está vazia.
+	 */
+	public boolean isAlunosIndicadosVazio(){
+		this.alunosIndicadosVazio = (this.alunosIndicados.size() < 1);
+		return alunosIndicadosVazio;
+	}
 	
 	public List<Aluno> getAlunos() {
 		return alunos;

@@ -8,8 +8,15 @@
 	<h:form>
 		<p:panel>		
 			<div align="right">
-				<p:commandButton value="Exportar dados da tabela" icon="ui-icon-document" title="Exportar para PDF" ajax="false">		        
-			        <p:dataExporter type="pdf" target="table-students" fileName="alunos-recomendados"/>
+				<p:commandButton value="Exportar dados da tabela" 
+								 icon="ui-icon-document" 
+								 title="Exportar para PDF" 
+								 ajax="false"
+								 disabled="#{buscarAlunosController.alunosIndicadosVazio}">		        
+			        <p:dataExporter type="pdf" target="table-students" 
+			        				fileName="alunos-recomendados"
+			        				encoding="iso-8859-1"
+		        						pageOnly="true"/>
 			    </p:commandButton>
 			    
 			    <p:spacer width="10"/>

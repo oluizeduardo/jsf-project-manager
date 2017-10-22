@@ -27,6 +27,9 @@ public class BuscarProjetosProfessorController implements Serializable {
 	/**Lista de projetos exibida na tabela.*/
 	private List<Projeto> projetos;
 	
+	// Diz se a lista de projetos cadastrados está vazia.
+	private boolean projetosVazio = true;
+	
 	
 	
 	public BuscarProjetosProfessorController() {
@@ -62,7 +65,15 @@ public class BuscarProjetosProfessorController implements Serializable {
 	}
 
 
-
+	
+	/**
+	 * Diz se a lista de projetos cadastrados está vazia ou não.
+	 */
+	public boolean isProjetosVazio(){
+		this.projetosVazio = (projetos.size() < 1);
+		return projetosVazio;
+	}
+	
 	public String getTipoDeBusca() {
 		return tipoDeBusca;
 	}
