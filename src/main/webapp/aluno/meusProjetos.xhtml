@@ -6,6 +6,7 @@
 
 <h:head>
 	<title>Projetos Que Faço Parte</title>
+	<meta charset="utf-8"/>
 	<style>
 		body {
 			background-color: #C1E1A6;
@@ -20,8 +21,8 @@
 	<!-- MENSAGEM -->
 	<p:growl id="messages" />
 
-	<p:panel>
-		<h:form id="tabela-meus-projetos">
+	<h:form id="tabela-meus-projetos" style="margin:0px">
+		<p:panel>		
 			<!-- TABELA DE PROJETOS EM QUE O ALUNO ESTÁ CADASTRADO -->
 			<p:dataTable id="table-projects-registered" var="projeto"
 				value="#{projetoBean.projetosQueParticipo}" widgetVar="projectsTable"
@@ -64,11 +65,18 @@
 			
 			<p/>
 			
-			<p:commandButton value="Exportar dados da tabela" icon="ui-icon-document" title="Exportar para PDF" ajax="false">		        
-		        <p:dataExporter type="pdf" target="table-projects-registered" fileName="meus-projetos"/>
-		    </p:commandButton>
-		</h:form>
-	</p:panel>
+			<p:commandButton value="Exportar dados da tabela" 
+							 icon="ui-icon-document" 
+							 title="Exportar para PDF" 
+							 ajax="false"
+							 disabled="#{buscarProfessorController.professoresVazio}">		        
+		        <p:dataExporter type="pdf" target="table-projects-registered" 
+		        				fileName="meus-projetos"
+		        				encoding="iso-8859-1"
+		        				pageOnly="true"/>
+		    </p:commandButton>		
+		</p:panel>
+	</h:form>
 	
 	<p:spacer height="8" />
 

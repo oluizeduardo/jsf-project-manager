@@ -6,6 +6,7 @@
 
 <h:head>
 	<title>Todos Projetos Cadastrados</title>
+	<meta charset="utf-8"/>
 	<style>
 		body {
 			background-color: #C1E1A6;
@@ -21,8 +22,8 @@
 	<!-- MENSAGEM -->
 	<p:growl id="messages" />
 
-	<p:panel>
-		<h:form id="tabela-projetos-cadastrados">
+	<h:form id="tabela-projetos-cadastrados" style="margin:0px">
+		<p:panel>		
 			<p:dataTable id="table-projects-registered" var="projeto"
 				value="#{projetoBean.todosProjetos}" widgetVar="projectsTable"
 				multiViewState="true" rows="10" paginator="true" 
@@ -56,7 +57,9 @@
 				</p:column>
 	
 				<p:column style="width:32px;text-align: center" exportable="false">
-					<p:commandButton icon="ui-icon-search" title="Visualizar" onclick="PF('detalhe-projeto').show()">
+					<p:commandButton icon="ui-icon-search" 
+									 title="Visualizar" 
+									 onclick="PF('detalhe-projeto').show()">
 						<f:setPropertyActionListener value="#{projeto}"	target="#{projetoBean.projetoSelecionado}" />
 					</p:commandButton>
 				</p:column>
@@ -65,12 +68,19 @@
 			
 			<p/>
 			
-			<p:commandButton value="Exportar dados da tabela" icon="ui-icon-document" title="Exportar para PDF" ajax="false">		        
-		        <p:dataExporter type="pdf" target="table-projects-registered" fileName="todos-projetos-cadastrados"/>
+			<p:commandButton value="Exportar dados da tabela" 
+							 icon="ui-icon-document" 
+							 title="Exportar para PDF" 
+							 ajax="false"
+							 disabled="#{projetoBean.todosProjetosVazio}">		        
+		        <p:dataExporter type="pdf" target="table-projects-registered" 
+		        				fileName="todos-projetos-cadastrados" 
+		        				encoding="iso-8859-1"
+		        				pageOnly="true"/>
 		    </p:commandButton>
 			
-		</h:form>
-	</p:panel>
+		</p:panel>
+	</h:form>
 	
 	<p:spacer height="8" />
 

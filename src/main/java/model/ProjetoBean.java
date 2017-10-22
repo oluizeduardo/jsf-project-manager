@@ -26,6 +26,14 @@ public class ProjetoBean implements Serializable {
 	private List<ProjetoRecomendado> projetosRecomendados = null;
 	private Projeto projetoSelecionado = new ProjetoRecomendado();
 	
+	// Diz se a lista de projetos recomendados está vazia.
+	private boolean recomendadosVazio = true; 
+	// Diz se a lista com todos os projetos está vazia.
+	private boolean todosProjetosVazio = true;
+	// Diz se a lista de projetos que participo está vazia.
+	private boolean projetosQueParticipoVazio = true;
+	
+	
 	
 	public ProjetoBean() {
 		
@@ -86,6 +94,31 @@ public class ProjetoBean implements Serializable {
 	}
 	
 	
+	/**
+	 * Diz se a lista com os projetos que participo está vazia ou não.
+	 */
+	public boolean isProjetosQueParticipoVazio() {
+		this.projetosQueParticipoVazio = (projetosQueParticipo.size() < 1);
+		return projetosQueParticipoVazio;
+	}
+	
+	/**
+	 * Diz se a lista com todos os projetos está vazia ou não.
+	 */
+	public boolean isTodosProjetosVazio() {
+		this.todosProjetosVazio = (todosProjetos.size() < 1);
+		return todosProjetosVazio;
+	}
+	
+	/**
+	 * Diz se a lista de projetos recomendados está vazia ou não.
+	 */
+	public boolean isRecomendadosVazio() {
+		this.recomendadosVazio = (projetosRecomendados.size() < 1);
+		return recomendadosVazio;
+	}
+
+
 	public List<Projeto> getTodosProjetos() {		
 		return todosProjetos;
 	}	

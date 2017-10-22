@@ -6,11 +6,12 @@
 
 <h:head>
 	<title>Projetos Recomendados</title>
+	<meta charset="utf-8"/>
 	<style>
-body {
-	background-color: #C1E1A6;
-}
-</style>
+		body {
+			background-color: #C1E1A6;
+		}
+	</style>
 </h:head>
 
 <h:body>
@@ -21,8 +22,8 @@ body {
 	<!-- MENSAGEM -->
 	<p:growl id="messages" showDetail="true"/>
 
-	<p:panel>
-		<h:form id="form-projetos-recomendados">
+	<h:form id="form-projetos-recomendados" style="margin:0px">
+		<p:panel>		
 			 
 			<p:dataTable id="tabela-projetos-recomendados" var="projeto"
 				value="#{projetoBean.projetosRecomendados}"
@@ -66,16 +67,22 @@ body {
 			
 			<p/>
 			
-		    <p:commandButton value="Exportar dados da tabela" icon="ui-icon-document" title="Exportar para PDF" ajax="false">		        
-		        <p:dataExporter type="pdf" target="tabela-projetos-recomendados" fileName="projetos-recomendados"/>
+		    <p:commandButton value="Exportar dados da tabela" 
+		    				 icon="ui-icon-document" 
+		    				 title="Exportar para PDF" 
+		    				 ajax="false" disabled="#{projetoBean.recomendadosVazio}">	        
+		        <p:dataExporter type="pdf" target="tabela-projetos-recomendados" 
+		        				fileName="projetos-recomendados"
+		        				encoding="iso-8859-1"
+		        				pageOnly="true"/>
 		    </p:commandButton>
 
-		</h:form>
-	</p:panel>
+		</p:panel>
+	</h:form>
 
-	<p:spacer height="8" />
+	<p:spacer height="8px"/>
 
-	<p:panel>
+	<p:panel style="padding:0">
 		<h:outputText
 			value="Projetos recomendados com base nas suas habilidades e experiências em outros projetos."
 			style="font-size: 15px; font-style:italic" />
