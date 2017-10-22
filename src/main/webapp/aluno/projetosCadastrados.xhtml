@@ -48,6 +48,10 @@
 					style="text-align: center; width:300px">
 					<h:outputText value="#{projeto.coordenador.nome}" />
 				</p:column>
+				
+				<p:column headerText="Email" visible="false">
+					<h:outputText value="#{projeto.coordenador.contato.email}" />
+				</p:column>
 	
 				<p:column headerText="Status"
 					filterBy="#{projeto.status}"
@@ -76,7 +80,8 @@
 		        <p:dataExporter type="pdf" target="table-projects-registered" 
 		        				fileName="todos-projetos-cadastrados" 
 		        				encoding="iso-8859-1"
-		        				pageOnly="true"/>
+		        				pageOnly="true"
+		        				preProcessor="#{formatadorPDF.criaPDFProjetosCadastrados}"/>
 		    </p:commandButton>
 			
 		</p:panel>

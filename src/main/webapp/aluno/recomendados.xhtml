@@ -50,6 +50,11 @@
 					style="text-align: center; width:220px">
 					<h:outputText value="#{projeto.coordenador.nome}" />
 				</p:column>
+				
+				<!-- O email do professor não é visível na tabela, porém é exportado no PDF. -->
+				<p:column headerText="Email" visible="false">
+					<h:outputText value="#{projeto.coordenador.contato.email}" />
+				</p:column>
 
 				<p:column headerText="Habilidades em comum"
 					filterBy="#{projeto.str_habilidadesComuns}"
@@ -73,7 +78,8 @@
 		    				 ajax="false" disabled="#{projetoBean.recomendadosVazio}">	        
 		        <p:dataExporter type="pdf" target="tabela-projetos-recomendados" 
 		        				fileName="projetos-recomendados"
-		        				encoding="iso-8859-1"/>
+		        				encoding="iso-8859-1"
+		        				preProcessor="#{formatadorPDF.criaPDFProjetosRecomendados}"/>
 		    </p:commandButton>
 
 		</p:panel>

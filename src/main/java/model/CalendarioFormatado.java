@@ -15,6 +15,16 @@ public class CalendarioFormatado {
 	}
 	
 	
+	
+	/**
+	 * Retorna a data atual formatada para o padrão de leitura simples.
+	 */
+	public static String getDataHoraAtual() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm");
+		return sdf.format(new Date());
+	}
+	
+	
 	/**
 	 * Retorna o ano do calendário atual.
 	 */

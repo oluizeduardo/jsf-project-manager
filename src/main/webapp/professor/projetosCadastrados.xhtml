@@ -60,15 +60,22 @@
 
 				<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
 					sortBy="#{projeto.categoria}" filterMatchMode="startsWith"
-					style="text-align: center; width:300px">
+					style="text-align: center; width:210px">
 					<h:outputText value="#{projeto.categoria}" />
 				</p:column>
 
 				<p:column headerText="Coordenador"
 					filterBy="#{projeto.coordenador.nome}"
 					sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
-					style="text-align: center; width:300px">
+					style="text-align: center; width:210px">
 					<h:outputText value="#{projeto.coordenador.nome}" />
+				</p:column>
+				
+				<p:column headerText="Email"
+					filterBy="#{projeto.coordenador.contato.email}"
+					sortBy="#{projeto.coordenador.contato.email}" filterMatchMode="startsWith"
+					style="text-align: center; width:210px">
+					<h:outputText value="#{projeto.coordenador.contato.email}" />
 				</p:column>
 
 				<p:column headerText="Status"
@@ -94,7 +101,8 @@
 							 disabled="#{projetosProfController.projetosVazio}">		        
 		        <p:dataExporter type="pdf" target="table-registered-projects" 
 		        				fileName="projetos-cadastrados"
-		        				encoding="iso-8859-1"/>
+		        				encoding="iso-8859-1"
+		        				preProcessor="#{formatadorPDF.criaPDFProjetosCadastrados}"/>
 		    </p:commandButton>
 			
 		</p:panel>

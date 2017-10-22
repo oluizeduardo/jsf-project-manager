@@ -70,7 +70,8 @@
 							 disabled="#{buscaAlunosController.alunosVazio}">	        
 		        <p:dataExporter type="pdf" target="table-registered-students" 
 		        				fileName="alunos-cadastrados"
-		        				encoding="iso-8859-1"/>
+		        				encoding="iso-8859-1"
+		        				preProcessor="#{formatadorPDF.criaPDFAlunosCadastrados}"/>
 		    </p:commandButton>
 
 		</p:panel>

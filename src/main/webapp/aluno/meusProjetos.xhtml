@@ -73,7 +73,7 @@
 		        <p:dataExporter type="pdf" target="table-projects-registered" 
 		        				fileName="meus-projetos"
 		        				encoding="iso-8859-1"
-		        				pageOnly="true"/>
+		        				preProcessor="#{formatadorPDF.criaPDFMeusProjetos}"/>
 		    </p:commandButton>		
 		</p:panel>
 	</h:form>

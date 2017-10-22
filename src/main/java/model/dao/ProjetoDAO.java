@@ -217,6 +217,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		//	projetoAux.setNumeroDeParticipantes(new Integer(projetoAtual.get("QTD_Participantes").asInt()));
 			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
 			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
+			projetoAux.getCoordenador().getContato().setEmail(projetoAtual.get("Email").asString());
 			
 			// Define o status atual do projeto.
 			getStatusProjeto(projetoAux);
@@ -306,7 +307,8 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataInicio as Data_Inicio, pj.dataPublicacao as Publicacao, "
 				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
-				+ "pj.resumo as Resumo, pr.nome as Coordenador, pj.status as Status";		
+				+ "pj.resumo as Resumo, pr.nome as Coordenador, "
+				+ "pj.status as Status, pr.email as Email";		
 		
 		return buscaProjetos(script);
 	}
@@ -361,7 +363,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo, "
-				+ "pr.nome as Coordenador, pj.status as Status";
+				+ "pr.nome as Coordenador, pj.status as Status, '"+email+"' as Email";
 
 		return buscaProjetos(script);
 	}

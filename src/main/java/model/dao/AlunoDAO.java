@@ -134,13 +134,13 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "<-[co:CONHECE]-(a:Aluno)-[:CURSA]->(c:Curso) "
 				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) "
 				+ "AND ex.nivel <= co.nivel "
-				+ "RETURN a.nome as Aluno, c.nome as Curso, p.titulo as Projeto "
+				+ "RETURN a.nome as Aluno, a.email as Email, c.nome as Curso, p.titulo as Projeto "
 				+ "UNION ALL "
 				+ "MATCH (pro:Professor{email:'"+email+"', senha:'"+senha+"'})"
 				+ "-[:COORDENA]->(p:Projeto)-[:DESTINADO_A]->"
 				+ "(c:Curso)<-[:CURSA]-(a:Aluno) "
 				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) "
-				+ "RETURN a.nome as Aluno, c.nome as Curso, p.titulo as Projeto";
+				+ "RETURN a.nome as Aluno, a.email as Email, c.nome as Curso, p.titulo as Projeto";
 		
 		super.iniciaSessaoNeo4J();		
 		StatementResult resultado = session.run(script);
@@ -151,6 +151,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			Aluno alunoindicado = new Aluno();
 			alunoindicado.setNome(registro.get("Aluno").asString());
 			alunoindicado.setCurso(new Curso(registro.get("Curso").asString()));
+			alunoindicado.getContato().setEmail(registro.get("Email").asString());
 			// TODO: implementar o restante da busca por aluno indicado.
 			
 			Projeto projetoIndicado = new Projeto();
@@ -594,6 +595,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) "
 				+ "RETURN "
 				+ "pr.nome as Coordenador, "
+				+ "pr.email as Email, "
 				+ "p.categoria as Categoria, "
 				+ "p.dataPublicacao as Publicacao, "
 			    + "p.dataInicio as DataInicio, "
@@ -611,6 +613,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "ex.nivel <= co.nivel "
 				+ "RETURN "
 				+ "pr.nome as Coordenador, "
+				+ "pr.email as Email, "
 				+ "p.categoria as Categoria, "
 				+ "p.dataPublicacao as Publicacao, "
 			    + "p.dataInicio as DataInicio, "
@@ -627,6 +630,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "AND NOT((eu)-[:PARTICIPA]->(p)) "
 				+ "RETURN "
 				+ "pr.nome as Coordenador, "
+				+ "pr.email as Email, "
 				+ "p.categoria as Categoria, "
 				+ "p.dataPublicacao as Publicacao, "
 			    + "p.dataInicio as DataInicio, "
@@ -643,6 +647,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "AND NOT((eu)-[:PARTICIPA]->(p)) "
 				+ "RETURN "
 				+ "pr.nome as Coordenador, "
+				+ "pr.email as Email, "
 				+ "p.categoria as Categoria, "
 				+ "p.dataPublicacao as Publicacao, "
 			    + "p.dataInicio as DataInicio, "
@@ -668,6 +673,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			projeto.setDescricaoCurta(projetoLocalizado.get("Descricao").asString());
 			projeto.setResumo(projetoLocalizado.get("Resumo").asString());				
 			projeto.getCoordenador().setNome(projetoLocalizado.get("Coordenador").asString());
+			projeto.getCoordenador().getContato().setEmail(projetoLocalizado.get("Email").asString());
 			getStatusProjeto(projeto);
 			
 			String hab = projetoLocalizado.get("Habilidade").asString();

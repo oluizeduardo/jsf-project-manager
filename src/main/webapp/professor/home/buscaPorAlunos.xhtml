@@ -16,7 +16,7 @@
 			        <p:dataExporter type="pdf" target="table-students" 
 			        				fileName="alunos-recomendados"
 			        				encoding="iso-8859-1"
-		        					preProcessor="#{formatadorPDF.preProcessPDF}"/>
+		        					preProcessor="#{formatadorPDF.criaPDFAlunosIndicados}"/>
 			    </p:commandButton>
 			    
 			    <p:spacer width="10"/>
@@ -44,6 +44,11 @@
 				sortBy="#{aluno.curso.nome}" filterMatchMode="startsWith"
 				style="text-align: center">
 				<h:outputText value="#{aluno.curso.nome}" />
+			</p:column>
+			
+			<!-- Essa coluna não é visível, ams é exportada no arquivo PDF. -->
+			<p:column headerText="Email" visible="false">
+				<h:outputText value="#{aluno.contato.email}" />
 			</p:column>
 	
 			<p:column headerText="Indicado para o projeto" 

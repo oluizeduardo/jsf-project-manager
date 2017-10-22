@@ -63,7 +63,7 @@
 		        <p:dataExporter type="pdf" target="professores" 
 		        				fileName="contato-professores"
 		        				encoding="iso-8859-1"
-		        				pageOnly="true"/>
+		        				preProcessor="#{formatadorPDF.criaPDFProfessoresCadastrados}"/>
 		    </p:commandButton>
 		</p:panel>
 	</h:form>
