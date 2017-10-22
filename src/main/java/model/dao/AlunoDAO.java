@@ -129,11 +129,18 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String email = donoDoProjeto.getContato().getEmail();
 		String senha = donoDoProjeto.getSenha();
 		
-		String script = "MATCH (pro:Professor)-[:COORDENA]->(p:Projeto)-[:EXIGE]->"
-				+ "(h:Habilidade)<-[:CONHECE]-(a:Aluno)-[:CURSA]->(c:Curso) "
-				+ "WHERE not((a)-[:PARTICIPA]->(p)) AND pro.email='"+email+"' "
-				+ "AND pro.senha='"+senha+"' RETURN a.nome as Aluno, c.nome as Curso, "
-				+ "p.titulo as Projeto";
+		String script = "MATCH (pro:Professor{email:'"+email+"', senha:'"+senha+"'})"
+				+ "-[:COORDENA]->(p:Projeto)-[ex:EXIGE]->(h:Habilidade)"
+				+ "<-[co:CONHECE]-(a:Aluno)-[:CURSA]->(c:Curso) "
+				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) "
+				+ "AND ex.nivel <= co.nivel "
+				+ "RETURN a.nome as Aluno, c.nome as Curso, p.titulo as Projeto "
+				+ "UNION ALL "
+				+ "MATCH (pro:Professor{email:'"+email+"', senha:'"+senha+"'})"
+				+ "-[:COORDENA]->(p:Projeto)-[:DESTINADO_A]->"
+				+ "(c:Curso)<-[:CURSA]-(a:Aluno) "
+				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) "
+				+ "RETURN a.nome as Aluno, c.nome as Curso, p.titulo as Projeto";
 		
 		super.iniciaSessaoNeo4J();		
 		StatementResult resultado = session.run(script);
