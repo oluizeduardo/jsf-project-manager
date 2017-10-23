@@ -202,6 +202,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		super.iniciaSessaoNeo4J();
 		
 		ArrayList<Aluno> alunos = new ArrayList<Aluno>();
+		IdiomaDAO idiomaDAO = new IdiomaDAO();
+		HabilidadeDAO habilidadeDAO = new HabilidadeDAO();
 		
 		String script = "MATCH (a:Aluno)-[:CURSA]->(c:Curso) "
 				+ "RETURN ID (a) as id, a.nome as Nome, "
@@ -241,6 +243,12 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			alunoAux.setPapel(alunoAtual.get("Papel").asString());
 			alunoAux.getContato().setEmail(alunoAtual.get("Email").asString());
 			alunoAux.getEndereco().setRua(alunoAtual.get("Rua").asString());
+			
+			String email = alunoAux.getContato().getEmail();
+			String senha = alunoAux.getSenha();
+			
+			alunoAux.setHabilidades(habilidadeDAO.listarHabilidadesDoAluno(email, senha));
+			alunoAux.setIdiomas(idiomaDAO.listarIdiomasDoAluno(email, senha));
 			
 			alunos.add(alunoAux);
 		
