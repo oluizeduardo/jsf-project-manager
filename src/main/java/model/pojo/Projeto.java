@@ -139,18 +139,12 @@ public class Projeto {
 	public Pessoa getCoordenador() {
 		return coordenador;
 	}
-
-
 	public void setCoordenador(Pessoa coordenador) {
 		this.coordenador = coordenador;
 	}
-
-
 	public List<Curso> getCursosEnvolvidos() {
 		return cursosEnvolvidos;
 	}
-
-
 	public void setCursosEnvolvidos(List<Curso> cursosEnvolvidos) {
 		this.cursosEnvolvidos = cursosEnvolvidos;
 	}

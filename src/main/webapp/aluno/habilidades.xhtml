@@ -55,7 +55,8 @@
 				<p:commandButton icon="ui-icon-trash" 
 								 title="Excluir"
 								 update="table-habilities"
-								 action="#{cadastrarAlunoController.excluiHabilidade}">
+								 action="#{cadastrarAlunoController.excluiHabilidade}"
+								 style="background:red">
 					<f:setPropertyActionListener value="#{habilidade}" 
 					target="#{cadastrarAlunoController.habilidadeSelecionada}" />
 				</p:commandButton>

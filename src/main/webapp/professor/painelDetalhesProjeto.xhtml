@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<!-- PAINEL DE DETALHES DO PROJETO -->
+	<p:outputPanel id="painel-de-detalhes" style="width:750px">
+		
+		<p:tabView>
+
+			<p:tab title="Detalhes">
+
+				<h:panelGrid columns="4" cellspacing="10">
+					<h:outputLabel for="titulo" value="Título: " style="font-weight:bold" />
+					<h:outputText id="titulo" value="#{projetosProfController.projetoSelecionado.titulo}" />
+					
+					<h:outputLabel for="categoria" value="Categoria: " style="font-weight:bold" />
+					<h:outputText id="categoria" value="#{projetosProfController.projetoSelecionado.categoria}" />
+					
+					<h:outputLabel for="coordenador" value="Coordenador: " style="font-weight:bold" />
+					<h:outputText id="coordenador" value="#{projetosProfController.projetoSelecionado.coordenador.nome}" />
+				
+					<h:outputLabel for="status" value="Status: " style="font-weight:bold" />
+					<h:outputText id="status" value="#{projetosProfController.projetoSelecionado.status}"/>
+				
+					<h:outputLabel for="dataInicio" value="Data de Início: " style="font-weight:bold" />
+					<h:outputText id="dataInicio" value="#{projetosProfController.projetoSelecionado.dataInicio}">
+						<f:convertDateTime pattern="MM/dd/yyyy" />
+					</h:outputText>
+					
+					<h:outputLabel for="dataFim" value="Data de Término: " style="font-weight:bold" />
+					<h:outputText id="dataFim" value="#{projetosProfController.projetoSelecionado.dataFim}"/>
+										
+				</h:panelGrid>
+				
+				<h:panelGrid columns="2" cellspacing="10">
+					<h:outputLabel for="descricao" value="Descrição: " style="font-weight:bold" />
+					<h:outputText id="descricao" value="#{projetosProfController.projetoSelecionado.descricaoCurta}"/>
+				</h:panelGrid>
+			</p:tab>						
+			
+			<p:tab title="Habilidades">
+				<h:outputLabel value="Habilidades exigidas: " style="font-weight:bold" />
+				<p/>
+				<p:dataTable id="table-habilities" var="habilidade"
+					value="#{projetosProfController.projetoSelecionado.habilidades}"
+					resizableColumns="true"
+					emptyMessage="Nenhuma habilidade exigida."
+					style="width:700px">
+				
+					<p:column headerText="Habilidade" style="text-align: center">
+						<h:outputText value="#{habilidade.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Nível" style="text-align: center">
+						<h:outputText value="#{habilidade.nivel}" />
+					</p:column>		
+				</p:dataTable>				
+			</p:tab>
+			
+			<p:tab title="Resumo">
+				<p:textEditor style="margin-bottom:10px; width: 700px"
+					placeholder="Sem resumo cadastrado." 
+					value="#{projetosProfController.projetoSelecionado.resumo}">
+					<f:facet name="toolbar">
+						<span class="ql-formats"> 
+							<select class="ql-font"/> 
+							<select	class="ql-size"/>
+						</span>
+					</f:facet>
+				</p:textEditor>
+			</p:tab>			
+		</p:tabView>
+		
+		<p:spacer height="10px"/>
+		
+		<p:panel>
+			<div align="center">
+				<h:panelGrid columns="3" cellspacing="5">
+					<p:commandButton value="Excluir" icon="ui-icon-trash" 
+									 title="Excluir projeto" disabled="#{projetosProfController.projetoDeOutroProfessor}"/>
+					<p:commandButton value="Editar" icon="ui-icon-pencil" 
+									 title="Editar projeto" disabled="#{projetosProfController.projetoDeOutroProfessor}"/>
+					<p:commandButton value="Fechar" onclick="PF('detalhe-projeto').hide()" title="Fechar tela de detalhes"/>
+				</h:panelGrid>
+			</div>			
+		</p:panel>
+	</p:outputPanel>
+
+</html>

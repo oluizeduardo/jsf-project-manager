@@ -28,6 +28,8 @@ public class BuscarAlunosController implements Serializable {
 	private boolean alunosVazio = true;
 	// Diz se a lista de alunos indicados está vazia.
 	private boolean alunosIndicadosVazio = true;
+	// Aluno selecionado na tabela.
+	private Aluno alunoSelecionado = new Aluno();
 	
 	
 	
@@ -77,6 +79,12 @@ public class BuscarAlunosController implements Serializable {
 	}
 	public void setAlunosIndicados(List<Aluno> alunosIndicados) {
 		this.alunosIndicados = alunosIndicados;
+	}
+	public Aluno getAlunoSelecionado() {
+		return alunoSelecionado;
+	}
+	public void setAlunoSelecionado(Aluno alunoSelecionado) {
+		this.alunoSelecionado = alunoSelecionado;
 	}
 	
 	

@@ -30,6 +30,13 @@ public class BuscarProjetosProfessorController implements Serializable {
 	// Diz se a lista de projetos cadastrados está vazia.
 	private boolean projetosVazio = true;
 	
+	// O projeto selecionado na tabela.
+	private Projeto projetoSelecionado = new Projeto();
+	
+	// Diz se um determinado projeto é de um outro autor.
+	// Variável necessária para bloquear os botões de Editar e Excluir.
+	private boolean projetoDeOutroProfessor = false;
+	
 	
 	
 	public BuscarProjetosProfessorController() {
@@ -85,6 +92,40 @@ public class BuscarProjetosProfessorController implements Serializable {
 	}
 	public void setTodosProjetos(List<Projeto> projetos) {
 		this.projetos = projetos;
+	}
+	public Projeto getProjetoSelecionado() {
+		return projetoSelecionado;
+	}
+	public void setProjetoSelecionado(Projeto projetoSelecionado) {
+		this.projetoSelecionado = projetoSelecionado;
+	}
+	/**
+	 * Verifica o nome, email e senha. Compara as propriedades do projeto selecionado
+	 * com as propriedades da pessoa logada no sistema para verificar se o projeto
+	 * selecionado pertence realmente à pessoa online.
+	 */
+	public boolean isProjetoDeOutroProfessor() {
+		Pessoa pessoaLogada = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		String nomeProfLogado = pessoaLogada.getNome();
+		String emailProfLogado = pessoaLogada.getContato().getEmail();
+		String senhaProfLogado = pessoaLogada.getSenha();
+		
+		Pessoa profProjetoSelecionado = projetoSelecionado.getCoordenador();
+		
+		if(!nomeProfLogado.equals(profProjetoSelecionado.getNome())){
+			if(!emailProfLogado.equals(profProjetoSelecionado.getContato().getEmail())){
+				if(!senhaProfLogado.equals(profProjetoSelecionado.getSenha())){
+					projetoDeOutroProfessor = true;
+				}else{
+					projetoDeOutroProfessor = false;
+				}
+			}else{
+				projetoDeOutroProfessor = false;
+			}
+		}else{
+			projetoDeOutroProfessor = false;
+		}		
+		return projetoDeOutroProfessor;
 	}
 	
 }

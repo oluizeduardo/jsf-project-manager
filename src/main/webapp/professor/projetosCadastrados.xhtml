@@ -86,8 +86,13 @@
 				</p:column>
 
 				<p:column style="width:32px;text-align: center" exportable="false">
-					<p:commandButton icon="ui-icon-search" title="Visualizar"
-						onclick="PF('project-details').show()" />
+					<p:commandButton icon="ui-icon-search" 
+									 title="Visualizar" 
+									 oncomplete="PF('detalhe-projeto').show()" 
+									 update="painel-de-detalhes">
+						<f:setPropertyActionListener value="#{projeto}"	
+									 target="#{projetosProfController.projetoSelecionado}" />
+					</p:commandButton>
 				</p:column>
 
 			</p:dataTable>
@@ -110,12 +115,10 @@
 	
 	<!-- DETALHES DO PROJETO -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-		header="Detalhes do Projeto" widgetVar="project-details"
-		resizable="false" closeOnEscape="true">
+			  header="Detalhes do Projeto" widgetVar="detalhe-projeto" 
+			  resizable="false" closeOnEscape="true">
 
-		<p:panel>
-			<h:outputLabel value="Detalhes completos sobre o projeto."/>
-		</p:panel>
+		<ui:include src="painelDetalhesProjeto.xhtml"/>
 
 	</p:dialog>
 

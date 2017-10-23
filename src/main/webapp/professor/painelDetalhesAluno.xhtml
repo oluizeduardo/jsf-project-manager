@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<!-- PAINEL DE DETALHES DO ALUNO -->
+	<p:outputPanel id="painel-de-detalhes" style="width:750px">
+		
+		<p:tabView>
+
+			<p:tab title="Detalhes">
+
+				<h:panelGrid columns="4" cellspacing="10">
+					<h:outputLabel for="nome" value="Nome: " style="font-weight:bold" />
+					<h:outputText id="nome" value="#{buscarAlunosController.alunoSelecionado.nome}" />										
+				</h:panelGrid>
+			</p:tab>						
+			
+			<p:tab title="Idiomas">
+				<p:dataTable id="table-languages" var="idioma"
+					value="#{buscarAlunosController.alunoSelecionado.idiomas}"
+					resizableColumns="true"
+					emptyMessage="Nenhum idioma definido."
+					style="width:700px">
+				
+					<p:column headerText="Idioma" style="text-align: center">
+						<h:outputText value="#{idioma.nomeIdioma}" />
+					</p:column>
+					
+					<p:column headerText="Nível" style="text-align: center">
+						<h:outputText value="#{idioma.nivel}" />
+					</p:column>		
+				</p:dataTable>
+			</p:tab>
+			
+			<p:tab title="Habilidades">
+				<p:dataTable id="table-habilities" var="habilidade"
+					value="#{buscarAlunosController.alunoSelecionado.habilidades}"
+					resizableColumns="true"
+					emptyMessage="Nenhuma habilidade definida."
+					style="width:700px">
+				
+					<p:column headerText="Habilidade" style="text-align: center">
+						<h:outputText value="#{habilidade.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Nível" style="text-align: center">
+						<h:outputText value="#{habilidade.nivel}" />
+					</p:column>		
+				</p:dataTable>				
+			</p:tab>			
+		</p:tabView>
+		
+		<p:spacer height="10px"/>
+		
+		<p:panel>
+			<div align="center">					
+				<p:commandButton value="Fechar" onclick="PF('detalhe-aluno').hide()" title="Fechar tela de detalhes"/>
+			</div>			
+		</p:panel>
+	</p:outputPanel>
+
+</html>

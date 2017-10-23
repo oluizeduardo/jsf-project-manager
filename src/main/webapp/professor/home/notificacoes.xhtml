@@ -32,7 +32,8 @@
 
 						<p:commandButton title="Recusar" icon="ui-icon-close"
 							update="pn-lista-de-notificacoes"
-							action="#{homeProfessorController.recusaParticipacaoEmProjeto}">
+							action="#{homeProfessorController.recusaParticipacaoEmProjeto}"
+							style="background:red">
 							<f:setPropertyActionListener value="#{notificacao}"
 								target="#{homeProfessorController.notificacaoSelecionada}" />
 						</p:commandButton>
