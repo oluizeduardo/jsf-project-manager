@@ -202,29 +202,33 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		while(resultado.hasNext()) {
 			
-			Record projetoAtual = resultado.next();
+			Record registro = resultado.next();
 			
 			Projeto projetoAux = new Projeto();
 			
-			projetoAux.setTitulo(projetoAtual.get("Titulo").asString());
-			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio").asString());
-			projetoAux.setDataFim(projetoAtual.get("Data_Fim").asString());
-			projetoAux.setStatus(projetoAtual.get("Status").asString());
-			projetoAux.setDataPublicacao(projetoAtual.get("Publicacao").asString());
+			projetoAux.setTitulo(registro.get("Titulo").asString());
+			projetoAux.setDataInicio(registro.get("Data_Inicio").asString());
+			projetoAux.setDataFim(registro.get("Data_Fim").asString());
+			projetoAux.setStatus(registro.get("Status").asString());
+			projetoAux.setDataPublicacao(registro.get("Publicacao").asString());
 		//	projetoAux.getFinanciamento().setValor(new Float(projetoAtual.get("Valor").asDouble()));
-			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
-			projetoAux.setCategoria(projetoAtual.get("Categoria").asString());
+			projetoAux.setDescricaoCurta(registro.get("Descricao").asString());
+			projetoAux.setCategoria(registro.get("Categoria").asString());
 		//	projetoAux.setNumeroDeParticipantes(new Integer(projetoAtual.get("QTD_Participantes").asInt()));
-			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
-			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
-			projetoAux.getCoordenador().getContato().setEmail(projetoAtual.get("Email").asString());
+			projetoAux.setResumo(registro.get("Resumo").asString());
+			projetoAux.getCoordenador().setNome(registro.get("Coordenador").asString());
+			projetoAux.getCoordenador().getContato().setEmail(registro.get("Email").asString());
+			projetoAux.getCoordenador().setSenha(registro.get("Senha").asString());
 			
 			// Define o status atual do projeto.
 			getStatusProjeto(projetoAux);
 			
 			// Busca a lista de habilidades exigidas por esse projeto.
 			projetoAux.setHabilidades(buscaHabilidadesDoProjeto(projetoAux));
-			projetoAux.setNomeIcone(getNomeIconePorCategoria(projetoAux.getCategoria()));
+			// Busca a lista de alunos que participam desse projeto.
+			projetoAux.setAlunos(buscaParticipantesDoProjeto(projetoAux));
+			// Define com qual ícone o projeto será exibido na home do aluno.
+			projetoAux.setNomeIcone(getNomeIconePorCategoria(projetoAux.getCategoria()));			
 			
 			projetosLocalizados.add(projetoAux);
 		}		
@@ -308,10 +312,52 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
 				+ "pj.resumo as Resumo, pr.nome as Coordenador, "
-				+ "pj.status as Status, pr.email as Email";		
-		
+				+ "pj.status as Status, pr.email as Email, pr.senha as Senha";		
+				
 		return buscaProjetos(script);
 	}
+	
+	
+	
+	/**
+	 * Retorna uma lista de alunos que participam de um determinado projeto.
+	 * @param projeto O projeto que se deseja saber os alunos participantes.
+	 * @return Uma lista de alunos.
+	 */
+	private List<Aluno> buscaParticipantesDoProjeto(Projeto projeto){
+		
+		List<Aluno> alunosParticipantes = new ArrayList<Aluno>();
+		String tituloProjeto = projeto.getTitulo();
+		String emailCoordenador = projeto.getCoordenador().getContato().getEmail();
+		String senhaCoordenador = projeto.getCoordenador().getSenha();
+		
+		String script = "MATCH(c:Curso)<-[:CURSA]-(a:Aluno)-[:PARTICIPA]->"
+				+ "(pj:Projeto{titulo:'"+tituloProjeto+"'})"
+				+ "<-[:COORDENA]-(pr:Professor{email:'"+emailCoordenador+"', "
+				+ "senha:'"+senhaCoordenador+"'}) "
+				+ "RETURN a.nome as Nome, a.email as Email, c.nome as Curso";
+				
+		iniciaSessaoNeo4J();
+		
+		StatementResult resultado = session.run(script);
+		
+		System.err.println(script);
+		while(resultado.hasNext()) {
+			
+			Record registro = resultado.next();			
+			Aluno aluno = new Aluno();
+			
+			aluno.setNome(registro.get("Nome").asString());
+			aluno.getContato().setEmail(registro.get("Email").asString());
+			aluno.getCurso().setNome(registro.get("Curso").asString());
+						
+			alunosParticipantes.add(aluno);		
+		}
+		return alunosParticipantes;
+	}
+	
+	
+	
 	
 	
 	/**
@@ -357,16 +403,42 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				
 		String email = professor.getContato().getEmail();
 		String senha = professor.getSenha();
-				
+			
+		System.err.println("Senha do prof logado: "+senha);
+		
 		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
 				+ "WHERE pr.email = '"+email+"' AND pr.senha = '"+senha+"' RETURN "
 				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo, "
-				+ "pr.nome as Coordenador, pj.status as Status, '"+email+"' as Email";
+				+ "pr.nome as Coordenador, pj.status as Status, '"+email+"' as Email, '"+senha+"' as Senha";
 
 		return buscaProjetos(script);
 	}
+	
+	
+	
+	
+	/**
+	 * Retorna uma lista com todos os projetos que um determinado aluno tem relação.
+	 */
+	public List<Projeto> listarPorAluno(Aluno aluno) {
+				
+		String email = aluno.getContato().getEmail();
+		String senha = aluno.getSenha();
+				
+		String script = "MATCH(al:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COORDENA]-(pr:Professor) "
+				+ "WHERE al.email = '"+email+"' AND al.senha = '"+senha+"' RETURN "
+				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, "
+				+ "pj.dataInicio as Data_Inicio, pj.dataPublicacao as Publicacao, "
+				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
+				+ "pj.resumo as Resumo, pr.nome as Coordenador, "
+				+ "pj.status as Status, '"+email+"' as Email";
+
+		return buscaProjetos(script);
+	}
+	
 	
 	
 	

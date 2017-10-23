@@ -47,7 +47,7 @@ public class Projeto {
 	private String resumo="";
 	
 	// Equipe
-	private List<Aluno> alunos;
+	private List<Aluno> alunos = null;
 
 	// Status do Projeto
 	private String status="";//Em andamento, Finalizado, Cancelado, etc.

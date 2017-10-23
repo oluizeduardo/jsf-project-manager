@@ -5,6 +5,10 @@ public class Idioma {
 	private String nomeIdioma;
 	private String nivelDeConhecimento;
 	
+	
+	public Idioma() { }
+	
+	
 	public Idioma(String nome, String nivel) {
 		this.nomeIdioma = nome;
 		this.nivelDeConhecimento = nivel;

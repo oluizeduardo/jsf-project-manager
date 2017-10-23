@@ -23,17 +23,17 @@
 				</div>
 				<div align="right">
 					<h:panelGrid columns="2">
-						<p:commandButton title="Aceitar" icon="ui-icon-check"
-							update="pn-lista-de-notificacoes"
-							action="#{homeProfessorController.aprovaParticipacaoEmProjeto}">
-							<f:setPropertyActionListener value="#{notificacao}"
-								target="#{homeProfessorController.notificacaoSelecionada}" />
-						</p:commandButton>
-
 						<p:commandButton title="Recusar" icon="ui-icon-close"
 							update="pn-lista-de-notificacoes"
 							action="#{homeProfessorController.recusaParticipacaoEmProjeto}"
 							style="background:red">
+							<f:setPropertyActionListener value="#{notificacao}"
+								target="#{homeProfessorController.notificacaoSelecionada}" />
+						</p:commandButton>
+					
+						<p:commandButton title="Aceitar" icon="ui-icon-check"
+							update="pn-lista-de-notificacoes"
+							action="#{homeProfessorController.aprovaParticipacaoEmProjeto}">
 							<f:setPropertyActionListener value="#{notificacao}"
 								target="#{homeProfessorController.notificacaoSelecionada}" />
 						</p:commandButton>

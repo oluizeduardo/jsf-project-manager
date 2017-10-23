@@ -7,74 +7,116 @@
 	<!-- PAINEL DE DETALHES DO ALUNO -->
 	<p:outputPanel id="painel-de-detalhes" style="width:750px">
 		
-		<p:tabView>
-
-			<p:tab title="Detalhes">
-				<h:panelGrid columns="2">
-					<h:panelGrid columns="1">
-						<div align="center">
-							<p:panel style="height:140px; width:155px;">
-								<h:graphicImage value="/resources/images/user_default.png" height="130" width="130" style="margin:0px" />
-							</p:panel>
-						</div>
-					</h:panelGrid>
-					 
-					<h:panelGrid columns="2" cellspacing="10">
-						<h:outputLabel for="nome" value="Nome: " style="font-weight:bold" />
-						<h:outputText id="nome" value="#{buscarAlunosController.alunoSelecionado.nome}" />		
+		<h:form>
+			<p:tabView>		
+				<p:tab title="Detalhes">
+					<h:panelGrid columns="2">
+						<h:panelGrid columns="1">
+							<div align="center">
+								<p:panel style="height:140px; width:155px;">
+									<h:graphicImage value="/resources/images/user_default.png" height="130" width="130" style="margin:0px" />
+								</p:panel>
+							</div>
+						</h:panelGrid>
+						 
+						<h:panelGrid columns="2" cellspacing="10">
+							<h:outputLabel for="nome" value="Nome: " style="font-weight:bold" />
+							<h:outputText id="nome" value="#{buscarAlunosController.alunoSelecionado.nome}" />		
+							
+							<h:outputLabel for="email" value="Email: " style="font-weight:bold" />
+							<h:outputText id="email" value="#{buscarAlunosController.alunoSelecionado.contato.email}" />
+							
+							<h:outputLabel for="curso" value="Curso:" style="font-weight:bold" />
+							<h:outputText id="curso" value="#{buscarAlunosController.alunoSelecionado.curso.nome}" />
+							
+							<h:outputLabel for="dtNasc" value="Data Nascimento:" style="font-weight:bold" />
+							<h:outputText id="dtNasc" value="#{buscarAlunosController.alunoSelecionado.dataNascimento}" />
+							
+							<h:outputLabel for="telefone" value="Telefone: " style="font-weight:bold" />
+							<h:outputText id="telefone" value="#{buscarAlunosController.alunoSelecionado.contato.telefone}" />
 						
-						<h:outputLabel for="email" value="Email: " style="font-weight:bold" />
-						<h:outputText id="email" value="#{buscarAlunosController.alunoSelecionado.contato.email}" />
-						
-						<h:outputLabel for="curso" value="Curso:" style="font-weight:bold" />
-						<h:outputText id="curso" value="#{buscarAlunosController.alunoSelecionado.curso.nome}" />
-						
-						<h:outputLabel for="dtNasc" value="Data Nascimento:" style="font-weight:bold" />
-						<h:outputText id="dtNasc" value="#{buscarAlunosController.alunoSelecionado.dataNascimento}" />
-						
-						<h:outputLabel for="telefone" value="Telefone: " style="font-weight:bold" />
-						<h:outputText id="telefone" value="#{buscarAlunosController.alunoSelecionado.contato.telefone}" />
-					
-						<h:outputLabel for="matricula" value="Matrícula:" style="font-weight:bold" />
-						<h:outputText id="matricula" value="#{buscarAlunosController.alunoSelecionado.matricula}" />						
-					</h:panelGrid>
-				</h:panelGrid>				
-			</p:tab>						
-			
-			<p:tab title="Idiomas">
-				<p:dataTable id="table-languages" var="idioma"
-					value="#{buscarAlunosController.alunoSelecionado.idiomas}"
-					resizableColumns="true"
-					emptyMessage="Nenhum idioma definido."
-					style="width:700px">
+							<h:outputLabel for="matricula" value="Matrícula:" style="font-weight:bold" />
+							<h:outputText id="matricula" value="#{buscarAlunosController.alunoSelecionado.matricula}" />						
+						</h:panelGrid>
+					</h:panelGrid>				
+				</p:tab>						
 				
-					<p:column headerText="Idioma" style="text-align: center">
-						<h:outputText value="#{idioma.nomeIdioma}" />
-					</p:column>
+				<p:tab title="Idiomas">
+					<p:dataTable id="table-languages" var="idioma"
+						value="#{buscarAlunosController.alunoSelecionado.idiomas}"
+						resizableColumns="true"
+						emptyMessage="Nenhum idioma definido."
+						style="width:700px">				
 					
-					<p:column headerText="Nível de Conhecimento" style="text-align: center">
-						<h:outputText value="#{idioma.nivelDeConhecimento}" />
-					</p:column>		
-				</p:dataTable>
-			</p:tab>
-			
-			<p:tab title="Habilidades">
-				<p:dataTable id="table-habilities" var="habilidade"
-					value="#{buscarAlunosController.alunoSelecionado.habilidades}"
-					resizableColumns="true"
-					emptyMessage="Nenhuma habilidade definida."
-					style="width:700px">
+						<p:column headerText="Idioma" style="text-align: center"
+								  filterBy="#{idioma.nomeIdioma}" sortBy="#{idioma.nomeIdioma}" 
+								  filterMatchMode="startsWith">
+							<h:outputText value="#{idioma.nomeIdioma}" />
+						</p:column>
+						
+						<p:column headerText="Nível de Conhecimento" style="text-align: center"
+								  filterBy="#{idioma.nivelDeConhecimento}" sortBy="#{idioma.nivelDeConhecimento}" 
+								  filterMatchMode="startsWith">
+							<h:outputText value="#{idioma.nivelDeConhecimento}" />
+						</p:column>		
+					</p:dataTable>
+				</p:tab>
 				
-					<p:column headerText="Habilidade" style="text-align: center">
-						<h:outputText value="#{habilidade.descricao}" />
-					</p:column>
+				<p:tab title="Habilidades">
+					<p:dataTable id="table-habilities" var="habilidade"
+						value="#{buscarAlunosController.alunoSelecionado.habilidades}"
+						resizableColumns="true"
+						emptyMessage="Nenhuma habilidade definida."
+						style="width:700px">
 					
-					<p:column headerText="Nível de Conhecimento" style="text-align: center">
-						<h:outputText value="#{habilidade.nivel}" />
-					</p:column>		
-				</p:dataTable>				
-			</p:tab>			
-		</p:tabView>
+						<p:column headerText="Habilidade" style="text-align: center"
+								  filterBy="#{habilidade.descricao}" sortBy="#{habilidade.descricao}" 
+								  filterMatchMode="startsWith">
+							<h:outputText value="#{habilidade.descricao}" />
+						</p:column>
+						
+						<p:column headerText="Nível de Conhecimento" style="text-align: center"
+								  filterBy="#{habilidade.nivel}" sortBy="#{habilidade.nivel}" 
+								  filterMatchMode="startsWith">
+							<h:outputText value="#{habilidade.nivel}" />
+						</p:column>		
+					</p:dataTable>				
+				</p:tab>
+				
+				<p:tab title="Projetos">
+					<p:dataTable id="table-projects" var="projeto"
+						value="#{buscarAlunosController.alunoSelecionado.projetos}"
+						resizableColumns="true"
+						emptyMessage="Nenhum projeto encontrado."
+						style="width:700px">
+					
+						<p:column headerText="Projeto" style="text-align: center"
+								  filterBy="#{projeto.titulo}" sortBy="#{projeto.titulo}" 
+								  filterMatchMode="startsWith">
+							<h:outputText value="#{projeto.titulo}" />
+						</p:column>
+						
+						<p:column headerText="Categoria" style="text-align: center"
+								  filterBy="#{projeto.categoria}" sortBy="#{projeto.categoria}" 
+								  filterMatchMode="startsWith">
+							<h:outputText value="#{projeto.categoria}" />
+						</p:column>
+						
+						<p:column headerText="Coordenador" style="text-align: center"
+								  filterBy="#{projeto.coordenador.nome}" sortBy="#{projeto.coordenador.nome}" 
+								  filterMatchMode="startsWith">
+							<h:outputText value="#{projeto.coordenador.nome}" />
+						</p:column>
+						
+						<p:column headerText="Status" style="text-align: center"
+								  filterBy="#{projeto.status}" sortBy="#{projeto.status}" 
+								  filterMatchMode="startsWith">
+							<h:outputText value="#{projeto.status}" />
+						</p:column>		
+					</p:dataTable>				
+				</p:tab>										
+			</p:tabView>
+		</h:form>
 		
 		<p:spacer height="10px"/>
 		

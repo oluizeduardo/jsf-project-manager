@@ -1,5 +1,6 @@
 package model.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Aluno extends Pessoa {
@@ -10,6 +11,7 @@ public class Aluno extends Pessoa {
 	private List<Habilidade> habilidades;
 	private List<Idioma> idiomas;
 	private Projeto projetoIndicado = new Projeto();
+	private List<Projeto> projetos = new ArrayList<Projeto>(); 
 	
 	
 	public Aluno() { 
@@ -46,6 +48,12 @@ public class Aluno extends Pessoa {
 	}
 	public void setProjetoIndicado(Projeto projetoIndicado) {
 		this.projetoIndicado = projetoIndicado;
+	}
+	public List<Projeto> getProjetos() {
+		return projetos;
+	}
+	public void setProjetos(List<Projeto> projetos) {
+		this.projetos = projetos;
 	}
 	
 }
