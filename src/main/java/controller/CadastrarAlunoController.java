@@ -51,7 +51,8 @@ public class CadastrarAlunoController {
 	private List<Idioma> linguasFaladasPeloAluno = null;
 	// Língua selecionada para ser excluida da tabela.
 	private Idioma linguaSelecionada;
-	
+	// Lista com todas as habilidades existentes no banco de dados.
+	private List<Habilidade> habilidadesCadastradas = null;
 	
 	
 	
@@ -62,9 +63,32 @@ public class CadastrarAlunoController {
 	 */
 	public CadastrarAlunoController() {		
 		iniciaListas();
-		carregaDadosDoAluno();		
+		carregaDadosDoAluno();
+		this.habilidadesCadastradas = new HabilidadeDAO().listaHabilidades();
 	}
 
+	
+	
+	/**
+	 * Método utilizado no campo de autocomplete no cadastro de habilidades do aluno.
+	 * 
+	 * @param palavra A palavra digitada pelo aluno no campo de descrição da habilidade.
+	 * @return Uma lista de palavras sugeridas que se iniciam com a palavra informada 
+	 * pelo usuário.
+	 */
+	public List<String> completaTexto(String palavra){
+		List<String> sugestoes = new ArrayList<String>();
+		
+		for (Habilidade hab : habilidadesCadastradas) {
+			if(hab.getDescricao().startsWith(palavra.toUpperCase())){
+				sugestoes.add(hab.getDescricao());
+			}
+		}
+		return sugestoes;
+	}
+	
+	
+	
 	
 	
 	/**

@@ -119,6 +119,34 @@ public class HabilidadeDAO extends DAOBase {
 	
 	
 	/**
+	 * Monta uma lista com todas as habilidades cadastradas no banco de dados.
+	 * Busca as habilidades associadas aos projetos e aos alunos.
+	 */
+	public List<Habilidade> listaHabilidades(){
+		
+		List<Habilidade> habilidades = new ArrayList<Habilidade>();
+		
+		String script = "MATCH ()-[]->(h:Habilidade) RETURN DISTINCT h.nome AS Habilidade";
+		
+		super.iniciaSessaoNeo4J();		
+		StatementResult resultado = session.run(script);
+		
+		while (resultado.hasNext()) {
+			
+			Record registro = resultado.next();
+			String strhabilidade = registro.get("Habilidade").asString();
+			
+			Habilidade hab = new Habilidade();
+			hab.setDescricao(strhabilidade);			
+			habilidades.add(hab);
+		}			
+		return habilidades;		
+	}
+	
+	
+	
+	
+	/**
 	 * Monta uma lista das habilidades de um aluno.
 	 */
 	public List<Habilidade> listarHabilidadesDoAluno(String email, String senha){

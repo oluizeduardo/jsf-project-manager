@@ -8,6 +8,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.CalendarioFormatado;
+import model.dao.HabilidadeDAO;
 import model.dao.ProjetoDAO;
 import model.helperView.ListaDeCursos;
 import model.pojo.Curso;
@@ -40,10 +41,14 @@ public class CadastrarProjetoController implements Serializable{
 	private String cursoAlvo = null;
 	// Curso alvo do projeto.
 	private String cursoSelecionado = null;
+	// Lista com todas as habilidades existentes no banco de dados.
+	private List<Habilidade> habilidadesCadastradas = null;
 	
 	
 	
-	public CadastrarProjetoController() { }
+	public CadastrarProjetoController() {
+		this.habilidadesCadastradas = new HabilidadeDAO().listaHabilidades();
+	}
 
 
 
@@ -116,6 +121,28 @@ public class CadastrarProjetoController implements Serializable{
 		}
 		return cursosEnvolvidos;
 	}
+	
+	
+	
+	/**
+	 * Método utilizado no campo de autocomplete no cadastro de habilidades para o projeto.
+	 * 
+	 * @param palavra A palavra digitada pelo professor no campo de descrição da habilidade.
+	 * @return Uma lista de palavras sugeridas que se iniciam com a palavra informada 
+	 * pelo usuário.
+	 */
+	public List<String> completaTexto(String palavra){
+		List<String> sugestoes = new ArrayList<String>();
+		
+		for (Habilidade hab : habilidadesCadastradas) {
+			if(hab.getDescricao().startsWith(palavra.toUpperCase())){
+				sugestoes.add(hab.getDescricao());
+			}
+		}
+		return sugestoes;
+	}
+	
+	
 	
 	
 	

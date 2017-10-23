@@ -11,9 +11,10 @@
 			<h:panelGrid columns="5" cellspacing="10">
 
 				<h:outputLabel value="Descrição:" for="description-field" />
-				<p:inputText id="description-field" style="width:250px"
-					value="#{cadastrarProjetoController.habilidade.descricao}" />
-
+				<p:autoComplete id="description-field"
+							value="#{cadastrarProjetoController.habilidade.descricao}" 
+							completeMethod="#{cadastrarProjetoController.completaTexto}"/>
+							
 				<h:outputLabel value="Nível:" />
 				<p:selectOneMenu style="width:150px"
 					value="#{cadastrarProjetoController.habilidade.nivel}">
