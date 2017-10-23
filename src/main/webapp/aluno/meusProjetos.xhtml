@@ -75,7 +75,7 @@
 							 icon="ui-icon-document" 
 							 title="Exportar para PDF" 
 							 ajax="false"
-							 disabled="#{buscarProfessorController.professoresVazio}">		        
+							 disabled="#{projetoBean.projetosQueParticipoVazio}">		        
 		        <p:dataExporter type="pdf" target="table-projects-registered" 
 		        				fileName="meus-projetos"
 		        				encoding="iso-8859-1"

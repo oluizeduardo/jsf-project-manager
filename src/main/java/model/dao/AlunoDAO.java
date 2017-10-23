@@ -126,6 +126,10 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 */
 	public List<Aluno> getAlunosIndicadosParaProfessor(Pessoa donoDoProjeto){
 		List<Aluno> alunosindicados = new ArrayList<Aluno>();
+		IdiomaDAO idiomaDAO = new IdiomaDAO();
+		HabilidadeDAO habilidadeDAO = new HabilidadeDAO();
+		ProjetoDAO projetoDAO = new ProjetoDAO();
+		
 		String email = donoDoProjeto.getContato().getEmail();
 		String senha = donoDoProjeto.getSenha();
 		
@@ -134,13 +138,21 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "<-[co:CONHECE]-(a:Aluno)-[:CURSA]->(c:Curso) "
 				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) "
 				+ "AND ex.nivel <= co.nivel "
-				+ "RETURN a.nome as Aluno, a.email as Email, c.nome as Curso, p.titulo as Projeto "
+				+ "RETURN "
+				+ "a.nome as Aluno, a.email as Email, "
+				+ "c.nome as Curso, p.titulo as Projeto, "
+				+ "a.dataNascimento as DataNas, a.matricula as Matricula, "
+				+ "a.telefone as Telefone, a.senha as Senha "
 				+ "UNION ALL "
 				+ "MATCH (pro:Professor{email:'"+email+"', senha:'"+senha+"'})"
 				+ "-[:COORDENA]->(p:Projeto)-[:DESTINADO_A]->"
 				+ "(c:Curso)<-[:CURSA]-(a:Aluno) "
 				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) "
-				+ "RETURN a.nome as Aluno, a.email as Email, c.nome as Curso, p.titulo as Projeto";
+				+ "RETURN "
+				+ "a.nome as Aluno, a.email as Email, "
+				+ "c.nome as Curso, p.titulo as Projeto, "
+				+ "a.dataNascimento as DataNas, a.matricula as Matricula, "
+				+ "a.telefone as Telefone, a.senha as Senha";
 		
 		super.iniciaSessaoNeo4J();		
 		StatementResult resultado = session.run(script);
@@ -152,7 +164,18 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			alunoindicado.setNome(registro.get("Aluno").asString());
 			alunoindicado.setCurso(new Curso(registro.get("Curso").asString()));
 			alunoindicado.getContato().setEmail(registro.get("Email").asString());
+			alunoindicado.setSenha(registro.get("Senha").asString());
+			alunoindicado.getContato().setTelefone(registro.get("Telefone").asString());
+			alunoindicado.setMatricula(registro.get("Matricula").asString());
+			alunoindicado.setDataNascimento(registro.get("DataNas").asString());
 			// TODO: implementar o restante da busca por aluno indicado.
+			String emailAluno = alunoindicado.getContato().getEmail();
+			String senhaAluno = alunoindicado.getSenha();
+			
+			alunoindicado.setHabilidades(habilidadeDAO.listarHabilidadesDoAluno(emailAluno, senhaAluno));
+			alunoindicado.setIdiomas(idiomaDAO.listarIdiomasDoAluno(emailAluno, senhaAluno));
+			alunoindicado.setProjetos(projetoDAO.listarPorAluno(alunoindicado));
+			
 			
 			Projeto projetoIndicado = new Projeto();
 			projetoIndicado.setTitulo(registro.get("Projeto").asString());
@@ -461,6 +484,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		ArrayList<Projeto> projetosQueParticipa = new ArrayList<Projeto>();
 		String email = aluno.getContato().getEmail();
 		String senha = aluno.getSenha();
+		ProjetoDAO projetoDAO = new ProjetoDAO();
 		
 		
 		String script = "MATCH(a:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COORDENA]-(pr:Professor) "
@@ -500,6 +524,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			
 			// Define o status atual do projeto.
 			getStatusProjeto(projetoAux);
+			projetoAux.setHabilidades(projetoDAO.buscaHabilidadesDoProjeto(projetoAux));
 			
 			projetosQueParticipa.add(projetoAux);
 			

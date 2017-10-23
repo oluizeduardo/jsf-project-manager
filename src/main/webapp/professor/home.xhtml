@@ -82,13 +82,12 @@
 	
 	<!-- DETALHES DO ALUNO -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-		header="Detalhes do Aluno" widgetVar="student-details"
+		header="Detalhes do Aluno" widgetVar="detalhe-aluno"
 		resizable="false" closeOnEscape="true">
 
-		<p:panel>
-			<h:outputLabel value="Detalhes completos sobre o aluno" />
-		</p:panel>
+		<ui:include src="painelDetalhesAluno.xhtml"/>
 
 	</p:dialog>
+	
 </h:body>
 </html>

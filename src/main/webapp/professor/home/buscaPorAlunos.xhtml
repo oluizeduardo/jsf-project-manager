@@ -28,7 +28,7 @@
 		</p:panel>
 	
 		<p:dataTable id="table-students" var="aluno"
-			value="#{buscarAlunosController.alunosIndicados}" widgetVar="courseTable"
+			value="#{buscarAlunosController.alunosIndicados}" widgetVar="alunos-indicados"
 			multiViewState="true" rows="10" paginator="true"
 			paginatorPosition="bottom" resizableColumns="true"
 			paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
@@ -59,8 +59,13 @@
 			</p:column>
 	
 			<p:column style="width:32px" exportable="false">
-				<p:commandButton icon="ui-icon-search" title="Ver Detalhes"
-					onclick="PF('student-details').show()" />
+				<p:commandButton icon="ui-icon-search" 
+								 title="Visualizar" 
+								 oncomplete="PF('detalhe-aluno').show()" 
+								 update="painel-de-detalhes">
+					<f:setPropertyActionListener value="#{aluno}"	
+								 target="#{buscarAlunosController.alunoSelecionado}" />
+				</p:commandButton>
 			</p:column>
 	
 		</p:dataTable>

@@ -60,6 +60,25 @@
 						</span>
 					</f:facet>
 				</p:textEditor>
+			</p:tab>
+			
+			<p:tab title="Habilidades">
+				<h:outputLabel value="Habilidades exigidas: " style="font-weight:bold" />
+				<p/>
+				<p:dataTable id="table-habilities" var="habilidade"
+					value="#{homeController.projetoSelecionado.habilidades}"
+					resizableColumns="true"
+					emptyMessage="Nenhuma habilidade exigida."
+					style="width:700px">
+				
+					<p:column headerText="Habilidade" style="text-align: center">
+						<h:outputText value="#{habilidade.descricao}" />
+					</p:column>
+					
+					<p:column headerText="Nível" style="text-align: center">
+						<h:outputText value="#{habilidade.nivel}" />
+					</p:column>		
+				</p:dataTable>				
 			</p:tab>			
 		</p:tabView>
 		

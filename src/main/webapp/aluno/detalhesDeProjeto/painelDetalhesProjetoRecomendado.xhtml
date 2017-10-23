@@ -39,6 +39,18 @@
 					<h:outputText id="descricao" value="#{projetoBean.projetoRecomendadoSelecionado.descricaoCurta}"/>
 				</h:panelGrid>
 			</p:tab>
+					
+			<p:tab title="Resumo">
+				<p:textEditor style="margin-bottom:10px; width: 700px"
+					placeholder="Sem resumo cadastrado." 
+					value="#{projetoBean.projetoRecomendadoSelecionado.resumo}">
+					<f:facet name="toolbar">
+						<span class="ql-formats"> 
+							<select	class="ql-size"/>
+						</span>
+					</f:facet>
+				</p:textEditor>
+			</p:tab>
 			
 			<p:tab title="Habilidades">
 				<h:outputLabel value="Habilidades exigidas: " style="font-weight:bold" />
@@ -62,19 +74,6 @@
 				
 				<h:outputLabel for="hab-comum" value="Habilidades em comum: " style="font-weight:bold" />
 				<h:outputText id="hab-comum" value="#{projetoBean.projetoRecomendadoSelecionado.str_habilidadesComuns}"/>
-			</p:tab>
-			
-			<p:tab title="Resumo">
-				<p:textEditor style="margin-bottom:10px; width: 700px"
-					placeholder="Sem resumo cadastrado." 
-					value="#{projetoBean.projetoRecomendadoSelecionado.resumo}">
-					<f:facet name="toolbar">
-						<span class="ql-formats"> 
-							<select class="ql-font"/> 
-							<select	class="ql-size"/>
-						</span>
-					</f:facet>
-				</p:textEditor>
 			</p:tab>			
 		</p:tabView>
 		

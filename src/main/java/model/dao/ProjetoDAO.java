@@ -341,7 +341,6 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		StatementResult resultado = session.run(script);
 		
-		System.err.println(script);
 		while(resultado.hasNext()) {
 			
 			Record registro = resultado.next();			
