@@ -142,7 +142,12 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "a.nome as Aluno, a.email as Email, "
 				+ "c.nome as Curso, p.titulo as Projeto, "
 				+ "a.dataNascimento as DataNas, a.matricula as Matricula, "
-				+ "a.telefone as Telefone, a.senha as Senha "
+				+ "a.telefone as Telefone, a.senha as Senha, "
+				+ "a.sexo as Sexo, a.estadoCivil as EstCivil, "
+				+ "a.rg as DocRG, a.cpf as DocCPF, "
+				+ "a.rua as Endereco, a.bairro as Bairro, "
+				+ "a.cidade as Cidade, a.estado as Estado, "
+				+ "a.skype as Skype, a.site as Site "
 				+ "UNION ALL "
 				+ "MATCH (pro:Professor{email:'"+email+"', senha:'"+senha+"'})"
 				+ "-[:COORDENA]->(p:Projeto)-[:DESTINADO_A]->"
@@ -152,7 +157,12 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "a.nome as Aluno, a.email as Email, "
 				+ "c.nome as Curso, p.titulo as Projeto, "
 				+ "a.dataNascimento as DataNas, a.matricula as Matricula, "
-				+ "a.telefone as Telefone, a.senha as Senha";
+				+ "a.telefone as Telefone, a.senha as Senha, "
+				+ "a.sexo as Sexo, a.estadoCivil as EstCivil, "
+				+ "a.documentoRG as DocRG, a.documentoCPF as DocCPF, "
+				+ "a.rua as Endereco, a.bairro as Bairro, "
+				+ "a.cidade as Cidade, a.estado as Estado, "
+				+ "a.skype as Skype, a.site as Site ";
 		
 		super.iniciaSessaoNeo4J();		
 		StatementResult resultado = session.run(script);
@@ -161,6 +171,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			
 			Record registro = resultado.next();
 			Aluno alunoindicado = new Aluno();
+
 			alunoindicado.setNome(registro.get("Aluno").asString());
 			alunoindicado.setCurso(new Curso(registro.get("Curso").asString()));
 			alunoindicado.getContato().setEmail(registro.get("Email").asString());
@@ -168,7 +179,17 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			alunoindicado.getContato().setTelefone(registro.get("Telefone").asString());
 			alunoindicado.setMatricula(registro.get("Matricula").asString());
 			alunoindicado.setDataNascimento(registro.get("DataNas").asString());
-			// TODO: implementar o restante da busca por aluno indicado.
+			alunoindicado.setSexo(registro.get("Sexo").asString());
+			alunoindicado.setEstadoCivil(registro.get("EstCivil").asString());
+			alunoindicado.setDocumentoRG(registro.get("DocRG").asString());
+			alunoindicado.setDocumentoCPF(registro.get("DocCPF").asString());
+			alunoindicado.getEndereco().setRua(registro.get("Endereco").asString());
+			alunoindicado.getEndereco().setBairro(registro.get("Bairro").asString());
+			alunoindicado.getEndereco().setCidade(registro.get("Cidade").asString());
+			alunoindicado.getEndereco().setEstado(registro.get("Estado").asString());
+			alunoindicado.getContato().setSkype(registro.get("Skype").asString());
+			alunoindicado.getContato().setSite(registro.get("Site").asString());
+			
 			String emailAluno = alunoindicado.getContato().getEmail();
 			String senhaAluno = alunoindicado.getSenha();
 			
@@ -435,7 +456,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "return al.nome as nome, al.documentoRG as rg,"
 				+ "al.documentoCPF as cpf, al.estadoCivil as esci, "
 				+ "al.matricula as mat, al.senha as senha, al.sexo as sexo, "
-				+ "al.email as email, al.site as site, "
+				+ "al.email as email, al.site as site, al.bairro as bairro, "
 				+ "al.skype as skype, al.telefone as telefone, "
 				+ "al.dataNascimento as datanas, al.cidade as cidade,"
 				+ "al.estado as estado, al.rua as rua, c.nome as curso";
@@ -460,6 +481,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			aluno.getEndereco().setCidade(registro.get("cidade").asString());			
 			aluno.getEndereco().setEstado(registro.get("estado").asString());
 			aluno.getEndereco().setRua(registro.get("rua").asString());
+			aluno.getEndereco().setBairro(registro.get("bairro").asString());
 			aluno.setCurso(new Curso(registro.get("curso").asString()));
 			
 			aluno.setHabilidades(new HabilidadeDAO().listarHabilidadesDoAluno(email, senha));

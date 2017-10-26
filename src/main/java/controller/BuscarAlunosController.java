@@ -30,6 +30,9 @@ public class BuscarAlunosController implements Serializable {
 	private boolean alunosIndicadosVazio = true;
 	// Aluno selecionado na tabela.
 	private Aluno alunoSelecionado = new Aluno();
+	// Controla a aparição do painel com mais detalhes sobre o aluno.
+	private boolean maisDetalhesVisivel = false;
+	
 	
 	
 	
@@ -40,6 +43,17 @@ public class BuscarAlunosController implements Serializable {
 	}
 
 
+	
+	public void visualizarMaisDetalhes(){
+		if(this.maisDetalhesVisivel){
+			this.maisDetalhesVisivel = false;
+		}			
+		else{
+			this.maisDetalhesVisivel = true;
+		}
+	}
+	
+	
 	/**
 	 * Preenche a lista de alunos indicados para o projeto.
 	 */
@@ -85,6 +99,12 @@ public class BuscarAlunosController implements Serializable {
 	}
 	public void setAlunoSelecionado(Aluno alunoSelecionado) {
 		this.alunoSelecionado = alunoSelecionado;
+	}
+	public boolean isMaisDetalhesVisivel() {
+		return maisDetalhesVisivel;
+	}
+	public void setMaisDetalhesVisivel(boolean maisDetalhesVisivel) {
+		this.maisDetalhesVisivel = maisDetalhesVisivel;		
 	}
 	
 	

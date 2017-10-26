@@ -9,7 +9,7 @@
 		
 		<h:form>
 			<p:tabView>		
-				<p:tab title="Detalhes">
+				<p:tab title="Detalhes" id="aba-detalhes">
 					<h:panelGrid columns="2">
 						<h:panelGrid columns="1">
 							<div align="center">
@@ -37,8 +37,47 @@
 						</h:panelGrid>
 					</h:panelGrid>
 					
-					<h:commandLink value="Ver mais detalhes"/>
-									
+					<p:commandLink value="Ver mais detalhes" 
+								   actionListener="#{buscarAlunosController.visualizarMaisDetalhes}"
+								   update="mais-detalhes"/>
+					
+					<p:panel visible="#{buscarAlunosController.maisDetalhesVisivel}" id="mais-detalhes">
+						<h:panelGrid columns="6" cellspacing="5">
+							<h:outputLabel for="sexo" value="Sexo: " style="font-weight:bold" />
+							<h:outputText id="sexo" value="#{buscarAlunosController.alunoSelecionado.sexo}" />		
+							
+							<h:outputLabel for="estcivil" value="Estado Civil: " style="font-weight:bold" />
+							<h:outputText id="estcivil" value="#{buscarAlunosController.alunoSelecionado.estadoCivil}" />
+							
+							<h:outputLabel for="matricula" value="Matrícula:" style="font-weight:bold" />
+							<h:outputText id="matricula" value="#{buscarAlunosController.alunoSelecionado.matricula}" />										
+							
+							<h:outputLabel for="rg" value="RG:" style="font-weight:bold" />
+							<h:outputText id="rg" value="#{buscarAlunosController.alunoSelecionado.documentoRG}" />
+							
+							<h:outputLabel for="cpf" value="CPF:" style="font-weight:bold" />
+							<h:outputText id="cpf" value="#{buscarAlunosController.alunoSelecionado.documentoCPF}" />					
+							
+							<h:outputLabel for="endereco" value="Endereço:" style="font-weight:bold" />
+							<h:outputText id="endereco" value="#{buscarAlunosController.alunoSelecionado.endereco.rua}" />
+							
+							<h:outputLabel for="bairro" value="Bairro:" style="font-weight:bold" />
+							<h:outputText id="bairro" value="#{buscarAlunosController.alunoSelecionado.endereco.bairro}" />
+							
+							<h:outputLabel for="cidade" value="Cidade:" style="font-weight:bold" />
+							<h:outputText id="cidade" value="#{buscarAlunosController.alunoSelecionado.endereco.cidade}" />
+							
+							<h:outputLabel for="estado" value="Estado:" style="font-weight:bold" />
+							<h:outputText id="estado" value="#{buscarAlunosController.alunoSelecionado.endereco.estado}" />
+							
+							<h:outputLabel for="skype" value="Skype:" style="font-weight:bold" />
+							<h:outputText id="skype" value="#{buscarAlunosController.alunoSelecionado.contato.skype}" />
+							
+							<h:outputLabel for="site" value="Site:" style="font-weight:bold" />
+							<h:outputText id="site" value="#{buscarAlunosController.alunoSelecionado.contato.site}" />							
+						</h:panelGrid>
+					</p:panel>
+					
 				</p:tab>						
 				
 				<p:tab title="Idiomas">
