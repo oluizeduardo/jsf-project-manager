@@ -23,28 +23,33 @@
 	<p:growl id="messages"/>
 
 	<h:form id="registered-projects">
+
 		<p:panel>
-			<h:panelGrid columns="3">
-				<p:outputLabel value="Buscar projetos: " for="where"/>
-			
-				<p:selectOneMenu id="where" value="#{projetosProfController.tipoDeBusca}">				
-					<f:selectItem itemLabel="Cadastrados por mim" 
-								  itemValue="Cadastrados por mim"/>
-								  
-					<f:selectItem itemLabel="Todos os projetos cadastrados" 
-								  itemValue="Todos os projetos cadastrados" />
-				</p:selectOneMenu>
+			<h:panelGrid columns="2">
+				<h:outputText value="Todos projetos cadastrados"
+				style="font-size: 25px; font-weight:bold" />
 				
-				<p:commandButton value="Buscar" icon="ui-icon-search" 
-				actionListener="#{projetosProfController.alteraListaDeProjetos}"
-				update="table-registered-projects"/>
-				
+				<p:panel style="margin-left: 425px;">
+					<h:panelGrid columns="3" style="margin:0px">
+						<p:outputLabel value="Buscar projetos: " for="where"/>
+					
+						<p:selectOneMenu id="where" value="#{projetosProfController.tipoDeBusca}">				
+							<f:selectItem itemLabel="Cadastrados por mim" 
+										  itemValue="Cadastrados por mim"/>
+										  
+							<f:selectItem itemLabel="Todos os projetos cadastrados" 
+										  itemValue="Todos os projetos cadastrados" />
+						</p:selectOneMenu>
+						
+						<p:commandButton value="Buscar" icon="ui-icon-search" 
+						actionListener="#{projetosProfController.alteraListaDeProjetos}"
+						update="table-registered-projects"/>
+						
+					</h:panelGrid>
+				</p:panel>
 			</h:panelGrid>
-		</p:panel>
-
-	<p:spacer height="8" />
-
-		<p:panel>
+			<p/>
+			
 			<p:dataTable id="table-registered-projects" var="projeto"
 				value="#{projetosProfController.projetos}" widgetVar="projectsTable"
 				multiViewState="true" rows="10" paginator="true"

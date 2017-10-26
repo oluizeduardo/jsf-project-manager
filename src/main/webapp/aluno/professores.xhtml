@@ -23,6 +23,10 @@
 
 	<h:form id="form-tabela-professores" style="margin:0px">
 		<p:panel>
+			<p/>
+				<h:outputText value="Todos professores cadastrados"
+				style="font-size: 25px; font-weight:bold;" />
+			<p/><br/>
 		
 			<!-- TABELA COM O CONTATO DE TODOS PROFESSORES -->
 			<p:dataTable id="professores" var="professor"
@@ -67,15 +71,6 @@
 		    </p:commandButton>
 		</p:panel>
 	</h:form>
-	
-	
-	<p:spacer height="8" />
-
-	<p:panel>
-		<h:outputText
-			value="Lista de contatos dos professores."
-			style="font-size: 15px; font-style:italic" />
-	</p:panel>
 </h:body>
 
 </html>

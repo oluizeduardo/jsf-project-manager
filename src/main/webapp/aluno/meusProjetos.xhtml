@@ -22,7 +22,12 @@
 	<p:growl id="messages" />
 
 	<h:form id="tabela-meus-projetos" style="margin:0px">
-		<p:panel>		
+		<p:panel>
+			<p/>
+				<h:outputText value="Meus projetos"
+				style="font-size: 25px; font-weight:bold;" />
+			<p/><br/>
+		
 			<!-- TABELA DE PROJETOS EM QUE O ALUNO ESTÁ CADASTRADO -->
 			<p:dataTable id="table-projects-registered" var="projeto"
 				value="#{projetoBean.projetosQueParticipo}" widgetVar="projectsTable"
@@ -83,15 +88,6 @@
 		    </p:commandButton>		
 		</p:panel>
 	</h:form>
-	
-	<p:spacer height="8" />
-
-	<p:panel>
-		<h:outputText
-			value="Projetos que você participa."
-			style="font-size: 15px; font-style:italic" />
-	</p:panel>
-
 
 	<!-- DETALHES DO MEU PROJETO -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"

@@ -23,7 +23,19 @@
 	<p:growl id="messages" showDetail="true"/>
 
 	<h:form id="form-projetos-recomendados" style="margin:0px">
-		<p:panel>			 
+		<p:panel>
+			<p/>
+			<h:panelGrid columns="2">
+				<h:outputText value="Projetos recomendados"
+				style="font-size: 25px; font-weight:bold;" />
+				
+				<h:outputText value="Projetos recomendados com base nas suas habilidades e experiências em outros projetos."
+							  style="font-size: 15px; 
+							  font-style:italic;
+							  margin-left: 430px;" />
+			</h:panelGrid>
+			<p/><br/>
+		
 			<p:dataTable id="tabela-projetos-recomendados" var="projeto"
 				value="#{projetoBean.projetosRecomendados}"
 				widgetVar="projectsTable" multiViewState="true" rows="10"
@@ -87,15 +99,6 @@
 
 		</p:panel>
 	</h:form>
-
-	<p:spacer height="8px"/>
-
-	<p:panel style="padding:0">
-		<h:outputText
-			value="Projetos recomendados com base nas suas habilidades e experiências em outros projetos."
-			style="font-size: 15px; font-style:italic" />
-	</p:panel>
-
 	
 	<!-- DETALHES DO PROJETO RECOMENDADO -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"

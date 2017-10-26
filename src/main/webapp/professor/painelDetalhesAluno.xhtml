@@ -33,15 +33,18 @@
 							<h:outputText id="dtNasc" value="#{buscarAlunosController.alunoSelecionado.dataNascimento}" />
 							
 							<h:outputLabel for="telefone" value="Telefone: " style="font-weight:bold" />
-							<h:outputText id="telefone" value="#{buscarAlunosController.alunoSelecionado.contato.telefone}" />
-						
-							<h:outputLabel for="matricula" value="Matrícula:" style="font-weight:bold" />
-							<h:outputText id="matricula" value="#{buscarAlunosController.alunoSelecionado.matricula}" />						
+							<h:outputText id="telefone" value="#{buscarAlunosController.alunoSelecionado.contato.telefone}" />						
 						</h:panelGrid>
-					</h:panelGrid>				
+					</h:panelGrid>
+					
+					<h:commandLink value="Ver mais detalhes"/>
+									
 				</p:tab>						
 				
 				<p:tab title="Idiomas">
+					<h:outputText value="Idiomas conhecidos:" style="font-weight:bold"/>
+					<p/>
+					
 					<p:dataTable id="table-languages" var="idioma"
 						value="#{buscarAlunosController.alunoSelecionado.idiomas}"
 						resizableColumns="true"
@@ -63,6 +66,9 @@
 				</p:tab>
 				
 				<p:tab title="Habilidades">
+					<h:outputText value="Habilidades desenvolvidas:" style="font-weight:bold"/>
+					<p/>
+				
 					<p:dataTable id="table-habilities" var="habilidade"
 						value="#{buscarAlunosController.alunoSelecionado.habilidades}"
 						resizableColumns="true"
@@ -84,6 +90,8 @@
 				</p:tab>
 				
 				<p:tab title="Projetos">
+					<h:outputText value="Projetos relacionados:" style="font-weight:bold"/>
+					<p/>
 					<p:dataTable id="table-projects" var="projeto"
 						value="#{buscarAlunosController.alunoSelecionado.projetos}"
 						resizableColumns="true"
