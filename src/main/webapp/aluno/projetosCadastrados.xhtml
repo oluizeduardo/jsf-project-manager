@@ -25,9 +25,10 @@
 	<h:form id="form-projetos-cadastrados" style="margin:0px">
 		<p:panel>
 			<p/>
-				<h:outputText value="Todos projetos cadastrados"
+				<h:outputText value="Projetos Cadastrados"
 				style="font-size: 25px; font-weight:bold;" />
-			<p/><br/>
+				<p:separator/>
+			<p/>
 		
 			<p:dataTable id="tabela-projetos-cadastrados" var="projeto"
 				value="#{projetoBean.todosProjetos}"

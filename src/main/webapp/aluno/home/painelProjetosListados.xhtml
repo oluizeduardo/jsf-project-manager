@@ -26,14 +26,18 @@
 					<p:commandButton value="Detalhes"
 						action="#{homeController.verDetalhes}"
 						oncomplete="PF('project-details').show()" 
-						update="painel-de-detalhes">
+						update="painel-de-detalhes"
+						title="Ver detalhes desse projeto">
 						<f:setPropertyActionListener value="#{projeto}"
 							target="#{homeController.projetoSelecionado}" />
 					</p:commandButton>
 					
 					<p:spacer width="10px"/>
 					
-					<p:commandButton value="Candidatar" action="#{homeController.candidatarAoProjeto}" update="messages">
+					<p:commandButton value="Candidatar" 
+									 action="#{homeController.candidatarAoProjeto}" 
+									 update="messages"
+									 title="Candidatar a esse projeto">
 						<f:setPropertyActionListener target="#{homeController.projetoSelecionado}" value="#{projeto}"/>				        
 				    	<p:confirm header="Confirmação" message="Confirma que deseja se candidatar a este projeto?"/>
 				    </p:commandButton>

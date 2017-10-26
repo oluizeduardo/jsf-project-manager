@@ -25,9 +25,10 @@
 	<h:form id="registered-projects">
 		<p:panel>
 			<p/>
-				<h:outputText value="Todos alunos cadastrados"
+				<h:outputText value="Alunos Cadastrados"
 				style="font-size: 25px; font-weight:bold;" />
-			<p/><br/>
+				<p:separator/>
+			<p/>
 			
 			<p:dataTable id="table-registered-students" var="aluno"
 				value="#{buscarAlunosController.alunos}" widgetVar="studentsTable"

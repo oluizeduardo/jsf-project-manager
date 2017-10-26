@@ -26,11 +26,11 @@
 
 		<p:panel>
 			<h:panelGrid columns="2">
-				<h:outputText value="Todos projetos cadastrados"
+				<h:outputText value="Projetos Cadastrados"
 				style="font-size: 25px; font-weight:bold" />
 				
-				<p:panel style="margin-left: 425px;">
-					<h:panelGrid columns="3" style="margin:0px">
+				<p:panel style="margin-left: 500px;">
+					<h:panelGrid columns="3">
 						<p:outputLabel value="Buscar projetos: " for="where"/>
 					
 						<p:selectOneMenu id="where" value="#{projetosProfController.tipoDeBusca}">				
@@ -43,11 +43,12 @@
 						
 						<p:commandButton value="Buscar" icon="ui-icon-search" 
 						actionListener="#{projetosProfController.alteraListaDeProjetos}"
-						update="table-registered-projects"/>
+						update="table-registered-projects" title="Buscar projetos"/>
 						
 					</h:panelGrid>
 				</p:panel>
 			</h:panelGrid>
+			<p:separator/>
 			<p/>
 			
 			<p:dataTable id="table-registered-projects" var="projeto"

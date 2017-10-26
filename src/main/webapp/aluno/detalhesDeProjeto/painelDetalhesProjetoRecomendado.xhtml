@@ -82,7 +82,9 @@
 		<p:panel>
 			<div align="center">
 				<h:panelGrid columns="3" cellspacing="10">
-					<p:commandButton value="Candidatar" disabled="#{projetoBean.projetoRecomendadoDisponivel}">
+					<p:commandButton value="Candidatar" 
+									 disabled="#{projetoBean.projetoRecomendadoDisponivel}"
+									 title="Candidatar a esse projeto">
 						<p:confirm header="Confirmação"
 							message="Confirma que deseja se candidatar a este projeto?"
 							icon="ui-icon-alert" />
@@ -101,7 +103,7 @@
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</div>
 					</p:confirmDialog>
-					<p:commandButton value="Fechar" onclick="PF('detalhe-projeto').hide()"/>
+					<p:commandButton value="Fechar" onclick="PF('detalhe-projeto').hide()" title="Fechar tela de detalhes"/>
 				</h:panelGrid>
 			</div>
 		</p:panel>

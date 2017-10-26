@@ -26,7 +26,7 @@
 		<p:panel>
 			<p/>
 			<h:panelGrid columns="2">
-				<h:outputText value="Projetos recomendados"
+				<h:outputText value="Projetos Recomendados"
 				style="font-size: 25px; font-weight:bold;" />
 				
 				<h:outputText value="Projetos recomendados com base nas suas habilidades e experiências em outros projetos."
@@ -34,7 +34,8 @@
 							  font-style:italic;
 							  margin-left: 430px;" />
 			</h:panelGrid>
-			<p/><br/>
+			<p:separator/>
+			<p/>
 		
 			<p:dataTable id="tabela-projetos-recomendados" var="projeto"
 				value="#{projetoBean.projetosRecomendados}"
