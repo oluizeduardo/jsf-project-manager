@@ -444,13 +444,42 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	/**
 	 * Exlui um determinado projeto no banco de dados.
 	 */
-	public boolean excluir(Projeto obj) {
+	public boolean excluir(Projeto projeto) {
+				
+		String titulo = projeto.getTitulo();
+		String email = projeto.getCoordenador().getContato().getEmail();
+		String senha = projeto.getCoordenador().getSenha();
+		boolean status = false;		
+		
+		String script = "MATCH (:Professor{email:'"+email+"',senha:'"+senha+"'})-"
+				+ "[coordena:COORDENA]->(projeto:Projeto{titulo:'"+titulo+"'})-[relacao]-() "
+				+ "DELETE coordena, relacao, projeto";
+		
 		super.iniciaSessaoNeo4J();
-		// TODO Exclui do banco de dados um projeto do professor.
-		// Primeiro deve excluir o relacionamento: MATCH p=()-[r:COOORDENA]->() DELETE r
-		return false;
+		transaction = session.beginTransaction();
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			status = true;
+		}catch(Exception ex){
+			status = false;			
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();
+		
+		return status;
 	}
 
+	
+	
 	
 	/**
 	 * Atualiza os dados de um objeto projeto no banco de dados.

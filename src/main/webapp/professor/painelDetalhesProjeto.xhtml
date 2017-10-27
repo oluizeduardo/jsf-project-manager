@@ -4,6 +4,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
+
 	<!-- PAINEL DE DETALHES DO PROJETO -->
 	<p:outputPanel id="painel-de-detalhes" style="width:750px">
 		
@@ -97,15 +98,39 @@
 		<p:spacer height="10px"/>
 		
 		<p:panel>
-			<div align="center">
-				<h:panelGrid columns="3" cellspacing="5">
-					<p:commandButton value="Excluir" icon="ui-icon-trash" 
-									 title="Excluir projeto" disabled="#{projetosProfController.projetoDeOutroProfessor}"/>
-					<p:commandButton value="Editar" icon="ui-icon-pencil" 
-									 title="Editar projeto" disabled="#{projetosProfController.projetoDeOutroProfessor}"/>
-					<p:commandButton value="Fechar" onclick="PF('detalhe-projeto').hide()" title="Fechar tela de detalhes"/>
-				</h:panelGrid>
-			</div>			
+			<h:form id="painel-botoes">
+				<!-- Tela de confirmação de exclusão do projeto. -->
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <div align="center">
+			        	<p:commandButton value="Sim" type="button" 
+			        					 styleClass="ui-confirmdialog-yes" 
+			        					 update="messages"
+			        					 onclick="PF('detalhe-projeto').hide()"/>
+			        	<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" />
+			    	</div>
+			    </p:confirmDialog>
+		    
+				<div align="center">
+					<h:panelGrid columns="4" cellspacing="5">
+						<p:commandButton value="Excluir" icon="ui-icon-trash" 
+										 title="Excluir projeto" 
+										 disabled="#{projetosProfController.projetoDeOutroProfessor}"
+										 action="#{projetosProfController.excluirProjeto}"
+										 update="messages">
+							<p:confirm header="Confirmação" message="Esse projeto será apagado. Deseja continuar?"/>
+						</p:commandButton>
+						
+						<p:commandButton value="Editar" 
+										 icon="ui-icon-pencil" 
+										 title="Editar projeto" 
+										 disabled="#{projetosProfController.projetoDeOutroProfessor}"/>
+						
+						<p:commandButton value="Fechar" 
+										 onclick="PF('detalhe-projeto').hide()" 
+										 title="Fechar tela de detalhes"/>
+					</h:panelGrid>
+				</div>
+			</h:form>			
 		</p:panel>
 	</p:outputPanel>
 

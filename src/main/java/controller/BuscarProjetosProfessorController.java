@@ -9,6 +9,7 @@ import model.dao.ProjetoDAO;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
 import model.pojo.Projeto;
+import view.Mensagem;
 import web.SessionUtil;
 
 @ManagedBean(name = "projetosProfController")
@@ -41,6 +42,19 @@ public class BuscarProjetosProfessorController implements Serializable {
 	
 	public BuscarProjetosProfessorController() {
 		listaProjetosCadastradosPeloProfessor();
+	}
+	
+	
+	
+	
+	/**
+	 * Exclui do banco de dados o projeto selecionado.
+	 */
+	public void excluirProjeto(){
+		boolean excluiu = new ProjetoDAO().excluir(projetoSelecionado);
+		if(excluiu){
+			Mensagem.ExibeMensagem("Projeto excluído com sucesso!");
+		}
 	}
 	
 	

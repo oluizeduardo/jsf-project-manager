@@ -124,7 +124,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * @param donoDoProjeto
 	 * @return
 	 */
-	public List<Aluno> getAlunosIndicadosParaProfessor(Pessoa donoDoProjeto){
+	public List<Aluno> getAlunosIndicadosParaProjeto(Pessoa donoDoProjeto){
 		List<Aluno> alunosindicados = new ArrayList<Aluno>();
 		IdiomaDAO idiomaDAO = new IdiomaDAO();
 		HabilidadeDAO habilidadeDAO = new HabilidadeDAO();
@@ -139,30 +139,48 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) "
 				+ "AND ex.nivel <= co.nivel "
 				+ "RETURN "
-				+ "a.nome as Aluno, a.email as Email, "
-				+ "c.nome as Curso, p.titulo as Projeto, "
-				+ "a.dataNascimento as DataNas, a.matricula as Matricula, "
-				+ "a.telefone as Telefone, a.senha as Senha, "
-				+ "a.sexo as Sexo, a.estadoCivil as EstCivil, "
-				+ "a.rg as DocRG, a.cpf as DocCPF, "
-				+ "a.rua as Endereco, a.bairro as Bairro, "
-				+ "a.cidade as Cidade, a.estado as Estado, "
-				+ "a.skype as Skype, a.site as Site "
+				+ "a.nome as Aluno, "
+				+ "a.email as Email, "
+				+ "c.nome as Curso, "
+				+ "p.titulo as Projeto, "
+				+ "a.dataNascimento as DataNas, "
+				+ "a.matricula as Matricula, "
+				+ "a.telefone as Telefone, "
+				+ "a.senha as Senha, "
+				+ "a.sexo as Sexo, "
+				+ "a.estadoCivil as EstCivil, "
+				+ "a.rua as Endereco, "
+				+ "a.bairro as Bairro, "
+				+ "a.cidade as Cidade, "
+				+ "a.estado as Estado, "
+				+ "a.skype as Skype, "
+				+ "a.site as Site, "
+				+ "a.documentoRG as DocRG, "
+				+ "a.documentoCPF as DocCPF "
 				+ "UNION ALL "
 				+ "MATCH (pro:Professor{email:'"+email+"', senha:'"+senha+"'})"
 				+ "-[:COORDENA]->(p:Projeto)-[:DESTINADO_A]->"
 				+ "(c:Curso)<-[:CURSA]-(a:Aluno) "
-				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) "
+				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) AND NOT((p)-[:EXIGE]->(:Habilidade)) "
 				+ "RETURN "
-				+ "a.nome as Aluno, a.email as Email, "
-				+ "c.nome as Curso, p.titulo as Projeto, "
-				+ "a.dataNascimento as DataNas, a.matricula as Matricula, "
-				+ "a.telefone as Telefone, a.senha as Senha, "
-				+ "a.sexo as Sexo, a.estadoCivil as EstCivil, "
-				+ "a.documentoRG as DocRG, a.documentoCPF as DocCPF, "
-				+ "a.rua as Endereco, a.bairro as Bairro, "
-				+ "a.cidade as Cidade, a.estado as Estado, "
-				+ "a.skype as Skype, a.site as Site ";
+				+ "a.nome as Aluno, "
+				+ "a.email as Email, "
+				+ "c.nome as Curso, "
+				+ "p.titulo as Projeto, "
+				+ "a.dataNascimento as DataNas, "
+				+ "a.matricula as Matricula, "
+				+ "a.telefone as Telefone, "
+				+ "a.senha as Senha, "
+				+ "a.sexo as Sexo, "
+				+ "a.estadoCivil as EstCivil, "
+				+ "a.rua as Endereco, "
+				+ "a.bairro as Bairro, "
+				+ "a.cidade as Cidade, "
+				+ "a.estado as Estado, "
+				+ "a.skype as Skype, "
+				+ "a.site as Site, "
+				+ "a.documentoRG as DocRG, "
+				+ "a.documentoCPF as DocCPF ";
 		
 		super.iniciaSessaoNeo4J();		
 		StatementResult resultado = session.run(script);
@@ -253,14 +271,20 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String script = "MATCH (a:Aluno)-[:CURSA]->(c:Curso) "
 				+ "RETURN ID (a) as id, a.nome as Nome, "
 				+ "c.nome as Curso, "
-				+ "a.cidade as Cidade, a.estado as Estado, "
-				+ "a.telefone as Telefone, a.site as Site, "
-				+ "a.estadoCivil as Estado_Civil, a.senha as Senha, "
-				+ "a.skype as Skype, "
-				+ "a.dataMatricula as Data_Matricula, a.matricula as Matricula, "
-				+ "a.documentoCPF as CPF, a.documentoRG as RG, a.sexo as Sexo, "
+				+ "a.rua as Rua, "
+				+ "a.bairro as Bairro, "
+				+ "a.cidade as Cidade, "
+				+ "a.estado as Estado, "
+				+ "a.telefone as Telefone, "
+				+ "a.site as Site, "
+				+ "a.estadoCivil as Estado_Civil, "
+				+ "a.senha as Senha, a.skype as Skype, "
+				+ "a.dataMatricula as Data_Matricula, "
+				+ "a.matricula as Matricula, "
+				+ "a.documentoCPF as CPF, "
+				+ "a.documentoRG as RG, a.sexo as Sexo, "
 				+ "a.dataNascimento as Data_Nascimento, "
-				+ "a.papel as Papel, a.email as Email, a.rua as rua";
+				+ "a.papel as Papel, a.email as Email";
 		
 		StatementResult resultado = session.run(script);
 		
@@ -272,6 +296,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			
 			alunoAux.setId(alunoAtual.get("id"));
 			alunoAux.setNome(alunoAtual.get("Nome").asString());
+			alunoAux.getEndereco().setRua(alunoAtual.get("Rua").asString());
+			alunoAux.getEndereco().setBairro(alunoAtual.get("Bairro").asString());
 			alunoAux.getEndereco().setCidade(alunoAtual.get("Cidade").asString());
 			alunoAux.getEndereco().setEstado(alunoAtual.get("Estado").asString());
 			alunoAux.getContato().setTelefone(alunoAtual.get("Telefone").asString());
@@ -287,7 +313,6 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			alunoAux.setDataNascimento(alunoAtual.get("Data_Nascimento").asString());
 			alunoAux.setPapel(alunoAtual.get("Papel").asString());
 			alunoAux.getContato().setEmail(alunoAtual.get("Email").asString());
-			alunoAux.getEndereco().setRua(alunoAtual.get("Rua").asString());
 			
 			String email = alunoAux.getContato().getEmail();
 			String senha = alunoAux.getSenha();

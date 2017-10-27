@@ -61,7 +61,7 @@ public class BuscarAlunosController implements Serializable {
 		// Retorna os dados do professor logado.
 		Pessoa donoDoProjeto = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
 		// Retorna uma lista de alunos indicados para trabalharem com o professor.
-		this.alunosIndicados = alunoDAO.getAlunosIndicadosParaProfessor(donoDoProjeto);
+		this.alunosIndicados = alunoDAO.getAlunosIndicadosParaProjeto(donoDoProjeto);
 	}
 	
 	

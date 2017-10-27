@@ -20,7 +20,7 @@
 	<ui:include src="barraDeMenu.xhtml" />
 
 	<!-- MENSAGEM -->
-	<p:growl id="messages"/>
+	<p:growl id="messages" showDetail="true"/>
 
 	<h:form id="registered-projects">
 
@@ -114,10 +114,9 @@
 		        				fileName="projetos-cadastrados"
 		        				encoding="iso-8859-1"
 		        				preProcessor="#{formatadorPDF.criaPDFProjetosCadastrados}"/>
-		    </p:commandButton>
-			
+		    </p:commandButton>			
 		</p:panel>
-	</h:form>	
+	</h:form>
 	
 	<!-- DETALHES DO PROJETO -->
 	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
@@ -127,7 +126,7 @@
 		<ui:include src="painelDetalhesProjeto.xhtml"/>
 
 	</p:dialog>
-
+	
 </h:body>
 
 </html>

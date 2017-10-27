@@ -126,7 +126,7 @@ public class HabilidadeDAO extends DAOBase {
 		
 		List<Habilidade> habilidades = new ArrayList<Habilidade>();
 		
-		String script = "MATCH ()-[]->(h:Habilidade) RETURN DISTINCT h.nome AS Habilidade";
+		String script = "MATCH (h:Habilidade) RETURN DISTINCT h.nome AS Habilidade";
 		
 		super.iniciaSessaoNeo4J();		
 		StatementResult resultado = session.run(script);
