@@ -33,10 +33,10 @@
 			
 			<h:form id="charts-panel">
 				<!-- PAINEL BASE -->
-				<p:panel style="height:510px; margin:10px">
-	
+				<p:panel style="height:700px; margin:10px; padding:0px">
+					
 					<div align="center">
-						<h:panelGrid columns="2" cellspacing="30">
+						<h:panelGrid columns="2" style="padding:0px">
 	
 							<p:panel style="width:450px">
 								<h:panelGrid columns="1" cellpadding="5">
@@ -71,6 +71,19 @@
 							</p:panel>
 						</h:panelGrid>
 					</div>
+					
+					<p:spacer height="5px"/>
+					
+					<div align="center">
+						<p:panel style="width:920px; height:290px">
+							<div align="center">
+								
+								<p:chart type="line" model="#{relatoriosController.lineModel}" style="height:250px;"/>
+								
+							</div>
+						</p:panel>
+					</div>
+					
 				</p:panel>
 			</h:form>
 		</p:layoutUnit>
