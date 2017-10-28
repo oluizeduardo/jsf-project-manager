@@ -6,7 +6,7 @@
 	
 	<!-- PAINEL DE PROJETOS LISTADOS -->
 	<p:dataGrid id="pn-lista-de-projetos" var="projeto"
-		value="#{homeController.projetoBean.todosProjetos}" columns="2"
+		value="#{homeController.projetoBean.todosProjetosDisponiveis}" columns="2"
 		rows="4" paginator="true" paginatorPosition="bottom"
 		emptyMessage="Nenhum projeto localizado."
 		paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}">

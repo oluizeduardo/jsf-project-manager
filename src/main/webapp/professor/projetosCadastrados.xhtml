@@ -134,14 +134,15 @@
 				<ui:include src="painelDetalhesProjeto.xhtml" />
 			</p:dialog>
 
-
-			<p/>		
+			<p/>
+					
 			<p:commandButton id="btn-exportar-tabela"
 							 value="Exportar dados da tabela" 
 							 icon="ui-icon-document" 
 							 title="Exportar para PDF" 
 							 ajax="false"
-							 disabled="#{projetosProfController.projetosVazio}">		        
+							 disabled="#{projetosProfController.projetosVazio}">
+							 		        
 		        <p:dataExporter type="pdf" target="tabela-projetos-cadastrados" 
 		        				fileName="projetos-cadastrados"
 		        				encoding="iso-8859-1"

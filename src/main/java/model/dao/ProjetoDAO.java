@@ -359,6 +359,35 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	
 	
 	/**
+	 * Retorna uma lista com todos os projetos que estão disponíveis
+	 * para participação do aluno, ou seja, todos os projetos que
+	 * não estão com status de Finalizado.
+	 */
+	public List<Projeto> listarProjetosDisponiveis() {
+		
+		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
+				+ "WHERE NOT(pj.status='"+Projeto.FINALIZADO+"')"
+				+ "return id(pj) as ID, "
+				+ "pj.titulo as Titulo, "
+				+ "pj.dataFim as Data_Fim, "
+				+ "pj.dataInicio as Data_Inicio, "
+				+ "pj.dataPublicacao as Publicacao, "
+				+ "pj.valor as Valor, "
+				+ "pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, "
+				+ "pj.numeroParticipantes as QTD_Participantes, "
+				+ "pj.resumo as Resumo, "
+				+ "pr.nome as Coordenador, "
+				+ "pj.status as Status, "
+				+ "pr.email as Email, pr.senha as Senha";		
+				
+		return buscaProjetos(script);
+	}
+	
+	
+	
+	
+	/**
 	 * Retorna uma lista com todos os projetos salvos pelos professores.
 	 */
 	public List<Projeto> listar() {
@@ -499,7 +528,6 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "WHERE al.email = '"+email+"' AND al.senha = '"+senha+"' RETURN "
 				+ "pj.titulo as Titulo, "
 				+ "pj.dataFim as Data_Fim, "
-				+ "pj.status as Status, "
 				+ "pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
 				+ "pj.valor as Valor, "

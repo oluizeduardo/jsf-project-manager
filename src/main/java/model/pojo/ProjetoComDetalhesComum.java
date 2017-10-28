@@ -5,6 +5,8 @@ import java.util.List;
 
 public class ProjetoComDetalhesComum extends Projeto {
 
+
+	private static final long serialVersionUID = 1L;
 	// Informa em uma única String as habilidades em comum com um projeto.
 	private List<Habilidade> habilidadesEmComum = null;
 	// Todas as habilidades da lista de habilidades comuns em uma única String.

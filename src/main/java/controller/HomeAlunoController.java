@@ -81,7 +81,7 @@ public class HomeAlunoController implements Serializable {
 			userAluno.setCurso(pessoaSession.getCurso());
 		}
 		this.projetoBean = new ProjetoBean();
-		this.todosProjetos = projetoBean.getTodosProjetos();
+		this.todosProjetos = projetoBean.getTodosProjetosDisponiveis();
 		carregaListaDeHabilidades(userAluno);
 		carregaListaDeNotificacoes();
 	}
@@ -154,9 +154,12 @@ public class HomeAlunoController implements Serializable {
 		}
 		
 		if (!palavraChave.isEmpty()) {
-			script += " WHERE toLower(pj.titulo) CONTAINS " + "toLower('" + palavraChave
-					+ "') OR toLower(pj.descricaoCurta) " + "CONTAINS toLower('" + palavraChave
-					+ "') OR toLower(pj.resumo) " + "CONTAINS toLower('" + palavraChave + "') ";
+			script += " WHERE toLower(pj.titulo) CONTAINS toLower('" + palavraChave +"') "
+					+ "OR toLower(pj.descricaoCurta) CONTAINS toLower('" + palavraChave+ "') "
+					+ "OR toLower(pj.resumo) CONTAINS toLower('" + palavraChave + "') "
+					+ "AND NOT(pj.status='"+Projeto.FINALIZADO+"')";
+		}else{
+			script += "WHERE NOT(pj.status='"+Projeto.FINALIZADO+"')";
 		}
 
 		script += " RETURN pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
@@ -165,7 +168,7 @@ public class HomeAlunoController implements Serializable {
 				+ "pj.resumo as Resumo, pr.nome as Coordenador";
 
 		List<Projeto> projetosLocalizados = projetoDAO.buscaProjetos(script);
-		projetoBean.setTodosProjetos(projetosLocalizados);
+		projetoBean.setTodosProjetosDisponiveis(projetosLocalizados);
 		
 		System.err.println(script);
 	}
@@ -176,7 +179,7 @@ public class HomeAlunoController implements Serializable {
 	 * Recarrega a lista com todos os projetos cadastrados no sistema.
 	 */
 	public void recarregarProjetos(){
-		projetoBean.setTodosProjetos(this.todosProjetos);
+		projetoBean.setTodosProjetosDisponiveis(this.todosProjetos);
 	}
 	
 	

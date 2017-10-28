@@ -23,6 +23,8 @@ public class ProjetoBean implements Serializable {
 	
 	// Lista com todos os projetos cadastrados.
 	private List<Projeto> todosProjetos = null;
+	// Lista com todos os projetos disponíveis.
+	private List<Projeto> todosProjetosDisponiveis = null;
 	// Lista de projetos que o aluno participa.
 	private List<Projeto> projetosQueParticipo = null;
 	// Lista de projetos recomendados ao aluno.
@@ -52,10 +54,9 @@ public class ProjetoBean implements Serializable {
 		String email = pessoa.getContato().getEmail();
 		String senha = pessoa.getSenha();
 		
-		AlunoDAO alunoDAO = new AlunoDAO();
-		
+		AlunoDAO alunoDAO = new AlunoDAO();		
 		Aluno aluno = alunoDAO.buscarAluno(email, senha);
-		this.todosProjetos = new ProjetoDAO().listar();
+
 		this.projetosQueParticipo = alunoDAO.getProjetosQueParticipa(aluno);
 		this.projetosRecomendados = alunoDAO.getProjetosRecomendados(aluno);
 	}
@@ -160,7 +161,7 @@ public class ProjetoBean implements Serializable {
 	 * Diz se a lista com os projetos que participo está vazia ou não.
 	 */
 	public boolean isProjetosQueParticipoVazio() {
-		this.projetosQueParticipoVazio = (projetosQueParticipo.size() < 1);
+		this.projetosQueParticipoVazio = (projetosQueParticipo.isEmpty());
 		return projetosQueParticipoVazio;
 	}
 	
@@ -168,7 +169,7 @@ public class ProjetoBean implements Serializable {
 	 * Diz se a lista com todos os projetos está vazia ou não.
 	 */
 	public boolean isTodosProjetosVazio() {
-		this.todosProjetosVazio = (todosProjetos.size() < 1);
+		this.todosProjetosVazio = (todosProjetos.isEmpty());
 		return todosProjetosVazio;
 	}
 	
@@ -180,12 +181,18 @@ public class ProjetoBean implements Serializable {
 		return recomendadosVazio;
 	}
 
-
-	public List<Projeto> getTodosProjetos() {		
-		return todosProjetos;
+	/**
+	 * Retorna uma lista com todos os projetos cadastrados e que tem o status
+	 * diferente de 'Finalizado'.
+	 */
+	public List<Projeto> getTodosProjetosDisponiveis() {
+		if(todosProjetosDisponiveis == null){
+			this.todosProjetosDisponiveis = new ProjetoDAO().listarProjetosDisponiveis();
+		}
+		return todosProjetosDisponiveis;
 	}	
-	public void setTodosProjetos(List<Projeto> todosProjetos) {		
-		this.todosProjetos = todosProjetos;
+	public void setTodosProjetosDisponiveis(List<Projeto> todosProjetosDisponiveis) {		
+		this.todosProjetosDisponiveis = todosProjetosDisponiveis;
 	}
 	public List<Projeto> getProjetosQueParticipo() {
 		return projetosQueParticipo;
@@ -223,6 +230,18 @@ public class ProjetoBean implements Serializable {
 	public boolean isProjetoNormalDisponivel() {
 		this.projetoNormalDisponivel = (projetoNormalSelecionado.getStatus().equals(Projeto.FINALIZADO));
 		return projetoNormalDisponivel;
+	}
+	/**
+	 * Retorna uma lista com todos os projetos cadastrados no banco de dados.
+	 */
+	public List<Projeto> getTodosProjetos() {
+		if(todosProjetos == null){
+			this.todosProjetos = new ProjetoDAO().listar();
+		}
+		return todosProjetos;
+	}
+	public void setTodosProjetos(List<Projeto> todosProjetos) {
+		this.todosProjetos = todosProjetos;
 	}
 	
 }
