@@ -33,7 +33,7 @@
 			
 			<h:form id="charts-panel">
 				<!-- PAINEL BASE -->
-				<p:panel style="height:700px; margin:10px; padding:0px">
+				<p:panel style="height:720px; margin:10px; padding:0px">
 					
 					<div align="center">
 						<h:panelGrid columns="2" style="padding:0px">
@@ -62,7 +62,7 @@
 							</p:panel>
 	
 	
-							<p:panel style="width:450px; height:356px">
+							<p:panel id="pn-grafico-horizontal" style="width:450px; height:356px">
 								<div align="center">
 								
 									<p:chart type="bar" style="height:300px; width:400px" 
@@ -75,7 +75,19 @@
 					<p:spacer height="5px"/>
 					
 					<div align="center">
-						<p:panel style="width:920px; height:290px">
+						<p:panel id="pn-grafico-linhas" style="width:920px; height:290px">
+						
+							<h:panelGrid columns="3" cellspacing="10">
+								<p:outputLabel value="Comparar com o curso: "/>
+								<p:selectOneMenu value="#{relatoriosController.cursoParaComparar}">
+									<f:selectItems value="#{listaDeCursos.cursos}" />
+								</p:selectOneMenu>
+								
+								<p:commandButton icon="ui-icon-search" 
+												 update="pn-grafico-linhas"
+												 title="Pesquisar"/>
+							</h:panelGrid>
+						
 							<div align="center">
 								
 								<p:chart type="line" model="#{relatoriosController.lineModel}" style="height:250px;"/>

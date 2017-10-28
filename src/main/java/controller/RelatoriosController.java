@@ -30,6 +30,8 @@ public class RelatoriosController {
 	private RelatorioDAO relatorioDAO = new RelatorioDAO();
     // Curso selecionado para consultar as habilidades mais comuns.
 	private String cursoSelecionado = null;
+	// Curso selecionado para comparar o número de projetos cadastrados.
+	private String cursoParaComparar = "Administração";
 	
 	
 	
@@ -60,7 +62,8 @@ public class RelatoriosController {
      */
     public void createVerticalBarModel(){
         barModel = new BarChartModel();
-                
+        barModel.setTitle("Habilidades Mais Comuns Por Curso");
+        
         List<Map<String, Object>> lista = relatorioDAO.buscaHabilidadesMaisComuns(cursoSelecionado);
 
         ChartSeries chart = new ChartSeries();
@@ -147,14 +150,14 @@ public class RelatoriosController {
     private void createLineModel(){
     	
     	lineModel = new LineChartModel();
-    	lineModel.setTitle("Projetos Cadastrados Durante o Ano");
+    	lineModel.setTitle("Projetos Destinados Durante o Ano");
         lineModel.setLegendPosition("e");
         lineModel.setShowPointLabels(true);
         lineModel.getAxes().put(AxisType.X, new CategoryAxis("Meses"));
         lineModel.setAnimate(true);
         
         ChartSeries serie1 = new ChartSeries();
-        serie1.setLabel("Sistemas de Informação");
+        serie1.setLabel(getCursoDoProfessorLogado());
         serie1.set("Jan", 2);
         serie1.set("Fev", 3);
         serie1.set("Mar", 4);
@@ -169,7 +172,7 @@ public class RelatoriosController {
         serie1.set("Dez", 2);
  
         ChartSeries serie2 = new ChartSeries();
-        serie2.setLabel("Administração");
+        serie2.setLabel(cursoParaComparar);
         serie2.set("Jan", 1);
         serie2.set("Fev", 1);
         serie2.set("Mar", 6);
@@ -214,5 +217,11 @@ public class RelatoriosController {
 	public void setLineModel(LineChartModel lineModel) {
 		this.lineModel = lineModel;
 	}
-
+	public String getCursoParaComparar() {
+		return cursoParaComparar;
+	}
+	public void setCursoParaComparar(String cursoParaComparar) {
+		this.cursoParaComparar = cursoParaComparar;
+	}
+	
 }
