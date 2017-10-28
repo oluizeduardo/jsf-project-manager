@@ -1,7 +1,7 @@
-package model.pojo;
+package interfaces;
 
 /**
- * Possiveis titulações de professores.
+ * Possiveis titulações de um professor.
  * 
  */
 public interface Titulacao {

@@ -1,16 +1,21 @@
 package model.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.faces.bean.ManagedBean;
 
 
 /**
  * Classe que modela um projeto criado por um professor.
  * 
  * @author Luiz Eduardo
- *
  */
-public class Projeto {
+@ManagedBean 
+public class Projeto implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	// Categorias de projeto.
 	public static final String PROJETO_DE_EXTENSAO = "Projeto de Extensão";
@@ -25,6 +30,8 @@ public class Projeto {
 	public static final String EM_EXECUCAO = "Em Execução";
 	public static final String CANCELADO = "Cancelado";
 	public static final String AGUARDANDO = "Aguardando Início";
+	
+	public List<String> listaDeStatus = null;
 	
 	// Identificação
 	private String categoria = TRABALHO_ACADEMICO;// Item default no cadastro de novo projeto.
@@ -53,7 +60,7 @@ public class Projeto {
 	private String status="";//Em andamento, Finalizado, Cancelado, etc.
 	
 	// Lista de possíveis categorias de um projeto.
-	private List<String> categorias;
+	private List<String> categorias = new ArrayList<String>();
 	
 	// Nome do ícone que aparecerá no card do projeto na home do aluno.
 	private String nomeIcone="";
@@ -73,20 +80,19 @@ public class Projeto {
 	}
 
 
+
+	
 	/**
 	 * Retorna uma lista com as possíveis categorias de um projeto.
 	 */
 	public List<String> getCategorias() {
-		// Se o objeto estiver nulo, carrega a lista.
-		if(categorias == null){
-			categorias = new ArrayList<String>();
-			categorias.add(ESTAGIO);
-			categorias.add(EVENTO_EXTERNO);
-			categorias.add(EVENTO_INTERNO);
-			categorias.add(INICIACAO_CIENTIFICA);
-			categorias.add(PROJETO_DE_EXTENSAO);
-			categorias.add(TRABALHO_ACADEMICO);
-		}		
+		categorias.add(ESTAGIO);
+		categorias.add(EVENTO_EXTERNO);
+		categorias.add(EVENTO_INTERNO);
+		categorias.add(INICIACAO_CIENTIFICA);
+		categorias.add(PROJETO_DE_EXTENSAO);
+		categorias.add(TRABALHO_ACADEMICO);
+		
 		return categorias;
 	}
 
@@ -95,6 +101,21 @@ public class Projeto {
 	 */
 	public void setCategorias(List<String> categorias) {
 		this.categorias = categorias;
+	}
+	
+	/**
+	 * Retorna uma lista com os possíveis status de um projeto.
+	 */
+	public List<String> getListaDeStatus() {
+		this.listaDeStatus = new ArrayList<String>();
+		listaDeStatus.add(AGUARDANDO);
+		listaDeStatus.add(EM_EXECUCAO);
+		listaDeStatus.add(FINALIZADO);
+		return listaDeStatus;
+	}
+	
+	void setListaDeStatus(List<String> novaListaDeStatus) {
+		this.listaDeStatus = novaListaDeStatus;
 	}
 	
 	public String getCategoria() {

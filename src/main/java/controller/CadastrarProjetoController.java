@@ -224,7 +224,7 @@ public class CadastrarProjetoController implements Serializable{
 	public void addCursoAlvo(){
 		if(cursoAlvo != null){
 			if(cursoAlvo.equals("Todos")){
-				List<String> todosCursos = new ListaDeCursos().getListaDeCursosString();
+				List<String> todosCursos = new ListaDeCursos().getCursosString();
 				for (String curso : todosCursos) {
 					if(!cursosAlvo.contains(curso)){
 						this.cursosAlvo.add(curso);

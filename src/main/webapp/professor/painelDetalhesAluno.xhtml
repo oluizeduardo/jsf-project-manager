@@ -86,7 +86,7 @@
 					
 					<p:dataTable id="table-languages" var="idioma"
 						value="#{buscarAlunosController.alunoSelecionado.idiomas}"
-						resizableColumns="true"
+						resizableColumns="true" widgetVar="table-languages"
 						emptyMessage="Nenhum idioma definido."
 						style="width:700px">				
 					
@@ -96,11 +96,23 @@
 							<h:outputText value="#{idioma.nomeIdioma}" />
 						</p:column>
 						
-						<p:column headerText="Nível de Conhecimento" style="text-align: center"
-								  filterBy="#{idioma.nivelDeConhecimento}" sortBy="#{idioma.nivelDeConhecimento}" 
-								  filterMatchMode="startsWith">
+						<p:column headerText="Nível de conhecimento" 
+								  filterBy="#{idioma.nivelDeConhecimento}" 
+								  sortBy="#{idioma.nivelDeConhecimento}"
+								  filterMatchMode="in"
+								  style="text-align: center;">
+		
+							<f:facet name="filter">
+								<p:selectCheckboxMenu label="Todos"
+				                					  onchange="PF('table-languages').filter()" 
+				                					  style="width:100px;" 
+				                					  panelStyle="height:130px">
+				                	<f:selectItems value="#{idioma.niveisDeConhecimento}" />
+								</p:selectCheckboxMenu>
+							</f:facet>
+		
 							<h:outputText value="#{idioma.nivelDeConhecimento}" />
-						</p:column>		
+						</p:column>	
 					</p:dataTable>
 				</p:tab>
 				
@@ -110,7 +122,7 @@
 				
 					<p:dataTable id="table-habilities" var="habilidade"
 						value="#{buscarAlunosController.alunoSelecionado.habilidades}"
-						resizableColumns="true"
+						resizableColumns="true" widgetVar="table-habilities"
 						emptyMessage="Nenhuma habilidade definida."
 						style="width:700px">
 					
@@ -120,11 +132,21 @@
 							<h:outputText value="#{habilidade.descricao}" />
 						</p:column>
 						
-						<p:column headerText="Nível de Conhecimento" style="text-align: center"
-								  filterBy="#{habilidade.nivel}" sortBy="#{habilidade.nivel}" 
-								  filterMatchMode="startsWith">
+						<p:column headerText="Nível de conhecimento" filterBy="#{habilidade.nivel}" 
+								  sortBy="#{habilidade.nivel}" filterMatchMode="in"
+								  style="text-align: center;">
+		
+							<f:facet name="filter">
+								<p:selectCheckboxMenu label="Todos"
+				                					  onchange="PF('table-habilities').filter()" 
+				                					  style="width:100px;" 
+				                					  panelStyle="height:130px">
+				                	<f:selectItems value="#{habilidade.niveisDeConhecimento}" />
+								</p:selectCheckboxMenu>
+							</f:facet>
+		
 							<h:outputText value="#{habilidade.nivel}" />
-						</p:column>		
+						</p:column>	
 					</p:dataTable>				
 				</p:tab>
 				
@@ -143,9 +165,19 @@
 							<h:outputText value="#{projeto.titulo}" />
 						</p:column>
 						
-						<p:column headerText="Categoria" style="text-align: center"
-								  filterBy="#{projeto.categoria}" sortBy="#{projeto.categoria}" 
-								  filterMatchMode="startsWith">
+						<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
+							sortBy="#{projeto.categoria}" filterMatchMode="in"
+							style="text-align: center;">
+		
+							<f:facet name="filter">
+								<p:selectCheckboxMenu label="Todos"
+				                					  onchange="PF('projectsTable').filter()" 
+				                					  style="width:100px;" 
+				                					  panelStyle="height:220px">
+				                	<f:selectItems value="#{projeto.categorias}" />
+								</p:selectCheckboxMenu>
+							</f:facet>
+		
 							<h:outputText value="#{projeto.categoria}" />
 						</p:column>
 						
@@ -155,9 +187,20 @@
 							<h:outputText value="#{projeto.coordenador.nome}" />
 						</p:column>
 						
-						<p:column headerText="Status" style="text-align: center"
-								  filterBy="#{projeto.status}" sortBy="#{projeto.status}" 
-								  filterMatchMode="startsWith">
+						<p:column headerText="Status" style="width:150px; 
+								  text-align: center" filterMatchMode="in"
+								  filterBy="#{projeto.status}" sortBy="#{projeto.status}">
+								  
+							<f:facet name="filter">
+				                <p:selectCheckboxMenu label="Todos"
+				                					  onchange="PF('projectsTable').filter()" 
+				                					  style="width:100px;" 
+				                					  panelStyle="height:130px" 
+				                					  scrollHeight="150">
+				                    <f:selectItems value="#{projeto.listaDeStatus}" />
+				                </p:selectCheckboxMenu>
+				            </f:facet>
+		
 							<h:outputText value="#{projeto.status}" />
 						</p:column>		
 					</p:dataTable>				

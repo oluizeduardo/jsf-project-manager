@@ -15,6 +15,8 @@ public class ListaDeCursos {
 	
 	/** Instância da lista que armazena todos os cursos da UNIVÁS. */
 	private List<SelectItem> cursos;
+	/** Lista de cursos em String.*/
+	private List<String> cursosString = new ArrayList<String>();
 	
 	
 	public ListaDeCursos() {
@@ -76,29 +78,27 @@ public class ListaDeCursos {
 	 * Retorna uma lista String com os cursos da UNIVÁS.
 	 * @return
 	 */
-	public List<String> getListaDeCursosString(){
-		List<String> cursos = new ArrayList<String>();
+	public List<String> getCursosString(){		
+		cursosString.add("Administração");
+		cursosString.add("Ciências Biológicas");
+		cursosString.add("Contabilidade");
+		cursosString.add("Educação Física");
+		cursosString.add("Engenharia de Produção");
+		cursosString.add("Enfermagem");
+		cursosString.add("Farmácia");
+		cursosString.add("Fisioterapia");
+		cursosString.add("Gastronomia");
+		cursosString.add("Gestão de Produção Industrial");
+		cursosString.add("Gestão de Recursos Humanos");
+		cursosString.add("História");
+		cursosString.add("Medicina");	
+		cursosString.add("Nutrição");
+		cursosString.add("Pedagogia");
+		cursosString.add("Psicologia");
+		cursosString.add("Publicidade");			
+		cursosString.add("Sistemas de Informação");
 		
-		cursos.add("Administração");
-		cursos.add("Ciências Biológicas");
-		cursos.add("Contabilidade");
-		cursos.add("Educação Física");
-		cursos.add("Engenharia de Produção");
-		cursos.add("Enfermagem");
-		cursos.add("Farmácia");
-		cursos.add("Fisioterapia");
-		cursos.add("Gastronomia");
-		cursos.add("Gestão de Produção Industrial");
-		cursos.add("Gestão de Recursos Humanos");
-		cursos.add("História");
-		cursos.add("Medicina");	
-		cursos.add("Nutrição");
-		cursos.add("Pedagogia");
-		cursos.add("Psicologia");
-		cursos.add("Publicidade");			
-		cursos.add("Sistemas de Informação");
-		
-		return cursos;
+		return cursosString;
 	}
 	
 }

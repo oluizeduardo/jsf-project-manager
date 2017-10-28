@@ -43,8 +43,19 @@
 				</p:column>
 				
 				<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
-					sortBy="#{projeto.categoria}" filterMatchMode="startsWith"
+					sortBy="#{projeto.categoria}" filterMatchMode="in"
 					style="text-align: center; width:300px">
+
+					<f:facet name="filter">
+						<p:selectCheckboxMenu label="Todos"
+		                					  onchange="PF('projectsTable').filter()" 
+		                					  style="width:280px;" 
+		                					  panelStyle="height:220px"
+		                					  updateLabel="true">
+		                	<f:selectItems value="#{projeto.categorias}" />
+						</p:selectCheckboxMenu>
+					</f:facet>
+
 					<h:outputText value="#{projeto.categoria}" />
 				</p:column>
 	
@@ -58,10 +69,21 @@
 					<h:outputText value="#{projeto.coordenador.contato.email}" />
 				</p:column>
 	
-				<p:column headerText="Status"
-					filterBy="#{projeto.status}"
-					sortBy="#{projeto.status}" filterMatchMode="startsWith"
-					style="width:150px; text-align: center">
+				<p:column headerText="Status" style="width:150px; 
+						  text-align: center" filterMatchMode="in"
+						  filterBy="#{projeto.status}" sortBy="#{projeto.status}">
+						  
+					<f:facet name="filter">
+		                <p:selectCheckboxMenu label="Todos"
+		                					  onchange="PF('projectsTable').filter()" 
+		                					  style="width:150px;" 
+		                					  panelStyle="height:130px" 
+		                					  scrollHeight="150"
+		                					  updateLabel="true">
+		                    <f:selectItems value="#{projeto.listaDeStatus}" />
+		                </p:selectCheckboxMenu>
+		            </f:facet>
+
 					<h:outputText value="#{projeto.status}" />
 				</p:column>
 

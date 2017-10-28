@@ -99,6 +99,7 @@
 		
 		<p:panel>
 			<h:form id="painel-botoes">
+			
 				<!-- Tela de confirmação de exclusão do projeto. -->
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 			        <div align="center">
@@ -116,7 +117,7 @@
 										 title="Excluir projeto" 
 										 disabled="#{projetosProfController.projetoDeOutroProfessor}"
 										 action="#{projetosProfController.excluirProjeto}"
-										 update="messages">
+										 update="registered-projects:table-registered-projects">
 							<p:confirm header="Confirmação" message="Esse projeto será apagado. Deseja continuar?"/>
 						</p:commandButton>
 						

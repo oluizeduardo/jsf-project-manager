@@ -121,7 +121,7 @@ public class RelatoriosController {
         }        
 
         horizontalBarModel.addSeries(serie);         
-        horizontalBarModel.setTitle("Número de Projetos Cadastrados pelos Professores");
+        horizontalBarModel.setTitle("Número de Projetos Cadastrados");
         horizontalBarModel.setStacked(true);
         horizontalBarModel.setAnimate(true);
         horizontalBarModel.setShadow(false);
