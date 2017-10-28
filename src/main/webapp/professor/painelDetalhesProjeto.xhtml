@@ -118,17 +118,16 @@
 	    
 			<div align="center">
 				<h:panelGrid columns="4" cellspacing="5">
-					<p:commandButton value="Cancelar projeto" icon="ui-icon-alert" 
-									 title="Cancelar este projeto"
+					<p:commandButton value="Excluir projeto" icon="ui-icon-alert" 
+									 title="Excluir este projeto"
 									 disabled="#{projetosProfController.projetoDeOutroProfessor}"
-									 actionListener="#{projetosProfController.cancelarProjeto}"
+									 actionListener="#{projetosProfController.excluirProjeto}"
 									 update="form-tabela-projetos-cadastrados:tabela-projetos-cadastrados"
 									 style="background: red; border-color:red">
 									 
 						<p:confirm header="Confirmação" 
-								   message="Esse projeto será cancelado
-											e ninguém mais poderá participar. 
-											Deseja continuar?"/>
+								   message="Esse projeto será excluído da base de dados. 
+								   			Deseja continuar?"/>
 					</p:commandButton>
 					
 					<p:commandButton value="Editar" 

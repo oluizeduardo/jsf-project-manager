@@ -52,17 +52,33 @@ public class BuscarProjetosProfessorController implements Serializable {
 	
 	
 	
-	
+
 	/**
 	 * Exclui do banco de dados o projeto selecionado.
 	 */
-	public void cancelarProjeto(){
-		boolean cancelou = new ProjetoDAO().cancelar(projetoSelecionado);
-		if(cancelou){
+	public void excluirProjeto(){
+		boolean excluiu = new ProjetoDAO().excluir(projetoSelecionado);
+		if(excluiu){
+			projetos.remove(projetoSelecionado);
 			recarregaPagina();
-			Mensagem.ExibeMensagem("Projeto cancelado com sucesso!");
+			Mensagem.ExibeMensagem("Projeto excluído com sucesso!");
+		}else{
+			Mensagem.ExibeMensagemErro("Erro ao excluir projeto.");
 		}
 	}
+	
+	
+	
+//	/**
+//	 * Altera o status de um determinado projeto para cancelado.
+//	 */
+//	public void cancelarProjeto(){
+//		boolean cancelou = new ProjetoDAO().cancelar(projetoSelecionado);
+//		if(cancelou){
+//			recarregaPagina();
+//			Mensagem.ExibeMensagem("Projeto cancelado com sucesso!");
+//		}
+//	}
 	
 	
 	/**
