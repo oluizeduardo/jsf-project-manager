@@ -23,11 +23,30 @@
 	<p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
 	
-	<p:panel>
+	<p:panel style="padding-top:0px">
 
 		<p />
-			<h:outputText value="Projetos Cadastrados"
-				style="font-size: 25px; font-weight:bold;" />
+			<h:panelGrid columns="2">
+				<h:outputText value="Projetos Cadastrados"
+					style="font-size: 25px; font-weight:bold;" />
+				
+				<h:form id="painel-busca-projetos" style="margin:0px">	
+					<p:panel style="margin-left: 470px">
+						<h:panelGrid columns="3" cellspacing="10">
+							
+							<p:outputLabel value="Buscar projetos: " for="where"/>
+							<p:selectOneMenu id="where" value="#{projetosProfController.tipoDeBusca}">						
+								<f:selectItem itemLabel="Cadastrados por mim" itemValue="Cadastrados por mim"/>				  		
+								<f:selectItem itemLabel="Todos os projetos cadastrados" itemValue="Todos os projetos cadastrados" />		
+							</p:selectOneMenu>		
+							
+							<p:commandButton value="Buscar" icon="ui-icon-search" 		
+											actionListener="#{projetosProfController.alteraListaDeProjetos}"		
+											update="form-tabela-projetos-cadastrados:tabela-projetos-cadastrados"/>
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</h:panelGrid>
 			<p:separator />
 		<p />
 

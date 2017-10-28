@@ -70,7 +70,7 @@ public class BuscarAlunosController implements Serializable {
 	 * Diz se a lista de alunos cadastrados está vazia.
 	 */
 	public boolean isAlunosVazio(){
-		this.alunosVazio = (this.alunos.size() < 1);
+		this.alunosVazio = this.alunos.isEmpty();
 		return alunosVazio;
 	}
 	
