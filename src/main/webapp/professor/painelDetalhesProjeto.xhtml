@@ -97,41 +97,50 @@
 		
 		<p:spacer height="10px"/>
 		
-		<p:panel>
-			<h:form id="painel-botoes">
+		<p:panel>			
+			<!-- Tela de confirmação de exclusão do projeto. -->
+			<p:confirmDialog global="true" widgetVar="confirmacaoCancelamento" 
+							 showEffect="fade" 
+							 hideEffect="fade">
 			
-				<!-- Tela de confirmação de exclusão do projeto. -->
-				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-			        <div align="center">
-			        	<p:commandButton value="Sim" type="button" 
-			        					 styleClass="ui-confirmdialog-yes" 
-			        					 update="messages"
-			        					 onclick="PF('detalhe-projeto').hide()"/>
-			        	<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" />
-			    	</div>
-			    </p:confirmDialog>
-		    
-				<div align="center">
-					<h:panelGrid columns="4" cellspacing="5">
-						<p:commandButton value="Excluir" icon="ui-icon-trash" 
-										 title="Excluir projeto" 
-										 disabled="#{projetosProfController.projetoDeOutroProfessor}"
-										 action="#{projetosProfController.excluirProjeto}"
-										 update="registered-projects:table-registered-projects">
-							<p:confirm header="Confirmação" message="Esse projeto será apagado. Deseja continuar?"/>
-						</p:commandButton>
-						
-						<p:commandButton value="Editar" 
-										 icon="ui-icon-pencil" 
-										 title="Editar projeto" 
-										 disabled="#{projetosProfController.projetoDeOutroProfessor}"/>
-						
-						<p:commandButton value="Fechar" 
-										 onclick="PF('detalhe-projeto').hide()" 
-										 title="Fechar tela de detalhes"/>
-					</h:panelGrid>
-				</div>
-			</h:form>			
+		        <div align="center">
+		        	<p:commandButton value="Sim" type="button" 
+		        					 styleClass="ui-confirmdialog-yes" 
+		        					 update="form-tabela-projetos-cadastrados:tabela-projetos-cadastrados"
+		        					 onclick="PF('detalhe-projeto').hide()"/>
+		        					 
+		        	<p:commandButton value="Não" 
+		        					 type="button"  
+		        					 styleClass="ui-confirmdialog-no"
+		        					 onclick="PF('confirmacaoCancelamento').hide()"/>
+		    	</div>
+		    </p:confirmDialog>
+	    
+			<div align="center">
+				<h:panelGrid columns="4" cellspacing="5">
+					<p:commandButton value="Cancelar projeto" icon="ui-icon-alert" 
+									 title="Cancelar este projeto"
+									 disabled="#{projetosProfController.projetoDeOutroProfessor}"
+									 actionListener="#{projetosProfController.cancelarProjeto}"
+									 update="form-tabela-projetos-cadastrados:tabela-projetos-cadastrados"
+									 style="background: red; border-color:red">
+									 
+						<p:confirm header="Confirmação" 
+								   message="Esse projeto será cancelado
+											e ninguém mais poderá participar. 
+											Deseja continuar?"/>
+					</p:commandButton>
+					
+					<p:commandButton value="Editar" 
+									 icon="ui-icon-pencil" 
+									 title="Editar projeto" 
+									 disabled="#{projetosProfController.projetoDeOutroProfessor}"/>
+					
+					<p:commandButton value="Fechar" 
+									 onclick="PF('detalhe-projeto').hide()" 
+									 title="Fechar tela de detalhes"/>
+				</h:panelGrid>
+			</div>			
 		</p:panel>
 	</p:outputPanel>
 

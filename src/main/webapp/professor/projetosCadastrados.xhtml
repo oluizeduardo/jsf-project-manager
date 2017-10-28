@@ -20,45 +20,26 @@
 	<ui:include src="barraDeMenu.xhtml" />
 
 	<!-- MENSAGEM -->
-	<p:growl id="messages" showDetail="true"/>
+	<p:growl id="messages" showDetail="true" autoUpdate="true"/>
 
-	<h:form id="registered-projects">
+	
+	<p:panel>
 
-		<p:panel>
-			<h:panelGrid columns="2">
-				<h:outputText value="Projetos Cadastrados"
-				style="font-size: 25px; font-weight:bold" />
-				
-				<p:panel style="margin-left: 500px;">
-					<h:panelGrid columns="3">
-						<p:outputLabel value="Buscar projetos: " for="where"/>
-					
-						<p:selectOneMenu id="where" value="#{projetosProfController.tipoDeBusca}">				
-							<f:selectItem itemLabel="Cadastrados por mim" 
-										  itemValue="Cadastrados por mim"/>
-										  
-							<f:selectItem itemLabel="Todos os projetos cadastrados" 
-										  itemValue="Todos os projetos cadastrados" />
-						</p:selectOneMenu>
-						
-						<p:commandButton value="Buscar" icon="ui-icon-search" 
-						actionListener="#{projetosProfController.alteraListaDeProjetos}"
-						update="table-registered-projects" title="Buscar projetos"/>
-						
-					</h:panelGrid>
-				</p:panel>
-			</h:panelGrid>
-			<p:separator/>
-			<p/>
-			
-			<p:dataTable id="table-registered-projects" var="projeto"
+		<p />
+			<h:outputText value="Projetos Cadastrados"
+				style="font-size: 25px; font-weight:bold;" />
+			<p:separator />
+		<p />
+
+		<h:form id="form-tabela-projetos-cadastrados" style="margin:0px">
+			<p:dataTable id="tabela-projetos-cadastrados" var="projeto"
 				value="#{projetosProfController.projetos}" widgetVar="projectsTable"
 				multiViewState="true" rows="10" paginator="true"
 				paginatorPosition="bottom" resizableColumns="true"
 				paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
 				emptyMessage="Nenhum projeto localizado.">
-
-
+	
+	
 				<p:column headerText="Título" filterBy="#{projeto.titulo}"
 					sortBy="#{projeto.titulo}" filterMatchMode="startsWith">
 					<h:outputText value="#{projeto.titulo}" />
@@ -67,7 +48,7 @@
 				<p:column headerText="Categoria" filterBy="#{projeto.categoria}"
 					sortBy="#{projeto.categoria}" filterMatchMode="in"
 					style="text-align: center; width:210px">
-
+	
 					<f:facet name="filter">
 						<p:selectCheckboxMenu label="Todos"
 		                					  onchange="PF('projectsTable').filter()" 
@@ -77,10 +58,10 @@
 		                	<f:selectItems value="#{projeto.categorias}" />
 						</p:selectCheckboxMenu>
 					</f:facet>
-
+	
 					<h:outputText value="#{projeto.categoria}" />
 				</p:column>
-
+	
 				<p:column headerText="Coordenador"
 					filterBy="#{projeto.coordenador.nome}"
 					sortBy="#{projeto.coordenador.nome}" filterMatchMode="startsWith"
@@ -94,8 +75,8 @@
 					style="text-align: center; width:210px">
 					<h:outputText value="#{projeto.coordenador.contato.email}" />
 				</p:column>
-
-				<p:column headerText="Status" style="width:150px; 
+	
+				<p:column id="coluna-status" headerText="Status" style="width:150px; 
 						  text-align: center" filterMatchMode="in"
 						  filterBy="#{projeto.status}" sortBy="#{projeto.status}">
 						  
@@ -109,46 +90,45 @@
 		                    <f:selectItems value="#{projeto.listaDeStatus}" />
 		                </p:selectCheckboxMenu>
 		            </f:facet>
-
+	
 					<h:outputText value="#{projeto.status}" />
 				</p:column>
-
+	
 				<p:column style="width:32px;text-align: center" exportable="false">
 					<p:commandButton icon="ui-icon-search" 
-									 title="Visualizar" 
+									 title="Visualizar"
 									 oncomplete="PF('detalhe-projeto').show()" 
-									 update="painel-de-detalhes">
+									 update="form-tabela-projetos-cadastrados:painel-de-detalhes">
 						<f:setPropertyActionListener value="#{projeto}"	
 									 target="#{projetosProfController.projetoSelecionado}" />
 					</p:commandButton>
 				</p:column>
-
 			</p:dataTable>
-			
-			<p/>
-			
-			<p:commandButton value="Exportar dados da tabela" 
+
+
+			<!-- DETALHES DO PROJETO -->
+			<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+				header="Detalhes do Projeto" widgetVar="detalhe-projeto"
+				resizable="false" closeOnEscape="true">
+
+				<ui:include src="painelDetalhesProjeto.xhtml" />
+			</p:dialog>
+
+
+			<p/>		
+			<p:commandButton id="btn-exportar-tabela"
+							 value="Exportar dados da tabela" 
 							 icon="ui-icon-document" 
 							 title="Exportar para PDF" 
 							 ajax="false"
 							 disabled="#{projetosProfController.projetosVazio}">		        
-		        <p:dataExporter type="pdf" target="table-registered-projects" 
+		        <p:dataExporter type="pdf" target="tabela-projetos-cadastrados" 
 		        				fileName="projetos-cadastrados"
 		        				encoding="iso-8859-1"
 		        				preProcessor="#{formatadorPDF.criaPDFProjetosCadastrados}"/>
-		    </p:commandButton>			
-		</p:panel>
-	</h:form>
-	
-	<!-- DETALHES DO PROJETO -->
-	<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-			  header="Detalhes do Projeto" widgetVar="detalhe-projeto" 
-			  resizable="false" closeOnEscape="true">
-
-		<ui:include src="painelDetalhesProjeto.xhtml"/>
-
-	</p:dialog>
-	
+		    </p:commandButton>
+		</h:form>					
+	</p:panel>
 </h:body>
 
 </html>

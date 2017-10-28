@@ -3,8 +3,14 @@ package controller;
 
 import java.io.Serializable;
 import java.util.List;
+
+import javax.faces.application.Application;
+import javax.faces.application.ViewHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
+
 import model.dao.ProjetoDAO;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
@@ -50,13 +56,26 @@ public class BuscarProjetosProfessorController implements Serializable {
 	/**
 	 * Exclui do banco de dados o projeto selecionado.
 	 */
-	public void excluirProjeto(){
-		boolean excluiu = new ProjetoDAO().excluir(projetoSelecionado);
-		if(excluiu){
-			Mensagem.ExibeMensagem("Projeto excluído com sucesso!");
+	public void cancelarProjeto(){
+		boolean cancelou = new ProjetoDAO().cancelar(projetoSelecionado);
+		if(cancelou){
+			recarregaPagina();
+			Mensagem.ExibeMensagem("Projeto cancelado com sucesso!");
 		}
 	}
 	
+	
+	/**
+	 * Método para recarregar a página.
+	 */
+	public void recarregaPagina() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+		ViewHandler viewHandler = application.getViewHandler();
+		UIViewRoot viewRoot = viewHandler.createView(context, context.getViewRoot().getViewId());
+		context.setViewRoot(viewRoot);
+		context.renderResponse();
+	}
 	
 	
 	/**

@@ -8,19 +8,71 @@ import java.util.List;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.exceptions.ClientException;
-
+import interfaces.NivelDeConhecimento;
 import model.pojo.Aluno;
 import model.pojo.Curso;
 import model.pojo.Habilidade;
 import model.pojo.Notificacao;
+import model.pojo.Pessoa;
 import model.pojo.Professor;
 import model.pojo.Projeto;
+import web.SessionUtil;
 
 
 
 public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 
+	
+	
 	public ProjetoDAO() { }
+	
+	
+	
+	/**
+	 * Executa um script para alterar o status do projet para CANCELADO.
+	 * @param projeto
+	 * @return Status da execução do script.
+	 */
+	public boolean cancelar(Projeto projeto){
+		
+		Pessoa pessoaLogada = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+		String email = pessoaLogada.getContato().getEmail();
+		String senha = pessoaLogada.getSenha();
+		
+		
+		super.iniciaSessaoNeo4J();
+		
+		transaction = session.beginTransaction();
+		boolean status = false;
+		
+		String script = "MATCH (pro:Professor)-[:COORDENA]->(pj:Projeto) "
+					  + "WHERE pj.titulo = '" + projeto.getTitulo()+"' AND "
+					  + "pro.email='"+email+"' AND pro.senha='"+senha+"' "
+					  + "SET pj.status='" + Projeto.CANCELADO+"' RETURN pro, pj";
+				
+		try{
+			// Executa o script no banco de dados.
+			transaction.run(script);			
+			transaction.success();
+			status = true;
+		}catch(Exception ex){
+			status = false;
+			
+		}finally {
+			try {
+				transaction.close();
+			} 
+			catch (ClientException excep) {
+				transaction.failure();
+				transaction.close();
+			}
+		}
+		session.close();
+		
+		return status;	
+	}
+	
+	
 	
 	
 	/**
@@ -32,6 +84,8 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		String email = projeto.getCoordenador().getContato().getEmail();
 		String senha = projeto.getCoordenador().getSenha();
 		String titulo = projeto.getTitulo();
+		
+		getStatusProjeto(projeto);
 		
 		transaction = session.beginTransaction();
 		boolean executou = false;//Status do cadastro.
@@ -47,6 +101,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "', numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
 		+ "', resumo:'" + projeto.getResumo()
 		+ "', dataFim:'" + projeto.getDataFim()
+		+ "', status:'" + projeto.getStatus()
 		+ "'}),(pr)-[:COORDENA{Desde:'"+projeto.getDataInicio()+"'}]->(pj) return pj, pr";
 		
 		try {
@@ -156,9 +211,9 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	 * @return Um int indicando o níel da habilidade.
 	 */
 	private int converteNivelDeConhecimento(String nivelStr){
-		if(nivelStr.equals("Avançado")){
+		if(nivelStr.equals(NivelDeConhecimento.AVANCADO)){
 			return 3;
-		}else if(nivelStr.equals("Médio")){
+		}else if(nivelStr.equals(NivelDeConhecimento.MEDIO)){
 			return 2;
 		}else{
 			return 1;
@@ -238,27 +293,30 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	
 	
 	/**
-	 * Define o status atual do projeto.
+	 * Atualiza o status do projeto baseado na sua data de início e na data atual.
 	 * 
 	 * @param projeto O projeto analisado.
 	 */
 	private void getStatusProjeto(Projeto projeto) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");   
-	    try {   
-	       Date dataInicio = sdf.parse(projeto.getDataInicio());   
-	       Date dataFim    = sdf.parse(projeto.getDataFim());   
-	       Date dataAtual  = sdf.parse(getDataAtual());
-	       		       
-	       if(dataAtual.getTime() < dataInicio.getTime()){
-	    	   projeto.setStatus("Aguardando Inicio");
-	       }else if(dataAtual.getTime() > dataFim.getTime()){
-	    	   projeto.setStatus("Finalizado");
-	       }else{
-	    	   projeto.setStatus("Em Execução");
-	       }
-	    }catch(ParseException px){
-	    	  System.err.println("ERRO NA CONVERSÃO DE DATAS.");
-	    }
+		// Só atualiza o status se o projeto já não estiver cancelado.
+		if(!projeto.getStatus().equals(Projeto.CANCELADO)){
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");   
+		    try {   
+		       Date dataInicio = sdf.parse(projeto.getDataInicio());   
+		       Date dataFim    = sdf.parse(projeto.getDataFim());   
+		       Date dataAtual  = sdf.parse(getDataAtual());
+		       		       
+		       if(dataAtual.getTime() < dataInicio.getTime()){
+		    	   projeto.setStatus(Projeto.AGUARDANDO);
+		       }else if(dataAtual.getTime() > dataFim.getTime()){
+		    	   projeto.setStatus(Projeto.FINALIZADO);
+		       }else{
+		    	   projeto.setStatus(Projeto.EM_EXECUCAO);
+		       }
+		    }catch(ParseException px){
+		    	  System.err.println("ERRO NA CONVERSÃO DE DATAS.");
+		    }
+		}
 	}
 
 	
@@ -307,12 +365,18 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
 				+ "return id(pj) as ID, "
-				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, "
-				+ "pj.dataInicio as Data_Inicio, pj.dataPublicacao as Publicacao, "
-				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
-				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
-				+ "pj.resumo as Resumo, pr.nome as Coordenador, "
-				+ "pj.status as Status, pr.email as Email, pr.senha as Senha";		
+				+ "pj.titulo as Titulo, "
+				+ "pj.dataFim as Data_Fim, "
+				+ "pj.dataInicio as Data_Inicio, "
+				+ "pj.dataPublicacao as Publicacao, "
+				+ "pj.valor as Valor, "
+				+ "pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, "
+				+ "pj.numeroParticipantes as QTD_Participantes, "
+				+ "pj.resumo as Resumo, "
+				+ "pr.nome as Coordenador, "
+				+ "pj.status as Status, "
+				+ "pr.email as Email, pr.senha as Senha";		
 				
 		return buscaProjetos(script);
 	}
@@ -402,15 +466,20 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				
 		String email = professor.getContato().getEmail();
 		String senha = professor.getSenha();
-			
-		System.err.println("Senha do prof logado: "+senha);
 		
 		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
 				+ "WHERE pr.email = '"+email+"' AND pr.senha = '"+senha+"' RETURN "
-				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
-				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
-				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, pj.resumo as Resumo, "
-				+ "pr.nome as Coordenador, pj.status as Status, '"+email+"' as Email, '"+senha+"' as Senha";
+				+ "pj.titulo as Titulo, "
+				+ "pj.dataFim as Data_Fim, "
+				+ "pj.dataInicio as Data_Inicio, "
+				+ "pj.dataPublicacao as Publicacao, "
+				+ "pj.valor as Valor, "
+				+ "pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, "
+				+ "pj.numeroParticipantes as QTD_Participantes, "
+				+ "pj.resumo as Resumo, "
+				+ "pr.nome as Coordenador, "
+				+ "pj.status as Status, '"+email+"' as Email, '"+senha+"' as Senha";
 
 		return buscaProjetos(script);
 	}
@@ -428,10 +497,15 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				
 		String script = "MATCH(al:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COORDENA]-(pr:Professor) "
 				+ "WHERE al.email = '"+email+"' AND al.senha = '"+senha+"' RETURN "
-				+ "pj.titulo as Titulo, pj.dataFim as Data_Fim, "
-				+ "pj.dataInicio as Data_Inicio, pj.dataPublicacao as Publicacao, "
-				+ "pj.valor as Valor, pj.descricaoCurta as Descricao, "
-				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
+				+ "pj.titulo as Titulo, "
+				+ "pj.dataFim as Data_Fim, "
+				+ "pj.status as Status, "
+				+ "pj.dataInicio as Data_Inicio, "
+				+ "pj.dataPublicacao as Publicacao, "
+				+ "pj.valor as Valor, "
+				+ "pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, "
+				+ "pj.numeroParticipantes as QTD_Participantes, "
 				+ "pj.resumo as Resumo, pr.nome as Coordenador, "
 				+ "pj.status as Status, '"+email+"' as Email";
 
@@ -499,6 +573,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "'pj.valor:'" + projeto.getFinanciamento().getValor()
 		+ "'pj.descricaoCurta:'" + projeto.getDescricaoCurta()
 		+ "'pj.categoria:'" + projeto.getCategoria()
+		+ "'pj.status:'" + projeto.getStatus()
 		+ "'pj.numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
 		+ "'pj.resumo:'" + projeto.getResumo()
 		+"'RETURN pj";
