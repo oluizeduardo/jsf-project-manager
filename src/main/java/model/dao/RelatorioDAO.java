@@ -102,9 +102,9 @@ public class RelatorioDAO extends DAOBase {
 	 * @param curso O curso que se deseja saber.
 	 * @return Uma lista de ProjetosPublicadosPorCurso.
 	 */
-	public List<ProjetosPublicadosPorCurso> getProjetosPublicadosDuranteAno(String curso) {
+	public ProjetosPublicadosPorCurso[] getProjetosPublicadosDuranteAno(String curso) {
 		
-		List<ProjetosPublicadosPorCurso> lista = new ArrayList<ProjetosPublicadosPorCurso>();
+		ProjetosPublicadosPorCurso[] lista = iniciaVetor(12);
 				
 		String script = "MATCH(pro:Projeto)-[:DESTINADO_A]->(c:Curso{nome:'"+curso+"'}) "
 				+ "RETURN toInteger(substring(pro.dataPublicacao,3, 2)) "
@@ -116,14 +116,31 @@ public class RelatorioDAO extends DAOBase {
 		while(resultado.hasNext()) {
 			Record registro = resultado.next();
 			ProjetosPublicadosPorCurso pj = new ProjetosPublicadosPorCurso();
-			
+						
+			int mes = registro.get("Mes").asInt();
 			pj.setCurso(curso);
-			pj.setMes(registro.get("Mes").asInt());
+			pj.setMes(mes);
 			pj.setQuantidade(registro.get("QtdeProjetos").asInt());
 			
-			lista.add(pj);
+			lista[mes-1] = pj;//Para começar na posição 0 do vetor.
 		}
 		session.close();
+		return lista;
+	}
+	
+	
+	
+	/**
+	 * Inicia um vetor.
+	 * @param tamanho o tamanho do vetor que se deseja criar.
+	 * @return Um vetor preenchido com objetos instanciados.
+	 */
+	private ProjetosPublicadosPorCurso[] iniciaVetor(int tamanho){
+		ProjetosPublicadosPorCurso[] lista = new ProjetosPublicadosPorCurso[tamanho];
+		
+		for(int i=0; i < tamanho; i++){
+			lista[ i ] = new ProjetosPublicadosPorCurso();
+		}		
 		return lista;
 	}
 	

@@ -147,7 +147,7 @@ public class RelatoriosController {
     /**
      * Cria um gráfico de linhas.
      */
-    private void createLineModel(){
+    public void createLineModel(){
     	
     	lineModel = new LineChartModel();
     	lineModel.setTitle("Projetos Destinados Durante o Ano");
@@ -160,53 +160,29 @@ public class RelatoriosController {
         ChartSeries serie1 = new ChartSeries();
         serie1.setLabel(getCursoDoProfessorLogado());
         
-        
-        List<ProjetosPublicadosPorCurso> lista1 = getQtdeProjetosPublicadosParaCursoDoProfessor();     
-        for (int i=0; i < 12; i++) {
-        	
-        	if(i < lista1.size()){
-        		ProjetosPublicadosPorCurso registro = lista1.get( i );
-        		int mes = registro.getMes();
-        		
-        		if(mes == i){
-            		serie1.set(getNomeMes(mes), registro.getQuantidade());
-            	}else{
-            		serie1.set(getNomeMes( i ), 0);
-            	}
-        	}else{
-        		serie1.set(getNomeMes( i ), 0);
-        	}
-        	
-        	
-        	
-        	
-        	
-		}
+        ProjetosPublicadosPorCurso[] lista1 = relatorioDAO.getProjetosPublicadosDuranteAno(getCursoDoProfessorLogado());     
+        for(int i=0; i < lista1.length; i++){
+        	serie1.set(getNomeMes(i), lista1[i].getQuantidade());
+        }
  
         
         //--- Linha 2 ----
         ChartSeries serie2 = new ChartSeries();
         serie2.setLabel(cursoParaComparar);
-        serie2.set("Jan", 1);
-        serie2.set("Fev", 1);
-        serie2.set("Mar", 6);
-        serie2.set("Abr", 7);
-        serie2.set("Mai", 2);
-        serie2.set("Jun", 0);
-        serie2.set("Jul", 0);
-        serie2.set("Ago", 3);
-        serie2.set("Set", 3);
-        serie2.set("Out", 3);
-        serie2.set("Nov", 0);
-        serie2.set("Dez", 0);
+        
+        ProjetosPublicadosPorCurso[] lista2 = relatorioDAO.getProjetosPublicadosDuranteAno(cursoParaComparar);     
+        for(int i=0; i < lista2.length; i++){
+        	serie2.set(getNomeMes(i), lista2[i].getQuantidade());
+        }
  
+        // Adiciona as duas linhas no gráfico.
         lineModel.addSeries(serie1);
         lineModel.addSeries(serie2);
         
         Axis yAxis = lineModel.getAxis(AxisType.Y);
         yAxis.setLabel("Qtde");
         yAxis.setMin(0);
-        yAxis.setMax(10);
+        yAxis.setMax(20);
         yAxis.setTickCount(3);
     }
     
@@ -222,23 +198,6 @@ public class RelatoriosController {
     }
     
     
-    
-    /**
-     * @return 
-     */
-    private List<ProjetosPublicadosPorCurso> getQtdeProjetosPublicadosParaOutroCurso(String curso){
-    	return relatorioDAO.getProjetosPublicadosDuranteAno(curso);
-    }
-    
-    
-    /**
-     * @return Uma lista com o número de projetos publicados a cada mês
-     * para o curso em que o professor está associado.
-     */
-    private List<ProjetosPublicadosPorCurso> getQtdeProjetosPublicadosParaCursoDoProfessor(){
-    	String curso = getCursoDoProfessorLogado();
-    	return relatorioDAO.getProjetosPublicadosDuranteAno(curso);
-    }
     
     public HorizontalBarChartModel getHorizontalBarModel() {
         return horizontalBarModel;
