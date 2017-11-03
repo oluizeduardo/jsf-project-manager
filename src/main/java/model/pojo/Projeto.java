@@ -46,7 +46,7 @@ public class Projeto implements Serializable {
 	private Financiamento financiamento = new Financiamento();
 	
 	// Cursos e Habilidades
-	private List<Curso> cursosEnvolvidos;
+	private List<Curso> cursosEnvolvidos = new ArrayList<Curso>();
 	private List<Habilidade> habilidades = new ArrayList<Habilidade>();
 	private Integer numeroDeParticipantes;
 	

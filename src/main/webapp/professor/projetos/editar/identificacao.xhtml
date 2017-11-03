@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<h:panelGrid columns="4" cellspacing="20">
+		<p:outputLabel value="Título:" for="title-field" />
+		<p:inputText id="title-field" 
+					 value="#{editarProjetoController.projeto.titulo}"
+					 maxlength="46"/>
+		
+		<p:outputLabel value="Categoria:" for="type-of-project"/>
+		<p:selectOneMenu id="type-of-project" value="#{editarProjetoController.projeto.categoria}">
+			<f:selectItems value="#{cadastrarProjetoController.projeto.categorias}"/>
+		</p:selectOneMenu>
+			 
+		<p:outputLabel value="Data de Início:" for="startdate-field" />
+		<p:inputMask id="startdate-field" 
+					 value="#{editarProjetoController.projeto.dataInicio}" 
+					 mask="99/99/9999"/>
+
+		<p:outputLabel value="Data de Término:" for="enddate-field" />
+		<p:inputMask id="enddate-field" 
+					 value="#{editarProjetoController.projeto.dataFim}" 
+					 mask="99/99/9999"/>
+	
+	</h:panelGrid>	
+	
+	<p:panel>		
+ 		<h:panelGrid columns="2" cellpadding="3">		
+ 			<p:outputLabel value="Descrição:" for="description-field"/>		
+ 			<h:panelGrid columns="1" cellpadding="0">
+ 				<p:inputTextarea id="description-field" rows="2" cols="75" counter="contador" 		
+ 							 maxlength="70" counterTemplate="{0} caracteres restantes." 		
+ 							 autoResize="false" placeholder="Descrição curta sobre o projeto" 
+ 							 value="#{editarProjetoController.projeto.descricaoCurta}"/>		
+ 		    	<h:outputText id="contador" style="font-size:12" /> 				
+ 			</h:panelGrid> 			
+ 		</h:panelGrid>		
+ 	</p:panel>
+
+</html>

@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:textEditor height="100" style="margin-bottom:10px"
+		placeholder="Resumo do projeto" value="#{editarProjetoController.projeto.resumo}">
+		<f:facet name="toolbar">
+			<span class="ql-formats">
+				<button class="ql-bold"></button>
+				<button class="ql-italic"></button>
+				<button class="ql-underline"></button>
+				<button class="ql-strike"></button>
+			</span>
+			<span class="ql-formats"> 
+				<select class="ql-font"/> 
+				<select	class="ql-size"/>
+			</span>
+		</f:facet>
+	</p:textEditor>
+
+
+</html>

@@ -8,45 +8,50 @@
 	<!-- PAINEL DE EDIÇÃO DO PROJETO -->
 	<p:outputPanel id="painel-de-edicao" style="width:750px">
 		
-		<p:tabView>
-			<p:tab title="Detalhes">
-				<h:panelGrid columns="4" cellspacing="10">
-							
-				</h:panelGrid>
-			</p:tab>						
+		<h:form id="form-edicao-projeto" style="margin:0px">
+			<!-- MENSAGEM -->
+			<p:growl id="mensagem" showDetail="true" closable="true" />
 			
-			<p:tab title="Resumo">
-				<p:textEditor style="margin-bottom:10px; width: 700px"
-					placeholder="Sem resumo cadastrado." 
-					value="#{projetosProfController.projetoSelecionado.resumo}">
-					<f:facet name="toolbar">
-						<span class="ql-formats"> 
-							<select	class="ql-size"/>
-						</span>
-					</f:facet>
-				</p:textEditor>
-			</p:tab>
+			<p:tabView>
+				<p:tab title="Identificação">
+					<ui:include src="projetos/editar/identificacao.xhtml" />
+				</p:tab>
+				
+				<p:tab title="Financiamento">
+					<ui:include src="projetos/editar/financiamento.xhtml" />
+				</p:tab>						
+				
+				<p:tab title="Alunos">
+					<ui:include src="projetos/editar/alunos.xhtml" />
+				</p:tab>
+				
+				<p:tab title="Habilidades">
+					<ui:include src="projetos/editar/habilidades.xhtml" />				
+				</p:tab>
+				
+				<p:tab title="Resumo">
+					<ui:include src="projetos/editar/resumo.xhtml" />
+				</p:tab>
+										
+			</p:tabView>
 			
-			<p:tab title="Habilidades">
-				<ui:include src="projetos/habilidades.xhtml" />				
-			</p:tab>						
-		</p:tabView>
-		
-		<p:spacer height="10px"/>
-		
-		<p:panel>				    
-			<div align="center">
-				<h:panelGrid columns="4" cellspacing="5">
-					<p:commandButton value="Salvar" icon="ui-icon-disk" 
-									 title="Salvar alterações"
-									 update="form-tabela-projetos-cadastrados:tabela-projetos-cadastrados"
-									 style="background: red; border-color:red"/>
-					
-					<p:commandButton value="Fechar" 
-									 onclick="PF('editar-projeto').hide()" 
-									 title="Fechar tela de edição"/>
-				</h:panelGrid>
-			</div>			
-		</p:panel>
+			<p:spacer height="10px"/>
+			
+			<p:panel>				    
+				<div align="center">
+					<h:panelGrid columns="4" cellspacing="5">
+						<p:commandButton value="Salvar" icon="ui-icon-disk" 
+										 title="Salvar alterações"
+										 action="#{editarProjetoController.salvarEdicao}"
+										 update="form-tabela-projetos-cadastrados:tabela-projetos-cadastrados"
+										 style="background: red; border-color:red"/>
+						
+						<p:commandButton value="Fechar" 
+										 onclick="PF('editar-projeto').hide()" 
+										 title="Fechar tela de edição"/>
+					</h:panelGrid>
+				</div>			
+			</p:panel>
+		</h:form>
 	</p:outputPanel>
 </html>

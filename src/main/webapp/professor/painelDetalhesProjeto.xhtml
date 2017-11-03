@@ -134,7 +134,12 @@
 									 icon="ui-icon-pencil" 
 									 title="Editar projeto"
 									 oncomplete="PF('editar-projeto').show()"
-									 disabled="#{projetosProfController.projetoDeOutroProfessor}"/>
+									 disabled="#{projetosProfController.projetoDeOutroProfessor}"
+									 update="painel-de-edicao">
+						
+						<f:setPropertyActionListener value="#{projetosProfController.projetoSelecionado}"	
+									 target="#{editarProjetoController.projeto}" />
+					</p:commandButton>
 					
 					<p:commandButton value="Fechar" 
 									 onclick="PF('detalhe-projeto').hide()" 

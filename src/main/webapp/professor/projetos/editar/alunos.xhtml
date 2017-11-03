@@ -5,20 +5,22 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
-<h:panelGrid columns="4" cellspacing="20">
-	<p:outputLabel value="Número de Participantes:"
-		for="number-of-participants" />
-
-	<p:spinner id="number-of-participants" min="0" size="3"
-		value="#{editarProjetoController.projeto.numeroDeParticipantes}" />
-	<p:tooltip id="tt-numeber-of-participants" for="number-of-participants"
-		value="Total de alunos para este projeto." position="bottom" />
+<h:panelGrid columns="2" cellspacing="20">
+	<h:panelGrid columns="1" cellspacing="20">
+		<p:outputLabel value="Número de Participantes:"
+			for="number-of-participants" />
+	
+		<p:spinner id="number-of-participants" min="0" size="3"
+			value="#{editarProjetoController.projeto.numeroDeParticipantes}" />
+		<p:tooltip id="tt-numeber-of-participants" for="number-of-participants"
+			value="Total de alunos para este projeto." position="bottom" />
+	</h:panelGrid>
 
 	<p:panel>
 		<h:panelGrid columns="3" cellspacing="10">
 
 			<p:outputLabel value="Cursos Alvo:" />
-			<p:selectOneMenu id="course-field" style="width:220px;"
+			<p:selectOneMenu id="course-field"
 				value="#{editarProjetoController.cursoAlvo}">
 				<f:selectItem itemLabel="Meu curso" itemValue="#{homeProfessorController.userProfessor.curso.nome}" />
 				<f:selectItem itemLabel="Todos os cursos" itemValue="Todos" />
@@ -35,9 +37,8 @@
 
 
 		<p:dataTable id="tabela-cursos" var="curso"
-			value="#{editarProjetoController.projeto.cursosEnvolvidos}"
-			resizableColumns="true" emptyMessage="Nenhum curso alvo definido."
-			style="width:500px">
+			value="#{editarProjetoController.cursosAlvo}"
+			resizableColumns="true" emptyMessage="Nenhum curso alvo definido.">
 
 			<p:column headerText="Cursos Alvo do Projeto"
 				style="text-align: center">
