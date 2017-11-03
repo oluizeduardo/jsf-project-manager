@@ -7,6 +7,8 @@ import java.util.TreeMap;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
 
+import model.pojo.ProjetosPublicadosPorCurso;
+
 
 public class RelatorioDAO extends DAOBase {
 
@@ -27,8 +29,10 @@ public class RelatorioDAO extends DAOBase {
 		Map<String, Object> map = null;		
 		List<Map<String, Object>> lista = new ArrayList<Map<String,Object>>();		
 		
-		String script = "MATCH(h:Habilidade)<-[c:CONHECE]-(a:Aluno)-[:CURSA]->(cs:Curso{nome:'"+nomeCurso+"'}) "
-				+ "RETURN h.nome as Habilidade, count((a)<-[c]-(a)) as Qtde";
+		String script = "MATCH(h:Habilidade)<-[c:CONHECE]-(a:Aluno)-[:CURSA]->"
+				+ "(cs:Curso{nome:'"+nomeCurso+"'}) "
+				+ "RETURN h.nome as Habilidade, "
+				+ "count((a)-[c]->(h)) as Qtde ORDER BY Qtde DESC";
 		
 		super.iniciaSessaoNeo4J();
 		StatementResult resultado = session.run(script);
@@ -53,6 +57,9 @@ public class RelatorioDAO extends DAOBase {
 	
 	
 	/**
+	 * Busca a quantidade de projetos publicados por cada professor cadastrado
+	 * no sistema.
+	 * 
 	 * Retorna uma lista contendo objetos Map. 
 	 * Cada Map � um objeto contendo uma chave e um valor associado.
 	 * Para a chave "Professor", tem-se o nome de um professor.
@@ -65,7 +72,8 @@ public class RelatorioDAO extends DAOBase {
 		
 		
 		String script= "MATCH(p:Professor)-[c:COORDENA]->(pro:Projeto) "
-				+ "RETURN p.nome as Professor, count((p)-[c]->(pro)) as Qtde";
+				+ "RETURN p.nome as Professor, count((p)-[c]->(pro)) "
+				+ "as Qtde ORDER BY Qtde ASC";
 		
 		super.iniciaSessaoNeo4J();
 		StatementResult resultado = session.run(script);		
@@ -85,7 +93,6 @@ public class RelatorioDAO extends DAOBase {
 		session.close();
 		return lista;
 	}
-<<<<<<< HEAD
 
 	
 	/**
@@ -120,8 +127,6 @@ public class RelatorioDAO extends DAOBase {
 		session.close();
 		return lista;
 	}
-=======
->>>>>>> parent of affd899... Implementação no gráfico de linhas na página de relatórios.
 	
 	
 	
