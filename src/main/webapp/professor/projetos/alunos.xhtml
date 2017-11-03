@@ -10,7 +10,7 @@
 		for="number-of-participants" />
 
 	<p:spinner id="number-of-participants" min="0" size="3"
-		value="#{editarProjetoController.projeto.numeroDeParticipantes}" />
+		value="#{cadastrarProjetoController.projeto.numeroDeParticipantes}" />
 	<p:tooltip id="tt-numeber-of-participants" for="number-of-participants"
 		value="Total de alunos para este projeto." position="bottom" />
 
@@ -19,7 +19,7 @@
 
 			<p:outputLabel value="Cursos Alvo:" />
 			<p:selectOneMenu id="course-field" style="width:220px;"
-				value="#{editarProjetoController.cursoAlvo}">
+				value="#{cadastrarProjetoController.cursoAlvo}">
 				<f:selectItem itemLabel="Meu curso" itemValue="#{homeProfessorController.userProfessor.curso.nome}" />
 				<f:selectItem itemLabel="Todos os cursos" itemValue="Todos" />
 				<f:selectItems value="#{listaDeCursos.cursos}" />
@@ -27,7 +27,7 @@
 
 			<p:commandButton id="btnadd" style="width:50px;" icon="ui-icon-plus"
 				update="tabela-cursos"
-				actionListener="#{editarProjetoController.addCursoAlvo}" />
+				actionListener="#{cadastrarProjetoController.addCursoAlvo}" />
 
 			<p:tooltip id="tooltip-btnadd" for="btnadd" trackMouse="false"
 				position="bottom" value="Adicionar curso alvo" />
@@ -35,7 +35,7 @@
 
 
 		<p:dataTable id="tabela-cursos" var="curso"
-			value="#{editarProjetoController.projeto.cursosEnvolvidos}"
+			value="#{cadastrarProjetoController.cursosAlvo}"
 			resizableColumns="true" emptyMessage="Nenhum curso alvo definido."
 			style="width:500px">
 
@@ -47,10 +47,10 @@
 			<p:column style="width:32px;text-align: center">
 				<p:commandButton icon="ui-icon-trash" title="Excluir"
 					update="tabela-cursos"
-					action="#{editarProjetoController.excluiCursoAlvo}"
+					action="#{cadastrarProjetoController.excluiCursoAlvo}"
 					style="background:red; border-color:red">
 					<f:setPropertyActionListener value="#{curso}"
-						target="#{editarProjetoController.cursoSelecionado}" />
+						target="#{cadastrarProjetoController.cursoSelecionado}" />
 				</p:commandButton>
 			</p:column>
 		</p:dataTable>

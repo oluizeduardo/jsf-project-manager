@@ -221,7 +221,7 @@ public class CadastrarProjetoController implements Serializable{
 	/**
 	 * Adiciona um novo curso na lista dos cursos alvo do novo projeto.
 	 */
-	public void addCursoAlvo(){
+	public void addCursoAlvo(){		
 		if(cursoAlvo != null){
 			if(cursoAlvo.equals("Todos")){
 				List<String> todosCursos = new ListaDeCursos().getCursosString();
