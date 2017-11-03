@@ -14,7 +14,6 @@ import org.primefaces.model.chart.LineChartModel;
 
 import model.dao.RelatorioDAO;
 import model.pojo.Pessoa;
-import model.pojo.ProjetosPublicadosPorCurso;
 import web.SessionUtil;
 
 @ManagedBean
@@ -69,7 +68,8 @@ public class RelatoriosController {
 
         ChartSeries chart = new ChartSeries();
         chart.setLabel(cursoSelecionado);
-        int maiorQtde=0;   
+        int maiorQtde=0;
+        
         
         if(lista.isEmpty()){
         	chart.set("Nenhuma habilidade localizada para "+cursoSelecionado, 0);
@@ -85,7 +85,7 @@ public class RelatoriosController {
     				maiorQtde = qtdeProjetos;
     		}
         }
-                
+        
         barModel.setShowPointLabels(true);
         barModel.addSeries(chart);
         barModel.setAnimate(true);
@@ -96,7 +96,7 @@ public class RelatoriosController {
         
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setMin(new Integer(0));
-        yAxis.setMax(new Integer(maiorQtde+2));        
+        yAxis.setMax(new Integer(maiorQtde+2));
         yAxis.setTickCount(3);       
     }
 
@@ -127,8 +127,8 @@ public class RelatoriosController {
     			if(qtdeProjetos > maiorQtde)
     				maiorQtde = qtdeProjetos;
     		}
-        }                           
-        
+        }        
+
         horizontalBarModel.addSeries(serie);         
         horizontalBarModel.setTitle("N�mero de Projetos Por Professor");
         horizontalBarModel.setStacked(true);
@@ -151,29 +151,56 @@ public class RelatoriosController {
     	
     	lineModel = new LineChartModel();
     	lineModel.setTitle("Projetos Destinados Durante o Ano");
-        lineModel.setLegendPosition("ne");
+        lineModel.setLegendPosition("e");
         lineModel.setShowPointLabels(true);
         lineModel.getAxes().put(AxisType.X, new CategoryAxis("Meses"));
         lineModel.setAnimate(true);
-
-        //--- Linha 1 ----
+        
         ChartSeries serie1 = new ChartSeries();
         serie1.setLabel(getCursoDoProfessorLogado());
+<<<<<<< HEAD
         
         ProjetosPublicadosPorCurso[] lista1 = relatorioDAO.getProjetosPublicadosDuranteAno(getCursoDoProfessorLogado());     
         for(int i=0; i < lista1.length; i++){
         	serie1.set(getNomeMes(i), lista1[i].getQuantidade());
         }
+=======
+        serie1.set("Jan", 2);
+        serie1.set("Fev", 3);
+        serie1.set("Mar", 4);
+        serie1.set("Abr", 1);
+        serie1.set("Mai", 2);
+        serie1.set("Jun", 2);
+        serie1.set("Jul", 1);
+        serie1.set("Ago", 1);
+        serie1.set("Set", 4);
+        serie1.set("Out", 1);
+        serie1.set("Nov", 2);
+        serie1.set("Dez", 2);
+>>>>>>> parent of affd899... Implementação no gráfico de linhas na página de relatórios.
  
-        
-        //--- Linha 2 ----
         ChartSeries serie2 = new ChartSeries();
         serie2.setLabel(cursoParaComparar);
+<<<<<<< HEAD
         
         ProjetosPublicadosPorCurso[] lista2 = relatorioDAO.getProjetosPublicadosDuranteAno(cursoParaComparar);     
         for(int i=0; i < lista2.length; i++){
         	serie2.set(getNomeMes(i), lista2[i].getQuantidade());
         }
+=======
+        serie2.set("Jan", 1);
+        serie2.set("Fev", 1);
+        serie2.set("Mar", 6);
+        serie2.set("Abr", 7);
+        serie2.set("Mai", 2);
+        serie2.set("Jun", 0);
+        serie2.set("Jul", 0);
+        serie2.set("Ago", 3);
+        serie2.set("Set", 3);
+        serie2.set("Out", 0);
+        serie2.set("Nov", 0);
+        serie2.set("Dez", 2);
+>>>>>>> parent of affd899... Implementação no gráfico de linhas na página de relatórios.
  
         // Adiciona as duas linhas no gr�fico.
         lineModel.addSeries(serie1);
@@ -188,6 +215,7 @@ public class RelatoriosController {
     
     
     
+<<<<<<< HEAD
     /**
      * @param mes O n�mero do m�s que se deseja saber o nome.
      * @return O nome do m�s.
@@ -198,6 +226,8 @@ public class RelatoriosController {
     }
     
     
+=======
+>>>>>>> parent of affd899... Implementação no gráfico de linhas na página de relatórios.
     
     public HorizontalBarChartModel getHorizontalBarModel() {
         return horizontalBarModel;

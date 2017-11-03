@@ -20,11 +20,13 @@ public class LoginController implements Serializable {
 	
 	
 	// Salva os dados básicos de uma pessoa que está acessando o sistema.
-	private Pessoa usuario = new Pessoa();;
+	private Pessoa usuario;
 
 	
 	
-	public LoginController() { }
+	public LoginController() {
+		this.usuario = new Pessoa();
+	}
 
 	
 	
