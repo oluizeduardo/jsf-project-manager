@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+	<!-- PAINEL DE EDIÇÃO DO PROJETO -->
+	<p:outputPanel id="painel-de-edicao" style="width:750px">
+		
+		<h:form id="form-edicao-projeto" style="margin:0px">
+			<!-- MENSAGEM -->
+			<p:growl id="mensagem" showDetail="true" closable="true" />
+			
+			<p:tabView>
+				<p:tab title="Identificação">
+					<ui:include src="projetos/editar/identificacao.xhtml" />
+				</p:tab>
+				
+				<p:tab title="Financiamento">
+					<ui:include src="projetos/editar/financiamento.xhtml" />
+				</p:tab>						
+				
+				<p:tab title="Alunos">
+					<ui:include src="projetos/editar/alunos.xhtml" />
+				</p:tab>
+				
+				<p:tab title="Habilidades">
+					<ui:include src="projetos/editar/habilidades.xhtml" />				
+				</p:tab>
+				
+				<p:tab title="Resumo">
+					<ui:include src="projetos/editar/resumo.xhtml" />
+				</p:tab>
+										
+			</p:tabView>
+			
+			<p:spacer height="10px"/>
+			
+			<p:panel>				    
+				<div align="center">
+					<h:panelGrid columns="4" cellspacing="5">
+						<p:commandButton value="Salvar" icon="ui-icon-disk" 
+										 title="Salvar alterações"
+										 action="#{editarProjetoController.salvarEdicao}"
+										 update="form-tabela-projetos-cadastrados:tabela-projetos-cadastrados"
+										 style="background: red; border-color:red"/>
+						
+						<p:commandButton value="Fechar" 
+										 onclick="PF('editar-projeto').hide()" 
+										 title="Fechar tela de edição"/>
+					</h:panelGrid>
+				</div>			
+			</p:panel>
+		</h:form>
+	</p:outputPanel>
+</html>

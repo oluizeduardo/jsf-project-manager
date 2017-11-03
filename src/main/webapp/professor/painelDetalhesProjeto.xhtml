@@ -99,7 +99,7 @@
 		
 		<p:panel>			
 			<!-- Tela de confirmação de exclusão do projeto. -->
-			<p:confirmDialog global="true" widgetVar="confirmacaoCancelamento" 
+			<p:confirmDialog global="true" widgetVar="confirmacaoExclusao" 
 							 showEffect="fade" 
 							 hideEffect="fade">
 			
@@ -112,7 +112,7 @@
 		        	<p:commandButton value="Não" 
 		        					 type="button"  
 		        					 styleClass="ui-confirmdialog-no"
-		        					 onclick="PF('confirmacaoCancelamento').hide()"/>
+		        					 onclick="PF('confirmacaoExclusao').hide()"/>
 		    	</div>
 		    </p:confirmDialog>
 	    
@@ -132,8 +132,14 @@
 					
 					<p:commandButton value="Editar" 
 									 icon="ui-icon-pencil" 
-									 title="Editar projeto" 
-									 disabled="#{projetosProfController.projetoDeOutroProfessor}"/>
+									 title="Editar projeto"
+									 oncomplete="PF('editar-projeto').show()"
+									 disabled="#{projetosProfController.projetoDeOutroProfessor}"
+									 update="painel-de-edicao">
+						
+						<f:setPropertyActionListener value="#{projetosProfController.projetoSelecionado}"	
+									 target="#{editarProjetoController.projeto}" />
+					</p:commandButton>
 					
 					<p:commandButton value="Fechar" 
 									 onclick="PF('detalhe-projeto').hide()" 
@@ -142,5 +148,13 @@
 			</div>			
 		</p:panel>
 	</p:outputPanel>
+	
+	<!-- EDITAR PROJETO -->
+	<p:dialog modal="true" showEffect="fade" hideEffect="fade" appendTo="@(body)"
+		header="Editar Projeto" widgetVar="editar-projeto"
+		resizable="false" closeOnEscape="true">
+
+		<ui:include src="editarProjeto.xhtml" />
+	</p:dialog>
 
 </html>

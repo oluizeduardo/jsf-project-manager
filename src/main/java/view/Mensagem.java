@@ -3,6 +3,8 @@ package view;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
+
 
 public class Mensagem {
 
@@ -41,4 +43,11 @@ public class Mensagem {
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", mensagem));
 	}
 	
+	/**
+	 * Exibe uma mensagem de informação no formato de tela Dialog.
+	 */
+	public static void ExibeMensagemDialog(String mensagem) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", mensagem);         
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
 }

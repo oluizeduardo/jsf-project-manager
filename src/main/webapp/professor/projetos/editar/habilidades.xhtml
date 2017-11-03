@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:form id="form-Habilidades">
+	<p:panel id="pn-Habilidades">
+		<div align="center">
+			<h:panelGrid columns="5" cellspacing="10">
+
+				<h:outputLabel value="Descrição:" for="description-field" />
+				<p:autoComplete id="description-field"
+							value="#{editarProjetoController.habilidade.descricao}" 
+							completeMethod="#{cadastrarProjetoController.completaTexto}"/>
+							
+				<h:outputLabel value="Nível:" />
+				<p:selectOneMenu style="width:150px"
+					value="#{editarProjetoController.habilidade.nivel}">
+					<f:selectItem itemLabel="Básico" itemValue="Básico" />
+					<f:selectItem itemLabel="Médio" itemValue="Médio" />
+					<f:selectItem itemLabel="Avançado" itemValue="Avançado" />
+				</p:selectOneMenu>
+
+				<p:commandButton id="btnaddHability" icon="ui-icon-plus"
+					style="width:50px;" update="tabela-habilidades"
+					action="#{editarProjetoController.addHabilidade}" />
+
+				<p:tooltip id="toolTip-add-hability" for="btnaddHability"
+					value="Adicionar" trackMouse="false" />
+
+			</h:panelGrid>
+		</div>
+
+		<p:spacer height="10px" />
+
+		<div align="center">
+			<p:dataTable id="tabela-habilidades" var="habilidade"
+				value="#{editarProjetoController.projeto.habilidades}"
+				resizableColumns="true" emptyMessage="Nenhuma habilidade definida."
+				style="width:500px">
+
+				<p:column headerText="Habilidade" style="text-align: center">
+					<h:outputText value="#{habilidade.descricao}" />
+				</p:column>
+
+				<p:column headerText="Nível" style="text-align: center">
+					<h:outputText value="#{habilidade.nivel}" />
+				</p:column>
+
+				<p:column style="width:32px;text-align: center">
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						update="tabela-habilidades"
+						action="#{cadastrarProjetoController.excluiHabilidade}"
+						style="background:red; border-color:red">
+						<f:setPropertyActionListener value="#{habilidade}"
+							target="#{cadastrarProjetoController.habilidadeSelecionada}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</div>
+	</p:panel>
+</h:form>
+</html>

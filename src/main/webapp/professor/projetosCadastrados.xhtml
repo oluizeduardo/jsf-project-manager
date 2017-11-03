@@ -31,7 +31,7 @@
 					style="font-size: 25px; font-weight:bold;" />
 				
 				<h:form id="painel-busca-projetos" style="margin:0px">	
-					<p:panel style="margin-left: 470px">
+					<p:panel style="margin-left: 450px">
 						<h:panelGrid columns="3" cellspacing="10">
 							
 							<p:outputLabel value="Buscar projetos: " for="where"/>
@@ -117,23 +117,14 @@
 					<p:commandButton icon="ui-icon-search" 
 									 title="Visualizar"
 									 oncomplete="PF('detalhe-projeto').show()" 
-									 update="form-tabela-projetos-cadastrados:painel-de-detalhes">
+									 update="painel-de-detalhes">
 						
 						<f:setPropertyActionListener value="#{projeto}"	
 									 target="#{projetosProfController.projetoSelecionado}" />
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
-
-
-			<!-- DETALHES DO PROJETO -->
-			<p:dialog modal="true" showEffect="fade" hideEffect="fade"
-				header="Detalhes do Projeto" widgetVar="detalhe-projeto"
-				resizable="false" closeOnEscape="true">
-
-				<ui:include src="painelDetalhesProjeto.xhtml" />
-			</p:dialog>
-
+			
 			<p/>
 					
 			<p:commandButton id="btn-exportar-tabela"
@@ -148,7 +139,16 @@
 		        				encoding="iso-8859-1"
 		        				preProcessor="#{formatadorPDF.criaPDFProjetosCadastrados}"/>
 		    </p:commandButton>
-		</h:form>					
+		</h:form>
+		
+		<!-- DETALHES DO PROJETO -->
+		<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+			header="Detalhes do Projeto" widgetVar="detalhe-projeto"
+			resizable="false" closeOnEscape="true">
+
+			<ui:include src="painelDetalhesProjeto.xhtml" />
+		</p:dialog>
+							
 	</p:panel>
 </h:body>
 
