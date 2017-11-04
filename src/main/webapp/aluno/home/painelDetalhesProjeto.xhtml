@@ -35,18 +35,7 @@
 				<h:panelGrid columns="2" cellspacing="10">
 					<h:outputLabel for="descricao" value="Descrição: " style="font-weight:bold" />
 					<h:outputText id="descricao" value="#{homeController.projetoSelecionado.descricaoCurta}"/>
-				</h:panelGrid>
-				
-				<p:panel visible="#{homeController.projetoSelecionado.financiamento.existente}">
-					<h:panelGrid columns="4" cellspacing="10">
-						<h:outputLabel for="natureza" value="Natureza: " style="font-weight:bold" />
-						<h:outputText id="natureza" value="#{homeController.projetoSelecionado.financiamento.natureza}"/>
-						
-						<h:outputLabel for="valor" value="Valor: " style="font-weight:bold" />
-						<h:outputText id="valor" value="#{homeController.projetoSelecionado.financiamento.valor}"/>
-					</h:panelGrid>
-				</p:panel>
-				
+				</h:panelGrid>				
 			</p:tab>
 			
 			<p:tab title="Resumo">
