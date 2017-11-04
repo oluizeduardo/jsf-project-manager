@@ -52,6 +52,29 @@
 				</p:textEditor>
 			</p:tab>
 			
+			
+			<p:tab title="Financiamento">
+				<p:outputLabel value="#{projetoBean.financiamento_ProjetoRecomendado}"
+							   style="font-weight:bold;"/>
+								
+				<p/>
+				
+				<div align="center">
+					<p:panel id="pnFinanciamento" visible="#{projetoBean.projetoRecomendadoSelecionado.financiamento.existente}">
+						<h:panelGrid columns="4" cellspacing="10">
+							<p:outputLabel value="Natureza:" for="type-financing" style="font-weight:bold;"/>						
+							<p:outputLabel id="type-financing" 
+									value="#{projetoBean.projetoRecomendadoSelecionado.financiamento.natureza}"/>								
+							
+							<p:outputLabel value="Valor:" for="value-financing" style="font-weight:bold;"/>
+							<p:outputLabel id="value-financing" value="#{projetoBean.projetoRecomendadoSelecionado.financiamento.valor}"/>
+							
+						</h:panelGrid>
+					</p:panel>
+				</div>
+			</p:tab>
+			
+			
 			<p:tab title="Habilidades">
 				<h:outputLabel value="Habilidades exigidas: " style="font-weight:bold" />
 				<p/>

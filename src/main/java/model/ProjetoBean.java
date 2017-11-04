@@ -7,6 +7,7 @@ import javax.faces.bean.ViewScoped;
 import model.dao.AlunoDAO;
 import model.dao.ProjetoDAO;
 import model.pojo.Aluno;
+import model.pojo.Financiamento;
 import model.pojo.Pessoa;
 import model.pojo.Projeto;
 import model.pojo.ProjetoComDetalhesComum;
@@ -45,6 +46,11 @@ public class ProjetoBean implements Serializable {
 	private boolean projetoRecomendadoDisponivel = true;
 	// Diz se o projeto está disponível para novas candidaturas.
 	private boolean projetoNormalDisponivel = true;
+
+	// Diz se o projeto que o aluno participa possui financiamento ou não.
+	private String financiamento_ProjetoCadastrado = Financiamento.NAO_POSSUI;
+	// Diz se o projeto recomendado possui financiamento ou não.
+	private String financiamento_ProjetoRecomendado = Financiamento.NAO_POSSUI;
 	
 	
 	
@@ -154,6 +160,40 @@ public class ProjetoBean implements Serializable {
 	}
 	
 	
+	/**
+	 * Diz se o projeto projeto possui financiamento ou não.
+	 * @return Uma String dizendo se possui financiamento ou não.
+	 */
+	public String getFinanciamento_ProjetoRecomendado(){
+		if(projetoRecomendadoSelecionado.getFinanciamento().isExistente())
+			this.financiamento_ProjetoRecomendado = Financiamento.POSSUI;
+		else
+			this.financiamento_ProjetoRecomendado = Financiamento.NAO_POSSUI;
+		return financiamento_ProjetoRecomendado;
+	}
+	
+	
+	
+	/**
+	 * Diz se o projeto projeto possui financiamento ou não.
+	 * @return Uma String dizendo se possui financiamento ou não.
+	 */
+	public String getFinanciamento_ProjetoCadastrado(){
+		if(projetoNormalSelecionado.getFinanciamento().isExistente())
+			this.financiamento_ProjetoCadastrado = Financiamento.POSSUI;
+		else
+			this.financiamento_ProjetoCadastrado = Financiamento.NAO_POSSUI;
+		return financiamento_ProjetoCadastrado;
+	}
+	
+	
+	/**
+	 * Define se o projeto que o aluno participa tem financiamento ou não.
+	 * @param financiamento_ProjetoQueParticipo
+	 */
+	public void setFinanciamento_ProjetoCadastrado(String financiamento_ProjetoCadastrado){
+		this.financiamento_ProjetoCadastrado = financiamento_ProjetoCadastrado;
+	}
 	
 	
 	

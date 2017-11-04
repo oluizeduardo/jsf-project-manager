@@ -2,6 +2,11 @@ package model.pojo;
 
 public class Financiamento {
 
+	
+	public static final String POSSUI = "Possui financiamento";
+	public static final String NAO_POSSUI = "Não possui financiamento";
+	
+	
 	// O projeto possui financiamento?
 	private boolean existente = false;
 	
@@ -23,6 +28,8 @@ public class Financiamento {
 
 
 	public boolean isExistente() {
+		if(valor != null)
+			existente = valor > 0 ? true : false;
 		return existente;
 	}
 

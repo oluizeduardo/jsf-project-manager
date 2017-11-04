@@ -541,11 +541,12 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "pj.categoria as Categoria, "
 				+ "pr.nome as Coordenador, "
 				+ "pj.dataFim as Data_Fim, "
+				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.dataInicio as Data_Inicio, "				
 				+ "toFloat(pj.valor) as Valor, "
 				+ "pj.descricaoCurta as Descricao, "			
 				+ "toInteger(pj.numeroParticipantes) as QTD_Participantes, "
-				+ "pj.resumo as Resumo, pj.eFinanciado as ehFinanciado";
+				+ "pj.resumo as Resumo, toBoolean(pj.eFinanciado) as ehFinanciado";
 		
 		
 		StatementResult resultado = session.run(script);
@@ -564,10 +565,11 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			projetoAux.setDataInicio(projetoAtual.get("Data_Inicio").asString());
 			projetoAux.getCoordenador().setNome(projetoAtual.get("Coordenador").asString());
 			projetoAux.getFinanciamento().setValor(projetoAtual.get("Valor").asFloat());
+			projetoAux.getFinanciamento().setNatureza(projetoAtual.get("NatFinanciamento").asString());
 			projetoAux.setDescricaoCurta(projetoAtual.get("Descricao").asString());
 			projetoAux.setNumeroDeParticipantes(projetoAtual.get("QTD_Participantes").asInt());
 			projetoAux.setResumo(projetoAtual.get("Resumo").asString());
-		//	projetoAux.getFinanciamento().setExistente(projetoAtual.get("ehFinanciado").asBoolean());
+			projetoAux.getFinanciamento().setExistente(projetoAtual.get("ehFinanciado").asBoolean());
 			
 			// Define o status atual do projeto.
 			getStatusProjeto(projetoAux);
@@ -680,6 +682,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "pr.email as Email, "
 				+ "p.categoria as Categoria, "
 				+ "p.dataPublicacao as Publicacao, "
+				+ "p.natFinanciamento as NatFinanciamento, "
+				+ "toFloat(p.valor) as Valor, "
 			    + "p.dataInicio as DataInicio, "
 			    + "p.dataFim as DataFim, "
 				+ "p.descricaoCurta as Descricao, "
@@ -698,6 +702,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "pr.email as Email, "
 				+ "p.categoria as Categoria, "
 				+ "p.dataPublicacao as Publicacao, "
+				+ "p.natFinanciamento as NatFinanciamento, "
+				+ "toFloat(p.valor) as Valor, "
 			    + "p.dataInicio as DataInicio, "
 			    + "p.dataFim as DataFim, "
 				+ "p.descricaoCurta as Descricao, "
@@ -715,6 +721,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "pr.email as Email, "
 				+ "p.categoria as Categoria, "
 				+ "p.dataPublicacao as Publicacao, "
+				+ "p.natFinanciamento as NatFinanciamento, "
+				+ "toFloat(p.valor) as Valor, "
 			    + "p.dataInicio as DataInicio, "
 			    + "p.dataFim as DataFim, "
 				+ "p.descricaoCurta as Descricao, "
@@ -732,6 +740,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "pr.email as Email, "
 				+ "p.categoria as Categoria, "
 				+ "p.dataPublicacao as Publicacao, "
+				+ "p.natFinanciamento as NatFinanciamento, "
+				+ "toFloat(p.valor) as Valor, "
 			    + "p.dataInicio as DataInicio, "
 			    + "p.dataFim as DataFim, "
 				+ "p.descricaoCurta as Descricao, "
@@ -752,7 +762,9 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 			projeto.setDataPublicacao(projetoLocalizado.get("Publicacao").asString());
 			projeto.setDataInicio(projetoLocalizado.get("DataInicio").asString());
 			projeto.setDataFim(projetoLocalizado.get("DataFim").asString());
-			projeto.setDescricaoCurta(projetoLocalizado.get("Descricao").asString());
+			projeto.setDescricaoCurta(projetoLocalizado.get("Descricao").asString());			
+			projeto.getFinanciamento().setValor(projetoLocalizado.get("Valor").asFloat());
+			projeto.getFinanciamento().setNatureza(projetoLocalizado.get("NatFinanciamento").asString());			
 			projeto.setResumo(projetoLocalizado.get("Resumo").asString());				
 			projeto.getCoordenador().setNome(projetoLocalizado.get("Coordenador").asString());
 			projeto.getCoordenador().getContato().setEmail(projetoLocalizado.get("Email").asString());

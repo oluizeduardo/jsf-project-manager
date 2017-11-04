@@ -96,6 +96,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "', dataPublicacao:'" + projeto.getDataPublicacao()
 		+ "', eFinanciado:'" + projeto.getFinanciamento().isExistente()
 		+ "', valor:'" + projeto.getFinanciamento().getValor()
+		+ "', natFinanciamento:'" + projeto.getFinanciamento().getNatureza()
 		+ "', descricaoCurta:'" + projeto.getDescricaoCurta()
 		+ "', categoria:'" + projeto.getCategoria()
 		+ "', numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
@@ -266,10 +267,11 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			projetoAux.setDataFim(registro.get("Data_Fim").asString());
 			projetoAux.setStatus(registro.get("Status").asString());
 			projetoAux.setDataPublicacao(registro.get("Publicacao").asString());
-		//	projetoAux.getFinanciamento().setValor(new Float(projetoAtual.get("Valor").asDouble()));
+			projetoAux.getFinanciamento().setValor(registro.get("Valor").asFloat());
+			projetoAux.getFinanciamento().setNatureza(registro.get("NatFinanciamento").asString());
 			projetoAux.setDescricaoCurta(registro.get("Descricao").asString());
 			projetoAux.setCategoria(registro.get("Categoria").asString());
-		//	projetoAux.setNumeroDeParticipantes(new Integer(projetoAtual.get("QTD_Participantes").asInt()));
+			projetoAux.setNumeroDeParticipantes(registro.get("QTD_Participantes").asInt());
 			projetoAux.setResumo(registro.get("Resumo").asString());
 			projetoAux.getCoordenador().setNome(registro.get("Coordenador").asString());
 			projetoAux.getCoordenador().getContato().setEmail(registro.get("Email").asString());
@@ -372,10 +374,11 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
-				+ "pj.valor as Valor, "
+				+ "toFloat(pj.valor) as Valor, "
+				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, "
-				+ "pj.numeroParticipantes as QTD_Participantes, "
+				+ "toInteger(pj.numeroParticipantes) as QTD_Participantes, "
 				+ "pj.resumo as Resumo, "
 				+ "pr.nome as Coordenador, "
 				+ "pj.status as Status, "
@@ -398,10 +401,11 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
-				+ "pj.valor as Valor, "
+				+ "toFloat(pj.valor) as Valor, "
+				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, "
-				+ "pj.numeroParticipantes as QTD_Participantes, "
+				+ "toInteger(pj.numeroParticipantes) as QTD_Participantes, "
 				+ "pj.resumo as Resumo, "
 				+ "pr.nome as Coordenador, "
 				+ "pj.status as Status, "
@@ -502,10 +506,11 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
-				+ "pj.valor as Valor, "
+				+ "toFloat(pj.valor) as Valor, "
+				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, "
-				+ "pj.numeroParticipantes as QTD_Participantes, "
+				+ "toInteger(pj.numeroParticipantes) as QTD_Participantes, "
 				+ "pj.resumo as Resumo, "
 				+ "pr.nome as Coordenador, "
 				+ "pj.status as Status, '"+email+"' as Email, '"+senha+"' as Senha";
@@ -530,10 +535,11 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
-				+ "pj.valor as Valor, "
+				+ "toFloat(pj.valor) as Valor, "
+				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, "
-				+ "pj.numeroParticipantes as QTD_Participantes, "
+				+ "toInteger(pj.numeroParticipantes) as QTD_Participantes, "
 				+ "pj.resumo as Resumo, pr.nome as Coordenador, "
 				+ "pj.status as Status, '"+email+"' as Email";
 
@@ -599,6 +605,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "'pj.dataPublicacao:'" + projeto.getDataPublicacao()
 		+ "'pj.eFinanciado:'" + projeto.getFinanciamento().isExistente()
 		+ "'pj.valor:'" + projeto.getFinanciamento().getValor()
+		+ "'pj.natFinanciamento:'" + projeto.getFinanciamento().getNatureza()
 		+ "'pj.descricaoCurta:'" + projeto.getDescricaoCurta()
 		+ "'pj.categoria:'" + projeto.getCategoria()
 		+ "'pj.status:'" + projeto.getStatus()

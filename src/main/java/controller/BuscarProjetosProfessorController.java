@@ -12,6 +12,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import model.dao.ProjetoDAO;
+import model.pojo.Financiamento;
 import model.pojo.Pessoa;
 import model.pojo.Professor;
 import model.pojo.Projeto;
@@ -43,6 +44,8 @@ public class BuscarProjetosProfessorController implements Serializable {
 	// Diz se um determinado projeto é de um outro autor.
 	// Variável necessária para bloquear os botões de Editar e Excluir.
 	private boolean projetoDeOutroProfessor = false;
+	// Diz se o projeto possui financiamento ou não.
+	private String financiamento_ProjetoCadastrado = Financiamento.NAO_POSSUI;
 	
 	
 	
@@ -164,5 +167,23 @@ public class BuscarProjetosProfessorController implements Serializable {
 		}		
 		return projetoDeOutroProfessor;
 	}
+
+
+
+
+	public String getFinanciamento_ProjetoCadastrado() {
+		if(projetoSelecionado.getFinanciamento().isExistente())
+			this.financiamento_ProjetoCadastrado = Financiamento.POSSUI;
+		else
+			this.financiamento_ProjetoCadastrado = Financiamento.NAO_POSSUI;
+		return financiamento_ProjetoCadastrado;
+	}
+
+	public void setFinanciamento_ProjetoCadastrado(String financiamento_ProjetoCadastrado) {
+		this.financiamento_ProjetoCadastrado = financiamento_ProjetoCadastrado;
+	}
+	
+	
+	
 	
 }

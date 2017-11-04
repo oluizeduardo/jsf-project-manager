@@ -9,6 +9,7 @@ import model.ProjetoBean;
 import model.dao.AlunoDAO;
 import model.dao.ProjetoDAO;
 import model.pojo.Aluno;
+import model.pojo.Financiamento;
 import model.pojo.Habilidade;
 import model.pojo.Notificacao;
 import model.pojo.Pessoa;
@@ -60,6 +61,9 @@ public class HomeAlunoController implements Serializable {
 	
 	// Número total de notificações não lidas pelo aluno.
 	private int qtdeNotificacoes =0;
+	
+	// Diz se o projeto cadastrado possui financiamento ou não.
+	private String financiamento_ProjetoCadastrado = Financiamento.NAO_POSSUI;
 	
 	
 	
@@ -162,9 +166,13 @@ public class HomeAlunoController implements Serializable {
 			script += "WHERE NOT(pj.status='"+Projeto.FINALIZADO+"')";
 		}
 
-		script += " RETURN pj.titulo as Titulo, pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
-				+ "pj.dataPublicacao as Publicacao, pj.valor as Valor, pj.descricaoCurta as Descricao, "
-				+ "pj.categoria as Categoria, pj.numeroParticipantes as QTD_Participantes, "
+		script += " RETURN pj.titulo as Titulo, "
+				+ "pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
+				+ "pj.dataPublicacao as Publicacao, "
+				+ "toFloat(pj.valor) as Valor, "
+				+ "pj.descricaoCurta as Descricao, "
+				+ "pj.categoria as Categoria, "
+				+ "toInteger(pj.numeroParticipantes) as QTD_Participantes, "
 				+ "pj.resumo as Resumo, pr.nome as Coordenador";
 
 		List<Projeto> projetosLocalizados = projetoDAO.buscaProjetos(script);
@@ -306,6 +314,16 @@ public class HomeAlunoController implements Serializable {
 	}
 	public void setNotificacaoSelecionada(Notificacao notificacaoSelecionada) {
 		this.notificacaoSelecionada = notificacaoSelecionada;
+	}
+	public String getFinanciamento_ProjetoCadastrado() {
+		if(projetoSelecionado.getFinanciamento().isExistente())
+			this.financiamento_ProjetoCadastrado = Financiamento.POSSUI;
+		else
+			this.financiamento_ProjetoCadastrado = Financiamento.NAO_POSSUI;
+		return financiamento_ProjetoCadastrado;
+	}
+	public void setFinanciamento_ProjetoCadastrado(String financiamento_ProjetoCadastrado) {
+		this.financiamento_ProjetoCadastrado = financiamento_ProjetoCadastrado;
 	}
 	
 }
