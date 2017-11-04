@@ -37,12 +37,12 @@
 
 
 		<p:dataTable id="tabela-cursos" var="curso"
-			value="#{editarProjetoController.cursosAlvo}"
+			value="#{editarProjetoController.projeto.cursosEnvolvidos}"
 			resizableColumns="true" emptyMessage="Nenhum curso alvo definido.">
 
 			<p:column headerText="Cursos Alvo do Projeto"
 				style="text-align: center">
-				<h:outputText value="#{curso}" />
+				<h:outputText value="#{curso.nome}" />
 			</p:column>
 
 			<p:column style="width:32px;text-align: center">

@@ -29,8 +29,9 @@ public class EditarProjetoController implements Serializable {
 	private Habilidade habilidade = new Habilidade();
 	
 	
-	public EditarProjetoController() { 
-		System.out.println("Salvando as edições do projeto "+projeto.getTitulo());
+	
+	public EditarProjetoController() {
+		setCursosAlvo(projeto.getCursosEnvolvidos());
 	}
 
 	

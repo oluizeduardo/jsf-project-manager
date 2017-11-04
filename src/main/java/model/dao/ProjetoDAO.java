@@ -280,6 +280,8 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			// Define o status atual do projeto.
 			getStatusProjeto(projetoAux);
 			
+			// Busca a lista de cursos para os quais o projeto é destinado.
+			projetoAux.setCursosEnvolvidos(buscaCursosEnvolvidos(projetoAux));
 			// Busca a lista de habilidades exigidas por esse projeto.
 			projetoAux.setHabilidades(buscaHabilidadesDoProjeto(projetoAux));
 			// Busca a lista de alunos que participam desse projeto.
@@ -452,6 +454,39 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		return alunosParticipantes;
 	}
 	
+	
+	
+	/**
+	 * Retorna uma lista de cursos para os quais o projeto é destinado.
+	 * 
+	 * @param projeto
+	 * @return Lista de cursos.
+	 */
+	private List<Curso> buscaCursosEnvolvidos(Projeto projeto){
+		
+		List<Curso> cursosEnvolvidos = new ArrayList<Curso>();
+		String titulo = projeto.getTitulo();
+		String coordenador = projeto.getCoordenador().getNome();
+		
+		String script = "MATCH (pro:Professor)-[:COORDENA]->(p:Projeto)-"
+				+ "[:DESTINADO_A]->(c:Curso) "
+				+ "WHERE p.titulo='"+titulo+"' AND pro.nome='"+coordenador+"' "
+				+ "RETURN c.nome as Curso";
+	
+		iniciaSessaoNeo4J();
+		StatementResult resultado = session.run(script);
+		
+		while(resultado.hasNext()) {
+			
+			Record registro = resultado.next();			
+			Curso curso = new Curso();
+			
+			curso.setNome(registro.get("Curso").asString());
+			
+			cursosEnvolvidos.add(curso);
+		}
+		return cursosEnvolvidos;
+	}
 	
 	
 	
