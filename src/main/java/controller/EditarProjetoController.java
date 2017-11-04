@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
+import model.dao.ProjetoDAO;
 import model.pojo.Curso;
 import model.pojo.Habilidade;
 import model.pojo.Projeto;
@@ -13,6 +15,7 @@ import view.Mensagem;
 
 
 @ManagedBean
+@ViewScoped
 public class EditarProjetoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -31,6 +34,7 @@ public class EditarProjetoController implements Serializable {
 	
 	
 	public EditarProjetoController() {
+		// Define a lista de cursos alvo como sendo a mesma do projeto.
 		setCursosAlvo(projeto.getCursosEnvolvidos());
 	}
 
@@ -40,9 +44,13 @@ public class EditarProjetoController implements Serializable {
 	 * Invoca o método responsável por atualizar os dados do projeto
 	 * no banco de dados.
 	 */
-	public void salvarEdicao(){
-		System.out.println("Salvando as edições do projeto "+projeto.getTitulo());
-		Mensagem.ExibeMensagem("Alterações salvas com sucesso!!");
+	public void salvarEdicao(){		
+		boolean atualizou = new ProjetoDAO().atualizar(projeto);
+		if(atualizou){
+			Mensagem.ExibeMensagem("Alterações salvas com sucesso!!");
+		}else{
+			Mensagem.ExibeMensagemErro("Não foi possível salvar as alterações!!");
+		}
 	}
 	
 	
@@ -51,14 +59,14 @@ public class EditarProjetoController implements Serializable {
 	 * Adiciona um novo curso na lista de cursos alvo.
 	 */
 	public void addHabilidade(){
-		System.out.println("Adicinoando nova habilidade: "+habilidade.getDescricao());
+		System.out.println("Adicionando nova habilidade: "+habilidade.getDescricao());
 	}
 	
 	/**
 	 * Adiciona um novo curso na lista de cursos alvo.
 	 */
 	public void addCursoAlvo(){
-		System.out.println("Adicinoando novo curso alvo: "+cursoAlvo);
+		System.out.println("Adicionando novo curso alvo: "+cursoAlvo);
 	}
 	
 	/**

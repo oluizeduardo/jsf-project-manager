@@ -158,7 +158,7 @@
 									 title="Editar projeto"
 									 oncomplete="PF('editar-projeto').show()"
 									 disabled="#{projetosProfController.projetoDeOutroProfessor}"
-									 update="painel-de-edicao">
+									 update="form-edicao-projeto:painel-de-edicao">
 						
 						<f:setPropertyActionListener value="#{projetosProfController.projetoSelecionado}"	
 									 target="#{editarProjetoController.projeto}" />
@@ -166,7 +166,8 @@
 					
 					<p:commandButton value="Fechar" 
 									 onclick="PF('detalhe-projeto').hide()" 
-									 title="Fechar tela de detalhes"/>
+									 title="Fechar tela de detalhes"
+									 update="form-tabela-projetos-cadastrados:tabela-projetos-cadastrados"/>
 				</h:panelGrid>
 			</div>			
 		</p:panel>

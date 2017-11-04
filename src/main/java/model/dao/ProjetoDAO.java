@@ -632,18 +632,18 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		transaction = session.beginTransaction();
 		boolean status = false;
+		String coordenador = projeto.getCoordenador().getNome();
 		
-		String script = "MATCH (pj:Projeto) WHERE pj.titulo = '" + projeto.getTitulo()
+		String script = "MATCH (prof:Professor{nome:'"+coordenador+"'})-"
+		+ "[:COORDENA]->(pj:Projeto{titulo:'"+projeto.getTitulo()+"'})"
 		+ "' SET pj.titulo:'" + projeto.getTitulo()
 		+ "'pj.dataFim: '" + projeto.getDataFim()
 		+ "'pj.dataInicio: '" + projeto.getDataInicio()
-		+ "'pj.dataPublicacao:'" + projeto.getDataPublicacao()
 		+ "'pj.eFinanciado:'" + projeto.getFinanciamento().isExistente()
 		+ "'pj.valor:'" + projeto.getFinanciamento().getValor()
 		+ "'pj.natFinanciamento:'" + projeto.getFinanciamento().getNatureza()
 		+ "'pj.descricaoCurta:'" + projeto.getDescricaoCurta()
 		+ "'pj.categoria:'" + projeto.getCategoria()
-		+ "'pj.status:'" + projeto.getStatus()
 		+ "'pj.numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
 		+ "'pj.resumo:'" + projeto.getResumo()
 		+"'RETURN pj";
