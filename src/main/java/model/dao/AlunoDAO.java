@@ -345,8 +345,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * Exclui do banco de dados o registro de um aluno.
 	 */
 	public boolean excluir(Aluno aluno) {
-//		super.iniciaSessaoNeo4J();		
-//		transaction = session.beginTransaction();
+		// TODO Implementar o método para exclusão de um aluno.
 		return false;
 	}
 	
@@ -654,8 +653,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 	 * em comum com as habilidades exigidas nos projetos.
 	 * 2) baseado na experiência que o aluno teve em outros projetos.
 	 * 
-	 * @param aluno
-	 * @param todosProjetos
+	 * @param aluno Aluno o qual se deseja saber quais os projetos recomendandos.
 	 * @return Lista de projetos recomendados ao aluno.
 	 */
 	public List<ProjetoComDetalhesComum> getProjetosRecomendados(Aluno aluno){
@@ -665,13 +663,11 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		String email = aluno.getContato().getEmail();
 		String senha = aluno.getSenha();
 		
-		/* Busque um professor que coordena um projeto que exija uma habilidade
-		 * exigida pelo projeto que eu participo, onde eu ainda não faça parte desse projeto.
+		/* Leitura do script:
 		 * 
-		 * Retorne os dados dessa busca e una com os dados da próxima busca:
-		 *
-		 * Busque o professor que coordena um projeto, que exija uma habilidade 
-		 * conhecida por mim
+		 * Busque um professor que coordena um projeto que exija uma habilidade
+		 * exigida pelo projeto que eu participo, onde eu ainda não faça parte 
+		 * desse projeto.
 		 */
 		String script = "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
 				+ "[ex:EXIGE]->(h:Habilidade)<-[:EXIGE]-(p2:Projeto)<-"
@@ -691,10 +687,17 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.titulo as Titulo, "
 				+ "h.nome as Habilidade, ex.descricao as DescNivel "				
 				+ "UNION ALL "
+				/*
+				 * Busque o professor que coordena um projeto destinado ao curso
+				 * em que eu estou matriculado. O projeto exige uma habilidade 
+				 * conhecida por mim. Deve ser um projeto que eu ainda não participe
+				 * e que o nível de habilidade exigido seja menor ou igual ao nível
+				 * conhecido por mim.
+				 */
 				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
 				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
 				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}), "
-				+ "(p)-[ex:EXIGE]->(h:Habilidade)<-[co:CONHECE]-(eu) "
+				+ "(p)-[ex:EXIGE]->()<-[co:CONHECE]-(eu) "
 				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) AND "
 				+ "ex.nivel <= co.nivel "
 				+ "RETURN "
@@ -711,6 +714,10 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.titulo as Titulo, "
 				+ "h.nome as Habilidade, ex.descricao as DescNivel "
 				+ "UNION ALL "
+				/* Busque o professor que coordena um projeto destinado ao curso que
+				 * eu estou matriculado. O projeto deve exigir uma habilidade conhecida
+				 * por mim e eu não posso estar participando desse projeto. 
+				 */
 				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
 				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
 				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
@@ -730,6 +737,11 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.titulo as Titulo, "
 				+ "toUpper(c.nome) as Habilidade, 'Básico' as DescNivel "				
 				+ "UNION ALL "
+				/* Busque o professor que coordena um projeto destinado ao curso
+				 * no qual eu estou matriculado. O projeto deve exigir uma habilidade
+				 * (não necessariamente conhecida por mim como no MATCH anterior) e
+				 * eu não posso estar participando desse projeto.
+				 */
 				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
 				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
 				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}) "
