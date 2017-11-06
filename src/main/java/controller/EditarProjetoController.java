@@ -44,7 +44,7 @@ public class EditarProjetoController implements Serializable {
 	 * Invoca o método responsável por atualizar os dados do projeto
 	 * no banco de dados.
 	 */
-	public void salvarEdicao(){		
+	public void salvarEdicao(){			
 		boolean atualizou = new ProjetoDAO().atualizar(projeto);
 		if(atualizou){
 			Mensagem.ExibeMensagem("Alterações salvas com sucesso!!");

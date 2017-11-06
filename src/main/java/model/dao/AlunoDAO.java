@@ -697,7 +697,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "MATCH (pr:Professor)-[:COORDENA]->(p:Projeto)-"
 				+ "[:DESTINADO_A]->(c:Curso)<-[:CURSA]-"
 				+ "(eu:Aluno{email:'"+email+"', senha:'"+senha+"'}), "
-				+ "(p)-[ex:EXIGE]->()<-[co:CONHECE]-(eu) "
+				+ "(p)-[ex:EXIGE]->(h:Habilidade)<-[co:CONHECE]-(eu) "
 				+ "WHERE NOT((eu)-[:PARTICIPA]->(p)) AND "
 				+ "ex.nivel <= co.nivel "
 				+ "RETURN "

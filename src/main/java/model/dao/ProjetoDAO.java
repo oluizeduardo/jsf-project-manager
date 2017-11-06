@@ -11,6 +11,7 @@ import org.neo4j.driver.v1.exceptions.ClientException;
 import interfaces.NivelDeConhecimento;
 import model.pojo.Aluno;
 import model.pojo.Curso;
+import model.pojo.Financiamento;
 import model.pojo.Habilidade;
 import model.pojo.Notificacao;
 import model.pojo.Pessoa;
@@ -269,7 +270,13 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			projetoAux.setStatus(registro.get("Status").asString());
 			projetoAux.setDataPublicacao(registro.get("Publicacao").asString());
 			projetoAux.getFinanciamento().setExistente(registro.get("eFinanciado").asBoolean());
-			projetoAux.getFinanciamento().setValor(registro.get("Valor").asFloat());
+
+			try {
+				projetoAux.getFinanciamento().setValor((float)registro.get("Valor").asDouble());
+			} catch (Exception e) {
+				System.err.println("Erro ao converter valor do projeto financiado! - ProjetoDAO.buscaProjetos()");
+			}
+			
 			projetoAux.getFinanciamento().setNatureza(registro.get("NatFinanciamento").asString());
 			projetoAux.setDescricaoCurta(registro.get("Descricao").asString());
 			projetoAux.setCategoria(registro.get("Categoria").asString());
@@ -643,14 +650,17 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		String coordenador = projeto.getCoordenador().getNome();
 		Float valorFinanciamento;
 		String naturezaFinanciamento;
-		
+				
 		if(projeto.getFinanciamento().isExistente()){
 			valorFinanciamento = projeto.getFinanciamento().getValor();
 			naturezaFinanciamento = projeto.getFinanciamento().getNatureza();
 		}else{
 			valorFinanciamento = 0.0f;
-			naturezaFinanciamento = "";
+			naturezaFinanciamento = Financiamento.AUXILIO;
 		}
+		
+		// Atualiza o status baseado nas datas de início e fim.
+		getStatusProjeto(projeto);
 		
 		String script = "MATCH (prof:Professor{nome:'"+coordenador+"'})-"
 		+ "[:COORDENA]->(pj:Projeto) "
@@ -658,6 +668,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ " SET pj+={titulo:'" + projeto.getTitulo()
 		+ "', dataFim: '" + projeto.getDataFim()
 		+ "', dataInicio: '" + projeto.getDataInicio()
+		+ "', status: '" + projeto.getStatus()
 		+ "', eFinanciado:" + projeto.getFinanciamento().isExistente()
 		+ ",  valor:" + valorFinanciamento
 		+ ",  natFinanciamento:'" + naturezaFinanciamento
@@ -667,7 +678,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ ",  resumo:'" + projeto.getResumo()
 		+"'} RETURN pj";
 		
-		System.out.println(script);
+		
 		try{
 			// Executa o script no banco de dados.
 			transaction.run(script);			

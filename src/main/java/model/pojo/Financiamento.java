@@ -6,6 +6,9 @@ public class Financiamento {
 	public static final String POSSUI = "Possui financiamento";
 	public static final String NAO_POSSUI = "Não possui financiamento";
 	
+	public static final String AUXILIO = "Auxílio";
+	public static final String BOLSA = "Bolsa";
+	
 	
 	// O projeto possui financiamento?
 	private boolean existente = false;
