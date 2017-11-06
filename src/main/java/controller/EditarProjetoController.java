@@ -1,12 +1,9 @@
 package controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
 import model.dao.ProjetoDAO;
 import model.pojo.Curso;
 import model.pojo.Habilidade;
@@ -25,7 +22,7 @@ public class EditarProjetoController implements Serializable {
 	// Curso para o qual o projeto editado se destina.
 	private String cursoAlvo = null;
 	// Lista de cursos para os quais o projeto editado se destina.
-	private List<Curso> cursosAlvo = new ArrayList<Curso>();
+	//private List<Curso> cursosAlvo = new ArrayList<Curso>();
 	// Curso selecionado para ser excluído.
 	private Curso cursoSelecionado = new Curso();
 	// Nova habilidade.
@@ -33,10 +30,7 @@ public class EditarProjetoController implements Serializable {
 	
 	
 	
-	public EditarProjetoController() {
-		// Define a lista de cursos alvo como sendo a mesma do projeto.
-		setCursosAlvo(projeto.getCursosEnvolvidos());
-	}
+	public EditarProjetoController() {	}
 
 	
 	
@@ -67,14 +61,19 @@ public class EditarProjetoController implements Serializable {
 	 * Adiciona um novo curso na lista de cursos alvo.
 	 */
 	public void addCursoAlvo(){
-		System.out.println("Adicionando novo curso alvo: "+cursoAlvo);
+		for (int i =0; i < projeto.getCursosEnvolvidos().size(); i++) {
+			Curso c = projeto.getCursosEnvolvidos().get( i );
+			if(!c.getNome().equals(cursoAlvo)){
+				projeto.getCursosEnvolvidos().add(new Curso(cursoAlvo));
+			}
+		}	
 	}
 	
 	/**
-	 * Adiciona um novo curso na lista de cursos alvo.
+	 * Remove um curso da lista de cursos alvo.
 	 */
 	public void excluiCursoAlvo(){
-		System.out.println("Adicinoando novo curso alvo: "+cursoAlvo);
+		this.projeto.getCursosEnvolvidos().remove(cursoSelecionado);
 	}
 	
 	
@@ -89,12 +88,6 @@ public class EditarProjetoController implements Serializable {
 	}
 	public void setCursoAlvo(String cursoAlvo) {
 		this.cursoAlvo = cursoAlvo;
-	}
-	public List<Curso> getCursosAlvo() {
-		return cursosAlvo;
-	}
-	public void setCursosAlvo(List<Curso> cursosAlvo) {
-		this.cursosAlvo = cursosAlvo;
 	}
 	public Curso getCursoSelecionado() {
 		return cursoSelecionado;
