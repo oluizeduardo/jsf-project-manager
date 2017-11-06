@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import model.dao.ProjetoDAO;
@@ -50,31 +49,31 @@ public class EditarProjetoController implements Serializable {
 	
 	
 	
-	/**
-	 * Adiciona um novo curso na lista de cursos alvo.
-	 */
-	public void addHabilidade(){
-		System.out.println("Adicionando nova habilidade: "+habilidade.getDescricao());
-	}
-	
-	/**
-	 * Adiciona um novo curso na lista de cursos alvo.
-	 */
-	public void addCursoAlvo(){
-		for (int i =0; i < projeto.getCursosEnvolvidos().size(); i++) {
-			Curso c = projeto.getCursosEnvolvidos().get( i );
-			if(!c.getNome().equals(cursoAlvo)){
-				projeto.getCursosEnvolvidos().add(new Curso(cursoAlvo));
-			}
-		}	
-	}
-	
-	/**
-	 * Remove um curso da lista de cursos alvo.
-	 */
-	public void excluiCursoAlvo(){
-		this.projeto.getCursosEnvolvidos().remove(cursoSelecionado);
-	}
+//	/**
+//	 * Adiciona um novo curso na lista de cursos alvo.
+//	 */
+//	public void addHabilidade(){
+//		System.out.println("Adicionando nova habilidade: "+habilidade.getDescricao());
+//	}
+//	
+//	/**
+//	 * Adiciona um novo curso na lista de cursos alvo.
+//	 */
+//	public void addCursoAlvo(){
+//		for (int i =0; i < projeto.getCursosEnvolvidos().size(); i++) {
+//			Curso c = projeto.getCursosEnvolvidos().get( i );
+//			if(!c.getNome().equals(cursoAlvo)){
+//				projeto.getCursosEnvolvidos().add(new Curso(cursoAlvo));
+//			}
+//		}	
+//	}
+//	
+//	/**
+//	 * Remove um curso da lista de cursos alvo.
+//	 */
+//	public void excluiCursoAlvo(){
+//		this.projeto.getCursosEnvolvidos().remove(cursoSelecionado);
+//	}
 	
 	
 	public Projeto getProjeto() {
