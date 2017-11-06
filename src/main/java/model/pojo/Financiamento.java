@@ -28,8 +28,8 @@ public class Financiamento {
 
 
 	public boolean isExistente() {
-		if(valor != null)
-			existente = valor > 0 ? true : false;
+//		if(valor != null)
+//			existente = valor > 0 ? true : false;
 		return existente;
 	}
 

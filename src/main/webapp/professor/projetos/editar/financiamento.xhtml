@@ -5,19 +5,20 @@
 	xmlns:p="http://primefaces.org/ui">
   		
 	
+	<h:form>
 	<p:selectBooleanButton id="ehfinanciado"
-						   value="#{editarProjetoController.projeto.financiamento.existente}" 
+						   value="#{editarProjetoController.projeto.financiamento.existente}" 						   
 						   offLabel="Não possui financiamento" 
 						   onLabel="Possui financiamento"
 						   offIcon="ui-icon-close" onIcon="ui-icon-check">
  		
- 		<p:ajax update="pnFinanciamento"/>						   
+ 		<p:ajax update="edit-pnFinanciamento"/>						   
 	</p:selectBooleanButton>
 	
 	<p/>
 	
 	<div align="center">
-		<p:panel id="pnFinanciamento" visible="#{editarProjetoController.projeto.financiamento.existente}">
+		<p:panel id="edit-pnFinanciamento" visible="#{editarProjetoController.projeto.financiamento.existente}">
 			<h:panelGrid columns="4" cellspacing="10">
 				<p:outputLabel value="Natureza:" for="type-financing"/>
 			
@@ -35,4 +36,5 @@
 			</h:panelGrid>
 		</p:panel>
 	</div>
+	</h:form>
 </html>

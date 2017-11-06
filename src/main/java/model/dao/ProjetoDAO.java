@@ -95,12 +95,12 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		+ "', dataInicio:'" + projeto.getDataInicio() 
 		+ "', dataPublicacao:'" + projeto.getDataPublicacao()
 		+ "', eFinanciado:'" + projeto.getFinanciamento().isExistente()
-		+ "', valor:'" + projeto.getFinanciamento().getValor()
-		+ "', natFinanciamento:'" + projeto.getFinanciamento().getNatureza()
+		+ "', valor: " + projeto.getFinanciamento().getValor()
+		+ " , natFinanciamento:'" + projeto.getFinanciamento().getNatureza()
 		+ "', descricaoCurta:'" + projeto.getDescricaoCurta()
 		+ "', categoria:'" + projeto.getCategoria()
-		+ "', numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
-		+ "', resumo:'" + projeto.getResumo()
+		+ "', numeroParticipantes: " + projeto.getNumeroDeParticipantes()
+		+ " , resumo:'" + projeto.getResumo()
 		+ "', dataFim:'" + projeto.getDataFim()
 		+ "', status:'" + projeto.getStatus()
 		+ "'}),(pr)-[:COORDENA{Desde:'"+projeto.getDataInicio()+"'}]->(pj) return pj, pr";
@@ -268,6 +268,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			projetoAux.setDataFim(registro.get("Data_Fim").asString());
 			projetoAux.setStatus(registro.get("Status").asString());
 			projetoAux.setDataPublicacao(registro.get("Publicacao").asString());
+			projetoAux.getFinanciamento().setExistente(registro.get("eFinanciado").asBoolean());
 			projetoAux.getFinanciamento().setValor(registro.get("Valor").asFloat());
 			projetoAux.getFinanciamento().setNatureza(registro.get("NatFinanciamento").asString());
 			projetoAux.setDescricaoCurta(registro.get("Descricao").asString());
@@ -377,6 +378,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
+				+ "pj.eFinanciado as eFinanciado, "
 				+ "toFloat(pj.valor) as Valor, "
 				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.descricaoCurta as Descricao, "
@@ -404,6 +406,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
+				+ "pj.eFinanciado as eFinanciado, "
 				+ "toFloat(pj.valor) as Valor, "
 				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.descricaoCurta as Descricao, "
@@ -543,6 +546,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
+				+ "pj.eFinanciado as eFinanciado, "
 				+ "toFloat(pj.valor) as Valor, "
 				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.descricaoCurta as Descricao, "
@@ -573,6 +577,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
+				+ "pj.eFinanciado as eFinanciado, "
 				+ "toFloat(pj.valor) as Valor, "
 				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.descricaoCurta as Descricao, "
@@ -636,23 +641,33 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		transaction = session.beginTransaction();
 		boolean status = false;
 		String coordenador = projeto.getCoordenador().getNome();
+		Float valorFinanciamento;
+		String naturezaFinanciamento;
+		
+		if(projeto.getFinanciamento().isExistente()){
+			valorFinanciamento = projeto.getFinanciamento().getValor();
+			naturezaFinanciamento = projeto.getFinanciamento().getNatureza();
+		}else{
+			valorFinanciamento = 0.0f;
+			naturezaFinanciamento = "";
+		}
 		
 		String script = "MATCH (prof:Professor{nome:'"+coordenador+"'})-"
 		+ "[:COORDENA]->(pj:Projeto) "
 		+ "WHERE ID(pj) = "+projeto.getID()
-		+ "' SET pj.titulo:'" + projeto.getTitulo()
-		+ "'pj.dataFim: '" + projeto.getDataFim()
-		+ "'pj.dataInicio: '" + projeto.getDataInicio()
-		+ "'pj.eFinanciado:'" + projeto.getFinanciamento().isExistente()
-		+ "'pj.valor:'" + projeto.getFinanciamento().getValor()
-		+ "'pj.natFinanciamento:'" + projeto.getFinanciamento().getNatureza()
-		+ "'pj.descricaoCurta:'" + projeto.getDescricaoCurta()
-		+ "'pj.categoria:'" + projeto.getCategoria()
-		+ "'pj.numeroParticipantes:'" + projeto.getNumeroDeParticipantes()
-		+ "'pj.resumo:'" + projeto.getResumo()
-		+"'RETURN pj";
+		+ " SET pj+={titulo:'" + projeto.getTitulo()
+		+ "', dataFim: '" + projeto.getDataFim()
+		+ "', dataInicio: '" + projeto.getDataInicio()
+		+ "', eFinanciado:" + projeto.getFinanciamento().isExistente()
+		+ ",  valor:" + valorFinanciamento
+		+ ",  natFinanciamento:'" + naturezaFinanciamento
+		+ "', descricaoCurta:'" + projeto.getDescricaoCurta()
+		+ "', categoria:'" + projeto.getCategoria()
+		+ "', numeroParticipantes:" + projeto.getNumeroDeParticipantes()
+		+ ",  resumo:'" + projeto.getResumo()
+		+"'} RETURN pj";
 		
-		
+		System.out.println(script);
 		try{
 			// Executa o script no banco de dados.
 			transaction.run(script);			
