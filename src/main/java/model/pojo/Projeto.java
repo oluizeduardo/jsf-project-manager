@@ -65,6 +65,8 @@ public class Projeto implements Serializable {
 	// Nome do ícone que aparecerá no card do projeto na home do aluno.
 	private String nomeIcone="";
 	
+	// Código identificador do projeto no banco de dados.
+	private int ID;
 	
 	
 	public Projeto() { }
@@ -251,6 +253,12 @@ public class Projeto implements Serializable {
 	}
 	public void setNomeIcone(String nomeIcone) {
 		this.nomeIcone = nomeIcone;
+	}
+	public int getID() {
+		return ID;
+	}
+	public void setID(int ID) {
+		this.ID = ID;
 	}
 	
 }

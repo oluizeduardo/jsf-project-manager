@@ -262,6 +262,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 			
 			Projeto projetoAux = new Projeto();
 			
+			projetoAux.setID(registro.get("ID").asInt());
 			projetoAux.setTitulo(registro.get("Titulo").asString());
 			projetoAux.setDataInicio(registro.get("Data_Inicio").asString());
 			projetoAux.setDataFim(registro.get("Data_Fim").asString());
@@ -537,6 +538,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		
 		String script = "MATCH(pr:Professor)-[:COORDENA]->(pj:Projeto) "
 				+ "WHERE pr.email = '"+email+"' AND pr.senha = '"+senha+"' RETURN "
+				+ "ID(pj) as ID, "
 				+ "pj.titulo as Titulo, "
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
@@ -566,6 +568,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 				
 		String script = "MATCH(al:Aluno)-[:PARTICIPA]->(pj:Projeto)<-[:COORDENA]-(pr:Professor) "
 				+ "WHERE al.email = '"+email+"' AND al.senha = '"+senha+"' RETURN "
+				+ "ID(pj) as ID, "
 				+ "pj.titulo as Titulo, "
 				+ "pj.dataFim as Data_Fim, "
 				+ "pj.dataInicio as Data_Inicio, "
@@ -625,7 +628,7 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 	
 	
 	/**
-	 * Atualiza os dados de um objeto projeto no banco de dados.
+	 * Atualiza os dados de um projeto no banco de dados.
 	 */
 	public boolean atualizar(Projeto projeto) {
 		super.iniciaSessaoNeo4J();
@@ -635,7 +638,8 @@ public class ProjetoDAO extends DAOBase implements AcoesBancoDeDados<Projeto> {
 		String coordenador = projeto.getCoordenador().getNome();
 		
 		String script = "MATCH (prof:Professor{nome:'"+coordenador+"'})-"
-		+ "[:COORDENA]->(pj:Projeto{titulo:'"+projeto.getTitulo()+"'})"
+		+ "[:COORDENA]->(pj:Projeto) "
+		+ "WHERE ID(pj) = "+projeto.getID()
 		+ "' SET pj.titulo:'" + projeto.getTitulo()
 		+ "'pj.dataFim: '" + projeto.getDataFim()
 		+ "'pj.dataInicio: '" + projeto.getDataInicio()
