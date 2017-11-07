@@ -163,22 +163,21 @@ public class HomeAlunoController implements Serializable {
 					+ "OR toLower(pj.resumo) CONTAINS toLower('" + palavraChave + "') "
 					+ "AND NOT(pj.status='"+Projeto.FINALIZADO+"')";
 		}else{
-			script += "WHERE NOT(pj.status='"+Projeto.FINALIZADO+"')";
+			script += " WHERE NOT(pj.status='"+Projeto.FINALIZADO+"')";
 		}
 
-		script += " RETURN pj.titulo as Titulo, "
+		script += " RETURN pj.titulo as Titulo, ID(pj) as ID, "
 				+ "pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
 				+ "toFloat(pj.valor) as Valor, "
 				+ "pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, "
+				+ "pj.eFinanciado as eFinanciado, "
 				+ "toInteger(pj.numeroParticipantes) as QTD_Participantes, "
 				+ "pj.resumo as Resumo, pr.nome as Coordenador";
 
 		List<Projeto> projetosLocalizados = projetoDAO.buscaProjetos(script);
-		projetoBean.setTodosProjetosDisponiveis(projetosLocalizados);
-		
-		System.err.println(script);
+		projetoBean.setTodosProjetosDisponiveis(projetosLocalizados);	
 	}
 	
 
