@@ -234,7 +234,8 @@ public class ProfessorDAO extends DAOBase implements AcoesBancoDeDados<Professor
 	public List<Professor> listar() {
 		
 		String script = "MATCH(p:Professor)-[:LECIONA_EM]->(c:Curso) "
-				+ "RETURN p.nome as Professor, c.nome as Curso, p.email as Email";
+				+ "RETURN DISTINCT "
+				+ "p.nome as Professor, c.nome as Curso, p.email as Email";
 		
 		super.iniciaSessaoNeo4J();
 		StatementResult resultado = session.run(script);
