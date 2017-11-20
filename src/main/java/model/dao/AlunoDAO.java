@@ -269,7 +269,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 		ProjetoDAO projetoDAO = new ProjetoDAO();
 		
 		String script = "MATCH (a:Aluno)-[:CURSA]->(c:Curso) "
-				+ "RETURN ID (a) as id, a.nome as Nome, "
+				+ "RETURN DISTINCT "
+				+ "ID (a) as id, a.nome as Nome, "
 				+ "c.nome as Curso, "
 				+ "a.rua as Rua, "
 				+ "a.bairro as Bairro, "
