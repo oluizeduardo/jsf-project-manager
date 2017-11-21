@@ -84,6 +84,10 @@ public class RelatoriosController {
     			if(qtdeProjetos > maiorQtde)
     				maiorQtde = qtdeProjetos;
     		}
+//        	chart.set("Java", 25);
+//        	chart.set("HTML", 20);
+//        	chart.set("CSS", 17);
+//        	chart.set("SQL", 10);
         }
                 
         barModel.setShowPointLabels(true);
@@ -96,7 +100,7 @@ public class RelatoriosController {
         
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setMin(new Integer(0));
-        yAxis.setMax(new Integer(maiorQtde+2));        
+        yAxis.setMax(new Integer(maiorQtde+2));
         yAxis.setTickCount(3);       
     }
 
@@ -127,6 +131,11 @@ public class RelatoriosController {
     			if(qtdeProjetos > maiorQtde)
     				maiorQtde = qtdeProjetos;
     		}
+//        	serie.set("André Novaes", 5);
+//        	serie.set("Carlos Augusto", 8);
+//        	serie.set("Ana Cláudia", 17);
+//        	serie.set("Fabiano Gonçalves", 22);
+//        	serie.set("Roberto Rocha", 25);
         }                           
         
         horizontalBarModel.addSeries(serie);         
@@ -139,6 +148,7 @@ public class RelatoriosController {
         Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
         xAxis.setMin(new Integer(0));
         xAxis.setMax(new Integer(maiorQtde+2));
+//        xAxis.setMax(30);
         xAxis.setTickCount(3);
     }
     
@@ -164,7 +174,18 @@ public class RelatoriosController {
         for(int i=0; i < lista1.length; i++){
         	serie1.set(getNomeMes(i), lista1[i].getQuantidade());
         }
- 
+//        serie1.set("Jan", 2);
+//        serie1.set("Fev", 2);
+//        serie1.set("Mar", 1);
+//        serie1.set("Abr", 1);
+//        serie1.set("Mai", 3);
+//        serie1.set("Jun", 4);
+//        serie1.set("Jul", 0);
+//        serie1.set("Ago", 6);
+//        serie1.set("Set", 8);
+//        serie1.set("Out", 6);
+//        serie1.set("Nov", 2);
+//        serie1.set("Dez", 0);
         
         //--- Linha 2 ----
         ChartSeries serie2 = new ChartSeries();
@@ -174,6 +195,18 @@ public class RelatoriosController {
         for(int i=0; i < lista2.length; i++){
         	serie2.set(getNomeMes(i), lista2[i].getQuantidade());
         }
+//        serie2.set("Jan", 0);
+//        serie2.set("Fev", 0);
+//        serie2.set("Mar", 5);
+//        serie2.set("Abr", 3);
+//        serie2.set("Mai", 3);
+//        serie2.set("Jun", 4);
+//        serie2.set("Jul", 4);
+//        serie2.set("Ago", 5);
+//        serie2.set("Set", 10);
+//        serie2.set("Out", 10);
+//        serie2.set("Nov", 5);
+//        serie2.set("Dez", 0);
  
         // Adiciona as duas linhas no gráfico.
         lineModel.addSeries(serie1);

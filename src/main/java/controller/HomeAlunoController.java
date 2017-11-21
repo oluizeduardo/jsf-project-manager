@@ -170,6 +170,7 @@ public class HomeAlunoController implements Serializable {
 				+ "pj.dataFim as Data_Fim, pj.dataInicio as Data_Inicio, "
 				+ "pj.dataPublicacao as Publicacao, "
 				+ "toFloat(pj.valor) as Valor, "
+				+ "pj.natFinanciamento as NatFinanciamento, "
 				+ "pj.descricaoCurta as Descricao, "
 				+ "pj.categoria as Categoria, "
 				+ "pj.eFinanciado as eFinanciado, "
