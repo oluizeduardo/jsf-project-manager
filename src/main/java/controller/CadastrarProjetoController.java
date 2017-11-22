@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -69,30 +70,45 @@ public class CadastrarProjetoController implements Serializable{
 				String dataInicio = projeto.getDataInicio();
 				String dataFim = projeto.getDataFim();
 				
-				if(!validaDatas(dataInicio, dataFim)){
-					Mensagem.ExibeMensagemAtencao("Escreva corretamente as datas de inicio e fim do projeto.");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
+				Calendar data1 = Calendar.getInstance();
+				Calendar data2 = Calendar.getInstance();
+				
+				try {
+					data1.setTime(sdf.parse(dataInicio));
+					data2.setTime(sdf.parse(dataFim)); 
+				} catch (java.text.ParseException e ) {}
+				
+				if(data1.get(Calendar.DAY_OF_YEAR) > data2.get(Calendar.DAY_OF_YEAR)){
+					Mensagem.ExibeMensagemErro("A data de inicio é maior que a data de término.");
+				
 				}else{
-					if(projeto.getDescricaoCurta().isEmpty()){
-						Mensagem.ExibeMensagemAtencao("Descreva este projeto em até 70 caractéres.");
+					
+					if(!validaDatas(dataInicio, dataFim)){
+						Mensagem.ExibeMensagemAtencao("Escreva corretamente as datas de inicio e fim do projeto.");
 					}else{
-						
-						// Retorna os dados do professor logado.
-						Pessoa professorLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
-						projeto.setDataPublicacao(CalendarioFormatado.getDataAtual());
-						projeto.setHabilidades(habilidades);
-						projeto.setCursosEnvolvidos(geraListaDeCursosEnvolvidos());
-						projeto.setCoordenador(professorLogado);
-						
-						boolean salvou = new ProjetoDAO().salvar(projeto);
-						
-						if(salvou){
-							Mensagem.ExibeMensagem("Novo projeto salvo com sucesso!");
-							
-							// Reinicia o objeto para limpar os campos da tela.
-							this.projeto = new Projeto();
-							reiniciaListas();
+						if(projeto.getDescricaoCurta().isEmpty()){
+							Mensagem.ExibeMensagemAtencao("Descreva este projeto em até 70 caractéres.");
 						}else{
-							Mensagem.ExibeMensagemErro("Houve um problema ao tentar salvar o novo projeto.");
+							
+							// Retorna os dados do professor logado.
+							Pessoa professorLogado = (Pessoa) SessionUtil.getParam(SessionUtil.KEY_SESSION);
+							projeto.setDataPublicacao(CalendarioFormatado.getDataAtual());
+							projeto.setHabilidades(habilidades);
+							projeto.setCursosEnvolvidos(geraListaDeCursosEnvolvidos());
+							projeto.setCoordenador(professorLogado);
+							
+							boolean salvou = new ProjetoDAO().salvar(projeto);
+							
+							if(salvou){
+								Mensagem.ExibeMensagem("Novo projeto salvo com sucesso!");
+								
+								// Reinicia o objeto para limpar os campos da tela.
+								this.projeto = new Projeto();
+								reiniciaListas();
+							}else{
+								Mensagem.ExibeMensagemErro("Houve um problema ao tentar salvar o novo projeto.");
+							}
 						}
 					}
 				}
