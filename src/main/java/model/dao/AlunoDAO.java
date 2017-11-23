@@ -181,6 +181,33 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "a.skype as Skype, "
 				+ "a.site as Site, "
 				+ "a.documentoRG as DocRG, "
+				+ "a.documentoCPF as DocCPF "
+				// Busca alunos que já trabalharam em um projeto que exigia 
+				// habilidade que é exigida no projeto do professor.
+				+ "UNION ALL "
+				+ "MATCH (pro:Professor{email:'"+email+"', senha:'"+senha+"'})"
+				+ "-[:COORDENA]->(p:Projeto)-[:EXIGE]->(h:Habilidade)"
+				+ "<-[:EXIGE]-(:Projeto)<-[:PARTICIPA]-(a:Aluno)-[:CURSA]->(c:Curso) "
+				+ "WHERE NOT((a)-[:PARTICIPA]->(p)) "
+				+ "AND NOT(p.status='"+Projeto.FINALIZADO+"') "
+				+ "RETURN "
+				+ "a.nome as Aluno, "
+				+ "a.email as Email, "
+				+ "c.nome as Curso, "
+				+ "p.titulo as Projeto, "
+				+ "a.dataNascimento as DataNas, "
+				+ "a.matricula as Matricula, "
+				+ "a.telefone as Telefone, "
+				+ "a.senha as Senha, "
+				+ "a.sexo as Sexo, "
+				+ "a.estadoCivil as EstCivil, "
+				+ "a.rua as Endereco, "
+				+ "a.bairro as Bairro, "
+				+ "a.cidade as Cidade, "
+				+ "a.estado as Estado, "
+				+ "a.skype as Skype, "
+				+ "a.site as Site, "
+				+ "a.documentoRG as DocRG, "
 				+ "a.documentoCPF as DocCPF ";
 		
 		super.iniciaSessaoNeo4J();		
