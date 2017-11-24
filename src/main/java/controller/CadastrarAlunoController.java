@@ -256,12 +256,14 @@ public class CadastrarAlunoController {
 	/**
 	 * Adiciona uma língua na lista de línguas faladas pelo aluno.
 	 */
-	public void addLingua(){		
-		if(!verificaExistenciaDeLingua(nomeIdioma)){
-			Idioma novoIdioma = new Idioma(nomeIdioma, nivelDeConhecimento);
-			this.linguasFaladasPeloAluno.add(novoIdioma);
-			aluno.setIdiomas(linguasFaladasPeloAluno);
-			new IdiomaDAO().atualizar(aluno, novoIdioma);
+	public void addLingua(){
+		if(!nomeIdioma.equals("Selecione")){
+			if(!verificaExistenciaDeLingua(nomeIdioma)){
+				Idioma novoIdioma = new Idioma(nomeIdioma, nivelDeConhecimento);
+				this.linguasFaladasPeloAluno.add(novoIdioma);
+				aluno.setIdiomas(linguasFaladasPeloAluno);
+				new IdiomaDAO().atualizar(aluno, novoIdioma);
+			}
 		}
 	}
 	
