@@ -715,7 +715,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.descricaoCurta as Descricao, "
 				+ "p.resumo as Resumo, "
 				+ "p.titulo as Titulo, "
-				+ "h.nome as Habilidade, ex.descricao as DescNivel "				
+				+ "h.nome as Habilidade, ex.descricao as DescNivel "
+				+ "ORDER BY p.titulo ASC "				
 				+ "UNION ALL "
 				/*
 				 * Busque o professor que coordena um projeto destinado ao curso
@@ -743,6 +744,7 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.resumo as Resumo, "
 				+ "p.titulo as Titulo, "
 				+ "h.nome as Habilidade, ex.descricao as DescNivel "
+				+ "ORDER BY p.titulo ASC "
 				+ "UNION ALL "
 				/* Busque o professor que coordena um projeto destinado ao curso que
 				 * eu estou matriculado. Deve ser um projeto o qual eu ainda
@@ -765,7 +767,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.descricaoCurta as Descricao, "
 				+ "p.resumo as Resumo, "
 				+ "p.titulo as Titulo, "
-				+ "toUpper(c.nome) as Habilidade, 'Básico' as DescNivel "				
+				+ "toUpper(c.nome) as Habilidade, 'Básico' as DescNivel "
+				+ "ORDER BY p.titulo ASC "
 				+ "UNION ALL "
 				/* Busque o professor que coordena um projeto destinado ao curso
 				 * no qual eu estou matriculado. O projeto deve exigir uma habilidade
@@ -789,7 +792,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "p.descricaoCurta as Descricao, "
 				+ "p.resumo as Resumo, "
 				+ "p.titulo as Titulo, "
-				+ "toUpper(c.nome) as Habilidade, 'Básico' as DescNivel";
+				+ "toUpper(c.nome) as Habilidade, 'Básico' as DescNivel "
+				+ "ORDER BY p.titulo ASC";
 				
 		StatementResult resultado = session.run(script);
 		

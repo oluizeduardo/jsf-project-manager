@@ -78,20 +78,22 @@
 			<p:tab title="Habilidades">
 				<h:outputLabel value="Habilidades exigidas: " style="font-weight:bold" />
 				<p/>
-				<p:dataTable id="table-habilities" var="habilidade"
-					value="#{projetoBean.projetoNormalSelecionado.habilidades}"
-					resizableColumns="true"
-					emptyMessage="Nenhuma habilidade exigida."
-					style="width:700px">
-				
-					<p:column headerText="Habilidade" style="text-align: center">
-						<h:outputText value="#{habilidade.descricao}" />
-					</p:column>
+				<p:scrollPanel mode="native" style="width:700px;height:220px">
+					<p:dataTable id="table-habilities" var="habilidade"
+						value="#{projetoBean.projetoNormalSelecionado.habilidades}"
+						resizableColumns="true"
+						emptyMessage="Nenhuma habilidade exigida."
+						style="width:680px">
 					
-					<p:column headerText="Nível" style="text-align: center">
-						<h:outputText value="#{habilidade.nivel}" />
-					</p:column>		
-				</p:dataTable>				
+						<p:column headerText="Habilidade" style="text-align: center">
+							<h:outputText value="#{habilidade.descricao}" />
+						</p:column>
+						
+						<p:column headerText="Nível" style="text-align: center">
+							<h:outputText value="#{habilidade.nivel}" />
+						</p:column>		
+					</p:dataTable>
+				</p:scrollPanel>				
 			</p:tab>
 					
 		</p:tabView>

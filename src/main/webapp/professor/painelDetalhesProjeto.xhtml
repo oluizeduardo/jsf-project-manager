@@ -77,43 +77,47 @@
 			<p:tab title="Habilidades">
 				<h:outputLabel value="Habilidades exigidas: " style="font-weight:bold" />
 				<p/>
-				<p:dataTable id="table-habilities" var="habilidade"
-					value="#{projetosProfController.projetoSelecionado.habilidades}"
-					resizableColumns="true"
-					emptyMessage="Nenhuma habilidade exigida."
-					style="width:700px">
-				
-					<p:column headerText="Habilidade" style="text-align: center">
-						<h:outputText value="#{habilidade.descricao}" />
-					</p:column>
+				<p:scrollPanel mode="native" style="width:700px;height:210px">
+					<p:dataTable id="table-habilities" var="habilidade"
+						value="#{projetosProfController.projetoSelecionado.habilidades}"
+						resizableColumns="true"
+						emptyMessage="Nenhuma habilidade exigida."
+						style="width:680px">
 					
-					<p:column headerText="Nível" style="text-align: center">
-						<h:outputText value="#{habilidade.nivel}" />
-					</p:column>		
-				</p:dataTable>				
+						<p:column headerText="Habilidade" style="text-align: center">
+							<h:outputText value="#{habilidade.descricao}" />
+						</p:column>
+						
+						<p:column headerText="Nível" style="text-align: center">
+							<h:outputText value="#{habilidade.nivel}" />
+						</p:column>		
+					</p:dataTable>	
+				</p:scrollPanel>			
 			</p:tab>
 
 			<p:tab title="Alunos">
 				<h:outputLabel value="Alunos participantes: " style="font-weight:bold" />
 				<p/>
-				<p:dataTable id="table-students" var="aluno"
-					value="#{projetosProfController.projetoSelecionado.alunos}"
-					resizableColumns="true"
-					emptyMessage="Nenhuma aluno participante."
-					style="width:700px">
-				
-					<p:column headerText="Nome" style="text-align: center">
-						<h:outputText value="#{aluno.nome}" />
-					</p:column>
+				<p:scrollPanel mode="native" style="width:700px;height:210px">
+					<p:dataTable id="table-students" var="aluno"
+						value="#{projetosProfController.projetoSelecionado.alunos}"
+						resizableColumns="true"
+						emptyMessage="Nenhuma aluno participante."
+						style="width:700px">
 					
-					<p:column headerText="Email" style="text-align: center">
-						<h:outputText value="#{aluno.contato.email}" />
-					</p:column>	
-					
-					<p:column headerText="Curso" style="text-align: center">
-						<h:outputText value="#{aluno.curso.nome}" />
-					</p:column>	
-				</p:dataTable>
+						<p:column headerText="Nome" style="text-align: center">
+							<h:outputText value="#{aluno.nome}" />
+						</p:column>
+						
+						<p:column headerText="Email" style="text-align: center">
+							<h:outputText value="#{aluno.contato.email}" />
+						</p:column>	
+						
+						<p:column headerText="Curso" style="text-align: center">
+							<h:outputText value="#{aluno.curso.nome}" />
+						</p:column>	
+					</p:dataTable>
+				</p:scrollPanel>
 			</p:tab>
 						
 		</p:tabView>
