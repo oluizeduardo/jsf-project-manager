@@ -313,7 +313,8 @@ public class AlunoDAO extends DAOBase implements AcoesBancoDeDados<Aluno> {
 				+ "a.documentoCPF as CPF, "
 				+ "a.documentoRG as RG, a.sexo as Sexo, "
 				+ "a.dataNascimento as Data_Nascimento, "
-				+ "a.papel as Papel, a.email as Email";
+				+ "a.papel as Papel, a.email as Email "
+				+ "ORDER BY a.nome ASC";
 		
 		StatementResult resultado = session.run(script);
 		
